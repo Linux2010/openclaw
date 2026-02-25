@@ -1,0 +1,43 @@
+# OpenClaw .gitignore
+
+# Logs and temp files
+logs/*.log
+logs/*.err.log
+*.tmp
+*.temp
+
+# Session locks and transient data
+agents/*/sessions/*.lock
+agents/*/sessions/*.deleted.*
+subagents/runs.json
+
+# Binary/cache files
+*.db-shm
+*.db-wal
+memory-index/memory.db
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Secrets and auth (already redacted but extra safe)
+identity/device-auth.json
+identity/device.json
+devices/paired.json
+devices/pending.json
+
+# Cron and update metadata
+cron/runs/*.jsonl
+update-check.json
+
+# Canvas assets
+canvas/assets/
+
+# Node.js (if any local scripts)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore all .bak files
+*.bak
