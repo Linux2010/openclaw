@@ -51,7 +51,7 @@
       "name": "hourly-heartbeat",
       "enabled": true,
       "createdAtMs": 1771904760464,
-      "updatedAtMs": 1772006420142,
+      "updatedAtMs": 1772013624886,
       "schedule": {
         "expr": "0 8-21 * * *",
         "kind": "cron",
@@ -64,12 +64,11 @@
         "text": "⏰ Heartbeat checkpoint. 读取 HEARTBEAT.md 并执行检查。如果无待办事项，回复 HEARTBEAT_OK。"
       },
       "state": {
-        "nextRunAtMs": 1772010000000,
-        "lastRunAtMs": 1772006400007,
+        "nextRunAtMs": 1772017200000,
+        "lastRunAtMs": 1772013600006,
         "lastStatus": "ok",
-        "lastDurationMs": 20135,
-        "consecutiveErrors": 0,
-        "runningAtMs": 1772010000003
+        "lastDurationMs": 24880,
+        "consecutiveErrors": 0
       }
     }
   ]

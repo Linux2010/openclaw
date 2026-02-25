@@ -3071,3 +3071,39 @@ childSessionKey: agent:main:subagent:960fe837-3524-42fd-99a6-9e6b1c61020a
 2026-02-25T08:49:00.724Z [ws] webchat connected conn=58ab946d-f3dd-46a7-afa9-a9b8a371a08a remote=127.0.0.1 client=openclaw-control-ui webchat vdev
 2026-02-25T08:54:05.014Z [ws] webchat disconnected code=1001 reason=n/a conn=58ab946d-f3dd-46a7-afa9-a9b8a371a08a
 2026-02-25T08:54:05.079Z [ws] webchat connected conn=849bd6f1-e7f1-4b58-83fa-3bdceedf5c23 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:00:59.695Z [ws] webchat disconnected code=1001 reason=n/a conn=849bd6f1-e7f1-4b58-83fa-3bdceedf5c23
+2026-02-25T09:00:59.740Z [ws] webchat connected conn=8abafb91-cb77-495a-9ea3-bb28f80995d7 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:09:50.114Z [ws] webchat disconnected code=1001 reason=n/a conn=8abafb91-cb77-495a-9ea3-bb28f80995d7
+2026-02-25T09:09:50.199Z [ws] webchat connected conn=ad0c56a7-ab67-45b0-8eab-f3d5e5e273db remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:16:13.060Z [ws] webchat disconnected code=1001 reason=n/a conn=ad0c56a7-ab67-45b0-8eab-f3d5e5e273db
+2026-02-25T09:16:13.177Z [ws] webchat connected conn=44348efe-d461-4e9f-89fc-c693df88f747 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:16:13.254Z [ws] ⇄ res ✓ chat.history 68ms conn=44348efe…f747 id=238bad65…b1ac
+2026-02-25T09:16:13.268Z [ws] ⇄ res ✓ node.list 82ms conn=44348efe…f747 id=a6e2f2db…42f7
+2026-02-25T09:16:13.269Z [ws] ⇄ res ✓ device.pair.list 84ms conn=44348efe…f747 id=64204ce8…18dd
+2026-02-25T09:21:00.137Z [ws] webchat disconnected code=1001 reason=n/a conn=44348efe-d461-4e9f-89fc-c693df88f747
+2026-02-25T09:21:00.187Z [ws] webchat connected conn=3ab7db35-1aa2-4ac4-bfd6-891ba80d6ffe remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:23:42.417Z [ws] webchat disconnected code=1001 reason=n/a conn=3ab7db35-1aa2-4ac4-bfd6-891ba80d6ffe
+2026-02-25T09:23:42.521Z [ws] webchat connected conn=29544558-c36b-4c2b-8a2d-a431efe73238 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:31:45.403Z [ws] webchat disconnected code=1001 reason=n/a conn=29544558-c36b-4c2b-8a2d-a431efe73238
+2026-02-25T09:31:45.444Z [ws] webchat connected conn=271405b7-9e40-45cb-9d6e-a72d6f7df441 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:31:45.511Z [ws] ⇄ res ✓ chat.history 61ms conn=271405b7…f441 id=00a9c9f2…4c07
+2026-02-25T09:31:45.514Z [ws] ⇄ res ✓ node.list 66ms conn=271405b7…f441 id=3f4c4d5f…6191
+2026-02-25T09:31:45.516Z [ws] ⇄ res ✓ device.pair.list 67ms conn=271405b7…f441 id=0cb90ef6…8a56
+2026-02-25T09:33:13.429Z [ws] ⇄ res ✓ channels.status 54ms conn=271405b7…f441 id=9b17481c…374c
+2026-02-25T09:33:22.655Z [ws] ⇄ res ✓ channels.status 1965ms conn=271405b7…f441 id=d419d498…244b
+2026-02-25T09:39:02.358Z [ws] webchat disconnected code=1001 reason=n/a conn=271405b7-9e40-45cb-9d6e-a72d6f7df441
+2026-02-25T09:39:02.414Z [ws] webchat connected conn=29d456ac-ca77-4104-bdcb-fa3153f31b62 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:46:55.981Z [ws] webchat disconnected code=1001 reason=n/a conn=29d456ac-ca77-4104-bdcb-fa3153f31b62
+2026-02-25T09:46:56.079Z [ws] webchat connected conn=e2342f67-e431-4b07-bf78-4bc6f849404c remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:48:47.695Z [ws] webchat disconnected code=1001 reason=n/a conn=e2342f67-e431-4b07-bf78-4bc6f849404c
+2026-02-25T09:48:47.750Z [ws] webchat connected conn=47ef8ea0-ca82-4c12-b8d9-a0140a4e0f72 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:55:06.975Z [ws] webchat disconnected code=1001 reason=n/a conn=47ef8ea0-ca82-4c12-b8d9-a0140a4e0f72
+2026-02-25T09:55:07.065Z [ws] webchat connected conn=4de3d448-7c93-44b7-a839-081eb89561f3 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:55:07.123Z [ws] ⇄ res ✓ chat.history 53ms conn=4de3d448…61f3 id=291d41fd…657a
+2026-02-25T09:55:07.126Z [ws] ⇄ res ✓ node.list 56ms conn=4de3d448…61f3 id=6d4b792e…be64
+2026-02-25T09:55:07.127Z [ws] ⇄ res ✓ device.pair.list 57ms conn=4de3d448…61f3 id=47a7cf7d…e916
+2026-02-25T09:56:33.845Z [ws] webchat disconnected code=1001 reason=n/a conn=4de3d448-7c93-44b7-a839-081eb89561f3
+2026-02-25T09:56:33.904Z [ws] webchat connected conn=97f550d9-b8bf-45ce-9087-62f9762dd86d remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T09:56:33.971Z [ws] ⇄ res ✓ chat.history 62ms conn=97f550d9…d86d id=7ae3e58b…f449
+2026-02-25T09:56:33.974Z [ws] ⇄ res ✓ node.list 65ms conn=97f550d9…d86d id=038912f0…c462
+2026-02-25T09:56:33.975Z [ws] ⇄ res ✓ device.pair.list 67ms conn=97f550d9…d86d id=ca99f3d5…15bd
