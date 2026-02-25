@@ -1,7 +1,7 @@
 {
   "agent:main:main": {
     "sessionId": "1c137255-6058-4447-8e08-15dff4e0d5b3",
-    "updatedAt": 1772014605579,
+    "updatedAt": 1772020005623,
     "systemSent": true,
     "skillsSnapshot": {
       "prompt": "\n\nThe following skills provide specialized instructions for specific tasks.\nUse the read tool to load a skill's file when the task matches its description.\nWhen a skill file references a relative path, resolve it against the skill directory (parent of SKILL.md / dirname of the path) and use that absolute path in tool commands.\n\n<available_skills>\n  <skill>\n    <name>1password</name>\n    <description>Set up and use 1Password CLI (op). Use when installing the CLI, enabling desktop app integration, signing in (single or multi-account), or reading/injecting/running secrets via op.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/1password/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>apple-notes</name>\n    <description>Manage Apple Notes via the `memo` CLI on macOS (create, view, edit, delete, search, move, and export notes). Use when a user asks OpenClaw to add a note, list notes, search notes, or manage note folders.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/apple-notes/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>apple-reminders</name>\n    <description>Manage Apple Reminders via the `remindctl` CLI on macOS (list, add, edit, complete, delete). Supports lists, date filters, and JSON/plain output.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/apple-reminders/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>clawhub</name>\n    <description>Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/clawhub/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>github</name>\n    <description>Interact with GitHub using the `gh` CLI. Use `gh issue`, `gh pr`, `gh run`, and `gh api` for issues, PRs, CI runs, and advanced queries.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/github/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>healthcheck</name>\n    <description>Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/healthcheck/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>imsg</name>\n    <description>iMessage/SMS CLI for listing chats, history, watch, and sending.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/imsg/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>oracle</name>\n    <description>Best practices for using the oracle CLI (prompt + file bundling, engines, sessions, and file attachment patterns).</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/oracle/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>peekaboo</name>\n    <description>Capture and automate macOS UI with the Peekaboo CLI.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/peekaboo/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>skill-creator</name>\n    <description>Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/skill-creator/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>summarize</name>\n    <description>Summarize or extract text/transcripts from URLs, podcasts, and local files (great fallback for “transcribe this YouTube/video”).</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/summarize/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>video-frames</name>\n    <description>Extract frames or short clips from videos using ffmpeg.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/video-frames/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>weather</name>\n    <description>Get current weather and forecasts (no API key required).</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/weather/SKILL.md</location>\n  </skill>\n</available_skills>",
@@ -155,31 +155,35 @@
       "version": 0
     },
     "deliveryContext": {
-      "channel": "webchat",
-      "to": "heartbeat"
+      "channel": "telegram",
+      "to": "@worldhello321",
+      "accountId": "default"
     },
-    "lastChannel": "webchat",
+    "lastChannel": "telegram",
+    "lastTo": "@worldhello321",
+    "lastAccountId": "default",
     "channel": "webchat",
     "modelProvider": "bailian",
     "model": "qwen3-max-2026-01-23",
     "contextTokens": 262144,
     "abortedLastRun": false,
-    "inputTokens": 83294,
-    "outputTokens": 16,
-    "totalTokens": 83294,
+    "inputTokens": 99724,
+    "outputTokens": 179,
+    "totalTokens": 99724,
     "chatType": "direct",
     "origin": {
+      "label": "@worldhello321",
       "provider": "heartbeat",
-      "surface": "webchat",
+      "from": "@worldhello321",
+      "to": "@worldhello321",
+      "surface": "telegram",
       "chatType": "direct",
-      "label": "heartbeat",
-      "from": "heartbeat",
-      "to": "heartbeat"
+      "accountId": "default"
     },
     "sessionFile": "/Users/hope/.openclaw/agents/main/sessions/1c137255-6058-4447-8e08-15dff4e0d5b3.jsonl",
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1772013674945,
+      "generatedAt": 1772019431562,
       "sessionId": "1c137255-6058-4447-8e08-15dff4e0d5b3",
       "sessionKey": "agent:main:main",
       "provider": "bailian",
@@ -191,9 +195,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 19935,
+        "chars": 20257,
         "projectContextChars": 7082,
-        "nonProjectContextChars": 12853
+        "nonProjectContextChars": 13175
       },
       "injectedWorkspaceFiles": [
         {
@@ -378,7 +382,7 @@
           },
           {
             "name": "message",
-            "summaryChars": 135,
+            "summaryChars": 143,
             "schemaChars": 3948,
             "propertiesCount": 84
           },
@@ -457,8 +461,7 @@
         ]
       }
     },
-    "lastTo": "heartbeat",
-    "memoryFlushAt": 1772007184697,
-    "memoryFlushCompactionCount": 0
+    "lastHeartbeatText": "正在执行心跳检查：\n\n### ✅ **已完成任务**\n1. **Memory**：更新了主 agent 和 stock-agent 的 MEMORY.md\n2. **SQLite**：路径问题已修复，日志正常索引\n3. **Backup**：所有更改已提交到 GitHub\n\n### 📋 **待办事项**\n- 等待 stock-agent 完成 BABA 加仓评估\n- 确认资产配置规则同步状态\n\n需要继续等待 stock-agent 响应吗？",
+    "lastHeartbeatSentAt": 1772018205600
   }
 }
