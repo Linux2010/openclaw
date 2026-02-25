@@ -4440,3 +4440,14 @@ If the gateway is supervised, stop it with: openclaw gateway stop
 2026-02-25T07:59:05.699Z [openclaw] Suppressed AbortError: AbortError: This operation was aborted
     at node:internal/deps/undici/undici:14902:13
     at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-25T08:02:48.076Z [tools] exec failed: On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   agents/main/sessions/1c137255-6058-4447-8e08-15dff4e0d5b3.jsonl
+	modified:   agents/main/sessions/1c137255-6058-4447-8e08-15dff4e0d5b3.jsonl.lock
+	modified:   agents/main/sessions/sessions.json
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Command exited with code 1
