@@ -4492,3 +4492,6 @@ Memory → SQLite Sync Tool
 ./memory-index/sync-to-sqlite.sh: line 31: /Users/hope/.openclaw/workspace/memory-index/db/schema.sql: No such file or directory
 
 Command exited with code 1
+2026-02-25T09:00:43.203Z [tools] exec failed: zsh:1: permission denied: ./sync-to-sqlite.sh
+
+Command exited with code 126

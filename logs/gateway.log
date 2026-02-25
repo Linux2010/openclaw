@@ -3067,3 +3067,7 @@ childSessionKey: agent:main:subagent:960fe837-3524-42fd-99a6-9e6b1c61020a
 2026-02-25T08:00:25.398Z [ws] ⇄ res ✓ chat.history 52ms conn=d33e82ff…7795 id=927e8ca4…5a0f
 2026-02-25T08:00:25.402Z [ws] ⇄ res ✓ node.list 67ms conn=d33e82ff…7795 id=2ebe92b7…0130
 2026-02-25T08:00:25.404Z [ws] ⇄ res ✓ device.pair.list 68ms conn=d33e82ff…7795 id=77557118…ab3c
+2026-02-25T08:49:00.620Z [ws] webchat disconnected code=1001 reason=n/a conn=d33e82ff-33aa-4627-85d8-37ed55867795
+2026-02-25T08:49:00.724Z [ws] webchat connected conn=58ab946d-f3dd-46a7-afa9-a9b8a371a08a remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-25T08:54:05.014Z [ws] webchat disconnected code=1001 reason=n/a conn=58ab946d-f3dd-46a7-afa9-a9b8a371a08a
+2026-02-25T08:54:05.079Z [ws] webchat connected conn=849bd6f1-e7f1-4b58-83fa-3bdceedf5c23 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
