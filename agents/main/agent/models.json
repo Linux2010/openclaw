@@ -325,6 +325,29 @@
           "maxTokens": 16384
         }
       ]
+    },
+    "bailian": {
+      "baseUrl": "https://coding.dashscope.aliyuncs.com/v1",
+      "apiKey": "sk-sp-1f07658367b9409393e075f9f63490bf",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "qwen3-max-2026-01-23",
+          "name": "qwen3-max-thinking",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 262144,
+          "maxTokens": 65536
+        }
+      ]
     }
   }
 }

@@ -33,6 +33,21 @@
             "max_loss_pct": 15,
             "min_gain_pct": 50
           }
+        },
+        {
+          "symbol": "BABA",
+          "shares": 10,
+          "type": "趋势仓位",
+          "status": "持有中",
+          "entry_price": 151.3,
+          "entry_date": "2026-02-24",
+          "notes": "看好中国业务发展，计划加仓至200股",
+          "risk_management": {
+            "stop_loss": null,
+            "take_profit": null,
+            "max_loss_pct": 15,
+            "min_gain_pct": 50
+          }
         }
       ]
     },

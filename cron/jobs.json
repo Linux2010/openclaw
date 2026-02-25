@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "29dc61f3-373f-442a-bc14-f5d5fc61b7d3",
+      "name": "workspace-backup",
+      "enabled": true,
+      "createdAtMs": 1770696979999,
+      "updatedAtMs": 1771941667693,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 22 * * *"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "执行每日备份"
+      },
+      "state": {
+        "nextRunAtMs": 1772028000000,
+        "lastRunAtMs": 1771941600007,
+        "lastStatus": "ok",
+        "lastDurationMs": 67686,
+        "consecutiveErrors": 0
+      }
+    },
+    {
+      "id": "7fd6e0a7-19f8-4d6d-bb27-4d85bbcbb74f",
+      "name": "memory-archive",
+      "enabled": true,
+      "createdAtMs": 1770696986910,
+      "updatedAtMs": 1770696986910,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 3 1 * *"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "执行月度归档"
+      },
+      "state": {
+        "nextRunAtMs": 1772305200000
+      }
+    },
+    {
+      "id": "15b6e921-93ea-4620-9589-4b3dfc901f1d",
+      "agentId": "main",
+      "name": "hourly-heartbeat",
+      "enabled": true,
+      "createdAtMs": 1771904760464,
+      "updatedAtMs": 1772006420142,
+      "schedule": {
+        "expr": "0 8-21 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "⏰ Heartbeat checkpoint. 读取 HEARTBEAT.md 并执行检查。如果无待办事项，回复 HEARTBEAT_OK。"
+      },
+      "state": {
+        "nextRunAtMs": 1772010000000,
+        "lastRunAtMs": 1772006400007,
+        "lastStatus": "ok",
+        "lastDurationMs": 20135,
+        "consecutiveErrors": 0
+      }
+    }
+  ]
+}

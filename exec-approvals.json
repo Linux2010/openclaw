@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "socket": {
+    "path": "/Users/hope/.openclaw/exec-approvals.sock",
+    "token": "qAlbIxnwMsOtGZjl6tnx6yOe2MPv8JG7"
+  },
+  "defaults": {},
+  "agents": {}
+}

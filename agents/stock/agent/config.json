@@ -1,0 +1,9 @@
+{
+  "id": "stock",
+  "name": "stock-agent",
+  "description": "独立股票分析与交易审查专家",
+  "version": "1.0.0",
+  "model": "ollama/kimi-k2.5:cloud",
+  "temperature": 0.3,
+  "workspace": "/Users/hope/.openclaw/agents/stock/workspace"
+}

@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "profiles": {
+    "qwen-portal:default": {
+      "type": "oauth",
+      "provider": "qwen-portal",
+      "access": "bl8tEQTec-6Bfd7z4YsrOfXGa_lCeVkzTq3gm3Jz7rHZ0qMa-2NIxy4Lc73I6_nVQDVtRNM_Br48AmivPCLkeg",
+      "refresh": "kbVpXe5q1_w-Hcx9gjj61Pb1DCHwlQB8jhvgTEZdEX36JNZOK2848lOAzTJfDtTQy72RVMXR-bD3UooizrZyNQ",
+      "expires": 1770553918154
+    },
+    "moonshot:default": {
+      "type": "api_key",
+      "provider": "moonshot",
+      "key": "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"
+    },
+    "copilot-proxy:local": {
+      "type": "token",
+      "provider": "copilot-proxy",
+      "token": "n/a"
+    },
+    "kimi-coding:default": {
+      "type": "api_key",
+      "provider": "kimi-coding",
+      "key": "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"
+    }
+  },
+  "lastGood": {
+    "qwen-portal": "qwen-portal:default",
+    "moonshot": "moonshot:default",
+    "copilot-proxy": "copilot-proxy:local"
+  },
+  "usageStats": {
+    "qwen-portal:default": {
+      "lastUsed": 1770537329279,
+      "errorCount": 0,
+      "lastFailureAt": 1770537329275
+    },
+    "moonshot:default": {
+      "errorCount": 0,
+      "lastFailureAt": 1770952520194,
+      "lastUsed": 1771229180288
+    },
+    "copilot-proxy:local": {
+      "lastUsed": 1770540225625,
+      "errorCount": 0
+    }
+  }
+}

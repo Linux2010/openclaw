@@ -1,0 +1,129 @@
+{
+  "providers": {
+    "moonshot": {
+      "baseUrl": "https://integrate.api.nvidia.com/v1",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "moonshotai/kimi-k2.5",
+          "name": "kimi-k2.5",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 16000,
+          "maxTokens": 1024
+        },
+        {
+          "id": "kimi-k2.5",
+          "name": "Kimi K2.5",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 256000,
+          "maxTokens": 8192
+        }
+      ],
+      "apiKey": "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"
+    },
+    "qwen-portal": {
+      "baseUrl": "https://portal.qwen.ai/v1",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "coder-model",
+          "name": "Qwen Coder",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 128000,
+          "maxTokens": 8192
+        },
+        {
+          "id": "vision-model",
+          "name": "Qwen Vision",
+          "reasoning": false,
+          "input": [
+            "text",
+            "image"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 128000,
+          "maxTokens": 8192
+        }
+      ],
+      "apiKey": "qwen-oauth"
+    },
+    "bailian": {
+      "baseUrl": "https://coding.dashscope.aliyuncs.com/v1",
+      "apiKey": "sk-sp-1f07658367b9409393e075f9f63490bf",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "qwen3-max-2026-01-23",
+          "name": "qwen3-max-thinking",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 262144,
+          "maxTokens": 65536
+        }
+      ]
+    },
+    "ollama": {
+      "baseUrl": "http://127.0.0.1:11434/v1",
+      "apiKey": "ollama-local",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "kimi-k2.5:cloud",
+          "name": "kimi-k2.5:cloud",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 131072,
+          "maxTokens": 16384
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "42c125546d987f355c37f4781449bcbdcc2e6246ad63203057c9e8164cab3f56": {
+    "deviceId": "42c125546d987f355c37f4781449bcbdcc2e6246ad63203057c9e8164cab3f56",
+    "publicKey": "aJK_8Uc8q3TrQ8x1h0ZqFqKL3EODMw_iqvmo857oDKQ",
+    "platform": "darwin",
+    "clientId": "gateway-client",
+    "clientMode": "ui",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "tokens": {
+      "operator": {
+        "token": "a4dc463d93ce4ecfb9022415a18baacc",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing"
+        ],
+        "createdAtMs": 1770185838547,
+        "lastUsedAtMs": 1772006346705
+      }
+    },
+    "createdAtMs": 1770185838547,
+    "approvedAtMs": 1770185838547,
+    "displayName": "openclaw-tui"
+  },
+  "276603ff3596d75a4157b25a70d7a62f154a237ec2986671e04e564af7be2a42": {
+    "deviceId": "276603ff3596d75a4157b25a70d7a62f154a237ec2986671e04e564af7be2a42",
+    "publicKey": "4gdRc5QM2iDBJmtSLwbGtRQTZ9NB1u2RCV34xfyiMIw",
+    "platform": "MacIntel",
+    "clientId": "openclaw-control-ui",
+    "clientMode": "webchat",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "tokens": {
+      "operator": {
+        "token": "a67d35e5153244119d9b1f11531bbb0c",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing"
+        ],
+        "createdAtMs": 1770187849980
+      }
+    },
+    "createdAtMs": 1770187849980,
+    "approvedAtMs": 1770187849980
+  },
+  "f9078e84aeed4c6951dd8471d4c593d75c805c8c07fe288d7567a521f1dfe7cb": {
+    "deviceId": "f9078e84aeed4c6951dd8471d4c593d75c805c8c07fe288d7567a521f1dfe7cb",
+    "publicKey": "192vhIuLSG01GHJpGpN5VGK2Ck6_4zt86t-Al8x54vY",
+    "platform": "MacIntel",
+    "clientId": "openclaw-control-ui",
+    "clientMode": "webchat",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "tokens": {
+      "operator": {
+        "token": "7ff0e1d03d2e4d728a882c92d1ac1a73",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing"
+        ],
+        "createdAtMs": 1770187849984,
+        "lastUsedAtMs": 1770187902652
+      }
+    },
+    "createdAtMs": 1770187849984,
+    "approvedAtMs": 1770187849984
+  },
+  "f8302c0ad4bb8c630d528e09f433adc0faecd9c9460342d8f3d11530d92a6f5b": {
+    "deviceId": "f8302c0ad4bb8c630d528e09f433adc0faecd9c9460342d8f3d11530d92a6f5b",
+    "publicKey": "qgxISv7ekYfoOJQTmSblDKL4gfsiePkB0aat5-EkDbM",
+    "platform": "MacIntel",
+    "clientId": "openclaw-control-ui",
+    "clientMode": "webchat",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "tokens": {
+      "operator": {
+        "token": "5b8977a362b044edb1aa88d98056345c",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing"
+        ],
+        "createdAtMs": 1770193832790,
+        "lastUsedAtMs": 1772006425325
+      }
+    },
+    "createdAtMs": 1770193832790,
+    "approvedAtMs": 1770193832790
+  },
+  "ff7a96aef849eea92708a1923902008981abc357ecee1a5984880c30d112ca34": {
+    "deviceId": "ff7a96aef849eea92708a1923902008981abc357ecee1a5984880c30d112ca34",
+    "publicKey": "wv2E_tURB5aL3VTDIxgBKircSqLqSQMg-PvksJLc0e8",
+    "platform": "MacIntel",
+    "clientId": "openclaw-control-ui",
+    "clientMode": "webchat",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "tokens": {
+      "operator": {
+        "token": "4a3c846fe9cf40aba6c2ea6aa716734b",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing"
+        ],
+        "createdAtMs": 1770793373597,
+        "lastUsedAtMs": 1772006346558
+      }
+    },
+    "createdAtMs": 1770793373597,
+    "approvedAtMs": 1770793373597
+  }
+}

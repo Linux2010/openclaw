@@ -1,0 +1,201 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.2.9",
+    "lastTouchedAt": "2026-02-25T07:39:27.309Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-02-25T07:29:04.051Z",
+    "lastRunVersion": "2026.2.9",
+    "lastRunCommand": "onboard",
+    "lastRunMode": "local"
+  },
+  "update": {
+    "channel": "stable",
+    "checkOnStart": true
+  },
+  "auth": {
+    "profiles": {
+      "copilot-proxy:local": {
+        "provider": "copilot-proxy",
+        "mode": "token"
+      },
+      "moonshot:default": {
+        "provider": "moonshot",
+        "mode": "api_key"
+      },
+      "qwen-portal:default": {
+        "provider": "qwen-portal",
+        "mode": "oauth"
+      }
+    }
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "bailian": {
+        "baseUrl": "https://coding.dashscope.aliyuncs.com/v1",
+        "apiKey": "sk-sp-1f07658367b9409393e075f9f63490bf",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen3-max-2026-01-23",
+            "name": "qwen3-max-thinking",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 262144,
+            "maxTokens": 65536
+          }
+        ]
+      },
+      "moonshot": {
+        "baseUrl": "https://integrate.api.nvidia.com/v1",
+        "apiKey": "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",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "moonshotai/kimi-k2.5",
+            "name": "kimi-k2.5",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 16000,
+            "maxTokens": 1024
+          }
+        ]
+      },
+      "ollama": {
+        "baseUrl": "http://127.0.0.1:11434/v1",
+        "apiKey": "ollama-local",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "kimi-k2.5:cloud",
+            "name": "kimi-k2.5:cloud",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 131072,
+            "maxTokens": 16384
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "bailian/qwen3-max-2026-01-23"
+      },
+      "models": {
+        "bailian/qwen3-max-2026-01-23": {
+          "alias": "qwen3-max-thinking"
+        }
+      },
+      "workspace": "/Users/hope/.openclaw/workspace",
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "workspace": "/Users/hope/.openclaw/workspace"
+      },
+      {
+        "id": "stock",
+        "workspace": "/Users/hope/.openclaw/agents/stock/workspace"
+      }
+    ]
+  },
+  "tools": {
+    "web": {
+      "search": {
+        "enabled": true,
+        "apiKey": "BSAvz5qVl_e9NBYmxURAWXmOAm42_GZ"
+      },
+      "fetch": {
+        "enabled": true
+      }
+    }
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "pairing",
+      "botToken": "8524712381:AAGZd6jnFzvbAxMPa7P1FMejPZsgwBYh8Fw",
+      "allowFrom": [
+        "@worldhello321"
+      ],
+      "groupPolicy": "allowlist",
+      "streamMode": "partial",
+      "actions": {
+        "reactions": true,
+        "sendMessage": true,
+        "deleteMessage": true,
+        "sticker": true
+      }
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "4fc9d7ebcc3d406503f41be97352cc214b56dcc55d8c4e72"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    }
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    }
+  },
+  "plugins": {
+    "entries": {
+      "copilot-proxy": {
+        "enabled": true
+      },
+      "qwen-portal-auth": {
+        "enabled": true
+      },
+      "telegram": {
+        "enabled": true
+      }
+    }
+  }
+}
