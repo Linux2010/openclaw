@@ -1,0 +1,22 @@
+# Mem0 configuration for Qwen model (Alibaba Cloud)
+vector_store:
+  provider: "qdrant"
+  config:
+    path: "/Users/hope/.openclaw/mem0/data/qdrant"
+    collection_name: "mem0_memories"
+
+history_db:
+  path: "/Users/hope/.openclaw/mem0/data/sqlite/history.db"
+
+llm:
+  provider: "openai"  # Qwen is OpenAI-compatible
+  config:
+    model: "qwen3-max-2026-01-23"
+    base_url: "https://coding.dashscope.aliyuncs.com/v1"
+    api_key: "${OPENCLAW_QWEN_API_KEY}"
+
+embedder:
+  provider: "openai"  # Using OpenAI embeddings for now
+  config:
+    model: "text-embedding-3-small"
+    api_key: "${OPENAI_API_KEY}"

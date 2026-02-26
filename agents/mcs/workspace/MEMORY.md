@@ -66,6 +66,14 @@
 - **MCS Agent replies**: Always start with "## 📊 MCS Agent"
 - **Purpose**: Clear agent identification in multi-agent conversations
 
+## 🔗 Shared Memory System
+- **Location**: /Users/hope/.openclaw/shared/
+- **Purpose**: Cross-agent shared memories and system events  
+- **Access Protocol**: Read shared memories for user context and system-wide information
+- **Key Files**: 
+  - `memory/YYYY-MM-DD.md` - Shared event logs
+  - `memory/shared_memory.md` - Cross-agent core memories
+
 ## 🔍 ONE Project Focus Areas
 - `2.master/2.1mcs/cs-exam.md` - Certificate planning
 - `ITBlock` repository - Technical portfolio

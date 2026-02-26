@@ -4680,3 +4680,225 @@ Command exited with code 1
 Command exited with code 1
 2026-02-26T04:38:24.997Z [tools] exec failed: Command exited with code 1
 2026-02-26T04:39:09.955Z [diagnostic] lane wait exceeded: lane=session:agent:mcs:main waitedMs=43710 queueAhead=0
+2026-02-26T05:39:22.735Z [agent/embedded] Removed orphaned user message to prevent consecutive user turns. runId=2d355e8a-1a2c-4f73-8045-e59331d535e3 sessionId=f75dfcac-7769-4797-add2-a1ef9273d11d
+2026-02-26T05:54:46.188Z [tools] exec failed: zsh:1: command not found: pip
+
+Command exited with code 127
+2026-02-26T05:56:58.327Z [tools] exec failed: Setting up Mem0 data directories...
+Created directory: /Users/hope/.openclaw/mem0/data/qdrant
+Created directory: /Users/hope/.openclaw/mem0/data/sqlite
+Created directory: /Users/hope/.openclaw/mem0/config
+Testing Mem0 connection...
+⚠️  WARNING: OPENAI_API_KEY not set. Please set it before using Mem0.
+   export OPENAI_API_KEY='your-api-key'
+❌ Mem0 setup needs attention!
+
+Command exited with code 1
+2026-02-26T05:58:42.352Z [tools] edit failed: Could not find the exact text in /Users/hope/.openclaw/agents/main/workspace/backup.sh. The old text must match exactly including all whitespace and newlines.
+2026-02-26T05:59:09.714Z [agent/embedded] embedded run timeout: runId=d14469dc-be1c-4fd8-a1c7-90aab75b55cc sessionId=f75dfcac-7769-4797-add2-a1ef9273d11d timeoutMs=600000
+2026-02-26T06:03:06.382Z [tools] exec failed: Setting up Mem0 environment...
+Data directories created.
+Environment setup complete!
+
+To use Mem0 with your agents:
+1. Import the custom client: from custom_mem0_client import QwenMem0Client
+2. Initialize: mem0_client = QwenMem0Client()
+3. Use add_memory() and search_memory() methods
+/Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Traceback (most recent call last):
+  File "<string>", line 5, in <module>
+AttributeError: 'LocalMem0Client' object has no attribute 'data_path'
+✅ Mem0客户端初始化成功！
+
+Command exited with code 1
+2026-02-26T06:05:07.120Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Traceback (most recent call last):
+  File "/Users/hope/.openclaw/mem0/demo_working.py", line 8, in <module>
+    from mem0.configs import MemoryConfig, VectorStoreConfig, QdrantConfig
+ImportError: cannot import name 'MemoryConfig' from 'mem0.configs' (/Users/hope/Library/Python/3.9/lib/python/site-packages/mem0/configs/__init__.py)
+
+Command exited with code 1
+2026-02-26T06:05:44.232Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+🚀 基础Mem0演示
+==================================================
+1. 初始化Mem0...
+❌ 演示失败: The api_key client option must be set either by passing api_key to the client or by setting the OPENAI_API_KEY environment variable
+
+Command exited with code 1
+2026-02-26T06:17:15.265Z [tools] exec failed: zsh:1: command not found: python
+
+Command exited with code 127
+2026-02-26T06:17:20.414Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Traceback (most recent call last):
+  File "/Users/hope/.openclaw/mem0/demo_qwen.py", line 12, in <module>
+    from mem0_qwen_config import get_mem0_config
+ImportError: cannot import name 'get_mem0_config' from 'mem0_qwen_config' (/Users/hope/.openclaw/mem0/config/mem0_qwen_config.py)
+
+Command exited with code 1
+2026-02-26T06:31:36.558Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+✅ Mem0 environment configured successfully!
+   API Key: sk-sp-1f07658367b9409393e075f9f63490bf
+   Base URL: https://coding.dashscope.aliyuncs.com/v1
+   Data path: /Users/hope/.openclaw/mem0/data/
+🚀 Testing Mem0 with Qwen API key...
+==================================================
+❌ Error: mem0.configs.base.MemoryConfig() argument after ** must be a mapping, not MemoryConfig
+==================================================
+⚠️  Mem0 integration needs attention
+
+Command exited with code 1
+2026-02-26T06:32:55.381Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+✅ Mem0 environment configured successfully!
+   API Key: sk-sp-1f07658367b9409393e075f9f63490bf
+   Base URL: https://coding.dashscope.aliyuncs.com/v1
+   Data path: /Users/hope/.openclaw/mem0/data/
+🚀 Testing Mem0 with Qwen API key...
+==================================================
+✅ Mem0 initialized successfully!
+🔄 Adding test memory...
+❌ Error: Error code: 400 - {'error': {'code': 'invalid_parameter_error', 'message': 'model `gpt-4.1-nano-2025-04-14` is not supported.', 'param': None, 'type': 'invalid_request_error'}, 'request_id': '5fa1613e-9781-9501-85ca-ecade72b070d'}
+==================================================
+⚠️  Mem0 integration needs attention
+
+Command exited with code 1
+2026-02-26T06:33:49.194Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+✅ Mem0 environment configured successfully!
+   API Key: sk-sp-1f...
+   Base URL: https://coding.dashscope.aliyuncs.com/v1
+   Data path: /Users/hope/.openclaw/mem0/data/
+🚀 Testing Mem0 with Qwen API key...
+==================================================
+❌ Error: __init__() got an unexpected keyword argument 'base_url'
+==================================================
+⚠️  Mem0 integration needs attention
+
+Command exited with code 1
+2026-02-26T06:34:46.738Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+✅ Mem0 environment configured successfully!
+   API Key: sk-sp-1f...
+   Base URL: https://coding.dashscope.aliyuncs.com/v1
+   Data path: /Users/hope/.openclaw/mem0/data/
+🚀 Testing Mem0 with Qwen API key...
+==================================================
+✅ Mem0 initialized successfully!
+🔄 Adding test memory...
+❌ Error: Error code: 404
+==================================================
+⚠️  Mem0 integration needs attention
+
+Command exited with code 1
+2026-02-26T06:35:34.857Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+✅ Mem0 environment configured successfully!
+   API Key: sk-sp-1f...
+   Base URL: https://coding.dashscope.aliyuncs.com/v1
+   Data path: /Users/hope/.openclaw/mem0/data/
+🚀 Testing Mem0 with Qwen API key...
+==================================================
+✅ Mem0 initialized successfully!
+🔄 Adding test memory...
+❌ Error: Error code: 400 - {'error': {'code': 'invalid_parameter_error', 'message': 'model `gpt-4.1-nano-2025-04-14` is not supported.', 'param': None, 'type': 'invalid_request_error'}, 'request_id': 'e8eb24f1-7d49-9c14-a630-17962e3b7aca'}
+==================================================
+⚠️  Mem0 integration needs attention
+
+Command exited with code 1
+2026-02-26T06:37:32.267Z [agent/embedded] embedded run timeout: runId=64e6c7f3-f686-4387-a78b-20643e5363a3 sessionId=f75dfcac-7769-4797-add2-a1ef9273d11d timeoutMs=600000
+2026-02-26T06:58:03.381Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Traceback (most recent call last):
+  File "/Users/hope/.openclaw/mem0/test_correct_final.py", line 9, in <module>
+    from config.correct_config import get_mem0_config
+ImportError: cannot import name 'get_mem0_config' from 'config.correct_config' (/Users/hope/.openclaw/mem0/config/correct_config.py)
+
+Command exited with code 1
+2026-02-26T06:58:46.921Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Traceback (most recent call last):
+  File "/Users/hope/.openclaw/mem0/test_correct_final.py", line 12, in <module>
+    from correct_config import create_mem0_instance
+ImportError: cannot import name 'create_mem0_instance' from 'correct_config' (/Users/hope/.openclaw/mem0/config/correct_config.py)
+
+Command exited with code 1
+2026-02-26T07:01:30.239Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/mem0/memory/main.py", line 375, in add
+    vector_store_result = future1.result()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 438, in result
+    return self.__get_result()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 390, in __get_result
+    raise self._exception
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/thread.py", line 52, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/mem0/memory/main.py", line 434, in _add_to_vector_store
+    response = self.llm.generate_response(
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/mem0/llms/openai.py", line 138, in generate_response
+    response = self.client.chat.completions.create(**params)
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/openai/resources/chat/completions/completions.py", line 1204, in create
+    return self._post(
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/openai/_base_client.py", line 1297, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/openai/_base_client.py", line 1070, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'code': 'invalid_parameter_error', 'message': 'model `gpt-4.1-nano-2025-04-14` is not supported.', 'param': None, 'type': 'invalid_request_error'}, 'request_id': '8eb98528-43e1-9a89-8bcc-d8629ffbe1ff'}
+Mem0 initialized
+
+Command exited with code 1
+2026-02-26T07:02:39.362Z [tools] exec failed: /Users/hope/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Traceback (most recent call last):
+  File "<string>", line 25, in <module>
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/mem0/memory/main.py", line 375, in add
+    vector_store_result = future1.result()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 438, in result
+    return self.__get_result()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 390, in __get_result
+    raise self._exception
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/thread.py", line 52, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/mem0/memory/main.py", line 434, in _add_to_vector_store
+    response = self.llm.generate_response(
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/mem0/llms/openai.py", line 138, in generate_response
+    response = self.client.chat.completions.create(**params)
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/openai/resources/chat/completions/completions.py", line 1204, in create
+    return self._post(
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/openai/_base_client.py", line 1297, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/hope/Library/Python/3.9/lib/python/site-packages/openai/_base_client.py", line 1070, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.AuthenticationError: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-sp-1f**************************90bf. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'code': 'invalid_api_key', 'param': None}, 'status': 401}
+Creating Mem0 instance...
+✅ Mem0 initialized successfully!
+🔄 Adding test memory...
+
+Command exited with code 1
+2026-02-26T07:04:16.556Z [agent/embedded] embedded run timeout: runId=625e46b5-f41a-4144-af64-4fe4bb2b1858 sessionId=f75dfcac-7769-4797-add2-a1ef9273d11d timeoutMs=600000
+2026-02-26T07:48:12.338Z [tools] exec failed: Error: unable to open database "/Users/hope/.openclaw/agents/main/workspace/shared/memory.db": unable to open database file
+
+Command exited with code 1
+2026-02-26T07:48:16.685Z [tools] exec failed: ls: /Users/hope/.openclaw/agents/main/workspace/shared/memory.db: No such file or directory
+
+Command exited with code 1
+2026-02-26T07:48:42.118Z [tools] read failed: ENOENT: no such file or directory, access '/Users/hope/.openclaw/shared/memory/shared_memory.md'
+2026-02-26T08:39:07.140Z [tools] cron failed: gateway timeout after 60000ms
+Gateway target: ws://127.0.0.1:18789
+Source: local loopback
+Config: /Users/hope/.openclaw/openclaw.json
+Bind: loopback
+2026-02-26T08:42:20.111Z [diagnostic] lane wait exceeded: lane=session:agent:main:main waitedMs=72499 queueAhead=0
+2026-02-26T08:44:19.864Z [tools] exec failed: ls: /Users/hope/.openclaw/agents/mcs/workspace/memory/: No such file or directory
+
+Command exited with code 1

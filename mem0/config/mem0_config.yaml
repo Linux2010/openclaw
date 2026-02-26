@@ -1,0 +1,21 @@
+# Mem0本地配置
+vector_store:
+  provider: "qdrant"
+  config:
+    path: "/Users/hope/.openclaw/mem0/data/qdrant"
+    collection_name: "mem0_memories"
+    
+history_db:
+  path: "/Users/hope/.openclaw/mem0/data/sqlite/history.db"
+
+llm:
+  provider: "openai"
+  config:
+    model: "gpt-4.1-nano-2025-04-14"
+    api_key: "${OPENAI_API_KEY}"
+
+embedder:
+  provider: "openai"
+  config:
+    model: "text-embedding-3-small"
+    api_key: "${OPENAI_API_KEY}"

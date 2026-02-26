@@ -56,8 +56,14 @@
 ## 🔧 Skills
 stock-advisor | trading-supervisor
 
+## 🔗 Shared Memory Access
+- **Location**: /Users/hope/.openclaw/shared/
+- **Purpose**: Cross-agent shared memories and system events  
+- **Read from**: Check shared memory for user identity and system-wide rules
+- **Reference**: Use shared context when providing investment analysis
+
 ## 🔍 索引
 `memory-index/sync-to-sqlite.sh`
 
 ---
-*Updated: 2026-02-25*
+*Updated: 2026-02-26*

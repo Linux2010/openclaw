@@ -63,5 +63,11 @@
 ## 🔍 索引
 `memory-index/sync-to-sqlite.sh`
 
+## 🔗 Shared Memory System
+- **Location**: /Users/hope/.openclaw/shared/
+- **Purpose**: Cross-agent shared memories and system events  
+- **Access**: Read shared memories when coordinating multi-agent tasks
+- **Write**: Use shared/write_memory.sh for important cross-agent information
+
 ---
 *Updated: 2026-02-26*
