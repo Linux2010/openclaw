@@ -48,10 +48,10 @@
     {
       "id": "15b6e921-93ea-4620-9589-4b3dfc901f1d",
       "agentId": "main",
-      "name": "hourly-heartbeat",
+      "name": "coordinator-heartbeat",
       "enabled": true,
       "createdAtMs": 1771904760464,
-      "updatedAtMs": 1772095207307,
+      "updatedAtMs": 1772097333828,
       "schedule": {
         "expr": "0 8-21 * * *",
         "kind": "cron",
@@ -61,56 +61,14 @@
       "wakeMode": "now",
       "payload": {
         "kind": "systemEvent",
-        "text": "⏰ Main Agent Heartbeat. 检查系统协调状态，更新代理通信协议，记录整体系统健康状况。"
+        "text": "⏰ Coordinator Heartbeat. Execute health checks for all agents and update memory logs."
       },
       "state": {
-        "nextRunAtMs": 1772096400000,
-        "lastRunAtMs": 1772095087150,
+        "nextRunAtMs": 1772100000000,
+        "lastRunAtMs": 1772096400006,
         "lastStatus": "ok",
-        "lastDurationMs": 120157,
+        "lastDurationMs": 232577,
         "consecutiveErrors": 0
-      }
-    },
-    {
-      "id": "e1f8082e-2500-4dfa-bdff-cb06c4e32a8e",
-      "agentId": "main",
-      "name": "stock-heartbeat",
-      "enabled": true,
-      "createdAtMs": 1772094862193,
-      "updatedAtMs": 1772094862193,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 8-21 * * *"
-      },
-      "sessionTarget": "main",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "systemEvent",
-        "text": "⏰ Stock Agent Heartbeat. 检查投资组合状态，更新持仓摘要，记录交易合规性。"
-      },
-      "state": {
-        "nextRunAtMs": 1772096400000
-      }
-    },
-    {
-      "id": "5956157d-d647-4548-8aed-e138398c1345",
-      "agentId": "main",
-      "name": "mcs-heartbeat",
-      "enabled": true,
-      "createdAtMs": 1772094893294,
-      "updatedAtMs": 1772094893294,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 8-21 * * *"
-      },
-      "sessionTarget": "main",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "systemEvent",
-        "text": "⏰ MCS Agent Heartbeat. 检查职业发展进展，更新学习计划状态，记录技术能力评估。"
-      },
-      "state": {
-        "nextRunAtMs": 1772096400000
       }
     }
   ]

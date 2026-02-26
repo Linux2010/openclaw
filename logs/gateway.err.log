@@ -4902,3 +4902,42 @@ Bind: loopback
 2026-02-26T08:44:19.864Z [tools] exec failed: ls: /Users/hope/.openclaw/agents/mcs/workspace/memory/: No such file or directory
 
 Command exited with code 1
+2026-02-26T08:56:30.240Z [diagnostic] lane wait exceeded: lane=nested waitedMs=9156 queueAhead=0
+2026-02-26T08:57:09.352Z [diagnostic] lane wait exceeded: lane=session:agent:main:main waitedMs=78314 queueAhead=1
+2026-02-26T08:57:52.848Z [diagnostic] lane wait exceeded: lane=session:agent:main:main waitedMs=82541 queueAhead=0
+2026-02-26T09:00:24.965Z [tools] exec failed: ls: /Users/hope/.openclaw/memory-index/: No such file or directory
+
+Command exited with code 1
+2026-02-26T09:01:21.092Z [tools] read failed: ENOENT: no such file or directory, access '/Users/hope/.openclaw/shared/memory/2026-02-26.md'
+2026-02-26T09:01:43.426Z [tools] exec failed: ==================================
+Shared Memory → SQLite Sync Tool
+==================================
+📁 Database exists: /Users/hope/.openclaw/shared/memory.db
+
+🚀 Starting sync...
+
+📂 Syncing shared memory directory...
+Parse error near line 1: no such table: memory_entries
+
+Command exited with code 1
+2026-02-26T09:05:48.742Z [gateway] request handler failed: Error: main cron jobs require payload.kind="systemEvent"
+2026-02-26T09:05:48.756Z [tools] cron failed: Error: main cron jobs require payload.kind="systemEvent"
+2026-02-26T09:07:26.963Z [tools] exec failed: ==================================
+Shared Memory → SQLite Sync Tool
+==================================
+📁 Database exists: /Users/hope/.openclaw/shared/memory.db
+
+🚀 Starting sync...
+
+📂 Syncing shared memory directory...
+Parse error near line 1: no such table: memory_entries
+
+Command exited with code 1
+2026-02-26T09:07:59.603Z [tools] exec failed: ==================================
+Memory → SQLite Sync Tool
+==================================
+
+🆕 Creating new database...
+./memory-index/sync-to-sqlite.sh: line 31: /Users/hope/.openclaw/workspace/memory-index/db/schema.sql: No such file or directory
+
+Command exited with code 1
