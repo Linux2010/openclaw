@@ -51,7 +51,7 @@
       "name": "coordinator-heartbeat",
       "enabled": true,
       "createdAtMs": 1771904760464,
-      "updatedAtMs": 1772097333828,
+      "updatedAtMs": 1772100380741,
       "schedule": {
         "expr": "0 8-21 * * *",
         "kind": "cron",
@@ -64,10 +64,10 @@
         "text": "⏰ Coordinator Heartbeat. Execute health checks for all agents and update memory logs."
       },
       "state": {
-        "nextRunAtMs": 1772100000000,
-        "lastRunAtMs": 1772096400006,
+        "nextRunAtMs": 1772103600000,
+        "lastRunAtMs": 1772100000006,
         "lastStatus": "ok",
-        "lastDurationMs": 232577,
+        "lastDurationMs": 380735,
         "consecutiveErrors": 0
       }
     }

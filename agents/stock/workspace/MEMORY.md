@@ -56,14 +56,16 @@
 ## 🔧 Skills
 stock-advisor | trading-supervisor
 
-## 🔗 Shared Memory Access
-- **Location**: /Users/hope/.openclaw/shared/
-- **Purpose**: Cross-agent shared memories and system events  
-- **Read from**: Check shared memory for user identity and system-wide rules
-- **Reference**: Use shared context when providing investment analysis
+## 🔍 Memory Search Usage
+- **Search command**: `sqlite3 memory-index/memory.db "SELECT * FROM memory_fts WHERE content MATCH '关键词';"`
+- **Investment-specific queries**:
+  - 查找历史交易规则: `MATCH '交易规则 OR 单次交易'`
+  - 回溯持仓变化: `MATCH 'ORCL OR NVDA OR BABA'`
+  - 搜索风控设置: `MATCH '止损 OR 止盈 OR 风控'`
+  - 查询资产配置: `MATCH '长线 OR 周期 OR 趋势'`
 
-## 🔍 索引
-`memory-index/sync-to-sqlite.sh`
+## 🔧 Tools
+`memory-index/sync-to-sqlite.sh` - Sync memory logs to SQLite index
 
 ---
 *Updated: 2026-02-26*

@@ -4941,3 +4941,37 @@ Memory → SQLite Sync Tool
 ./memory-index/sync-to-sqlite.sh: line 31: /Users/hope/.openclaw/workspace/memory-index/db/schema.sql: No such file or directory
 
 Command exited with code 1
+2026-02-26T09:32:59.422Z [tools] exec failed: ==================================
+Memory → SQLite Sync Tool
+==================================
+
+🆕 Creating new database...
+./memory-index/sync-to-sqlite.sh: line 31: /Users/hope/.openclaw/workspace/memory-index/db/schema.sql: No such file or directory
+
+Command exited with code 1
+2026-02-26T09:33:04.840Z [tools] exec failed: ==================================
+Memory → SQLite Sync Tool
+==================================
+
+🆕 Creating new database...
+./memory-index/sync-to-sqlite.sh: line 31: /Users/hope/.openclaw/workspace/memory-index/db/schema.sql: No such file or directory
+
+Command exited with code 1
+2026-02-26T09:36:41.033Z [tools] exec failed: ==================================
+Memory → SQLite Sync Tool
+==================================
+
+📁 Database exists: /Users/hope/.openclaw/agents/mcs/workspace/memory-index/memory.db
+
+🚀 Starting sync...
+
+Error: in prepare, no such table: memory_entries
+
+Command exited with code 1
+2026-02-26T10:00:50.222Z [diagnostic] lane wait exceeded: lane=nested waitedMs=179585 queueAhead=0
+2026-02-26T10:06:20.709Z [diagnostic] lane wait exceeded: lane=session:agent:main:main waitedMs=139579 queueAhead=0
+2026-02-26T10:07:13.665Z [diagnostic] lane wait exceeded: lane=session:agent:main:main waitedMs=52924 queueAhead=0
+2026-02-26T10:10:01.238Z [tools] edit failed: Could not find the exact text in /Users/hope/.openclaw/agents/stock/workspace/MEMORY.md. The old text must match exactly including all whitespace and newlines.
+2026-02-26T10:17:20.831Z [tools] exec failed: ls: /Users/hope/.openclaw/shared/: No such file or directory
+
+Command exited with code 1

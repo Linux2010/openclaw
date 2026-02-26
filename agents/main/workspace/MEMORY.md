@@ -60,14 +60,54 @@
 - **MCS Agent replies**: Always start with "## 📊 MCS Agent"
 - **Purpose**: Clear agent identification when sharing single Telegram channel
 
-## 🔍 索引
-`memory-index/sync-to-sqlite.sh`
+## 🔍 Memory Search Usage
+- **Search command**: `sqlite3 memory-index/memory.db "SELECT * FROM memory_fts WHERE content MATCH '关键词';"`
+- **Use cases**: 
+  - 查找历史决策: `MATCH '投资决策'`
+  - 回溯系统配置: `MATCH '配置'`
+  - 搜索用户偏好: `MATCH '偏好'`
+- **Advanced queries**: 
+  - 日期范围: `SELECT * FROM memory_entries WHERE entry_date BETWEEN '2026-02-01' AND '2026-02-28';`
+  - 类型过滤: `SELECT * FROM memory_entries WHERE entry_type = 'daily_log';'
 
-## 🔗 Shared Memory System
-- **Location**: /Users/hope/.openclaw/shared/
-- **Purpose**: Cross-agent shared memories and system events  
-- **Access**: Read shared memories when coordinating multi-agent tasks
-- **Write**: Use shared/write_memory.sh for important cross-agent information
+## ⏰ Coordinator Heartbeat Responsibilities
+When receiving "⏰ Coordinator Heartbeat" system event, Main Agent must:
+
+### 1. System Health Check
+- Verify all agents are active (Main, Stock, MCS)
+- Check communication protocol status
+- Validate shared memory system accessibility
+- Record system health status to `memory/YYYY-MM-DD.md`
+
+### 2. Agent Coordination
+- Send coordination request to Stock Agent: "执行heartbeat检查"
+- Send coordination request to MCS Agent: "执行heartbeat检查"  
+- Collect status responses from both agents
+- Validate response completeness and format
+
+### 3. Memory Log Management
+- Write Main Agent status to `agents/main/workspace/memory/YYYY-MM-DD.md`
+- Ensure Stock Agent writes to `agents/stock/workspace/memory/YYYY-MM-DD.md`
+- Ensure MCS Agent writes to `agents/mcs/workspace/memory/YYYY-MM-DD.md`
+- Verify all daily logs are properly formatted with timestamps
+
+### 4. Index Synchronization
+- Execute `./memory-index/sync-to-sqlite.sh` for Main Agent
+- Verify Stock Agent executes its sync-to-sqlite.sh
+- Verify MCS Agent executes its sync-to-sqlite.sh
+- Confirm all SQLite databases are updated with latest entries
+
+### 5. Backup Preparation
+- Ensure all memory logs are ready for daily 22:00 backup
+- Validate file permissions and Git tracking status
+- Prepare summary for backup commit message
+
+This ensures complete automation of the heartbeat process while maintaining single-point coordination.
+
+## 🔗 Agent Communication Protocol
+- **Direct Query**: Main Agent queries sub-agents directly for memory content when needed
+- **No Shared Memory**: Each agent maintains independent memory systems
+- **Coordination**: Main Agent coordinates information exchange between agents as needed
 
 ---
 *Updated: 2026-02-26*

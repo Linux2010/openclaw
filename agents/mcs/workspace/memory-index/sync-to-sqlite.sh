@@ -5,7 +5,7 @@
 
 set -e
 
-WORKSPACE_DIR="/Users/hope/.openclaw/agents/main/workspace"
+WORKSPACE_DIR="/Users/hope/.openclaw/agents/mcs/workspace"
 MEMORY_DIR="$WORKSPACE_DIR/memory"
 ARCHIVE_DIR="$MEMORY_DIR/archive"
 DB_DIR="$WORKSPACE_DIR/memory-index"
