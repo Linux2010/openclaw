@@ -6,7 +6,7 @@
       "name": "workspace-backup",
       "enabled": true,
       "createdAtMs": 1770696979999,
-      "updatedAtMs": 1771941667693,
+      "updatedAtMs": 1772028038116,
       "schedule": {
         "kind": "cron",
         "expr": "0 22 * * *"
@@ -18,10 +18,10 @@
         "text": "执行每日备份"
       },
       "state": {
-        "nextRunAtMs": 1772028000000,
-        "lastRunAtMs": 1771941600007,
+        "nextRunAtMs": 1772114400000,
+        "lastRunAtMs": 1772028000010,
         "lastStatus": "ok",
-        "lastDurationMs": 67686,
+        "lastDurationMs": 38106,
         "consecutiveErrors": 0
       }
     },
@@ -51,7 +51,7 @@
       "name": "hourly-heartbeat",
       "enabled": true,
       "createdAtMs": 1771904760464,
-      "updatedAtMs": 1772017233023,
+      "updatedAtMs": 1772024434998,
       "schedule": {
         "expr": "0 8-21 * * *",
         "kind": "cron",
@@ -64,12 +64,12 @@
         "text": "⏰ Heartbeat checkpoint. 读取 HEARTBEAT.md 并执行检查。如果无待办事项，回复 HEARTBEAT_OK。"
       },
       "state": {
-        "nextRunAtMs": 1772020800000,
-        "lastRunAtMs": 1772017200008,
+        "nextRunAtMs": 1772064000000,
+        "lastRunAtMs": 1772024400011,
         "lastStatus": "ok",
-        "lastDurationMs": 33015,
+        "lastDurationMs": 34987,
         "consecutiveErrors": 0,
-        "runningAtMs": 1772020800006
+        "runningAtMs": 1772064000006
       }
     }
   ]

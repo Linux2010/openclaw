@@ -4593,3 +4593,8 @@ Command exited with code 1
 
 Command exited with code 1
 2026-02-25T10:55:39.080Z [diagnostic] lane wait exceeded: lane=session:agent:main:main waitedMs=12447 queueAhead=0
+2026-02-25T12:01:09.202Z [telegram] message failed: Call to 'sendMessage' failed! (400: Bad Request: chat not found)
+2026-02-25T12:01:09.207Z [heartbeat] failed: Telegram send failed: chat not found (chat_id=@worldhello321). Likely: bot not started in DM, bot removed from group/channel, group migrated (new -100… id), or wrong bot token. Input was: "@worldhello321".
+2026-02-26T00:05:12.030Z [tools] exec failed: ./check-memory.sh: line 11: cd: /Users/kylin/.openclaw/workspace: No such file or directory
+
+Command exited with code 1
