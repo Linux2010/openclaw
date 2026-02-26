@@ -3,8 +3,8 @@
     "deviceId": "42c125546d987f355c37f4781449bcbdcc2e6246ad63203057c9e8164cab3f56",
     "publicKey": "aJK_8Uc8q3TrQ8x1h0ZqFqKL3EODMw_iqvmo857oDKQ",
     "platform": "darwin",
-    "clientId": "cli",
-    "clientMode": "cli",
+    "clientId": "gateway-client",
+    "clientMode": "backend",
     "role": "operator",
     "roles": [
       "operator"
@@ -24,11 +24,12 @@
           "operator.pairing"
         ],
         "createdAtMs": 1770185838547,
-        "lastUsedAtMs": 1772100275678
+        "lastUsedAtMs": 1772104890972
       }
     },
     "createdAtMs": 1770185838547,
-    "approvedAtMs": 1770185838547
+    "approvedAtMs": 1770185838547,
+    "displayName": "agent"
   },
   "276603ff3596d75a4157b25a70d7a62f154a237ec2986671e04e564af7be2a42": {
     "deviceId": "276603ff3596d75a4157b25a70d7a62f154a237ec2986671e04e564af7be2a42",

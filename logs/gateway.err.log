@@ -4975,3 +4975,39 @@ Command exited with code 1
 2026-02-26T10:17:20.831Z [tools] exec failed: ls: /Users/hope/.openclaw/shared/: No such file or directory
 
 Command exited with code 1
+2026-02-26T10:47:46.018Z [tools] read failed: ENOENT: no such file or directory, access '/Users/hope/IdeaProjects/one/core/info/acc-info.md'
+2026-02-26T10:48:02.212Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T10:48:02.216Z [telegram] sendChatAction failed: Network request for 'sendChatAction' failed!
+2026-02-26T10:49:23.835Z [tools] read failed: Offset 1000 is beyond end of file (274 lines total)
+2026-02-26T10:51:35.804Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T10:51:35.810Z [telegram] sendChatAction failed: Network request for 'sendChatAction' failed!
+2026-02-26T10:51:39.403Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+2026-02-26T10:52:25.673Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+2026-02-26T10:52:30.780Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T10:52:34.291Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T10:52:34.296Z [telegram] sendChatAction failed: Network request for 'sendChatAction' failed!
+2026-02-26T10:52:35.820Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T10:59:21.991Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T11:01:42.085Z [diagnostic] lane wait exceeded: lane=session:agent:main:main waitedMs=147109 queueAhead=0
+2026-02-26T11:21:34.472Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T11:21:34.479Z [telegram] sendChatAction failed: Network request for 'sendChatAction' failed!
+2026-02-26T11:34:16.785Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T11:34:16.794Z [telegram] sendChatAction failed: Network request for 'sendChatAction' failed!

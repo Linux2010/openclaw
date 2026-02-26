@@ -75,32 +75,27 @@ When receiving "⏰ Coordinator Heartbeat" system event, Main Agent must:
 
 ### 1. System Health Check Only
 - Verify all agents are active (Main, Stock, MCS)
-- Check communication protocol status
-- Validate memory systems accessibility
+- Check communication protocol status  
+- Validate memory system accessibility
 - **Do NOT generate detailed status reports or action items**
-- **Do NOT trigger sub-agent detailed analysis**
+- **Do NOT query agents for detailed content**
+- **Only confirm basic operational status**
 
-### 2. Agent Coordination (Minimal)
-- Send minimal health check ping to Stock Agent
-- Send minimal health check ping to MCS Agent  
-- Collect basic alive/dead status only
-- **Do NOT request detailed portfolio or career summaries**
+### 2. Minimal Logging
+- Record only basic health check result to `memory/YYYY-MM-DD.md`
+- Example: "✅ 19:00 Health check: All agents operational"
+- **Do NOT create detailed daily logs from heartbeat**
 
-### 3. Memory Log Management
-- **Only log health check results if issues are detected**
-- **Normal operation should produce no daily log entries**
-- **Emergency situations only trigger detailed logging**
+### 3. Silent Hours
+- **Active hours**: 8:00-21:00 every 2 hours (8,10,12,14,16,18,20)
+- **Silent hours**: 22:00-8:00 (no heartbeat execution)
 
-### 4. Index Synchronization
-- Execute `./memory-index/sync-to-sqlite.sh` for Main Agent only if logs were written
-- **Do NOT trigger sub-agent sync operations**
+### 4. Exception Handling
+- **Only log issues** if agents are unresponsive or system errors occur
+- **Normal operation**: Minimal logging, no detailed reports
+- **User requests**: Detailed analysis only on explicit user request
 
-### 5. Schedule Configuration
-- **Frequency**: Every 2 hours (8:00, 10:00, 12:00, 14:00, 16:00, 18:00, 20:00)
-- **Silent Period**: 22:00 - 8:00 (no heartbeat execution)
-- **Purpose**: Pure health monitoring, not content generation
-
-This ensures heartbeat remains lightweight and focused purely on system health monitoring.
+This ensures heartbeat remains lightweight while maintaining system monitoring.
 
 ## 🔗 Agent Communication Protocol
 - **Direct Query**: Main Agent queries sub-agents directly for memory content when needed
