@@ -4671,3 +4671,12 @@ Command exited with code 1
 2026-02-26T04:34:22.200Z [openclaw] Suppressed AbortError: AbortError: This operation was aborted
     at node:internal/deps/undici/undici:14902:13
     at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:36:08.426Z [diagnostic] lane wait exceeded: lane=session:agent:main:main waitedMs=9335 queueAhead=0
+2026-02-26T04:37:18.735Z [tools] read failed: ENOENT: no such file or directory, access '/Users/hope/IdeaProjects/one/2.master/2.1mcs/cs-exam.md'
+2026-02-26T04:37:29.355Z [tools] read failed: EISDIR: illegal operation on a directory, read
+2026-02-26T04:37:48.011Z [tools] read failed: ENOENT: no such file or directory, access '/Users/hope/IdeaProjects/one/2.master/2.1mcs/cs-exam.md'
+2026-02-26T04:38:05.479Z [tools] exec failed: ls: /Users/hope/IdeaProjects/ITBlock: No such file or directory
+
+Command exited with code 1
+2026-02-26T04:38:24.997Z [tools] exec failed: Command exited with code 1
+2026-02-26T04:39:09.955Z [diagnostic] lane wait exceeded: lane=session:agent:mcs:main waitedMs=43710 queueAhead=0
