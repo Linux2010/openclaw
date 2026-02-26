@@ -76,46 +76,49 @@ When receiving "⏰ Coordinator Heartbeat" system event, Main Agent must:
 ### 1. System Health Check Only
 - Verify all agents are active (Main, Stock, MCS)
 - Check communication protocol status
-- Validate memory system accessibility
-- **Do NOT generate detailed reports or write to daily logs**
-- **Respond with HEARTBEAT_OK if all systems normal**
+- Validate system configuration accessibility
+- **NO detailed reports or log writing** - only health status
 
-### 2. Minimal Coordination
-- Send simple health check ping to Stock Agent
-- Send simple health check ping to MCS Agent  
-- Collect basic alive/dead status only
-- **Do NOT request detailed status summaries**
+### 2. Minimal Response
+- If all healthy: respond with HEARTBEAT_OK
+- If issues detected: send minimal alert message
+- **NO daily log entries** for routine health checks
 
 ### 3. Schedule Configuration
 - **Frequency**: Every 2 hours (8:00, 10:00, 12:00, 14:00, 16:00, 18:00, 20:00)
 - **Silent Period**: 22:00 - 8:00 (no heartbeat execution)
-- **Purpose**: Pure health monitoring, not content generation
 
-This ensures heartbeat remains lightweight and focused purely on system health monitoring.
+This ensures lightweight monitoring without redundant memory entries.
 
 ## 📅 Daily Backup Process (22:00)
-When receiving "执行每日备份" system event at 22:00, Main Agent must coordinate the following workflow:
+When receiving "执行每日备份" system event, Main Agent coordinates the following workflow:
 
-### Phase 1: Agent Self-Summary (22:00)
-- **Stock Agent**: Generate daily investment summary, write to `agents/stock/workspace/memory/YYYY-MM-DD.md`, execute `sync-to-sqlite.sh`
-- **MCS Agent**: Generate daily career development summary, write to `agents/mcs/workspace/memory/YYYY-MM-DD.md`, execute `sync-to-sqlite.sh`
-- **Main Agent**: Wait for confirmation that both agents have completed their summaries
+### Phase 1: Agent Self-Summary (Parallel Execution)
+- **Stock Agent**: Generate daily investment summary, write to `agents/stock/workspace/memory/YYYY-MM-DD.md`, execute `memory-index/sync-to-sqlite.sh`
+- **MCS Agent**: Generate daily career development summary, write to `agents/mcs/workspace/memory/YYYY-MM-DD.md`, execute `memory-index/sync-to-sqlite.sh`
+- **Main Agent**: Wait for both agents to complete their summaries
 
-### Phase 2: Main Agent Summary (22:05)
-- **Main Agent**: Generate system coordination summary, write to `agents/main/workspace/memory/YYYY-MM-DD.md`
-- **Main Agent**: Execute `./memory-index/sync-to-sqlite.sh` to update main memory index
-- **Validation**: Ensure all three agents have valid daily log entries for the date
+### Phase 2: Main Agent Summary (Sequential Execution)
+- **Main Agent**: Generate system coordination summary including:
+  - Agent health status throughout the day
+  - Important cross-agent coordination activities
+  - System configuration changes or updates
+  - Mem0 integration progress or issues
+  - ONE project core module updates
+- Write summary to `agents/main/workspace/memory/YYYY-MM-DD.md`
+- Execute `memory-index/sync-to-sqlite.sh` for Main Agent
 
-### Phase 3: GitHub Backup (22:10)
-- **Execute**: `./backup.sh` to commit all changes to GitHub repository
-- **Include**: All MEMORY.md files, daily logs, session transcripts, and system configurations
-- **Verification**: Confirm successful push to remote repository
+### Phase 3: Complete Backup (Final Step)
+- Execute `./backup.sh` to commit all changes to GitHub
+- Include all agent memory logs, MEMORY.md files, and session transcripts
+- Ensure complete system state backup for disaster recovery
 
 ### Key Principles
-- **Agent Autonomy**: Each agent maintains its own memory system independently
-- **Coordination**: Main Agent orchestrates the backup process but does not generate agent content
-- **Completeness**: All daily activities are captured in respective agent memory systems
-- **Reliability**: Automated backup ensures no data loss
+- **Agent Autonomy**: Each agent maintains its own memory and indexing
+- **Coordination**: Main Agent orchestrates the process but doesn't duplicate agent content
+- **Efficiency**: Parallel execution of agent summaries reduces total backup time
+- **Completeness**: All system components are included in the final backup
+- **Reliability**: Sequential phases ensure proper dependency ordering
 
 ## 🔗 Agent Communication Protocol
 - **Direct Query**: Main Agent queries sub-agents directly for memory content when needed

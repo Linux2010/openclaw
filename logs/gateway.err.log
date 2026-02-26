@@ -5011,3 +5011,6 @@ Command exited with code 1
     at node:internal/deps/undici/undici:14902:13
     at processTicksAndRejections (node:internal/process/task_queues:105:5)
 2026-02-26T11:34:16.794Z [telegram] sendChatAction failed: Network request for 'sendChatAction' failed!
+2026-02-26T11:36:40.448Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
