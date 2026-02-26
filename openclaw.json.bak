@@ -1,7 +1,7 @@
 {
   "meta": {
     "lastTouchedVersion": "2026.2.9",
-    "lastTouchedAt": "2026-02-25T07:55:09.457Z"
+    "lastTouchedAt": "2026-02-25T07:59:03.524Z"
   },
   "wizard": {
     "lastRunAt": "2026-02-25T07:29:04.051Z",
@@ -122,7 +122,7 @@
     "list": [
       {
         "id": "main",
-        "workspace": "/Users/hope/.openclaw/workspace"
+        "workspace": "/Users/hope/.openclaw/agents/main/workspace"
       },
       {
         "id": "stock",

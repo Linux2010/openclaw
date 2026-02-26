@@ -4626,3 +4626,48 @@ Command exited with code 1
 2026-02-26T02:28:21.104Z [tools] exec failed: error: missing required argument 'path'
 
 Command exited with code 1
+2026-02-26T03:02:26.618Z [diagnostic] lane wait exceeded: lane=session:agent:main:main waitedMs=8271 queueAhead=0
+2026-02-26T04:00:06.202Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:00:09.309Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:00:14.536Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:00:19.946Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:00:25.753Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:25:10.805Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:25:15.912Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:25:19.120Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:25:24.528Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:25:30.336Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:25:36.946Z [openclaw] Non-fatal unhandled rejection (continuing): TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:33:10.423Z [reload] config change requires gateway restart (meta.lastTouchedAt)
+2026-02-26T04:33:10.466Z [openclaw] Suppressed AbortError: AbortError: This operation was aborted
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:33:12.093Z [openclaw] Suppressed AbortError: AbortError: This operation was aborted
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2026-02-26T04:33:49.640Z [tools] edit failed: Could not find the exact text in /Users/hope/.openclaw/agents/main/workspace/MEMORY.md. The old text must match exactly including all whitespace and newlines.
+2026-02-26T04:34:22.200Z [openclaw] Suppressed AbortError: AbortError: This operation was aborted
+    at node:internal/deps/undici/undici:14902:13
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)

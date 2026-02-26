@@ -51,7 +51,7 @@
       "name": "hourly-heartbeat",
       "enabled": true,
       "createdAtMs": 1771904760464,
-      "updatedAtMs": 1772071214813,
+      "updatedAtMs": 1772078441863,
       "schedule": {
         "expr": "0 8-21 * * *",
         "kind": "cron",
@@ -64,12 +64,11 @@
         "text": "⏰ Heartbeat checkpoint. 读取 HEARTBEAT.md 并执行检查。如果无待办事项，回复 HEARTBEAT_OK。"
       },
       "state": {
-        "nextRunAtMs": 1772074800000,
-        "lastRunAtMs": 1772071200008,
-        "lastStatus": "error",
-        "lastDurationMs": 14805,
-        "consecutiveErrors": 1,
-        "lastError": "Telegram send failed: chat not found (chat_id=@worldhello321). Likely: bot not started in DM, bot removed from group/channel, group migrated (new -100… id), or wrong bot token. Input was: \"@worldhello321\"."
+        "nextRunAtMs": 1772082000000,
+        "lastRunAtMs": 1772078400008,
+        "lastStatus": "ok",
+        "lastDurationMs": 41855,
+        "consecutiveErrors": 0
       }
     }
   ]
