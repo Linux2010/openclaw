@@ -79,5 +79,11 @@
   - 回溯职业规划: `MATCH '蚂蚁 OR 职业发展'`
   - 搜索技术项目: `MATCH '外数平台 OR 变量中心'`
 
+## 📅 Daily Summary Content Source
+**Daily work summary content source**:
+- **Primary Source**: Session records in `/Users/hope/.openclaw/agents/mcs/sessions/` directory (.jsonl format)
+- **Content Extraction**: Technical guidance, certification exam preparation, coding interview coaching, system design reviews, career development advice, and other CS-related activities from daily interactions
+- **Output Location**: Structured output to `agents/mcs/workspace/memory/YYYY-MM-DD.md`
+
 ---
-*Updated: 2026-02-26*
+*Updated: 2026-02-27*

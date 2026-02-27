@@ -6,7 +6,7 @@
       "name": "workspace-backup",
       "enabled": true,
       "createdAtMs": 1770696979999,
-      "updatedAtMs": 1772028038116,
+      "updatedAtMs": 1772114998135,
       "schedule": {
         "kind": "cron",
         "expr": "0 22 * * *"
@@ -18,12 +18,12 @@
         "text": "执行每日备份"
       },
       "state": {
-        "nextRunAtMs": 1772114400000,
-        "lastRunAtMs": 1772028000010,
-        "lastStatus": "ok",
-        "lastDurationMs": 38106,
-        "consecutiveErrors": 0,
-        "runningAtMs": 1772114400006
+        "nextRunAtMs": 1772200800000,
+        "lastRunAtMs": 1772114400008,
+        "lastStatus": "error",
+        "lastDurationMs": 598127,
+        "consecutiveErrors": 1,
+        "runningAtMs": 1772200800006
       }
     },
     {
@@ -52,7 +52,7 @@
       "name": "coordinator-heartbeat",
       "enabled": true,
       "createdAtMs": 1771904760464,
-      "updatedAtMs": 1772107266285,
+      "updatedAtMs": 1772193649704,
       "schedule": {
         "expr": "0 8-21/2 * * *",
         "kind": "cron",
@@ -65,11 +65,13 @@
         "text": "⏰ Coordinator Heartbeat. Execute health checks for all agents and update memory logs."
       },
       "state": {
-        "nextRunAtMs": 1772150400000,
-        "lastRunAtMs": 1772107200009,
+        "nextRunAtMs": 1772236800000,
+        "lastRunAtMs": 1772193600007,
         "lastStatus": "ok",
-        "lastDurationMs": 66276,
-        "consecutiveErrors": 0
+        "lastDurationMs": 49697,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDeliveryStatus": "not-requested"
       }
     }
   ]

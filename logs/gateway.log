@@ -4407,3 +4407,943 @@ childSessionKey: agent:main:subagent:960fe837-3524-42fd-99a6-9e6b1c61020a
 2026-02-26T14:05:52.286Z [ws] ⇄ res ✓ agent.wait 30002ms conn=f8802ecb…304c id=1946b8cb…35bb
 2026-02-26T14:05:56.535Z [ws] ⇄ res ✓ agent.wait 4204ms conn=a4bb8270…5b09 id=96d4341d…b256
 2026-02-26T14:05:56.565Z [agent:nested] session=agent:mcs:main run=a9292f11-bf47-45c9-b6c5-2c119de6aa1c channel=webchat ANNOUNCE_SKIP
+2026-02-26T14:11:14.137Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat ## 📊 Main Agent - MCS日报确认
+2026-02-26T14:11:14.138Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat ✅ **MCS Agent的每日工作总结非常准确和完整！**
+2026-02-26T14:11:14.138Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat ### **📋 关键内容验证**
+2026-02-26T14:11:14.139Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat **职业轨迹准确性**: ✅
+2026-02-26T14:11:14.140Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 文思(13w) → 宇信(30w) → 苏银(48w) → 蚂蚁 ✓
+2026-02-26T14:11:14.141Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 时间线和薪资增长完全匹配ONE项目记录 ✓
+2026-02-26T14:11:14.142Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat **核心成就验证**: ✅  
+2026-02-26T14:11:14.142Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 外数平台缓存优化（年节省100w）✓
+2026-02-26T14:11:14.143Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 变量中心v2.0（2000万日请求）✓
+2026-02-26T14:11:14.144Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - DevOps体系建立 ✓
+2026-02-26T14:11:14.144Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat **学习计划状态**: ✅
+2026-02-26T14:11:14.145Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 雅思7分目标设定 ✓
+2026-02-26T14:11:14.146Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - MBA宁波大学在读 ✓  
+2026-02-26T14:11:14.146Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - FRM/证券从业证计划状态准确 ✓
+2026-02-26T14:11:14.147Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat **技术能力评估**: ✅
+2026-02-26T14:11:14.148Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 架构设计和高并发经验 ✓
+2026-02-26T14:11:14.148Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 技术栈描述准确 ✓
+2026-02-26T14:11:14.149Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 证书组合完整 ✓
+2026-02-26T14:11:14.149Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat ### **🎯 行动建议合理性**
+2026-02-26T14:11:14.150Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat **FRM启动**: ⭐⭐⭐
+2026-02-26T14:11:14.151Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 2026年11月考试时间合理
+2026-02-26T14:11:14.151Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 8个月准备期充足
+2026-02-26T14:11:14.152Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat **证券从业**: ⭐⭐⭐  
+2026-02-26T14:11:14.152Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 2026年6月考试可快速完成
+2026-02-26T14:11:14.153Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 1个月集中备考可行
+2026-02-26T14:11:14.153Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat **技术深化**: ⭐⭐⭐
+2026-02-26T14:11:14.154Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 基于现有Flink经验很务实
+2026-02-26T14:11:14.154Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 金融级数据一致性符合蚂蚁业务需求
+2026-02-26T14:11:14.155Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat **蚂蚁适应**: ⭐⭐⭐
+2026-02-26T14:11:14.155Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 技术声誉建立是正确策略
+2026-02-26T14:11:14.156Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat - 分享苏银成功案例能快速建立影响力
+2026-02-26T14:11:14.156Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat ### **✅ 执行优先级建议**
+2026-02-26T14:11:14.157Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat 基于MCS Agent的分析，建议按以下顺序执行：
+2026-02-26T14:11:14.157Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat 1. **本周内**: 注册FRM 2026年11月考试
+2026-02-26T14:11:14.158Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat 2. **本月内**: 报名证券从业资格证2026年6月考试  
+2026-02-26T14:11:14.158Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat 3. **持续进行**: 结合MBA课程强化雅思，Q3达到7.0目标
+2026-02-26T14:11:14.159Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat 这个日报完全基于实际工作内容，没有衍生理解，非常符合您的要求！
+2026-02-26T14:11:14.159Z [agent:nested] session=agent:main:main run=19db3914-60a4-420b-8976-a4963148c56b channel=webchat 需要我协调具体的考试报名流程吗？
+2026-02-27T03:58:42.797Z [ws] ⇄ res ✓ system-presence 73ms conn=00a4d46f…3e92 id=030cd484…8bf4
+2026-02-27T04:55:36.287Z [ws] ⇄ res ✗ sessions.resolve 1ms errorCode=INVALID_REQUEST errorMessage=No session found: stock conn=29c7f87d…006e id=dfc82318…5100
+2026-02-27T04:55:36.295Z [ws] ⇄ res ✗ sessions.resolve 1ms errorCode=INVALID_REQUEST errorMessage=No session found: stock conn=8963557a…c20f id=21cb0e0b…3ad6
+2026-02-27T04:55:36.302Z [ws] ⇄ res ✗ sessions.resolve 1ms errorCode=INVALID_REQUEST errorMessage=No session found: mcs conn=702672c9…0906 id=caae46be…dd64
+2026-02-27T04:55:36.306Z [ws] ⇄ res ✗ sessions.resolve 0ms errorCode=INVALID_REQUEST errorMessage=No session found: mcs conn=7305e19f…c633 id=ffde03c0…dc88
+2026-02-27T04:55:52.762Z [ws] webchat disconnected code=1001 reason=n/a conn=00a4d46f-c7f7-4c80-b230-db953e853e92
+2026-02-27T04:55:52.896Z [ws] webchat connected conn=d8dee28d-60e4-4cdc-8af0-1473747a73da remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T04:55:52.900Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=d8dee28d…73da id=aaccc071…91cc
+2026-02-27T04:55:57.127Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=d8dee28d…73da id=2a03635b…8a66
+2026-02-27T04:56:10.141Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=d8dee28d…73da id=2c0080b7…96a9
+2026-02-27T04:58:24.238Z [ws] webchat connected conn=0842be8d-ef8a-4b0f-88a6-0fcac314293c remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T04:58:24.268Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=0842be8d…293c id=7c725066…7bce
+2026-02-27T04:58:30.827Z [ws] webchat disconnected code=1001 reason=n/a conn=0842be8d-ef8a-4b0f-88a6-0fcac314293c
+2026-02-27T04:58:38.759Z [ws] webchat disconnected code=1001 reason=n/a conn=d8dee28d-60e4-4cdc-8af0-1473747a73da
+2026-02-27T04:58:38.845Z [ws] webchat connected conn=10864f5a-f2d8-4c49-bdda-c0d05371b55b remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T04:58:38.850Z [ws] ⇄ res ✗ tools.catalog 1ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=10864f5a…b55b id=1debfa4c…da57
+2026-02-27T04:58:41.594Z [ws] webchat disconnected code=1001 reason=n/a conn=10864f5a-f2d8-4c49-bdda-c0d05371b55b
+2026-02-27T04:58:41.669Z [ws] webchat connected conn=7c73f6c1-a0df-43e3-bb46-14afd099f1eb remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T04:58:41.674Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=7c73f6c1…f1eb id=86d624f1…131f
+2026-02-27T04:59:08.381Z [ws] webchat disconnected code=1001 reason=n/a conn=20257833-9090-4ba2-ad9d-95891452eb01
+2026-02-27T04:59:08.445Z [ws] webchat connected conn=62a71f8a-c0bd-40ab-a936-cc46120859f2 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T04:59:08.449Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=62a71f8a…59f2 id=e8bfcd34…e3c0
+2026-02-27T04:59:09.710Z [ws] webchat disconnected code=1001 reason=n/a conn=62a71f8a-c0bd-40ab-a936-cc46120859f2
+2026-02-27T04:59:09.762Z [ws] webchat connected conn=aa6707cb-dc41-40aa-b3cd-5bed3e3ac35f remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T04:59:09.781Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=aa6707cb…c35f id=123fd708…21c5
+2026-02-27T04:59:11.659Z [ws] webchat disconnected code=1001 reason=n/a conn=aaa9086e-3b09-4412-91b8-90196591c55e
+2026-02-27T04:59:12.030Z [ws] webchat connected conn=b3b4c755-c690-4abc-9f64-c2bd10571ff7 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T04:59:12.036Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=b3b4c755…1ff7 id=56eb9b3d…68ca
+2026-02-27T04:59:13.915Z [ws] webchat disconnected code=1001 reason=n/a conn=b3b4c755-c690-4abc-9f64-c2bd10571ff7
+2026-02-27T04:59:21.460Z [ws] webchat disconnected code=1001 reason=n/a conn=aa6707cb-dc41-40aa-b3cd-5bed3e3ac35f
+2026-02-27T04:59:21.507Z [ws] webchat connected conn=dd4f1234-cc09-4b4b-8ccb-57663f4ecc5c remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T04:59:21.512Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=dd4f1234…cc5c id=c43d9027…dc26
+2026-02-27T05:02:06.523Z [ws] webchat disconnected code=1001 reason=n/a conn=7c73f6c1-a0df-43e3-bb46-14afd099f1eb
+2026-02-27T05:02:06.601Z [ws] webchat connected conn=2b8bd3d4-b825-4bfe-9197-8816d422815f remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:02:06.608Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=2b8bd3d4…815f id=b3c6a3f5…8cf9
+2026-02-27T05:02:06.674Z [ws] ⇄ res ✓ chat.history 65ms conn=2b8bd3d4…815f id=cfb66d7a…2458
+2026-02-27T05:02:06.676Z [ws] ⇄ res ✓ node.list 68ms conn=2b8bd3d4…815f id=f72f1449…314b
+2026-02-27T05:02:06.677Z [ws] ⇄ res ✓ device.pair.list 69ms conn=2b8bd3d4…815f id=30cbc1ea…ef2f
+2026-02-27T05:06:36.951Z [ws] webchat disconnected code=1001 reason=n/a conn=2b8bd3d4-b825-4bfe-9197-8816d422815f
+2026-02-27T05:06:37.034Z [ws] webchat connected conn=f918b578-511f-485a-80e1-401edab7d35a remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:06:37.038Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=f918b578…d35a id=747076d4…6a90
+2026-02-27T05:06:53.039Z [ws] webchat disconnected code=1001 reason=n/a conn=f918b578-511f-485a-80e1-401edab7d35a
+2026-02-27T05:06:53.125Z [ws] webchat connected conn=96137bb7-f878-46b2-8834-068a2f0f09fd remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:06:53.130Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=96137bb7…09fd id=50521f97…eb81
+2026-02-27T05:07:00.988Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=96137bb7…09fd id=54649be0…58ab
+2026-02-27T05:07:15.669Z [ws] ⇄ res ✓ skills.status 96ms conn=96137bb7…09fd id=81129110…319e
+2026-02-27T05:07:18.679Z [ws] ⇄ res ✓ skills.status 63ms conn=96137bb7…09fd id=8bc9d3c0…5705
+2026-02-27T05:07:18.945Z [ws] ⇄ res ✓ skills.status 53ms conn=96137bb7…09fd id=d06dbc56…60e6
+2026-02-27T05:07:19.113Z [ws] ⇄ res ✓ skills.status 55ms conn=96137bb7…09fd id=92dd61c9…af37
+2026-02-27T05:07:22.484Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=96137bb7…09fd id=dc92e560…9c93
+2026-02-27T05:07:23.186Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=96137bb7…09fd id=479ec118…ec97
+2026-02-27T05:07:23.206Z [ws] ⇄ res ✗ cron.runs 1ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=96137bb7…09fd id=7c10b9a4…6090
+2026-02-27T05:07:24.771Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=96137bb7…09fd id=5831230d…2582
+2026-02-27T05:07:24.792Z [ws] ⇄ res ✗ cron.runs 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=96137bb7…09fd id=fdcf4b82…e826
+2026-02-27T05:07:29.270Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=96137bb7…09fd id=c4a61aa6…17c9
+2026-02-27T05:07:29.280Z [ws] ⇄ res ✗ cron.runs 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=96137bb7…09fd id=3cd7ffb8…15a0
+2026-02-27T05:07:29.553Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=96137bb7…09fd id=59c003c5…a4e5
+2026-02-27T05:07:29.564Z [ws] ⇄ res ✗ cron.runs 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=96137bb7…09fd id=cbbd45cc…31f4
+2026-02-27T05:07:29.710Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=96137bb7…09fd id=7a572cec…48f5
+2026-02-27T05:07:29.718Z [ws] ⇄ res ✗ cron.runs 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=96137bb7…09fd id=eff55429…5263
+2026-02-27T05:08:05.229Z [ws] ⇄ res ✓ channels.status 120ms conn=96137bb7…09fd id=41d42e6c…fc91
+2026-02-27T05:08:12.625Z [ws] webchat disconnected code=1001 reason=n/a conn=96137bb7-f878-46b2-8834-068a2f0f09fd
+2026-02-27T05:08:12.708Z [ws] webchat connected conn=9117c8a0-0fce-46b5-a084-13168496b9b6 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:08:12.713Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=9117c8a0…b9b6 id=d28237a0…e598
+2026-02-27T05:08:38.514Z [ws] webchat disconnected code=1001 reason=n/a conn=9117c8a0-0fce-46b5-a084-13168496b9b6
+2026-02-27T05:08:38.588Z [ws] webchat connected conn=0ec88512-3d8b-4e1b-902c-2b0571ec47ca remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:08:38.592Z [ws] ⇄ res ✗ tools.catalog 1ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=0ec88512…47ca id=7d48e261…e311
+2026-02-27T05:11:50.822Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=0ec88512…47ca id=f076f546…86dd
+2026-02-27T05:11:50.843Z [ws] ⇄ res ✗ cron.runs 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=0ec88512…47ca id=131f0603…5764
+2026-02-27T05:11:51.824Z [ws] ⇄ res ✓ channels.status 1399ms conn=0ec88512…47ca id=f931cb07…ba1b
+2026-02-27T05:11:51.837Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=0ec88512…47ca id=b984c756…a33b
+2026-02-27T05:11:51.847Z [ws] ⇄ res ✗ cron.runs 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=0ec88512…47ca id=180f08c9…b806
+2026-02-27T05:12:04.374Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=0ec88512…47ca id=66a6b858…957c
+2026-02-27T05:12:04.384Z [ws] ⇄ res ✗ cron.runs 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=0ec88512…47ca id=018fb7c8…f00d
+2026-02-27T05:12:06.031Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=0ec88512…47ca id=4a7fb569…a6b4
+2026-02-27T05:12:06.047Z [ws] ⇄ res ✗ cron.runs 1ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=0ec88512…47ca id=c1eb4601…0db1
+2026-02-27T05:12:13.876Z [ws] ⇄ res ✓ channels.status 3426ms conn=0ec88512…47ca id=1e0c2b3c…f5e2
+2026-02-27T05:12:18.111Z [ws] webchat disconnected code=1001 reason=n/a conn=0ec88512-3d8b-4e1b-902c-2b0571ec47ca
+2026-02-27T05:12:18.184Z [ws] webchat connected conn=77bed359-5167-4f54-bca3-a059514dbf79 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:12:18.189Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=77bed359…bf79 id=b9103922…6265
+2026-02-27T05:12:50.343Z [ws] ⇄ res ✓ channels.status 403ms conn=77bed359…bf79 id=805c2e45…77fc
+2026-02-27T05:13:02.498Z [ws] ⇄ res ✓ channels.status 105ms conn=77bed359…bf79 id=bed76460…fb28
+2026-02-27T05:13:06.556Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=77bed359…bf79 id=32031784…40bd
+2026-02-27T05:13:06.578Z [ws] ⇄ res ✗ cron.runs 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=77bed359…bf79 id=b8f929dd…1334
+2026-02-27T05:13:36.494Z [ws] webchat disconnected code=1001 reason=n/a conn=77bed359-5167-4f54-bca3-a059514dbf79
+2026-02-27T05:13:36.567Z [ws] webchat connected conn=9b756add-aa0d-4789-ad14-afb2a49bc627 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:13:36.570Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=9b756add…c627 id=20b9bd68…cc93
+2026-02-27T05:15:19.856Z [ws] webchat disconnected code=1001 reason=n/a conn=9b756add-aa0d-4789-ad14-afb2a49bc627
+2026-02-27T05:15:19.946Z [ws] webchat connected conn=8e7bd79b-b9d8-48fb-a915-59f18b35df05 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:15:19.962Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=8e7bd79b…df05 id=ce8dc2f5…f783
+2026-02-27T05:16:11.385Z [ws] webchat disconnected code=1001 reason=n/a conn=8e7bd79b-b9d8-48fb-a915-59f18b35df05
+2026-02-27T05:16:11.463Z [ws] webchat connected conn=04702c06-232c-4309-8afc-e0f4ce9e3275 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:16:11.478Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=04702c06…3275 id=7781bfdd…ead1
+2026-02-27T05:16:13.440Z [ws] webchat disconnected code=1001 reason=n/a conn=04702c06-232c-4309-8afc-e0f4ce9e3275
+2026-02-27T05:16:13.512Z [ws] webchat connected conn=6e666966-3725-4b87-88f6-d5152c1a22b0 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:16:13.516Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=6e666966…22b0 id=4e96a87e…f6ba
+2026-02-27T05:16:20.040Z [ws] webchat disconnected code=1001 reason=n/a conn=6e666966-3725-4b87-88f6-d5152c1a22b0
+2026-02-27T05:16:20.129Z [ws] webchat connected conn=bc9005ee-7537-4f46-a420-95607f6d2ba4 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:16:20.133Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=bc9005ee…2ba4 id=f478f5a7…a432
+2026-02-27T05:16:35.794Z [ws] webchat disconnected code=1001 reason=n/a conn=bc9005ee-7537-4f46-a420-95607f6d2ba4
+2026-02-27T05:16:35.875Z [ws] webchat connected conn=731ca1f5-681b-4954-852a-3cbf91a7bbe7 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:16:35.880Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=731ca1f5…bbe7 id=3b85bd39…b3bf
+2026-02-27T05:16:56.075Z [ws] webchat disconnected code=1001 reason=n/a conn=731ca1f5-681b-4954-852a-3cbf91a7bbe7
+2026-02-27T05:16:56.164Z [ws] webchat connected conn=21300c5a-27c8-4bbf-b162-22b477d07375 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:16:56.168Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=21300c5a…7375 id=c0c60aef…3d47
+2026-02-27T05:19:26.540Z [ws] ⇄ res ✓ channels.status 405ms conn=21300c5a…7375 id=06e0fb43…0c8b
+2026-02-27T05:19:28.332Z [ws] ⇄ res ✓ channels.status 115ms conn=21300c5a…7375 id=8f05309e…120d
+2026-02-27T05:19:57.472Z [ws] webchat disconnected code=1001 reason=n/a conn=21300c5a-27c8-4bbf-b162-22b477d07375
+2026-02-27T05:19:57.549Z [ws] webchat connected conn=ee091979-061f-4acc-9564-906a9d1e1d73 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:19:57.554Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=ee091979…1d73 id=fed45d10…6701
+2026-02-27T05:20:01.691Z [ws] webchat disconnected code=1001 reason=n/a conn=dd4f1234-cc09-4b4b-8ccb-57663f4ecc5c
+2026-02-27T05:20:01.748Z [ws] webchat connected conn=f4a6de80-f6db-4817-9ff3-c2fccb4d7ae9 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:20:01.759Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=f4a6de80…7ae9 id=7e54acdb…f61b
+2026-02-27T05:20:10.700Z [ws] webchat disconnected code=1001 reason=n/a conn=ee091979-061f-4acc-9564-906a9d1e1d73
+2026-02-27T05:20:10.771Z [ws] webchat connected conn=097541b5-d2bb-4037-8186-d3828fd8c34f remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:20:10.783Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=097541b5…c34f id=102e2023…2dab
+2026-02-27T05:20:15.799Z [ws] ⇄ res ✓ channels.status 1387ms conn=097541b5…c34f id=5f215094…3673
+2026-02-27T05:26:38.977Z [ws] ⇄ res ✓ channels.status 424ms conn=097541b5…c34f id=941fe14e…6339
+2026-02-27T05:27:39.347Z [ws] webchat disconnected code=1001 reason=n/a conn=097541b5-d2bb-4037-8186-d3828fd8c34f
+2026-02-27T05:27:39.432Z [ws] webchat connected conn=d0e04e10-b98c-4536-b2d0-2cc832d5ecb9 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:27:39.437Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=d0e04e10…ecb9 id=c5ed1072…9c01
+2026-02-27T05:28:18.236Z [ws] ⇄ res ✗ sessions.resolve 1ms errorCode=INVALID_REQUEST errorMessage=No session found: stock conn=f60e8ce2…6c57 id=698f5993…0a75
+2026-02-27T05:28:18.243Z [ws] ⇄ res ✗ sessions.resolve 1ms errorCode=INVALID_REQUEST errorMessage=No session found: stock conn=76640b83…f116 id=55a6a472…b256
+2026-02-27T05:28:18.251Z [ws] ⇄ res ✗ sessions.resolve 0ms errorCode=INVALID_REQUEST errorMessage=No session found: mcs conn=e4dfd11f…d499 id=9446ece5…7bf6
+2026-02-27T05:28:18.256Z [ws] ⇄ res ✗ sessions.resolve 1ms errorCode=INVALID_REQUEST errorMessage=No session found: mcs conn=f8eb364d…c1c4 id=9a712b89…dceb
+2026-02-27T05:29:06.891Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=d0e04e10…ecb9 id=1957ba24…d4a9
+2026-02-27T05:29:06.902Z [ws] ⇄ res ✗ cron.runs 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=d0e04e10…ecb9 id=5a23847f…6ce9
+2026-02-27T05:29:11.941Z [ws] ⇄ res ✓ channels.status 390ms conn=d0e04e10…ecb9 id=d4e4471b…9b15
+2026-02-27T05:29:12.760Z [ws] ⇄ res ✗ cron.list 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=d0e04e10…ecb9 id=872e52b5…0677
+2026-02-27T05:29:12.771Z [ws] ⇄ res ✗ cron.runs 1ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=d0e04e10…ecb9 id=950da164…9c85
+2026-02-27T05:29:15.881Z [ws] webchat disconnected code=1001 reason=n/a conn=d0e04e10-b98c-4536-b2d0-2cc832d5ecb9
+2026-02-27T05:29:15.919Z [ws] ⇄ res ✓ channels.status 431ms conn=d0e04e10…ecb9 id=6605ec42…e73b
+2026-02-27T05:29:15.958Z [ws] webchat connected conn=a85b0ee7-16ec-4257-9ded-b029230c1a2b remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:29:15.960Z [ws] ⇄ res ✗ tools.catalog 0ms errorCode=INVALID_REQUEST errorMessage=unknown method: tools.catalog conn=a85b0ee7…1a2b id=78824787…3d79
+2026-02-27T05:29:16.386Z [ws] ⇄ res ✓ channels.status 424ms conn=a85b0ee7…1a2b id=7756aa07…9630
+2026-02-27T05:29:18.485Z [ws] ⇄ res ✗ cron.list 1ms errorCode=INVALID_REQUEST errorMessage=invalid cron.list params: at root: unexpected property 'limit'; at root: unexpected property 'offset'; at root: unexpected property 'enabled'; at root: unexpected property 'sortBy'; at root: unexpected property 'sortDir' conn=a85b0ee7…1a2b id=217a3284…a8f6
+2026-02-27T05:29:18.510Z [ws] ⇄ res ✗ cron.runs 0ms errorCode=INVALID_REQUEST errorMessage=invalid cron.runs params: must have required property 'id'; at root: unexpected property 'scope'; at root: unexpected property 'offset'; at root: unexpected property 'status'; at root: unexpected property 'sortDir'; must have required prope... conn=a85b0ee7…1a2b id=241656b7…52ba
+2026-02-27T05:31:09.086Z [gateway] signal SIGTERM received
+2026-02-27T05:31:09.089Z [gateway] received SIGTERM; shutting down
+2026-02-27T05:31:09.118Z [gmail-watcher] gmail watcher stopped
+2026-02-27T05:31:09.121Z [ws] webchat disconnected code=1006 reason=n/a conn=a85b0ee7-16ec-4257-9ded-b029230c1a2b
+2026-02-27T05:31:09.121Z [ws] webchat disconnected code=1012 reason=service restart conn=f4a6de80-f6db-4817-9ff3-c2fccb4d7ae9
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-02-27T05:31:45.765Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T05:31:45.817Z [heartbeat] started
+2026-02-27T05:31:45.818Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T05:31:45.820Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T05:31:45.820Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 57193)
+2026-02-27T05:31:45.821Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T05:31:45.841Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T05:31:46.650Z [gateway] update available (latest): v2026.2.26 (current v2026.2.24). Run: openclaw update
+2026-02-27T05:31:48.999Z [ws] ⇄ res ✓ health 3044ms conn=0d8e426a…b14c id=cb3f291c…c148
+2026-02-27T05:31:49.989Z [telegram] [default] starting provider
+2026-02-27T05:31:49.999Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T05:31:50.000Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T05:31:50.002Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T05:31:50.647Z [ws] webchat connected conn=c8d79777-242d-4c58-9227-719b10a7407f remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:31:51.059Z [ws] webchat connected conn=e1b2175a-7447-4a9e-8fb7-af2b7f6d5e85 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:32:11.127Z [gateway] signal SIGTERM received
+2026-02-27T05:32:11.130Z [gateway] received SIGTERM; shutting down
+2026-02-27T05:32:11.154Z [gmail-watcher] gmail watcher stopped
+2026-02-27T05:32:11.158Z [ws] webchat disconnected code=1006 reason=n/a conn=e1b2175a-7447-4a9e-8fb7-af2b7f6d5e85
+2026-02-27T05:32:11.159Z [ws] webchat disconnected code=1012 reason=service restart conn=c8d79777-242d-4c58-9227-719b10a7407f
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-02-27T05:32:12.521Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T05:32:12.555Z [heartbeat] started
+2026-02-27T05:32:12.557Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T05:32:12.558Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T05:32:12.559Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 57240)
+2026-02-27T05:32:12.560Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T05:32:12.576Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T05:32:13.368Z [ws] webchat connected conn=07b44c7a-64f1-41b4-9ea8-96b21c60537c remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:32:13.403Z [ws] webchat connected conn=f43e4af2-9bc8-4cbf-8c6b-12466f412251 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:32:14.281Z [ws] webchat disconnected code=1001 reason=n/a conn=f43e4af2-9bc8-4cbf-8c6b-12466f412251
+2026-02-27T05:32:14.367Z [ws] webchat connected conn=a4a2595e-746e-48b3-977b-c0fa26e2e782 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:32:15.524Z [ws] webchat disconnected code=1001 reason=n/a conn=a4a2595e-746e-48b3-977b-c0fa26e2e782
+2026-02-27T05:32:15.593Z [ws] webchat connected conn=4dcddece-d580-44db-915d-ec207b0121b5 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:32:16.447Z [telegram] [default] starting provider
+2026-02-27T05:32:16.456Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T05:32:16.457Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T05:32:16.459Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T05:32:16.827Z [ws] webchat disconnected code=1001 reason=n/a conn=4dcddece-d580-44db-915d-ec207b0121b5
+2026-02-27T05:32:16.897Z [ws] webchat connected conn=24978e17-7a90-43c6-801e-db874e456242 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:32:25.088Z [ws] ⇄ res ✓ config.get 209ms conn=24978e17…6242 id=69903ba9…2345
+2026-02-27T05:32:28.305Z [ws] ⇄ res ✓ skills.status 67ms conn=24978e17…6242 id=edf47760…c3c1
+2026-02-27T05:34:22.582Z [ws] ⇄ res ✓ channels.status 2916ms conn=24978e17…6242 id=0dc70e0a…257b
+2026-02-27T05:35:21.600Z [ws] ⇄ res ✓ skills.status 51ms conn=24978e17…6242 id=c1aacbfc…7e88
+2026-02-27T05:36:40.138Z [ws] ⇄ res ✓ channels.status 3268ms conn=24978e17…6242 id=d0ac9f2b…e9b6
+2026-02-27T05:39:33.395Z [gateway] update.run completed actor=openclaw-control-ui device=f8302c0ad4bb8c630d528e09f433adc0faecd9c9460342d8f3d11530d92a6f5b ip=unknown-ip conn=24978e17-7a90-43c6-801e-db874e456242 changedPaths=<n/a> restartReason=update.run status=error
+2026-02-27T05:39:33.396Z [ws] ⇄ res ✓ update.run 409534ms conn=24978e17…6242 id=dab62dd9…c993
+2026-02-27T05:41:07.745Z [ws] webchat disconnected code=1001 reason=n/a conn=07b44c7a-64f1-41b4-9ea8-96b21c60537c
+2026-02-27T05:41:07.819Z [ws] webchat connected conn=be6f2a2d-6cc0-4ed8-b5fa-421e986508f6 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:41:15.015Z [ws] webchat disconnected code=1001 reason=n/a conn=be6f2a2d-6cc0-4ed8-b5fa-421e986508f6
+2026-02-27T05:41:15.065Z [ws] webchat connected conn=1b102960-b24f-47e4-a699-4c157e5c725b remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:41:16.739Z [ws] webchat disconnected code=1001 reason=n/a conn=1b102960-b24f-47e4-a699-4c157e5c725b
+2026-02-27T05:41:16.790Z [ws] webchat connected conn=d9d07e97-e9d1-4297-b726-fc9107d12381 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:42:55.179Z [ws] webchat disconnected code=1001 reason=n/a conn=d9d07e97-e9d1-4297-b726-fc9107d12381
+2026-02-27T05:42:55.234Z [ws] webchat connected conn=7df2e397-6d15-4baf-909b-6b45f1d04cba remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:42:59.012Z [gateway] update.run completed actor=openclaw-control-ui device=ff7a96aef849eea92708a1923902008981abc357ecee1a5984880c30d112ca34 ip=unknown-ip conn=7df2e397-6d15-4baf-909b-6b45f1d04cba changedPaths=<n/a> restartReason=update.run status=error
+2026-02-27T05:42:59.014Z [ws] ⇄ res ✓ update.run 75ms conn=7df2e397…4cba id=1feb2a5e…123a
+2026-02-27T05:43:00.093Z [gateway] update.run completed actor=openclaw-control-ui device=ff7a96aef849eea92708a1923902008981abc357ecee1a5984880c30d112ca34 ip=unknown-ip conn=7df2e397-6d15-4baf-909b-6b45f1d04cba changedPaths=<n/a> restartReason=update.run status=error
+2026-02-27T05:43:00.273Z [gateway] update.run completed actor=openclaw-control-ui device=ff7a96aef849eea92708a1923902008981abc357ecee1a5984880c30d112ca34 ip=unknown-ip conn=7df2e397-6d15-4baf-909b-6b45f1d04cba changedPaths=<n/a> restartReason=update.run status=error
+2026-02-27T05:43:00.393Z [ws] ⇄ res ✗ update.run 4ms errorCode=UNAVAILABLE errorMessage=rate limit exceeded for update.run; retry after 59s conn=7df2e397…4cba id=9e85d74e…2bf0
+2026-02-27T05:43:00.546Z [ws] ⇄ res ✗ update.run 3ms errorCode=UNAVAILABLE errorMessage=rate limit exceeded for update.run; retry after 59s conn=7df2e397…4cba id=2574e456…0fe8
+2026-02-27T05:43:00.728Z [ws] ⇄ res ✗ update.run 3ms errorCode=UNAVAILABLE errorMessage=rate limit exceeded for update.run; retry after 59s conn=7df2e397…4cba id=233f2348…ef9c
+2026-02-27T05:43:01.462Z [ws] ⇄ res ✗ update.run 3ms errorCode=UNAVAILABLE errorMessage=rate limit exceeded for update.run; retry after 58s conn=7df2e397…4cba id=e74672f6…7102
+2026-02-27T05:43:01.675Z [ws] ⇄ res ✗ update.run 3ms errorCode=UNAVAILABLE errorMessage=rate limit exceeded for update.run; retry after 58s conn=7df2e397…4cba id=b78ede89…c114
+2026-02-27T05:43:03.040Z [ws] webchat disconnected code=1001 reason=n/a conn=7df2e397-6d15-4baf-909b-6b45f1d04cba
+2026-02-27T05:43:03.091Z [ws] webchat connected conn=d23af16d-6290-4d24-ba3d-3bb414988455 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:43:05.060Z [ws] ⇄ res ✗ update.run 3ms errorCode=UNAVAILABLE errorMessage=rate limit exceeded for update.run; retry after 54s conn=d23af16d…8455 id=8d08a098…bbef
+2026-02-27T05:43:06.760Z [ws] webchat disconnected code=1001 reason=n/a conn=d23af16d-6290-4d24-ba3d-3bb414988455
+2026-02-27T05:43:06.812Z [ws] webchat connected conn=2348c657-d4dd-4719-bbfa-01cb6c999b8b remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:46:50.611Z [reload] config change detected; evaluating reload (meta.lastTouchedVersion, meta.lastTouchedAt, agents.defaults.compaction, session)
+2026-02-27T05:46:50.614Z [reload] config change applied (dynamic reads: meta.lastTouchedVersion, meta.lastTouchedAt, agents.defaults.compaction, session)
+2026-02-27T05:46:56.205Z [reload] config change detected; evaluating reload (meta.lastTouchedAt, wizard.lastRunAt, wizard.lastRunVersion)
+2026-02-27T05:46:56.207Z [reload] config change applied (dynamic reads: meta.lastTouchedAt, wizard.lastRunAt, wizard.lastRunVersion)
+2026-02-27T05:47:02.155Z [gateway] signal SIGTERM received
+2026-02-27T05:47:02.159Z [gateway] received SIGTERM; shutting down
+2026-02-27T05:47:02.169Z [gmail-watcher] gmail watcher stopped
+2026-02-27T05:47:02.193Z [ws] webchat disconnected code=1006 reason=n/a conn=24978e17-7a90-43c6-801e-db874e456242
+2026-02-27T05:47:02.194Z [ws] webchat disconnected code=1012 reason=service restart conn=2348c657-d4dd-4719-bbfa-01cb6c999b8b
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-02-27T05:48:04.134Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T05:48:04.175Z [heartbeat] started
+2026-02-27T05:48:04.177Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T05:48:04.178Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T05:48:04.179Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 58531)
+2026-02-27T05:48:04.180Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T05:48:04.198Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T05:48:05.475Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T05:48:05.484Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T05:48:05.487Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T05:48:05.489Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T05:48:06.442Z [ws] ⇄ res ✓ health 1884ms conn=f320e88e…7108 id=fc841a11…ed95
+2026-02-27T05:48:13.756Z [ws] webchat connected conn=e09ce79a-d115-4ef6-a02e-b08c1449fc33 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:48:15.142Z [ws] webchat connected conn=fef55ca1-daab-44bc-9bc5-7177247276ab remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:48:27.518Z [ws] webchat connected conn=d710e6ef-3a91-44e3-9029-32fe3cdeaa06 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:48:47.636Z [ws] ⇄ res ✓ channels.status 2846ms conn=4d6deaee…91ac id=66a25fbc…fc13
+2026-02-27T05:49:13.289Z [ws] ⇄ res ✓ config.get 273ms conn=d710e6ef…aa06 id=12b1b00a…56bd
+2026-02-27T05:49:18.376Z [ws] ⇄ res ✓ channels.status 2897ms conn=d710e6ef…aa06 id=496489ba…ae28
+2026-02-27T05:49:26.488Z [ws] ⇄ res ✓ channels.status 2294ms conn=d710e6ef…aa06 id=70524260…38e1
+2026-02-27T05:54:48.094Z [gateway] signal SIGTERM received
+2026-02-27T05:54:48.094Z [gateway] received SIGTERM; shutting down
+2026-02-27T05:54:48.106Z [gmail-watcher] gmail watcher stopped
+2026-02-27T05:54:48.107Z [ws] webchat disconnected code=1006 reason=n/a conn=fef55ca1-daab-44bc-9bc5-7177247276ab
+2026-02-27T05:54:48.114Z [ws] webchat disconnected code=1012 reason=service restart conn=d710e6ef-3a91-44e3-9029-32fe3cdeaa06
+2026-02-27T05:54:48.115Z [ws] webchat disconnected code=1012 reason=service restart conn=e09ce79a-d115-4ef6-a02e-b08c1449fc33
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-02-27T05:55:50.122Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T05:55:50.161Z [heartbeat] started
+2026-02-27T05:55:50.162Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T05:55:50.164Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T05:55:50.164Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 58712)
+2026-02-27T05:55:50.165Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T05:55:50.183Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T05:55:51.539Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T05:55:51.549Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T05:55:51.552Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T05:55:51.553Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T05:55:57.267Z [ws] webchat connected conn=b041900f-ef01-438f-b111-7fb8391e6d96 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:56:05.831Z [ws] webchat connected conn=63235f7b-1c41-4290-98a2-913f6effdc4a remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:56:34.845Z [ws] ⇄ res ✓ config.get 257ms conn=b041900f…6d96 id=4c803850…f2bc
+2026-02-27T05:56:50.997Z [ws] ⇄ res ✓ channels.status 2990ms conn=b041900f…6d96 id=1d0c6b89…1e05
+2026-02-27T05:56:58.554Z [ws] webchat disconnected code=1001 reason=n/a conn=b041900f-ef01-438f-b111-7fb8391e6d96
+2026-02-27T05:56:58.617Z [ws] webchat connected conn=ade6c611-20f8-4ac4-aa8f-5aef8dd582be remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:57:20.477Z [gateway] signal SIGTERM received
+2026-02-27T05:57:20.478Z [gateway] received SIGTERM; shutting down
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-02-27T05:58:27.522Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T05:58:27.560Z [heartbeat] started
+2026-02-27T05:58:27.562Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T05:58:27.563Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T05:58:27.564Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 58839)
+2026-02-27T05:58:27.564Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T05:58:27.582Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T05:58:29.522Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T05:58:29.530Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T05:58:29.532Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T05:58:29.534Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T05:58:37.042Z [ws] webchat connected conn=5430ff4e-7bb0-4200-bdcc-9c811c0e71e0 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:58:37.114Z [ws] ⇄ res ✓ node.list 62ms conn=5430ff4e…71e0 id=d50a4134…8181
+2026-02-27T05:58:37.115Z [ws] ⇄ res ✓ device.pair.list 63ms conn=5430ff4e…71e0 id=534f39b0…b0d4
+2026-02-27T05:58:37.132Z [ws] ⇄ res ✓ chat.history 81ms conn=5430ff4e…71e0 id=06e7098e…8f79
+2026-02-27T05:58:42.833Z [ws] webchat connected conn=f0131c36-ef6b-46df-bd87-aaa28fe95b45 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:59:15.809Z [ws] webchat disconnected code=1001 reason=n/a conn=5430ff4e-7bb0-4200-bdcc-9c811c0e71e0
+2026-02-27T05:59:15.869Z [ws] webchat connected conn=7011d587-be14-4660-9ab5-989fcb0f7687 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:59:16.384Z [ws] webchat disconnected code=1001 reason=n/a conn=7011d587-be14-4660-9ab5-989fcb0f7687
+2026-02-27T05:59:16.432Z [ws] webchat connected conn=88515d71-1081-4d3e-aec7-42c593afb86c remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:59:16.534Z [ws] webchat disconnected code=1001 reason=n/a conn=88515d71-1081-4d3e-aec7-42c593afb86c
+2026-02-27T05:59:16.576Z [ws] webchat connected conn=ab5e787e-c8c8-4d54-9264-d5ca50b4dd43 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T05:59:19.775Z [ws] ⇄ res ✓ config.schema 260ms conn=ab5e787e…dd43 id=39ac46f7…1bbe
+2026-02-27T05:59:22.662Z [ws] ⇄ res ✓ channels.status 3148ms conn=ab5e787e…dd43 id=10986443…28c9
+2026-02-27T06:00:55.855Z [ws] ⇄ res ✓ channels.status 3225ms conn=ab5e787e…dd43 id=8b4b776b…ae1d
+2026-02-27T06:01:45.500Z [ws] ⇄ res ✓ channels.status 3245ms conn=ab5e787e…dd43 id=ee40f11b…625b
+2026-02-27T06:03:59.164Z [ws] webchat disconnected code=1001 reason=n/a conn=ab5e787e-c8c8-4d54-9264-d5ca50b4dd43
+2026-02-27T06:03:59.228Z [ws] webchat connected conn=48ac2fb1-aa05-4e3a-9790-c8019a711397 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T06:04:00.052Z [ws] ⇄ res ✓ channels.status 3922ms conn=ab5e787e…dd43 id=582001ae…b6de
+2026-02-27T06:04:01.781Z [ws] ⇄ res ✓ channels.status 2546ms conn=48ac2fb1…1397 id=2428ac9a…13b7
+2026-02-27T06:04:07.254Z [ws] ⇄ res ✓ channels.status 2292ms conn=48ac2fb1…1397 id=41507edb…797a
+2026-02-27T06:04:13.248Z [ws] ⇄ res ✓ channels.status 3027ms conn=48ac2fb1…1397 id=6df457ec…4793
+2026-02-27T06:10:31.182Z [ws] webchat connected conn=d0cee7f8-74b7-41d6-8e21-895bb9f1e485 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T06:10:43.285Z [ws] ⇄ res ✓ channels.status 3611ms conn=d0cee7f8…e485 id=874dfac5…945e
+2026-02-27T06:12:00.724Z [gateway] signal SIGTERM received
+2026-02-27T06:12:00.728Z [gateway] received SIGTERM; shutting down
+2026-02-27T06:12:00.758Z [gmail-watcher] gmail watcher stopped
+2026-02-27T06:12:00.760Z [ws] webchat disconnected code=1006 reason=n/a conn=d0cee7f8-74b7-41d6-8e21-895bb9f1e485
+2026-02-27T06:12:00.761Z [ws] webchat disconnected code=1012 reason=service restart conn=48ac2fb1-aa05-4e3a-9790-c8019a711397
+2026-02-27T06:12:00.763Z [ws] webchat disconnected code=1012 reason=service restart conn=f0131c36-ef6b-46df-bd87-aaa28fe95b45
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-02-27T06:13:02.755Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T06:13:02.795Z [heartbeat] started
+2026-02-27T06:13:02.797Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T06:13:02.798Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T06:13:02.798Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 59277)
+2026-02-27T06:13:02.799Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T06:13:02.818Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T06:13:03.971Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T06:13:03.982Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T06:13:03.984Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T06:13:03.985Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T06:13:06.386Z [ws] webchat connected conn=89094453-3c80-4a9e-8f82-b9f763bb526e remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T06:13:06.794Z [ws] ⇄ res ✓ config.schema 383ms conn=89094453…526e id=8e2a8bc1…8e94
+2026-02-27T06:13:06.815Z [ws] ⇄ res ✓ device.pair.list 407ms conn=89094453…526e id=0efbaa3c…bb6f
+2026-02-27T06:13:06.816Z [ws] ⇄ res ✓ node.list 420ms conn=89094453…526e id=1052007b…7e6b
+2026-02-27T06:13:09.934Z [ws] ⇄ res ✓ channels.status 3523ms conn=89094453…526e id=6809c1c1…de08
+2026-02-27T06:13:12.307Z [ws] webchat connected conn=337a3cc7-651b-415a-ba96-71257d158d48 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T06:13:17.835Z [ws] webchat connected conn=728c6e0f-4f27-4f41-b551-fa7534342e81 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T06:13:19.161Z [ws] ⇄ res ✓ channels.status 2949ms conn=89094453…526e id=b96fa927…36c8
+2026-02-27T06:13:43.867Z [ws] ⇄ res ✓ channels.status 3912ms conn=ab9f22c0…e602 id=a22c245f…05e4
+2026-02-27T06:16:02.688Z [reload] config change detected; evaluating reload (meta.lastTouchedAt, agents.defaults.compaction, channels.telegram.allowFrom)
+2026-02-27T06:16:02.692Z [gateway/channels] restarting telegram channel
+2026-02-27T06:16:02.695Z [reload] config hot reload applied (channels.telegram.allowFrom)
+2026-02-27T06:16:05.844Z [telegram] [default] starting provider
+2026-02-27T06:16:13.463Z [gateway] signal SIGTERM received
+2026-02-27T06:16:13.463Z [gateway] received SIGTERM; shutting down
+2026-02-27T06:16:13.474Z [gmail-watcher] gmail watcher stopped
+2026-02-27T06:16:13.475Z [ws] webchat disconnected code=1012 reason=service restart conn=337a3cc7-651b-415a-ba96-71257d158d48
+2026-02-27T06:16:13.476Z [ws] webchat disconnected code=1006 reason=n/a conn=89094453-3c80-4a9e-8f82-b9f763bb526e
+2026-02-27T06:16:13.476Z [ws] webchat disconnected code=1012 reason=service restart conn=728c6e0f-4f27-4f41-b551-fa7534342e81
+2026-02-27T06:18:17.449Z [gateway] signal SIGTERM received
+2026-02-27T06:18:17.449Z [gateway] received SIGTERM; shutting down
+2026-02-27T06:18:17.451Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T06:19:19.841Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T06:19:19.884Z [heartbeat] started
+2026-02-27T06:19:19.885Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T06:19:19.887Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T06:19:19.887Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 60334)
+2026-02-27T06:19:19.888Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T06:19:19.906Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T06:19:21.665Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T06:19:21.679Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T06:19:21.681Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T06:19:21.683Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T06:19:23.635Z [ws] webchat connected conn=ace81c21-d60f-40dd-b4c0-d4d0342f63b7 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T06:19:24.213Z [ws] ⇄ res ✓ config.schema 566ms conn=ace81c21…63b7 id=929409cf…3a9f
+2026-02-27T06:19:24.231Z [ws] ⇄ res ✓ node.list 586ms conn=ace81c21…63b7 id=802240d6…4f4b
+2026-02-27T06:19:24.232Z [ws] ⇄ res ✓ device.pair.list 587ms conn=ace81c21…63b7 id=2792a9cc…d05c
+2026-02-27T06:19:27.383Z [ws] ⇄ res ✓ channels.status 3737ms conn=ace81c21…63b7 id=30dc921b…fb90
+2026-02-27T06:19:30.959Z [ws] ⇄ res ✓ channels.status 2988ms conn=ace81c21…63b7 id=e8ed7341…49d4
+2026-02-27T06:19:39.897Z [ws] ⇄ res ✓ channels.status 5208ms conn=ace81c21…63b7 id=4df7bf8b…15d0
+2026-02-27T06:19:43.799Z [ws] ⇄ res ✓ channels.status 3180ms conn=ace81c21…63b7 id=3a60c2c0…8da6
+2026-02-27T06:19:52.091Z [ws] ⇄ res ✓ channels.status 2955ms conn=ace81c21…63b7 id=86584403…f409
+2026-02-27T06:20:12.183Z [ws] ⇄ res ✓ channels.status 5353ms conn=ace81c21…63b7 id=bf765f90…e533
+2026-02-27T06:20:53.918Z [ws] ⇄ res ✓ channels.status 2612ms conn=ace81c21…63b7 id=4f389fdf…5a90
+2026-02-27T06:21:23.918Z [ws] ⇄ res ✓ skills.status 68ms conn=ace81c21…63b7 id=50aead3f…faa0
+2026-02-27T06:21:31.339Z [ws] ⇄ res ✓ channels.status 4802ms conn=ace81c21…63b7 id=f8ba25cd…1e3e
+2026-02-27T07:25:34.403Z [ws] ⇄ res ✓ node.list 71ms conn=ace81c21…63b7 id=9cdcc51c…7c7a
+2026-02-27T07:25:41.434Z [ws] ⇄ res ✓ config.get 52ms conn=ace81c21…63b7 id=74dbe4b9…a18a
+2026-02-27T07:25:52.129Z [ws] ⇄ res ✓ channels.status 5227ms conn=ace81c21…63b7 id=e84d284a…12f4
+2026-02-27T07:27:37.014Z [ws] ⇄ res ✓ channels.status 5328ms conn=ace81c21…63b7 id=61efc324…fb01
+2026-02-27T07:27:42.578Z [ws] ⇄ res ✓ channels.status 4031ms conn=ace81c21…63b7 id=feaf3c9e…9199
+2026-02-27T07:28:51.012Z [ws] webchat disconnected code=1001 reason=n/a conn=ace81c21-d60f-40dd-b4c0-d4d0342f63b7
+2026-02-27T07:28:51.081Z [ws] webchat connected conn=4ee5b2a5-5a6c-4db7-952e-5561ca9d6680 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T07:29:03.255Z [gateway] signal SIGTERM received
+2026-02-27T07:29:03.258Z [gateway] received SIGTERM; shutting down
+2026-02-27T07:30:10.298Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T07:30:10.340Z [heartbeat] started
+2026-02-27T07:30:10.341Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T07:30:10.343Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T07:30:10.343Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 61216)
+2026-02-27T07:30:10.344Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T07:30:10.362Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T07:30:11.807Z [ws] webchat connected conn=a6a1c680-355d-4e4e-84e4-0f55b837aa17 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T07:30:12.167Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T07:30:12.174Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T07:30:12.176Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T07:30:12.177Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T07:30:23.181Z [ws] ⇄ res ✓ config.get 255ms conn=a6a1c680…aa17 id=14980ef2…9dc1
+2026-02-27T07:30:39.362Z [ws] ⇄ res ✓ channels.status 5073ms conn=a6a1c680…aa17 id=632bb6f0…c774
+2026-02-27T07:30:48.680Z [ws] ⇄ res ✓ channels.status 9081ms conn=a6a1c680…aa17 id=740873be…52b4
+2026-02-27T07:32:06.960Z [ws] ⇄ res ✓ channels.status 5223ms conn=a6a1c680…aa17 id=ce1b8d01…f555
+2026-02-27T07:41:02.343Z [ws] ⇄ res ✓ channels.status 3019ms conn=a6a1c680…aa17 id=ed9e3ed2…d251
+2026-02-27T07:41:08.806Z [ws] ⇄ res ✓ channels.status 3060ms conn=a6a1c680…aa17 id=9385e672…348a
+2026-02-27T07:41:24.964Z [ws] ⇄ res ✓ channels.status 2849ms conn=a6a1c680…aa17 id=283a3461…1097
+2026-02-27T07:41:38.304Z [ws] ⇄ res ✓ skills.status 69ms conn=a6a1c680…aa17 id=e3c41e77…5795
+2026-02-27T07:42:00.111Z [ws] ⇄ res ✓ channels.status 4109ms conn=a6a1c680…aa17 id=459803ed…db42
+2026-02-27T08:06:54.519Z [ws] ⇄ res ✓ channels.status 4042ms conn=a6a1c680…aa17 id=c89c4edd…b8b3
+2026-02-27T08:07:39.361Z [ws] ⇄ res ✓ config.set 57ms conn=a6a1c680…aa17 id=560fce29…3106
+2026-02-27T08:07:39.895Z [reload] config change detected; evaluating reload (meta.lastTouchedAt, agents.defaults.compaction)
+2026-02-27T08:07:39.901Z [reload] config change applied (dynamic reads: meta.lastTouchedAt, agents.defaults.compaction)
+2026-02-27T08:07:42.172Z [ws] ⇄ res ✓ channels.status 2709ms conn=a6a1c680…aa17 id=08775a72…2d5e
+2026-02-27T08:08:08.807Z [ws] ⇄ res ✓ config.set 51ms conn=a6a1c680…aa17 id=a375584c…1ec3
+2026-02-27T08:08:09.342Z [reload] config change detected; evaluating reload (meta.lastTouchedAt)
+2026-02-27T08:08:09.346Z [reload] config change applied (dynamic reads: meta.lastTouchedAt)
+2026-02-27T08:08:12.493Z [ws] ⇄ res ✓ channels.status 3572ms conn=a6a1c680…aa17 id=08c261ea…612e
+2026-02-27T08:08:16.593Z [ws] ⇄ res ✓ channels.status 4003ms conn=a6a1c680…aa17 id=33e2c814…4d77
+2026-02-27T08:08:35.230Z [ws] webchat disconnected code=1001 reason=n/a conn=a6a1c680-355d-4e4e-84e4-0f55b837aa17
+2026-02-27T08:08:35.306Z [ws] webchat connected conn=a5de04f9-6f84-4a4c-aa9a-c5d35545dde0 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:08:42.084Z [ws] webchat disconnected code=1001 reason=n/a conn=a5de04f9-6f84-4a4c-aa9a-c5d35545dde0
+2026-02-27T08:08:42.162Z [ws] webchat connected conn=fcd43c78-3552-400d-bf09-6e75bc6b52f6 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:08:42.822Z [ws] ⇄ res ✓ skills.status 61ms conn=fcd43c78…52f6 id=adfdcb8b…7ffb
+2026-02-27T08:08:56.051Z [ws] ⇄ res ✓ channels.status 3093ms conn=fcd43c78…52f6 id=413eddc8…b91b
+2026-02-27T08:09:14.641Z [ws] webchat disconnected code=1005 reason=n/a conn=fcd43c78-3552-400d-bf09-6e75bc6b52f6
+2026-02-27T08:09:14.662Z [ws] webchat connected conn=e5d6594f-055f-4e94-bdd0-ab8dfbbc041b remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:09:15.496Z [ws] webchat disconnected code=1005 reason=n/a conn=e5d6594f-055f-4e94-bdd0-ab8dfbbc041b
+2026-02-27T08:09:15.505Z [ws] webchat connected conn=f474d470-6ba6-42cc-b2d0-ab59be3436f2 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:09:16.024Z [ws] webchat disconnected code=1005 reason=n/a conn=f474d470-6ba6-42cc-b2d0-ab59be3436f2
+2026-02-27T08:09:16.038Z [ws] webchat connected conn=20c89d8e-6d0d-4e64-96fd-6861bcaa4c82 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:09:16.204Z [ws] webchat disconnected code=1005 reason=n/a conn=20c89d8e-6d0d-4e64-96fd-6861bcaa4c82
+2026-02-27T08:09:16.212Z [ws] webchat connected conn=07cbf6f1-4583-4688-8680-2891fb435665 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:09:16.387Z [ws] webchat disconnected code=1005 reason=n/a conn=07cbf6f1-4583-4688-8680-2891fb435665
+2026-02-27T08:09:16.395Z [ws] webchat connected conn=eb1ee0d9-2fec-408d-8678-a0a03a647107 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:09:21.235Z [ws] ⇄ res ✓ channels.status 2750ms conn=eb1ee0d9…7107 id=71a6b574…8949
+2026-02-27T08:15:23.574Z [gateway] signal SIGTERM received
+2026-02-27T08:15:23.575Z [gateway] received SIGTERM; shutting down
+2026-02-27T08:16:30.617Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T08:16:30.658Z [heartbeat] started
+2026-02-27T08:16:30.659Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T08:16:30.661Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T08:16:30.661Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 61912)
+2026-02-27T08:16:30.662Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T08:16:30.680Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T08:16:32.398Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T08:16:32.408Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T08:16:32.410Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T08:16:32.412Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T08:16:40.713Z [ws] webchat connected conn=74798308-fa4f-48f9-855c-e86335427506 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:18:26.588Z [ws] webchat disconnected code=1001 reason=n/a conn=74798308-fa4f-48f9-855c-e86335427506
+2026-02-27T08:18:26.665Z [ws] webchat connected conn=44809f38-d8b5-42d0-a86e-6c6a3cda437d remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:18:31.800Z [ws] webchat disconnected code=1001 reason=n/a conn=44809f38-d8b5-42d0-a86e-6c6a3cda437d
+2026-02-27T08:18:31.867Z [ws] webchat connected conn=03df8c75-fcef-4ff3-8503-71f7450fe02e remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:19:50.204Z [gateway] signal SIGTERM received
+2026-02-27T08:19:50.207Z [gateway] received SIGTERM; shutting down
+2026-02-27T08:19:50.242Z [gmail-watcher] gmail watcher stopped
+2026-02-27T08:19:50.245Z [ws] webchat disconnected code=1006 reason=n/a conn=03df8c75-fcef-4ff3-8503-71f7450fe02e
+2026-02-27T08:20:52.195Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T08:20:52.239Z [heartbeat] started
+2026-02-27T08:20:52.241Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T08:20:52.242Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T08:20:52.242Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 62041)
+2026-02-27T08:20:52.243Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T08:20:52.263Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T08:20:54.063Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T08:20:54.074Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T08:20:54.077Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T08:20:54.079Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T08:21:02.377Z [ws] webchat connected conn=c1bdac0c-101f-4423-b919-32dafdb1adf8 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:24:10.343Z [gateway] signal SIGTERM received
+2026-02-27T08:24:10.344Z [gateway] received SIGTERM; shutting down
+2026-02-27T08:24:10.354Z [gmail-watcher] gmail watcher stopped
+2026-02-27T08:24:10.357Z [ws] webchat disconnected code=1006 reason=n/a conn=c1bdac0c-101f-4423-b919-32dafdb1adf8
+2026-02-27T08:25:12.409Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T08:25:12.447Z [heartbeat] started
+2026-02-27T08:25:12.449Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T08:25:12.450Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T08:25:12.451Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 62174)
+2026-02-27T08:25:12.452Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T08:25:12.470Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T08:25:12.727Z [ws] webchat connected conn=c18fc1b6-ef65-49f8-9b18-7bcc38504abc remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:25:12.846Z [ws] webchat disconnected code=1001 reason=n/a conn=c18fc1b6-ef65-49f8-9b18-7bcc38504abc
+2026-02-27T08:25:12.889Z [ws] webchat connected conn=da1c2d09-d235-41fb-b921-1130787aa27c remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:25:12.987Z [ws] webchat disconnected code=1001 reason=n/a conn=da1c2d09-d235-41fb-b921-1130787aa27c
+2026-02-27T08:25:13.030Z [ws] webchat connected conn=db7d256a-1efa-4b65-8c0c-ecb39ac4d767 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:25:14.212Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T08:25:14.221Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T08:25:14.223Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T08:25:14.225Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T08:25:17.990Z [ws] webchat disconnected code=1001 reason=n/a conn=db7d256a-1efa-4b65-8c0c-ecb39ac4d767
+2026-02-27T08:25:18.040Z [ws] webchat connected conn=d18c77da-ed21-4e7c-8dbd-0a69bfb8b07b remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:25:42.787Z [ws] webchat disconnected code=1001 reason=n/a conn=d18c77da-ed21-4e7c-8dbd-0a69bfb8b07b
+2026-02-27T08:25:42.842Z [ws] webchat connected conn=b1c58985-9bdb-420c-be3d-3124a4bcaec5 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:25:43.559Z [ws] webchat disconnected code=1001 reason=n/a conn=b1c58985-9bdb-420c-be3d-3124a4bcaec5
+2026-02-27T08:25:43.612Z [ws] webchat connected conn=a2de1e87-316b-4b9f-89a9-7d113d55fbfd remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:26:04.937Z [ws] webchat disconnected code=1001 reason=n/a conn=a2de1e87-316b-4b9f-89a9-7d113d55fbfd
+2026-02-27T08:26:04.988Z [ws] webchat connected conn=ca0f5a07-64b7-4620-b11c-761e2886bf84 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:26:52.545Z [ws] ⇄ res ✓ config.schema 253ms conn=ca0f5a07…bf84 id=cd3d2bcb…a3d4
+2026-02-27T08:26:55.327Z [ws] ⇄ res ✓ channels.status 3038ms conn=ca0f5a07…bf84 id=abc33b2f…dda8
+2026-02-27T08:29:10.936Z [ws] webchat disconnected code=1001 reason=n/a conn=ca0f5a07-64b7-4620-b11c-761e2886bf84
+2026-02-27T08:29:10.984Z [ws] webchat connected conn=d604e7b9-5cb7-46f3-b372-e44298fcefa8 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:35:36.801Z [ws] webchat disconnected code=1001 reason=n/a conn=d604e7b9-5cb7-46f3-b372-e44298fcefa8
+2026-02-27T08:35:36.878Z [ws] webchat connected conn=35974c5f-3c78-4290-a28a-8e2cc2a92c9f remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:37:30.531Z [ws] ⇄ res ✓ channels.status 3214ms conn=35974c5f…2c9f id=570c1e62…782d
+2026-02-27T08:37:40.545Z [ws] ⇄ res ✓ channels.status 3195ms conn=35974c5f…2c9f id=b9b76306…4997
+2026-02-27T08:37:53.078Z [reload] config change detected; evaluating reload (meta.lastTouchedAt, agents.defaults.compaction)
+2026-02-27T08:37:53.082Z [reload] config change applied (dynamic reads: meta.lastTouchedAt, agents.defaults.compaction)
+2026-02-27T08:38:49.256Z [gateway] signal SIGTERM received
+2026-02-27T08:38:49.257Z [gateway] received SIGTERM; shutting down
+2026-02-27T08:38:49.269Z [gmail-watcher] gmail watcher stopped
+2026-02-27T08:38:49.271Z [ws] webchat disconnected code=1006 reason=n/a conn=35974c5f-3c78-4290-a28a-8e2cc2a92c9f
+2026-02-27T08:39:51.291Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T08:39:51.332Z [heartbeat] started
+2026-02-27T08:39:51.334Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T08:39:51.335Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T08:39:51.336Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 62452)
+2026-02-27T08:39:51.337Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T08:39:51.356Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T08:39:52.559Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T08:39:52.570Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T08:39:52.574Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T08:39:52.576Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T08:40:01.331Z [ws] webchat connected conn=3dc563ac-f6b7-47b6-ba46-ff9e9025267e remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:40:01.394Z [ws] ⇄ res ✓ chat.history 50ms conn=3dc563ac…267e id=6dc53023…4d09
+2026-02-27T08:42:06.947Z [ws] webchat disconnected code=1001 reason=n/a conn=3dc563ac-f6b7-47b6-ba46-ff9e9025267e
+2026-02-27T08:42:06.995Z [ws] webchat connected conn=14787c9f-799d-4a82-937c-238ede853024 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:44:41.712Z [ws] ⇄ res ✓ config.schema 247ms conn=14787c9f…3024 id=7e7bd297…5208
+2026-02-27T08:44:44.721Z [ws] ⇄ res ✓ channels.status 3254ms conn=14787c9f…3024 id=8fe47fff…5b0d
+2026-02-27T08:48:19.677Z [ws] webchat disconnected code=1001 reason=n/a conn=14787c9f-799d-4a82-937c-238ede853024
+2026-02-27T08:48:19.727Z [ws] webchat connected conn=dc5f17e9-2843-4cb1-a6be-f62c5bfca8b4 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:48:27.089Z [ws] ⇄ res ✓ channels.status 3249ms conn=dc5f17e9…a8b4 id=04647525…a09f
+2026-02-27T08:48:44.729Z [ws] ⇄ res ✓ channels.status 4287ms conn=dc5f17e9…a8b4 id=1a629920…6750
+2026-02-27T08:48:51.756Z [ws] ⇄ res ✓ channels.status 3223ms conn=dc5f17e9…a8b4 id=d04a27b6…585f
+2026-02-27T08:49:03.352Z [ws] webchat disconnected code=1001 reason=n/a conn=dc5f17e9-2843-4cb1-a6be-f62c5bfca8b4
+2026-02-27T08:49:03.409Z [ws] webchat connected conn=f908cffe-ed0b-4438-a835-3e1e02b096d6 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:51:03.232Z [reload] config change detected; evaluating reload (meta.lastTouchedAt, agents.defaults.compaction, channels.telegram.dmPolicy)
+2026-02-27T08:51:03.237Z [gateway/channels] restarting telegram channel
+2026-02-27T08:51:34.918Z [gateway] signal SIGTERM received
+2026-02-27T08:51:34.919Z [gateway] received SIGTERM; shutting down
+2026-02-27T08:52:41.973Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T08:52:42.014Z [heartbeat] started
+2026-02-27T08:52:42.016Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T08:52:42.017Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T08:52:42.018Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 62667)
+2026-02-27T08:52:42.020Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T08:52:42.038Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T08:52:43.934Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T08:52:43.946Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T08:52:43.949Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T08:52:43.952Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T08:52:51.984Z [ws] webchat connected conn=873611a2-b2b5-4d78-97e2-6b44a854fed0 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:54:58.475Z [ws] webchat disconnected code=1001 reason=n/a conn=873611a2-b2b5-4d78-97e2-6b44a854fed0
+2026-02-27T08:54:58.519Z [ws] webchat connected conn=74508051-042a-47d6-b328-146e5c691d66 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T08:55:40.604Z [ws] ⇄ res ✓ config.schema 325ms conn=74508051…1d66 id=51384db7…818d
+2026-02-27T08:55:43.566Z [ws] ⇄ res ✓ channels.status 3291ms conn=74508051…1d66 id=ae7a250d…4204
+2026-02-27T09:43:04.261Z [ws] ⇄ res ✓ skills.status 72ms conn=74508051…1d66 id=434e61cb…06db
+2026-02-27T09:43:04.839Z [ws] ⇄ res ✓ channels.status 3663ms conn=74508051…1d66 id=b2b99fbb…ba9a
+2026-02-27T09:43:06.050Z [ws] ⇄ res ✓ skills.status 50ms conn=74508051…1d66 id=6a6324f4…908b
+2026-02-27T09:43:08.377Z [gateway] signal SIGTERM received
+2026-02-27T09:43:08.378Z [gateway] received SIGTERM; shutting down
+2026-02-27T09:43:09.552Z [ws] ⇄ res ✓ channels.status 2741ms conn=74508051…1d66 id=5defcd69…621f
+2026-02-27T09:44:15.461Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T09:44:15.503Z [heartbeat] started
+2026-02-27T09:44:15.505Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T09:44:15.507Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T09:44:15.507Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 63292)
+2026-02-27T09:44:15.509Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T09:44:15.527Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T09:44:16.703Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T09:44:16.714Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T09:44:16.717Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T09:44:16.720Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T09:44:25.400Z [ws] webchat connected conn=174859db-a43d-4542-bb31-dbd872497bca remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T09:52:06.965Z [gateway] signal SIGTERM received
+2026-02-27T09:52:06.966Z [gateway] received SIGTERM; shutting down
+2026-02-27T09:52:06.993Z [gmail-watcher] gmail watcher stopped
+2026-02-27T09:52:06.996Z [ws] webchat disconnected code=1006 reason=n/a conn=174859db-a43d-4542-bb31-dbd872497bca
+2026-02-27T09:52:08.727Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T09:52:08.764Z [heartbeat] started
+2026-02-27T09:52:08.766Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T09:52:08.767Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T09:52:08.768Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 63461)
+2026-02-27T09:52:08.769Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T09:52:08.786Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T09:52:09.208Z [ws] webchat connected conn=ddcc05f5-9ba4-4d3a-b6f3-5a726f526703 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T09:52:10.518Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T09:52:10.526Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T09:52:10.528Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T09:52:10.529Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T10:38:03.268Z [ws] webchat disconnected code=1001 reason=n/a conn=ddcc05f5-9ba4-4d3a-b6f3-5a726f526703
+2026-02-27T10:38:03.330Z [ws] webchat connected conn=33a03bde-ed01-4ac4-b457-b2481336678e remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T10:38:51.488Z [ws] webchat disconnected code=1001 reason=n/a conn=33a03bde-ed01-4ac4-b457-b2481336678e
+2026-02-27T10:38:51.544Z [ws] webchat connected conn=31900f02-1737-46d7-b220-2bf30c02ab6f remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T10:39:52.195Z [gateway] signal SIGTERM received
+2026-02-27T10:39:52.196Z [gateway] received SIGTERM; shutting down
+│
+◇  Config ───────────────────────────────────────────────────╮
+│                                                            │
+│  Config invalid; doctor will run with best-effort config.  │
+│                                                            │
+├────────────────────────────────────────────────────────────╯
+│
+◇  Unknown config keys ───────────────╮
+│                                     │
+│  - models.providers.bailian.proxy   │
+│  - models.providers.moonshot.proxy  │
+│                                     │
+├─────────────────────────────────────╯
+│
+◇  Doctor ────────────────────────────────────────────╮
+│                                                     │
+│  Run "openclaw doctor --fix" to remove these keys.  │
+│                                                     │
+├─────────────────────────────────────────────────────╯
+2026-02-27T10:42:55.008Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T10:42:55.055Z [heartbeat] started
+2026-02-27T10:42:55.057Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T10:42:55.058Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T10:42:55.059Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 64210)
+2026-02-27T10:42:55.060Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T10:42:55.078Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T10:42:56.798Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T10:42:56.806Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T10:42:56.809Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T10:42:56.811Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T10:47:51.470Z [ws] webchat connected conn=5963c12d-0fc3-4c69-8e54-c3ac7c5ae60f remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T10:47:51.546Z [ws] ⇄ res ✓ chat.history 64ms conn=5963c12d…e60f id=fb8613cd…4bcd
+2026-02-27T11:32:54.704Z [browser/service] Browser control service ready (profiles=2)
+2026-02-27T11:40:18.245Z [ws] webchat disconnected code=1001 reason=n/a conn=5963c12d-0fc3-4c69-8e54-c3ac7c5ae60f
+2026-02-27T11:40:18.363Z [ws] webchat connected conn=948f6811-76fc-4c43-a217-2102638b0364 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T11:40:28.716Z [ws] ⇄ res ✓ config.get 268ms conn=948f6811…0364 id=16f600e6…701c
+2026-02-27T11:41:05.533Z [ws] ⇄ res ✓ channels.status 26005ms conn=948f6811…0364 id=8f20622f…237f
+2026-02-27T11:50:26.807Z [ws] webchat disconnected code=1001 reason=n/a conn=948f6811-76fc-4c43-a217-2102638b0364
+2026-02-27T11:50:26.886Z [ws] webchat connected conn=7921dbd1-9f39-4095-83a7-268f30161706 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T11:57:54.024Z [ws] ⇄ res ✓ channels.status 2140ms conn=7921dbd1…1706 id=7d250390…bf01
+2026-02-27T11:58:09.490Z [ws] ⇄ res ✓ config.set 55ms conn=7921dbd1…1706 id=1e9108d5…cf8f
+2026-02-27T11:58:10.029Z [reload] config change detected; evaluating reload (meta.lastTouchedAt, agents.defaults.compaction, channels.telegram.allowFrom)
+2026-02-27T11:58:10.034Z [gateway/channels] restarting telegram channel
+2026-02-27T11:58:12.432Z [ws] ⇄ res ✓ channels.status 2844ms conn=7921dbd1…1706 id=770b5bed…47db
+2026-02-27T11:58:27.145Z [ws] ⇄ res ✓ chat.history 52ms conn=7921dbd1…1706 id=e471406d…5d6d
+2026-02-27T11:58:37.884Z [ws] webchat disconnected code=1001 reason=n/a conn=7921dbd1-9f39-4095-83a7-268f30161706
+2026-02-27T11:58:37.945Z [ws] webchat connected conn=7d6ac28c-426a-48f5-bee9-d47ceb1bb85e remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:00:52.643Z [ws] webchat disconnected code=1001 reason=n/a conn=7d6ac28c-426a-48f5-bee9-d47ceb1bb85e
+2026-02-27T12:00:52.697Z [ws] webchat connected conn=a43a799a-1c59-4366-9010-4505bfbdbf95 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:00:54.600Z [ws] webchat disconnected code=1001 reason=n/a conn=a43a799a-1c59-4366-9010-4505bfbdbf95
+2026-02-27T12:00:54.649Z [ws] webchat connected conn=5fb61098-a981-4e4f-8d01-a0187ba91ee9 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:01:21.777Z [ws] webchat disconnected code=1001 reason=n/a conn=5fb61098-a981-4e4f-8d01-a0187ba91ee9
+2026-02-27T12:01:21.829Z [ws] webchat connected conn=a7aacc8f-84f9-4333-9878-0d4924ff9181 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:02:09.319Z [ws] ⇄ res ✓ channels.status 2654ms conn=a7aacc8f…9181 id=89ec5147…ee35
+2026-02-27T12:05:27.742Z [gateway] signal SIGTERM received
+2026-02-27T12:05:27.743Z [gateway] received SIGTERM; shutting down
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-02-27T12:06:35.465Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T12:06:35.509Z [heartbeat] started
+2026-02-27T12:06:35.511Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T12:06:35.513Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T12:06:35.513Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 65432)
+2026-02-27T12:06:35.514Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T12:06:35.534Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T12:06:36.605Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T12:06:36.615Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T12:06:36.618Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T12:06:36.622Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T12:06:44.752Z [ws] webchat connected conn=bea7b3f3-abdb-474d-a51d-bdbb8b66c5ce remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:06:57.613Z [ws] ⇄ res ✓ config.schema 247ms conn=bea7b3f3…c5ce id=511eef88…16ca
+2026-02-27T12:07:15.649Z [ws] ⇄ res ✓ channels.status 18282ms conn=bea7b3f3…c5ce id=35b95cd3…cbaa
+2026-02-27T12:07:23.571Z [ws] webchat disconnected code=1001 reason=n/a conn=bea7b3f3-abdb-474d-a51d-bdbb8b66c5ce
+2026-02-27T12:07:23.621Z [ws] webchat connected conn=0c2a9f23-0188-4492-865c-4d907dffad34 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:09:06.948Z [ws] webchat disconnected code=1001 reason=n/a conn=0c2a9f23-0188-4492-865c-4d907dffad34
+2026-02-27T12:09:07.000Z [ws] webchat connected conn=e8972104-5f76-4b14-8d12-bcfadab4eb91 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:09:16.625Z [ws] webchat disconnected code=1001 reason=n/a conn=e8972104-5f76-4b14-8d12-bcfadab4eb91
+2026-02-27T12:09:16.680Z [ws] webchat connected conn=1233ed7a-920c-4683-bd3c-52642c50f3ce remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:09:18.088Z [ws] webchat disconnected code=1001 reason=n/a conn=1233ed7a-920c-4683-bd3c-52642c50f3ce
+2026-02-27T12:09:18.143Z [ws] webchat connected conn=be2d04f9-67f6-4ba9-b1ec-fab899c02f8e remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:09:35.904Z [gateway] signal SIGTERM received
+2026-02-27T12:09:35.905Z [gateway] received SIGTERM; shutting down
+2026-02-27T12:09:35.916Z [gmail-watcher] gmail watcher stopped
+2026-02-27T12:09:35.917Z [ws] webchat disconnected code=1006 reason=n/a conn=be2d04f9-67f6-4ba9-b1ec-fab899c02f8e
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-02-27T12:10:38.609Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T12:10:38.650Z [heartbeat] started
+2026-02-27T12:10:38.652Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T12:10:38.653Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T12:10:38.654Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 65588)
+2026-02-27T12:10:38.655Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T12:10:38.673Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T12:10:39.855Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T12:10:39.866Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T12:10:39.870Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T12:10:39.872Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T12:10:47.025Z [ws] webchat connected conn=e8aad1d2-dea5-480f-bb8c-51c56254dfaf remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:10:47.113Z [ws] ⇄ res ✓ node.list 52ms conn=e8aad1d2…dfaf id=686d6933…dc6d
+2026-02-27T12:10:47.115Z [ws] ⇄ res ✓ device.pair.list 54ms conn=e8aad1d2…dfaf id=36779a7c…84ee
+2026-02-27T12:10:47.140Z [ws] ⇄ res ✓ chat.history 79ms conn=e8aad1d2…dfaf id=bb5f6764…32a0
+2026-02-27T12:10:56.224Z [ws] ⇄ res ✓ config.schema 251ms conn=e8aad1d2…dfaf id=7de8f341…4287
+2026-02-27T12:11:20.662Z [gateway] signal SIGTERM received
+2026-02-27T12:11:20.664Z [gateway] received SIGTERM; shutting down
+2026-02-27T12:11:20.696Z [gmail-watcher] gmail watcher stopped
+2026-02-27T12:11:20.700Z [ws] webchat disconnected code=1006 reason=n/a conn=e8aad1d2-dea5-480f-bb8c-51c56254dfaf
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-02-27T12:20:30.041Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T12:20:30.084Z [heartbeat] started
+2026-02-27T12:20:30.086Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T12:20:30.087Z [gateway] agent model: ollama/kimi-k2.5:cloud
+2026-02-27T12:20:30.087Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 65902)
+2026-02-27T12:20:30.088Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T12:20:30.106Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T12:20:31.152Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T12:20:31.162Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T12:20:31.164Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T12:20:31.166Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T12:20:45.802Z [ws] webchat connected conn=6b5e55f3-e3db-4304-84dc-670be8f7273e remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:21:17.449Z [ws] ⇄ res ✓ config.get 256ms conn=6b5e55f3…273e id=c71e9c0d…51b3
+2026-02-27T12:21:22.167Z [ws] webchat disconnected code=1001 reason=n/a conn=6b5e55f3-e3db-4304-84dc-670be8f7273e
+2026-02-27T12:21:22.214Z [ws] webchat connected conn=1b2811c7-590c-47d6-997c-e650e52c5296 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:23:16.528Z [reload] config change detected; evaluating reload (meta.lastTouchedAt, wizard.lastRunAt, wizard.lastRunCommand, agents.defaults.model.primary, agents.defaults.compaction, channels.telegram.dmPolicy)
+2026-02-27T12:23:16.533Z [gateway/channels] restarting telegram channel
+2026-02-27T12:23:16.537Z [reload] config hot reload applied (channels.telegram.dmPolicy)
+2026-02-27T12:23:18.881Z [telegram] [default] starting provider
+2026-02-27T12:23:24.474Z [ws] webchat disconnected code=1001 reason=n/a conn=1b2811c7-590c-47d6-997c-e650e52c5296
+2026-02-27T12:23:24.522Z [ws] webchat connected conn=56a4772c-e11c-4583-a69e-7efa84d52937 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:23:40.030Z [ws] webchat disconnected code=1001 reason=n/a conn=56a4772c-e11c-4583-a69e-7efa84d52937
+2026-02-27T12:23:40.080Z [ws] webchat connected conn=3ef71245-a69b-4673-beb9-572b01222cfe remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:23:48.498Z [ws] webchat disconnected code=1001 reason=n/a conn=3ef71245-a69b-4673-beb9-572b01222cfe
+2026-02-27T12:23:48.544Z [ws] webchat connected conn=c9be85d7-af37-4256-8a7c-1d6fd33f99b9 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:24:01.010Z [gateway] signal SIGTERM received
+2026-02-27T12:24:01.013Z [gateway] received SIGTERM; shutting down
+2026-02-27T12:24:01.045Z [gmail-watcher] gmail watcher stopped
+2026-02-27T12:24:01.048Z [ws] webchat disconnected code=1006 reason=n/a conn=c9be85d7-af37-4256-8a7c-1d6fd33f99b9
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-02-27T12:25:03.058Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T12:25:03.099Z [heartbeat] started
+2026-02-27T12:25:03.101Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T12:25:03.102Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T12:25:03.103Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 65989)
+2026-02-27T12:25:03.103Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T12:25:03.123Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T12:25:04.316Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T12:25:04.327Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T12:25:04.329Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T12:25:04.331Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T12:25:07.096Z [ws] webchat connected conn=61d739bb-b45c-4a43-b9be-def10a7aea10 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:25:10.480Z [ws] ⇄ res ✓ config.schema 329ms conn=61d739bb…ea10 id=5e8c5345…6b7b
+2026-02-27T12:25:20.477Z [ws] ⇄ res ✓ channels.status 10325ms conn=61d739bb…ea10 id=8de52e33…39af
+2026-02-27T12:26:08.408Z [ws] ⇄ res ✓ channels.status 2145ms conn=61d739bb…ea10 id=fa0fc671…75e4
+2026-02-27T12:26:28.343Z [ws] ⇄ res ✓ channels.status 2133ms conn=61d739bb…ea10 id=84f94db5…ce6d
+2026-02-27T12:33:23.561Z [reload] config change detected; evaluating reload (meta.lastTouchedAt, agents.defaults.compaction)
+2026-02-27T12:33:23.565Z [reload] config change applied (dynamic reads: meta.lastTouchedAt, agents.defaults.compaction)
+2026-02-27T12:33:29.403Z [reload] config change detected; evaluating reload (meta.lastTouchedAt, wizard.lastRunAt)
+2026-02-27T12:33:29.406Z [reload] config change applied (dynamic reads: meta.lastTouchedAt, wizard.lastRunAt)
+2026-02-27T12:33:33.962Z [gateway] signal SIGTERM received
+2026-02-27T12:33:33.964Z [gateway] received SIGTERM; shutting down
+2026-02-27T12:33:33.996Z [gmail-watcher] gmail watcher stopped
+2026-02-27T12:33:34.000Z [ws] webchat disconnected code=1006 reason=n/a conn=61d739bb-b45c-4a43-b9be-def10a7aea10
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - Telegram allowFrom contains 1 non-numeric entries (e.g.               │
+│    @worldhello321); Telegram authorization requires numeric sender IDs.  │
+│  - Run "openclaw doctor --fix" to auto-resolve @username entries to      │
+│    numeric IDs (requires a Telegram bot token).                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-02-27T12:34:35.652Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T12:34:35.692Z [heartbeat] started
+2026-02-27T12:34:35.693Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T12:34:35.695Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T12:34:35.695Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 66227)
+2026-02-27T12:34:35.696Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T12:34:35.715Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T12:34:36.862Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T12:34:36.872Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T12:34:36.874Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T12:34:36.876Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T12:34:37.377Z [ws] ⇄ res ✓ health 1437ms conn=ad56b077…622d id=e2d5a67f…ea31
+2026-02-27T12:34:41.577Z [ws] ⇄ res ✓ chat.history 53ms conn=39a77195…0185 id=65c600d2…cbb2
+2026-02-27T12:35:41.109Z [ws] webchat connected conn=64e67e91-b76c-4542-8a91-f6a86c914a0d remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:36:26.251Z [ws] ⇄ res ✓ config.get 258ms conn=64e67e91…4a0d id=ac3bbed2…7dbe
+2026-02-27T12:37:00.913Z [reload] config change detected; evaluating reload (meta.lastTouchedAt, agents.defaults.compaction, channels.telegram.allowFrom)
+2026-02-27T12:37:00.918Z [gateway/channels] restarting telegram channel
+2026-02-27T12:37:00.921Z [reload] config hot reload applied (channels.telegram.allowFrom)
+2026-02-27T12:37:03.254Z [telegram] [default] starting provider
+2026-02-27T12:37:06.265Z [gateway] signal SIGTERM received
+2026-02-27T12:37:06.265Z [gateway] received SIGTERM; shutting down
+2026-02-27T12:37:06.275Z [gmail-watcher] gmail watcher stopped
+2026-02-27T12:37:06.276Z [ws] webchat disconnected code=1006 reason=n/a conn=64e67e91-b76c-4542-8a91-f6a86c914a0d
+2026-02-27T12:38:08.405Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-02-27T12:38:08.447Z [heartbeat] started
+2026-02-27T12:38:08.449Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-02-27T12:38:08.450Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-02-27T12:38:08.451Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 66325)
+2026-02-27T12:38:08.451Z [gateway] log file: /tmp/openclaw/openclaw-2026-02-27.log
+2026-02-27T12:38:08.470Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-02-27T12:38:09.523Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T12:38:09.534Z [telegram] autoSelectFamily=true (default-node22)
+2026-02-27T12:38:09.536Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-02-27T12:38:09.538Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-02-27T12:38:10.292Z [ws] webchat connected conn=812dab47-7e87-4a50-a0c6-d75e407c617b remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:38:10.390Z [ws] ⇄ res ✓ chat.history 51ms conn=812dab47…617b id=348f820f…39f0
+2026-02-27T12:38:18.157Z [ws] ⇄ res ✓ config.schema 249ms conn=812dab47…617b id=c1e59673…1b31
+2026-02-27T12:38:20.511Z [ws] ⇄ res ✓ channels.status 2604ms conn=812dab47…617b id=7260f010…fcb3
+2026-02-27T12:41:24.613Z [reload] config change detected; evaluating reload (meta.lastTouchedAt, agents.defaults.compaction, channels.telegram.proxy)
+2026-02-27T12:41:24.618Z [gateway/channels] restarting telegram channel
+2026-02-27T12:41:24.623Z [reload] config hot reload applied (channels.telegram.proxy)
+2026-02-27T12:41:26.179Z [telegram] [default] starting provider (@meme_hope_bot)
+2026-02-27T12:42:09.079Z [ws] webchat disconnected code=1001 reason=n/a conn=812dab47-7e87-4a50-a0c6-d75e407c617b
+2026-02-27T12:42:09.131Z [ws] webchat connected conn=19408ba5-3b18-4934-9a9c-ef35576f31cc remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:42:09.199Z [ws] ⇄ res ✓ chat.history 63ms conn=19408ba5…31cc id=07b82bd7…00ce
+2026-02-27T12:42:09.204Z [ws] ⇄ res ✓ node.list 66ms conn=19408ba5…31cc id=e8704632…f372
+2026-02-27T12:42:09.205Z [ws] ⇄ res ✓ device.pair.list 69ms conn=19408ba5…31cc id=aa84f607…fd67
+2026-02-27T12:42:24.702Z [ws] webchat disconnected code=1001 reason=n/a conn=19408ba5-3b18-4934-9a9c-ef35576f31cc
+2026-02-27T12:42:24.757Z [ws] webchat connected conn=d323eb93-06bf-4f69-80bd-92829efb43d7 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:43:30.278Z [ws] webchat disconnected code=1001 reason=n/a conn=d323eb93-06bf-4f69-80bd-92829efb43d7
+2026-02-27T12:43:30.323Z [ws] webchat connected conn=1688e06c-114b-4275-ad19-1b9070bbc6a4 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:53:18.480Z [ws] webchat disconnected code=1001 reason=n/a conn=1688e06c-114b-4275-ad19-1b9070bbc6a4
+2026-02-27T12:53:18.572Z [ws] webchat connected conn=c64a2788-e4cb-4b83-a446-5bc10fd77e0a remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:55:46.928Z [ws] webchat disconnected code=1001 reason=n/a conn=c64a2788-e4cb-4b83-a446-5bc10fd77e0a
+2026-02-27T12:55:46.976Z [ws] webchat connected conn=055314c2-0d3d-48aa-97e8-56be6d38c0ee remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:58:27.539Z [ws] webchat disconnected code=1001 reason=n/a conn=055314c2-0d3d-48aa-97e8-56be6d38c0ee
+2026-02-27T12:58:27.584Z [ws] webchat connected conn=abeb7540-0b1e-452e-9180-385c17603899 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T12:58:36.229Z [ws] webchat disconnected code=1001 reason=n/a conn=abeb7540-0b1e-452e-9180-385c17603899
+2026-02-27T12:58:36.276Z [ws] webchat connected conn=f238bf07-638d-4314-916e-744da6fa88e2 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-02-27T13:02:49.201Z [telegram] sendMessage ok chat=5520269161 message=625
+2026-02-27T13:38:59.305Z [telegram] sendMessage ok chat=5520269161 message=660
+2026-02-27T13:43:56.758Z [telegram] sendMessage ok chat=5520269161 message=666

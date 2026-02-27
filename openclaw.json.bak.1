@@ -1,11 +1,11 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.2.9",
-    "lastTouchedAt": "2026-02-25T07:55:09.457Z"
+    "lastTouchedVersion": "2026.2.26",
+    "lastTouchedAt": "2026-02-27T12:33:28.813Z"
   },
   "wizard": {
-    "lastRunAt": "2026-02-25T07:29:04.051Z",
-    "lastRunVersion": "2026.2.9",
+    "lastRunAt": "2026-02-27T12:33:28.784Z",
+    "lastRunVersion": "2026.2.26",
     "lastRunCommand": "onboard",
     "lastRunMode": "local"
   },
@@ -122,11 +122,15 @@
     "list": [
       {
         "id": "main",
-        "workspace": "/Users/hope/.openclaw/workspace"
+        "workspace": "/Users/hope/.openclaw/agents/main/workspace"
       },
       {
         "id": "stock",
         "workspace": "/Users/hope/.openclaw/agents/stock/workspace"
+      },
+      {
+        "id": "mcs",
+        "workspace": "/Users/hope/.openclaw/agents/mcs/workspace"
       }
     ]
   },
@@ -150,7 +154,11 @@
   "commands": {
     "native": "auto",
     "nativeSkills": "auto",
-    "restart": true
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
   },
   "channels": {
     "telegram": {
@@ -161,7 +169,7 @@
         "@worldhello321"
       ],
       "groupPolicy": "allowlist",
-      "streamMode": "partial",
+      "streaming": "partial",
       "actions": {
         "reactions": true,
         "sendMessage": true,

@@ -64,8 +64,15 @@ stock-advisor | trading-supervisor
   - 搜索风控设置: `MATCH '止损 OR 止盈 OR 风控'`
   - 查询资产配置: `MATCH '长线 OR 周期 OR 趋势'`
 
+## 📅 Daily Summary Process
+**日工作总结内容来源**: 
+- **主要来源**: `/Users/hope/.openclaw/agents/stock/sessions/` 目录下的当日会话记录（.jsonl 格式）
+- **提取内容**: 投资分析、持仓监控、交易合规检查、市场观察等投资相关活动  
+- **输出位置**: `agents/stock/workspace/memory/YYYY-MM-DD.md`
+- **处理方式**: 自动分析会话记录，按投资监督模板结构化输出
+
 ## 🔧 Tools
 `memory-index/sync-to-sqlite.sh` - Sync memory logs to SQLite index
 
 ---
-*Updated: 2026-02-26*
+*Updated: 2026-02-27*

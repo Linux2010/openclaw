@@ -1,188 +1,167 @@
 {
-  "meta": {
-    "lastTouchedVersion": "2026.2.9",
-    "lastTouchedAt": "2026-02-25T07:32:27.344Z"
-  },
-  "wizard": {
-    "lastRunAt": "2026-02-25T07:29:04.051Z",
-    "lastRunVersion": "2026.2.9",
-    "lastRunCommand": "onboard",
-    "lastRunMode": "local"
-  },
-  "update": {
-    "channel": "stable",
-    "checkOnStart": true
-  },
-  "auth": {
-    "profiles": {
-      "copilot-proxy:local": {
-        "provider": "copilot-proxy",
-        "mode": "token"
-      },
-      "moonshot:default": {
-        "provider": "moonshot",
-        "mode": "api_key"
-      },
-      "qwen-portal:default": {
-        "provider": "qwen-portal",
-        "mode": "oauth"
-      }
-    }
-  },
-  "models": {
-    "mode": "merge",
-    "providers": {
-      "bailian": {
-        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-        "apiKey": "sk-sp-1f07658367b9409393e075f9f63490bf",
-        "api": "openai-completions",
-        "models": [
-          {
-            "id": "qwen3-max-2026-01-23",
-            "name": "qwen3-max-thinking",
-            "reasoning": false,
-            "input": [
-              "text"
-            ],
-            "cost": {
-              "input": 0,
-              "output": 0,
-              "cacheRead": 0,
-              "cacheWrite": 0
-            },
-            "contextWindow": 262144,
-            "maxTokens": 65536
-          }
-        ]
-      },
-      "moonshot": {
-        "baseUrl": "https://integrate.api.nvidia.com/v1",
-        "apiKey": "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",
-        "api": "openai-completions",
-        "models": [
-          {
-            "id": "moonshotai/kimi-k2.5",
-            "name": "kimi-k2.5",
-            "reasoning": false,
-            "input": [
-              "text"
-            ],
-            "cost": {
-              "input": 0,
-              "output": 0,
-              "cacheRead": 0,
-              "cacheWrite": 0
-            },
-            "contextWindow": 16000,
-            "maxTokens": 1024
-          }
-        ]
-      },
-      "ollama": {
-        "baseUrl": "http://127.0.0.1:11434/v1",
-        "apiKey": "ollama-local",
-        "api": "openai-completions",
-        "models": [
-          {
-            "id": "kimi-k2.5:cloud",
-            "name": "kimi-k2.5:cloud",
-            "reasoning": false,
-            "input": [
-              "text"
-            ],
-            "cost": {
-              "input": 0,
-              "output": 0,
-              "cacheRead": 0,
-              "cacheWrite": 0
-            },
-            "contextWindow": 131072,
-            "maxTokens": 16384
-          }
-        ]
-      }
-    }
-  },
   "agents": {
     "defaults": {
+      "maxConcurrent": 4,
       "model": {
-        "primary": "bailian/qwen3-max-2026-01-23"
+        "primary": "ollama/kimi-k2.5:cloud"
       },
       "models": {
         "bailian/qwen3-max-2026-01-23": {
           "alias": "qwen3-max-thinking"
         }
       },
-      "workspace": "/Users/hope/.openclaw/workspace",
-      "maxConcurrent": 4,
       "subagents": {
         "maxConcurrent": 8
-      }
+      },
+      "workspace": "/Users/hope/.openclaw/workspace"
     },
     "list": [
       {
         "id": "main",
-        "workspace": "/Users/hope/.openclaw/workspace"
+        "workspace": "/Users/hope/.openclaw/agents/main/workspace"
       },
       {
         "id": "stock",
         "workspace": "/Users/hope/.openclaw/agents/stock/workspace"
+      },
+      {
+        "id": "mcs",
+        "workspace": "/Users/hope/.openclaw/agents/mcs/workspace"
       }
     ]
   },
-  "tools": {
-    "web": {
-      "search": {
-        "enabled": true,
-        "apiKey": "BSAvz5qVl_e9NBYmxURAWXmOAm42_GZ"
+  "auth": {
+    "profiles": {
+      "copilot-proxy:local": {
+        "mode": "token",
+        "provider": "copilot-proxy"
       },
-      "fetch": {
-        "enabled": true
+      "moonshot:default": {
+        "mode": "api_key",
+        "provider": "moonshot"
+      },
+      "qwen-portal:default": {
+        "mode": "oauth",
+        "provider": "qwen-portal"
       }
     }
   },
-  "messages": {
-    "ackReactionScope": "group-mentions"
+  "channels": {
+    "telegram": {
+      "actions": {
+        "deleteMessage": true,
+        "reactions": true,
+        "sendMessage": true,
+        "sticker": true
+      },
+      "allowFrom": [
+        "@worldhello321"
+      ],
+      "botToken": "8524712381:AAGZd6jnFzvbAxMPa7P1FMejPZsgwBYh8Fw",
+      "dmPolicy": "allowlist",
+      "enabled": true,
+      "groupPolicy": "allowlist",
+      "streaming": "partial"
+    }
   },
   "commands": {
     "native": "auto",
     "nativeSkills": "auto",
+    "ownerDisplay": "raw",
     "restart": true
   },
-  "channels": {
-    "telegram": {
-      "enabled": true,
-      "dmPolicy": "pairing",
-      "botToken": "8524712381:AAGZd6jnFzvbAxMPa7P1FMejPZsgwBYh8Fw",
-      "allowFrom": [
-        "@worldhello321"
-      ],
-      "groupPolicy": "allowlist",
-      "streamMode": "partial",
-      "actions": {
-        "reactions": true,
-        "sendMessage": true,
-        "deleteMessage": true,
-        "sticker": true
-      }
-    }
-  },
   "gateway": {
-    "port": 18789,
-    "mode": "local",
-    "bind": "loopback",
     "auth": {
       "mode": "token",
       "token": "4fc9d7ebcc3d406503f41be97352cc214b56dcc55d8c4e72"
     },
+    "bind": "loopback",
+    "mode": "local",
+    "port": 18789,
     "tailscale": {
       "mode": "off",
       "resetOnExit": false
     }
   },
-  "skills": {
-    "install": {
-      "nodeManager": "npm"
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "meta": {
+    "lastTouchedAt": "2026-02-27T11:58:09.482Z",
+    "lastTouchedVersion": "2026.2.26"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "bailian": {
+        "api": "openai-completions",
+        "apiKey": "sk-sp-1f07658367b9409393e075f9f63490bf",
+        "baseUrl": "https://coding.dashscope.aliyuncs.com/v1",
+        "models": [
+          {
+            "contextWindow": 262144,
+            "cost": {
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "input": 0,
+              "output": 0
+            },
+            "id": "qwen3-max-2026-01-23",
+            "input": [
+              "text"
+            ],
+            "maxTokens": 65536,
+            "name": "qwen3-max-thinking",
+            "reasoning": false
+          }
+        ]
+      },
+      "moonshot": {
+        "api": "openai-completions",
+        "apiKey": "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",
+        "baseUrl": "https://integrate.api.nvidia.com/v1",
+        "models": [
+          {
+            "contextWindow": 16000,
+            "cost": {
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "input": 0,
+              "output": 0
+            },
+            "id": "moonshotai/kimi-k2.5",
+            "input": [
+              "text"
+            ],
+            "maxTokens": 1024,
+            "name": "kimi-k2.5",
+            "reasoning": false
+          }
+        ]
+      },
+      "ollama": {
+        "api": "openai-completions",
+        "apiKey": "ollama-local",
+        "baseUrl": "http://127.0.0.1:11434/v1",
+        "models": [
+          {
+            "contextWindow": 131072,
+            "cost": {
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "input": 0,
+              "output": 0
+            },
+            "id": "kimi-k2.5:cloud",
+            "input": [
+              "text"
+            ],
+            "maxTokens": 16384,
+            "name": "kimi-k2.5:cloud",
+            "reasoning": false
+          }
+        ]
+      }
     }
   },
   "plugins": {
@@ -197,5 +176,37 @@
         "enabled": true
       }
     }
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    }
+  },
+  "tools": {
+    "agentToAgent": {
+      "enabled": true
+    },
+    "web": {
+      "fetch": {
+        "enabled": true
+      },
+      "search": {
+        "apiKey": "BSAvz5qVl_e9NBYmxURAWXmOAm42_GZ",
+        "enabled": true
+      }
+    }
+  },
+  "update": {
+    "channel": "stable",
+    "checkOnStart": true
+  },
+  "wizard": {
+    "lastRunAt": "2026-02-27T10:41:43.681Z",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local",
+    "lastRunVersion": "2026.2.26"
   }
 }

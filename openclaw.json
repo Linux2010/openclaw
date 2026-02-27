@@ -1,11 +1,11 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.2.9",
-    "lastTouchedAt": "2026-02-26T04:33:09.898Z"
+    "lastTouchedVersion": "2026.2.26",
+    "lastTouchedAt": "2026-02-27T12:41:24.060Z"
   },
   "wizard": {
-    "lastRunAt": "2026-02-25T07:29:04.051Z",
-    "lastRunVersion": "2026.2.9",
+    "lastRunAt": "2026-02-27T12:33:28.784Z",
+    "lastRunVersion": "2026.2.26",
     "lastRunCommand": "onboard",
     "lastRunMode": "local"
   },
@@ -154,7 +154,11 @@
   "commands": {
     "native": "auto",
     "nativeSkills": "auto",
-    "restart": true
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
   },
   "channels": {
     "telegram": {
@@ -162,10 +166,11 @@
       "dmPolicy": "pairing",
       "botToken": "8524712381:AAGZd6jnFzvbAxMPa7P1FMejPZsgwBYh8Fw",
       "allowFrom": [
-        "@worldhello321"
+        5520269161
       ],
       "groupPolicy": "allowlist",
-      "streamMode": "partial",
+      "streaming": "partial",
+      "proxy": "http://127.0.0.1:7897",
       "actions": {
         "reactions": true,
         "sendMessage": true,
