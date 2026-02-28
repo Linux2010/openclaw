@@ -59,4 +59,48 @@ describe("splitMediaFromOutput", () => {
     expect(result.mediaUrls).toEqual(["./screenshot.png"]);
     expect(result.text).toBe("");
   });
+
+  // New tests for whitespace around colon support
+  it("accepts MEDIA: with space before colon", () => {
+    const result = splitMediaFromOutput("MEDIA :./screenshot.png");
+    expect(result.mediaUrls).toEqual(["./screenshot.png"]);
+    expect(result.text).toBe("");
+  });
+
+  it("accepts MEDIA: with space after colon", () => {
+    const result = splitMediaFromOutput("MEDIA: ./screenshot.png");
+    expect(result.mediaUrls).toEqual(["./screenshot.png"]);
+    expect(result.text).toBe("");
+  });
+
+  it("accepts MEDIA: with spaces around colon", () => {
+    const result = splitMediaFromOutput("MEDIA : ./screenshot.png");
+    expect(result.mediaUrls).toEqual(["./screenshot.png"]);
+    expect(result.text).toBe("");
+  });
+
+  it("accepts MEDIA: with multiple spaces around colon", () => {
+    const result = splitMediaFromOutput("MEDIA  :  ./screenshot.png");
+    expect(result.mediaUrls).toEqual(["./screenshot.png"]);
+    expect(result.text).toBe("");
+  });
+
+  it("accepts indented MEDIA: with spaces around colon", () => {
+    const result = splitMediaFromOutput("  MEDIA : ./screenshot.png");
+    expect(result.mediaUrls).toEqual(["./screenshot.png"]);
+    expect(result.text).toBe("");
+  });
+
+  it("still rejects absolute paths with spaces around colon", () => {
+    const result = splitMediaFromOutput("MEDIA : /Users/pete/file.png");
+    expect(result.mediaUrls).toBeUndefined();
+    expect(result.text).toBe("MEDIA : /Users/pete/file.png");
+  });
+
+  it("still keeps prose with spaces around colon", () => {
+    const input = "Use MEDIA : syntax for media files";
+    const result = splitMediaFromOutput(input);
+    expect(result.mediaUrls).toBeUndefined();
+    expect(result.text).toBe(input);
+  });
 });

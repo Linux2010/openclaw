@@ -4,7 +4,8 @@ import { parseFenceSpans } from "../markdown/fences.js";
 import { parseAudioTag } from "./audio-tags.js";
 
 // Allow optional wrapping backticks and punctuation after the token; capture the core token.
-export const MEDIA_TOKEN_RE = /\bMEDIA:\s*`?([^\n]+)`?/gi;
+// Updated to support optional whitespace around the colon: MEDIA:, MEDIA :, etc.
+export const MEDIA_TOKEN_RE = /\bMEDIA\s*:\s*`?([^\n]+)`?/gi;
 
 export function normalizeMediaSource(src: string) {
   return src.startsWith("file://") ? src.replace("file://", "") : src;
@@ -53,6 +54,13 @@ function isInsideFence(fenceSpans: Array<{ start: number; end: number }>, offset
   return fenceSpans.some((span) => offset >= span.start && offset < span.end);
 }
 
+// Helper function to check if a line starts with MEDIA token (with optional whitespace)
+function startsWithMediaToken(line: string): boolean {
+  const trimmed = line.trimStart();
+  // Match patterns like: "MEDIA:", "MEDIA :", "MEDIA  :", etc.
+  return /^MEDIA\s*:/.test(trimmed);
+}
+
 export function splitMediaFromOutput(raw: string): {
   text: string;
   mediaUrls?: string[];
@@ -85,8 +93,8 @@ export function splitMediaFromOutput(raw: string): {
       continue;
     }
 
-    const trimmedStart = line.trimStart();
-    if (!trimmedStart.startsWith("MEDIA:")) {
+    // Use the helper function to check for MEDIA token with optional whitespace
+    if (!startsWithMediaToken(line)) {
       keptLines.push(line);
       lineOffset += line.length + 1; // +1 for newline
       continue;
