@@ -114,6 +114,7 @@ wsl --install -d Ubuntu-24.04
 ```
 
 Reboot if Windows asks.
+## WSL2 Setup
 
 ### 2) Enable systemd (required for gateway install)
 
