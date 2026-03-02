@@ -1,0 +1,1580 @@
+{
+  "agent:coding:telegram:direct:5520269161": {
+    "origin": {
+      "provider": "telegram",
+      "surface": "telegram",
+      "chatType": "direct",
+      "label": "hello world (@worldhello321) id:5520269161",
+      "from": "telegram:5520269161",
+      "to": "telegram:5520269161",
+      "accountId": "coding"
+    },
+    "sessionId": "b1809e0c-9cc3-4416-9ba7-53adefeceab6",
+    "updatedAt": 1772456854575,
+    "systemSent": true,
+    "abortedLastRun": false,
+    "chatType": "direct",
+    "deliveryContext": {
+      "channel": "telegram",
+      "to": "telegram:5520269161",
+      "accountId": "coding"
+    },
+    "lastChannel": "telegram",
+    "sessionFile": "/Users/hope/.openclaw/agents/coding/sessions/b1809e0c-9cc3-4416-9ba7-53adefeceab6.jsonl",
+    "skillsSnapshot": {
+      "prompt": "\n\nThe following skills provide specialized instructions for specific tasks.\nUse the read tool to load a skill's file when the task matches its description.\nWhen a skill file references a relative path, resolve it against the skill directory (parent of SKILL.md / dirname of the path) and use that absolute path in tool commands.\n\n<available_skills>\n  <skill>\n    <name>acp-router</name>\n    <description>Route plain-language requests for Pi, Claude Code, Codex, OpenCode, Gemini CLI, or ACP harness work into either OpenClaw ACP runtime sessions or direct acpx-driven sessions (&quot;telephone game&quot; flow). For coding-agent thread requests, read this skill first, then use only `sessions_spawn` for thread creation.</description>\n    <location>~/.openclaw/extensions/acpx/skills/acp-router/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>feishu-doc</name>\n    <description>Feishu document read/write operations. Activate when user mentions Feishu docs, cloud docs, or docx links.\n</description>\n    <location>~/.openclaw/extensions/feishu/skills/feishu-doc/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>feishu-drive</name>\n    <description>Feishu cloud storage file management. Activate when user mentions cloud space, folders, drive.\n</description>\n    <location>~/.openclaw/extensions/feishu/skills/feishu-drive/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>feishu-perm</name>\n    <description>Feishu permission management for documents and files. Activate when user mentions sharing, permissions, collaborators.\n</description>\n    <location>~/.openclaw/extensions/feishu/skills/feishu-perm/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>feishu-wiki</name>\n    <description>Feishu knowledge base navigation. Activate when user mentions knowledge base, wiki, or wiki links.\n</description>\n    <location>~/.openclaw/extensions/feishu/skills/feishu-wiki/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>prose</name>\n    <description>OpenProse VM skill pack. Activate on any `prose` command, .prose files, or OpenProse mentions; orchestrates multi-agent workflows.</description>\n    <location>~/.openclaw/extensions/open-prose/skills/prose/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>1password</name>\n    <description>Set up and use 1Password CLI (op). Use when installing the CLI, enabling desktop app integration, signing in (single or multi-account), or reading/injecting/running secrets via op.</description>\n    <location>~/.openclaw/skills/1password/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>apple-notes</name>\n    <description>Manage Apple Notes via the `memo` CLI on macOS (create, view, edit, delete, search, move, and export notes). Use when a user asks OpenClaw to add a note, list notes, search notes, or manage note folders.</description>\n    <location>~/.openclaw/skills/apple-notes/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>apple-reminders</name>\n    <description>Manage Apple Reminders via remindctl CLI (list, add, edit, complete, delete). Supports lists, date filters, and JSON/plain output.</description>\n    <location>~/.openclaw/skills/apple-reminders/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>clawhub</name>\n    <description>Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.</description>\n    <location>~/.openclaw/skills/clawhub/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>gh-issues</name>\n    <description>Fetch GitHub issues, spawn sub-agents to implement fixes and open PRs, then monitor and address PR review comments. Usage: /gh-issues [owner/repo] [--label bug] [--limit 5] [--milestone v1.0] [--assignee @me] [--fork user/repo] [--watch] [--interval 5] [--reviews-only] [--cron] [--dry-run] [--model glm-5] [--notify-channel -1002381931352]</description>\n    <location>~/.openclaw/skills/gh-issues/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>github</name>\n    <description>GitHub operations via `gh` CLI: issues, PRs, CI runs, code review, API queries. Use when: (1) checking PR status or CI, (2) creating/commenting on issues, (3) listing/filtering PRs or issues, (4) viewing run logs. NOT for: complex web UI interactions requiring manual browser flows (use browser tooling when available), bulk operations across many repos (script with gh api), or when gh auth is not configured.</description>\n    <location>~/.openclaw/skills/github/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>healthcheck</name>\n    <description>Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).</description>\n    <location>~/.openclaw/skills/healthcheck/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>imsg</name>\n    <description>iMessage/SMS CLI for listing chats, history, and sending messages via Messages.app.</description>\n    <location>~/.openclaw/skills/imsg/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>oracle</name>\n    <description>Best practices for using the oracle CLI (prompt + file bundling, engines, sessions, and file attachment patterns).</description>\n    <location>~/.openclaw/skills/oracle/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>peekaboo</name>\n    <description>Capture and automate macOS UI with the Peekaboo CLI.</description>\n    <location>~/.openclaw/skills/peekaboo/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>skill-creator</name>\n    <description>Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.</description>\n    <location>~/.openclaw/skills/skill-creator/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>summarize</name>\n    <description>Summarize or extract text/transcripts from URLs, podcasts, and local files (great fallback for “transcribe this YouTube/video”).</description>\n    <location>~/.openclaw/skills/summarize/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>video-frames</name>\n    <description>Extract frames or short clips from videos using ffmpeg.</description>\n    <location>~/.openclaw/skills/video-frames/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>weather</name>\n    <description>Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.</description>\n    <location>~/.openclaw/skills/weather/SKILL.md</location>\n  </skill>\n</available_skills>",
+      "skills": [
+        {
+          "name": "acp-router"
+        },
+        {
+          "name": "feishu-doc"
+        },
+        {
+          "name": "feishu-drive"
+        },
+        {
+          "name": "feishu-perm"
+        },
+        {
+          "name": "feishu-wiki"
+        },
+        {
+          "name": "prose"
+        },
+        {
+          "name": "1password",
+          "requiredEnv": []
+        },
+        {
+          "name": "apple-notes",
+          "requiredEnv": []
+        },
+        {
+          "name": "apple-reminders",
+          "requiredEnv": []
+        },
+        {
+          "name": "clawhub",
+          "requiredEnv": []
+        },
+        {
+          "name": "gh-issues",
+          "primaryEnv": "GH_TOKEN",
+          "requiredEnv": []
+        },
+        {
+          "name": "github",
+          "requiredEnv": []
+        },
+        {
+          "name": "healthcheck"
+        },
+        {
+          "name": "imsg",
+          "requiredEnv": []
+        },
+        {
+          "name": "oracle",
+          "requiredEnv": []
+        },
+        {
+          "name": "peekaboo",
+          "requiredEnv": []
+        },
+        {
+          "name": "skill-creator"
+        },
+        {
+          "name": "summarize",
+          "requiredEnv": []
+        },
+        {
+          "name": "video-frames",
+          "requiredEnv": []
+        },
+        {
+          "name": "weather",
+          "requiredEnv": []
+        }
+      ],
+      "resolvedSkills": [
+        {
+          "name": "acp-router",
+          "description": "Route plain-language requests for Pi, Claude Code, Codex, OpenCode, Gemini CLI, or ACP harness work into either OpenClaw ACP runtime sessions or direct acpx-driven sessions (\"telephone game\" flow). For coding-agent thread requests, read this skill first, then use only `sessions_spawn` for thread creation.",
+          "filePath": "/Users/hope/.openclaw/extensions/acpx/skills/acp-router/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/extensions/acpx/skills/acp-router",
+          "source": "openclaw-extra",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "feishu-doc",
+          "description": "Feishu document read/write operations. Activate when user mentions Feishu docs, cloud docs, or docx links.\n",
+          "filePath": "/Users/hope/.openclaw/extensions/feishu/skills/feishu-doc/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/extensions/feishu/skills/feishu-doc",
+          "source": "openclaw-extra",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "feishu-drive",
+          "description": "Feishu cloud storage file management. Activate when user mentions cloud space, folders, drive.\n",
+          "filePath": "/Users/hope/.openclaw/extensions/feishu/skills/feishu-drive/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/extensions/feishu/skills/feishu-drive",
+          "source": "openclaw-extra",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "feishu-perm",
+          "description": "Feishu permission management for documents and files. Activate when user mentions sharing, permissions, collaborators.\n",
+          "filePath": "/Users/hope/.openclaw/extensions/feishu/skills/feishu-perm/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/extensions/feishu/skills/feishu-perm",
+          "source": "openclaw-extra",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "feishu-wiki",
+          "description": "Feishu knowledge base navigation. Activate when user mentions knowledge base, wiki, or wiki links.\n",
+          "filePath": "/Users/hope/.openclaw/extensions/feishu/skills/feishu-wiki/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/extensions/feishu/skills/feishu-wiki",
+          "source": "openclaw-extra",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "prose",
+          "description": "OpenProse VM skill pack. Activate on any `prose` command, .prose files, or OpenProse mentions; orchestrates multi-agent workflows.",
+          "filePath": "/Users/hope/.openclaw/extensions/open-prose/skills/prose/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/extensions/open-prose/skills/prose",
+          "source": "openclaw-extra",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "1password",
+          "description": "Set up and use 1Password CLI (op). Use when installing the CLI, enabling desktop app integration, signing in (single or multi-account), or reading/injecting/running secrets via op.",
+          "filePath": "/Users/hope/.openclaw/skills/1password/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/1password",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "apple-notes",
+          "description": "Manage Apple Notes via the `memo` CLI on macOS (create, view, edit, delete, search, move, and export notes). Use when a user asks OpenClaw to add a note, list notes, search notes, or manage note folders.",
+          "filePath": "/Users/hope/.openclaw/skills/apple-notes/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/apple-notes",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "apple-reminders",
+          "description": "Manage Apple Reminders via remindctl CLI (list, add, edit, complete, delete). Supports lists, date filters, and JSON/plain output.",
+          "filePath": "/Users/hope/.openclaw/skills/apple-reminders/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/apple-reminders",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "clawhub",
+          "description": "Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.",
+          "filePath": "/Users/hope/.openclaw/skills/clawhub/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/clawhub",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "gh-issues",
+          "description": "Fetch GitHub issues, spawn sub-agents to implement fixes and open PRs, then monitor and address PR review comments. Usage: /gh-issues [owner/repo] [--label bug] [--limit 5] [--milestone v1.0] [--assignee @me] [--fork user/repo] [--watch] [--interval 5] [--reviews-only] [--cron] [--dry-run] [--model glm-5] [--notify-channel -1002381931352]",
+          "filePath": "/Users/hope/.openclaw/skills/gh-issues/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/gh-issues",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "github",
+          "description": "GitHub operations via `gh` CLI: issues, PRs, CI runs, code review, API queries. Use when: (1) checking PR status or CI, (2) creating/commenting on issues, (3) listing/filtering PRs or issues, (4) viewing run logs. NOT for: complex web UI interactions requiring manual browser flows (use browser tooling when available), bulk operations across many repos (script with gh api), or when gh auth is not configured.",
+          "filePath": "/Users/hope/.openclaw/skills/github/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/github",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "healthcheck",
+          "description": "Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).",
+          "filePath": "/Users/hope/.openclaw/skills/healthcheck/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/healthcheck",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "imsg",
+          "description": "iMessage/SMS CLI for listing chats, history, and sending messages via Messages.app.",
+          "filePath": "/Users/hope/.openclaw/skills/imsg/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/imsg",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "oracle",
+          "description": "Best practices for using the oracle CLI (prompt + file bundling, engines, sessions, and file attachment patterns).",
+          "filePath": "/Users/hope/.openclaw/skills/oracle/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/oracle",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "peekaboo",
+          "description": "Capture and automate macOS UI with the Peekaboo CLI.",
+          "filePath": "/Users/hope/.openclaw/skills/peekaboo/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/peekaboo",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "skill-creator",
+          "description": "Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.",
+          "filePath": "/Users/hope/.openclaw/skills/skill-creator/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/skill-creator",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "summarize",
+          "description": "Summarize or extract text/transcripts from URLs, podcasts, and local files (great fallback for “transcribe this YouTube/video”).",
+          "filePath": "/Users/hope/.openclaw/skills/summarize/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/summarize",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "video-frames",
+          "description": "Extract frames or short clips from videos using ffmpeg.",
+          "filePath": "/Users/hope/.openclaw/skills/video-frames/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/video-frames",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "weather",
+          "description": "Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.",
+          "filePath": "/Users/hope/.openclaw/skills/weather/SKILL.md",
+          "baseDir": "/Users/hope/.openclaw/skills/weather",
+          "source": "openclaw-managed",
+          "disableModelInvocation": false
+        }
+      ],
+      "version": 0
+    },
+    "modelProvider": "bailian",
+    "model": "qwen3-max-2026-01-23",
+    "systemPromptReport": {
+      "source": "run",
+      "generatedAt": 1772456828906,
+      "sessionId": "b1809e0c-9cc3-4416-9ba7-53adefeceab6",
+      "sessionKey": "agent:coding:telegram:direct:5520269161",
+      "provider": "bailian",
+      "model": "qwen3-max-2026-01-23",
+      "workspaceDir": "/Users/hope/.openclaw/agents/coding/workspace",
+      "bootstrapMaxChars": 20000,
+      "bootstrapTotalMaxChars": 150000,
+      "sandbox": {
+        "mode": "off",
+        "sandboxed": false
+      },
+      "systemPrompt": {
+        "chars": 38083,
+        "projectContextChars": 19883,
+        "nonProjectContextChars": 18200
+      },
+      "injectedWorkspaceFiles": [
+        {
+          "name": "AGENTS.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/AGENTS.md",
+          "missing": false,
+          "rawChars": 7804,
+          "injectedChars": 7804,
+          "truncated": false
+        },
+        {
+          "name": "SOUL.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/SOUL.md",
+          "missing": false,
+          "rawChars": 1664,
+          "injectedChars": 1664,
+          "truncated": false
+        },
+        {
+          "name": "TOOLS.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/TOOLS.md",
+          "missing": false,
+          "rawChars": 850,
+          "injectedChars": 850,
+          "truncated": false
+        },
+        {
+          "name": "IDENTITY.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/IDENTITY.md",
+          "missing": false,
+          "rawChars": 633,
+          "injectedChars": 633,
+          "truncated": false
+        },
+        {
+          "name": "USER.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/USER.md",
+          "missing": false,
+          "rawChars": 474,
+          "injectedChars": 474,
+          "truncated": false
+        },
+        {
+          "name": "HEARTBEAT.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/HEARTBEAT.md",
+          "missing": false,
+          "rawChars": 2254,
+          "injectedChars": 2254,
+          "truncated": false
+        },
+        {
+          "name": "BOOTSTRAP.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/BOOTSTRAP.md",
+          "missing": false,
+          "rawChars": 1449,
+          "injectedChars": 1449,
+          "truncated": false
+        },
+        {
+          "name": "MEMORY.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/MEMORY.md",
+          "missing": false,
+          "rawChars": 4049,
+          "injectedChars": 4049,
+          "truncated": false
+        }
+      ],
+      "skills": {
+        "promptChars": 6868,
+        "entries": [
+          {
+            "name": "acp-router",
+            "blockChars": 474
+          },
+          {
+            "name": "feishu-doc",
+            "blockChars": 267
+          },
+          {
+            "name": "feishu-drive",
+            "blockChars": 259
+          },
+          {
+            "name": "feishu-perm",
+            "blockChars": 281
+          },
+          {
+            "name": "feishu-wiki",
+            "blockChars": 261
+          },
+          {
+            "name": "prose",
+            "blockChars": 284
+          },
+          {
+            "name": "1password",
+            "blockChars": 320
+          },
+          {
+            "name": "apple-notes",
+            "blockChars": 347
+          },
+          {
+            "name": "apple-reminders",
+            "blockChars": 282
+          },
+          {
+            "name": "clawhub",
+            "blockChars": 404
+          },
+          {
+            "name": "gh-issues",
+            "blockChars": 480
+          },
+          {
+            "name": "github",
+            "blockChars": 544
+          },
+          {
+            "name": "healthcheck",
+            "blockChars": 463
+          },
+          {
+            "name": "imsg",
+            "blockChars": 213
+          },
+          {
+            "name": "oracle",
+            "blockChars": 248
+          },
+          {
+            "name": "peekaboo",
+            "blockChars": 190
+          },
+          {
+            "name": "skill-creator",
+            "blockChars": 268
+          },
+          {
+            "name": "summarize",
+            "blockChars": 268
+          },
+          {
+            "name": "video-frames",
+            "blockChars": 201
+          },
+          {
+            "name": "weather",
+            "blockChars": 388
+          }
+        ]
+      },
+      "tools": {
+        "listChars": 2337,
+        "schemaChars": 16409,
+        "entries": [
+          {
+            "name": "read",
+            "summaryChars": 298,
+            "schemaChars": 392,
+            "propertiesCount": 4
+          },
+          {
+            "name": "edit",
+            "summaryChars": 129,
+            "schemaChars": 591,
+            "propertiesCount": 6
+          },
+          {
+            "name": "write",
+            "summaryChars": 127,
+            "schemaChars": 313,
+            "propertiesCount": 3
+          },
+          {
+            "name": "exec",
+            "summaryChars": 181,
+            "schemaChars": 1086,
+            "propertiesCount": 12
+          },
+          {
+            "name": "process",
+            "summaryChars": 85,
+            "schemaChars": 961,
+            "propertiesCount": 12
+          },
+          {
+            "name": "browser",
+            "summaryChars": 1251,
+            "schemaChars": 1921,
+            "propertiesCount": 29
+          },
+          {
+            "name": "canvas",
+            "summaryChars": 106,
+            "schemaChars": 661,
+            "propertiesCount": 18
+          },
+          {
+            "name": "nodes",
+            "summaryChars": 115,
+            "schemaChars": 1758,
+            "propertiesCount": 36
+          },
+          {
+            "name": "cron",
+            "summaryChars": 2689,
+            "schemaChars": 690,
+            "propertiesCount": 13
+          },
+          {
+            "name": "message",
+            "summaryChars": 157,
+            "schemaChars": 4304,
+            "propertiesCount": 86
+          },
+          {
+            "name": "tts",
+            "summaryChars": 152,
+            "schemaChars": 223,
+            "propertiesCount": 2
+          },
+          {
+            "name": "gateway",
+            "summaryChars": 354,
+            "schemaChars": 465,
+            "propertiesCount": 11
+          },
+          {
+            "name": "agents_list",
+            "summaryChars": 118,
+            "schemaChars": 33,
+            "propertiesCount": 0
+          },
+          {
+            "name": "sessions_list",
+            "summaryChars": 54,
+            "schemaChars": 212,
+            "propertiesCount": 4
+          },
+          {
+            "name": "sessions_history",
+            "summaryChars": 36,
+            "schemaChars": 161,
+            "propertiesCount": 3
+          },
+          {
+            "name": "sessions_send",
+            "summaryChars": 84,
+            "schemaChars": 273,
+            "propertiesCount": 5
+          },
+          {
+            "name": "sessions_spawn",
+            "summaryChars": 134,
+            "schemaChars": 549,
+            "propertiesCount": 13
+          },
+          {
+            "name": "subagents",
+            "summaryChars": 105,
+            "schemaChars": 191,
+            "propertiesCount": 4
+          },
+          {
+            "name": "session_status",
+            "summaryChars": 207,
+            "schemaChars": 89,
+            "propertiesCount": 2
+          },
+          {
+            "name": "web_search",
+            "summaryChars": 175,
+            "schemaChars": 895,
+            "propertiesCount": 6
+          },
+          {
+            "name": "web_fetch",
+            "summaryChars": 129,
+            "schemaChars": 374,
+            "propertiesCount": 3
+          },
+          {
+            "name": "memory_search",
+            "summaryChars": 334,
+            "schemaChars": 139,
+            "propertiesCount": 3
+          },
+          {
+            "name": "memory_get",
+            "summaryChars": 151,
+            "schemaChars": 128,
+            "propertiesCount": 3
+          }
+        ]
+      }
+    },
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "totalTokensFresh": true,
+    "compactionCount": 0,
+    "contextTokens": 262144,
+    "inputTokens": 421037,
+    "outputTokens": 114,
+    "totalTokens": 140373,
+    "lastTo": "telegram:5520269161",
+    "lastAccountId": "coding"
+  },
+  "agent:coding:main": {
+    "updatedAt": 1772456828279,
+    "sessionId": "1036c2c5-61ad-45fb-893f-e55b8dbd2deb",
+    "systemSent": true,
+    "abortedLastRun": false,
+    "chatType": "direct",
+    "origin": {
+      "label": "5520269161",
+      "provider": "webchat",
+      "from": "5520269161",
+      "to": "-1003661163902",
+      "accountId": "coding",
+      "surface": "webchat",
+      "chatType": "direct"
+    },
+    "sessionFile": "/Users/hope/.openclaw/agents/coding/sessions/1036c2c5-61ad-45fb-893f-e55b8dbd2deb.jsonl",
+    "skillsSnapshot": {
+      "prompt": "\n\nThe following skills provide specialized instructions for specific tasks.\nUse the read tool to load a skill's file when the task matches its description.\nWhen a skill file references a relative path, resolve it against the skill directory (parent of SKILL.md / dirname of the path) and use that absolute path in tool commands.\n\n<available_skills>\n  <skill>\n    <name>1password</name>\n    <description>Set up and use 1Password CLI (op). Use when installing the CLI, enabling desktop app integration, signing in (single or multi-account), or reading/injecting/running secrets via op.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/1password/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>apple-notes</name>\n    <description>Manage Apple Notes via the `memo` CLI on macOS (create, view, edit, delete, search, move, and export notes). Use when a user asks OpenClaw to add a note, list notes, search notes, or manage note folders.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/apple-notes/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>apple-reminders</name>\n    <description>Manage Apple Reminders via remindctl CLI (list, add, edit, complete, delete). Supports lists, date filters, and JSON/plain output.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/apple-reminders/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>clawhub</name>\n    <description>Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/clawhub/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>gh-issues</name>\n    <description>Fetch GitHub issues, spawn sub-agents to implement fixes and open PRs, then monitor and address PR review comments. Usage: /gh-issues [owner/repo] [--label bug] [--limit 5] [--milestone v1.0] [--assignee @me] [--fork user/repo] [--watch] [--interval 5] [--reviews-only] [--cron] [--dry-run] [--model glm-5] [--notify-channel -1002381931352]</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/gh-issues/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>github</name>\n    <description>GitHub operations via `gh` CLI: issues, PRs, CI runs, code review, API queries. Use when: (1) checking PR status or CI, (2) creating/commenting on issues, (3) listing/filtering PRs or issues, (4) viewing run logs. NOT for: complex web UI interactions requiring manual browser flows (use browser tooling when available), bulk operations across many repos (script with gh api), or when gh auth is not configured.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/github/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>healthcheck</name>\n    <description>Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/healthcheck/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>imsg</name>\n    <description>iMessage/SMS CLI for listing chats, history, and sending messages via Messages.app.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/imsg/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>oracle</name>\n    <description>Best practices for using the oracle CLI (prompt + file bundling, engines, sessions, and file attachment patterns).</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/oracle/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>peekaboo</name>\n    <description>Capture and automate macOS UI with the Peekaboo CLI.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/peekaboo/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>skill-creator</name>\n    <description>Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/skill-creator/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>summarize</name>\n    <description>Summarize or extract text/transcripts from URLs, podcasts, and local files (great fallback for “transcribe this YouTube/video”).</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/summarize/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>video-frames</name>\n    <description>Extract frames or short clips from videos using ffmpeg.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/video-frames/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>weather</name>\n    <description>Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/weather/SKILL.md</location>\n  </skill>\n</available_skills>",
+      "skills": [
+        {
+          "name": "1password",
+          "requiredEnv": []
+        },
+        {
+          "name": "apple-notes",
+          "requiredEnv": []
+        },
+        {
+          "name": "apple-reminders",
+          "requiredEnv": []
+        },
+        {
+          "name": "clawhub",
+          "requiredEnv": []
+        },
+        {
+          "name": "gh-issues",
+          "primaryEnv": "GH_TOKEN",
+          "requiredEnv": []
+        },
+        {
+          "name": "github",
+          "requiredEnv": []
+        },
+        {
+          "name": "healthcheck"
+        },
+        {
+          "name": "imsg",
+          "requiredEnv": []
+        },
+        {
+          "name": "oracle",
+          "requiredEnv": []
+        },
+        {
+          "name": "peekaboo",
+          "requiredEnv": []
+        },
+        {
+          "name": "skill-creator"
+        },
+        {
+          "name": "summarize",
+          "requiredEnv": []
+        },
+        {
+          "name": "video-frames",
+          "requiredEnv": []
+        },
+        {
+          "name": "weather",
+          "requiredEnv": []
+        }
+      ],
+      "resolvedSkills": [
+        {
+          "name": "1password",
+          "description": "Set up and use 1Password CLI (op). Use when installing the CLI, enabling desktop app integration, signing in (single or multi-account), or reading/injecting/running secrets via op.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/1password/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/1password",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "apple-notes",
+          "description": "Manage Apple Notes via the `memo` CLI on macOS (create, view, edit, delete, search, move, and export notes). Use when a user asks OpenClaw to add a note, list notes, search notes, or manage note folders.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/apple-notes/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/apple-notes",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "apple-reminders",
+          "description": "Manage Apple Reminders via remindctl CLI (list, add, edit, complete, delete). Supports lists, date filters, and JSON/plain output.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/apple-reminders/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/apple-reminders",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "clawhub",
+          "description": "Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/clawhub/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/clawhub",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "gh-issues",
+          "description": "Fetch GitHub issues, spawn sub-agents to implement fixes and open PRs, then monitor and address PR review comments. Usage: /gh-issues [owner/repo] [--label bug] [--limit 5] [--milestone v1.0] [--assignee @me] [--fork user/repo] [--watch] [--interval 5] [--reviews-only] [--cron] [--dry-run] [--model glm-5] [--notify-channel -1002381931352]",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/gh-issues/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/gh-issues",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "github",
+          "description": "GitHub operations via `gh` CLI: issues, PRs, CI runs, code review, API queries. Use when: (1) checking PR status or CI, (2) creating/commenting on issues, (3) listing/filtering PRs or issues, (4) viewing run logs. NOT for: complex web UI interactions requiring manual browser flows (use browser tooling when available), bulk operations across many repos (script with gh api), or when gh auth is not configured.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/github/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/github",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "healthcheck",
+          "description": "Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/healthcheck/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/healthcheck",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "imsg",
+          "description": "iMessage/SMS CLI for listing chats, history, and sending messages via Messages.app.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/imsg/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/imsg",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "oracle",
+          "description": "Best practices for using the oracle CLI (prompt + file bundling, engines, sessions, and file attachment patterns).",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/oracle/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/oracle",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "peekaboo",
+          "description": "Capture and automate macOS UI with the Peekaboo CLI.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/peekaboo/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/peekaboo",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "skill-creator",
+          "description": "Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/skill-creator/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/skill-creator",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "summarize",
+          "description": "Summarize or extract text/transcripts from URLs, podcasts, and local files (great fallback for “transcribe this YouTube/video”).",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/summarize/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/summarize",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "video-frames",
+          "description": "Extract frames or short clips from videos using ffmpeg.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/video-frames/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/video-frames",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "weather",
+          "description": "Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/weather/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/weather",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        }
+      ],
+      "version": 0
+    },
+    "modelProvider": "bailian",
+    "model": "qwen3-max-2026-01-23",
+    "contextTokens": 262144,
+    "systemPromptReport": {
+      "source": "run",
+      "generatedAt": 1772445495989,
+      "sessionId": "1036c2c5-61ad-45fb-893f-e55b8dbd2deb",
+      "sessionKey": "agent:coding:main",
+      "provider": "bailian",
+      "model": "qwen3-max-2026-01-23",
+      "workspaceDir": "/Users/hope/.openclaw/agents/coding/workspace",
+      "bootstrapMaxChars": 20000,
+      "bootstrapTotalMaxChars": 150000,
+      "sandbox": {
+        "mode": "off",
+        "sandboxed": false
+      },
+      "systemPrompt": {
+        "chars": 34282,
+        "projectContextChars": 19080,
+        "nonProjectContextChars": 15202
+      },
+      "injectedWorkspaceFiles": [
+        {
+          "name": "AGENTS.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/AGENTS.md",
+          "missing": false,
+          "rawChars": 7804,
+          "injectedChars": 7804,
+          "truncated": false
+        },
+        {
+          "name": "SOUL.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/SOUL.md",
+          "missing": false,
+          "rawChars": 1664,
+          "injectedChars": 1664,
+          "truncated": false
+        },
+        {
+          "name": "TOOLS.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/TOOLS.md",
+          "missing": false,
+          "rawChars": 850,
+          "injectedChars": 850,
+          "truncated": false
+        },
+        {
+          "name": "IDENTITY.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/IDENTITY.md",
+          "missing": false,
+          "rawChars": 633,
+          "injectedChars": 633,
+          "truncated": false
+        },
+        {
+          "name": "USER.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/USER.md",
+          "missing": false,
+          "rawChars": 474,
+          "injectedChars": 474,
+          "truncated": false
+        },
+        {
+          "name": "HEARTBEAT.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/HEARTBEAT.md",
+          "missing": false,
+          "rawChars": 2254,
+          "injectedChars": 2254,
+          "truncated": false
+        },
+        {
+          "name": "BOOTSTRAP.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/BOOTSTRAP.md",
+          "missing": false,
+          "rawChars": 1449,
+          "injectedChars": 1449,
+          "truncated": false
+        },
+        {
+          "name": "MEMORY.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/MEMORY.md",
+          "missing": false,
+          "rawChars": 3246,
+          "injectedChars": 3246,
+          "truncated": false
+        }
+      ],
+      "skills": {
+        "promptChars": 5416,
+        "entries": [
+          {
+            "name": "1password",
+            "blockChars": 348
+          },
+          {
+            "name": "apple-notes",
+            "blockChars": 375
+          },
+          {
+            "name": "apple-reminders",
+            "blockChars": 310
+          },
+          {
+            "name": "clawhub",
+            "blockChars": 432
+          },
+          {
+            "name": "gh-issues",
+            "blockChars": 508
+          },
+          {
+            "name": "github",
+            "blockChars": 572
+          },
+          {
+            "name": "healthcheck",
+            "blockChars": 491
+          },
+          {
+            "name": "imsg",
+            "blockChars": 241
+          },
+          {
+            "name": "oracle",
+            "blockChars": 276
+          },
+          {
+            "name": "peekaboo",
+            "blockChars": 218
+          },
+          {
+            "name": "skill-creator",
+            "blockChars": 296
+          },
+          {
+            "name": "summarize",
+            "blockChars": 296
+          },
+          {
+            "name": "video-frames",
+            "blockChars": 229
+          },
+          {
+            "name": "weather",
+            "blockChars": 416
+          }
+        ]
+      },
+      "tools": {
+        "listChars": 1937,
+        "schemaChars": 15254,
+        "entries": [
+          {
+            "name": "read",
+            "summaryChars": 298,
+            "schemaChars": 392,
+            "propertiesCount": 4
+          },
+          {
+            "name": "edit",
+            "summaryChars": 129,
+            "schemaChars": 591,
+            "propertiesCount": 6
+          },
+          {
+            "name": "write",
+            "summaryChars": 127,
+            "schemaChars": 313,
+            "propertiesCount": 3
+          },
+          {
+            "name": "exec",
+            "summaryChars": 181,
+            "schemaChars": 1086,
+            "propertiesCount": 12
+          },
+          {
+            "name": "process",
+            "summaryChars": 85,
+            "schemaChars": 961,
+            "propertiesCount": 12
+          },
+          {
+            "name": "browser",
+            "summaryChars": 1251,
+            "schemaChars": 1921,
+            "propertiesCount": 29
+          },
+          {
+            "name": "canvas",
+            "summaryChars": 106,
+            "schemaChars": 661,
+            "propertiesCount": 18
+          },
+          {
+            "name": "nodes",
+            "summaryChars": 115,
+            "schemaChars": 1758,
+            "propertiesCount": 36
+          },
+          {
+            "name": "message",
+            "summaryChars": 149,
+            "schemaChars": 4304,
+            "propertiesCount": 86
+          },
+          {
+            "name": "tts",
+            "summaryChars": 152,
+            "schemaChars": 223,
+            "propertiesCount": 2
+          },
+          {
+            "name": "agents_list",
+            "summaryChars": 118,
+            "schemaChars": 33,
+            "propertiesCount": 0
+          },
+          {
+            "name": "sessions_list",
+            "summaryChars": 54,
+            "schemaChars": 212,
+            "propertiesCount": 4
+          },
+          {
+            "name": "sessions_history",
+            "summaryChars": 36,
+            "schemaChars": 161,
+            "propertiesCount": 3
+          },
+          {
+            "name": "sessions_send",
+            "summaryChars": 84,
+            "schemaChars": 273,
+            "propertiesCount": 5
+          },
+          {
+            "name": "sessions_spawn",
+            "summaryChars": 134,
+            "schemaChars": 549,
+            "propertiesCount": 13
+          },
+          {
+            "name": "subagents",
+            "summaryChars": 105,
+            "schemaChars": 191,
+            "propertiesCount": 4
+          },
+          {
+            "name": "session_status",
+            "summaryChars": 207,
+            "schemaChars": 89,
+            "propertiesCount": 2
+          },
+          {
+            "name": "web_search",
+            "summaryChars": 175,
+            "schemaChars": 895,
+            "propertiesCount": 6
+          },
+          {
+            "name": "web_fetch",
+            "summaryChars": 129,
+            "schemaChars": 374,
+            "propertiesCount": 3
+          },
+          {
+            "name": "memory_search",
+            "summaryChars": 334,
+            "schemaChars": 139,
+            "propertiesCount": 3
+          },
+          {
+            "name": "memory_get",
+            "summaryChars": 151,
+            "schemaChars": 128,
+            "propertiesCount": 3
+          }
+        ]
+      }
+    },
+    "inputTokens": 465393,
+    "outputTokens": 1578,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "totalTokens": 115563,
+    "totalTokensFresh": true,
+    "lastHeartbeatText": "I'll check the HEARTBEAT.md file and follow its instructions strictly for this heartbeat check at 1:54 PM.\n\nLet me check for any new issues or PR activity in the OpenClaw repository since my last comprehensive check.",
+    "lastHeartbeatSentAt": 1772430878461
+  },
+  "agent:coding:telegram:group:-1003661163902": {
+    "chatType": "group",
+    "channel": "telegram",
+    "groupId": "-1003661163902",
+    "subject": "one",
+    "displayName": "telegram:g-one",
+    "origin": {
+      "label": "one id:-1003661163902",
+      "provider": "telegram",
+      "surface": "telegram",
+      "chatType": "group",
+      "from": "telegram:group:-1003661163902",
+      "to": "telegram:-1003661163902",
+      "accountId": "coding"
+    },
+    "sessionId": "5d1b7aa5-af8d-4099-bc88-fe395a9deedb",
+    "updatedAt": 1772447686118,
+    "deliveryContext": {
+      "channel": "telegram",
+      "to": "telegram:-1003661163902",
+      "accountId": "coding"
+    },
+    "lastChannel": "telegram",
+    "systemSent": true,
+    "abortedLastRun": false,
+    "lastTo": "telegram:-1003661163902",
+    "lastAccountId": "coding",
+    "sessionFile": "/Users/hope/.openclaw/agents/coding/sessions/5d1b7aa5-af8d-4099-bc88-fe395a9deedb.jsonl",
+    "skillsSnapshot": {
+      "prompt": "\n\nThe following skills provide specialized instructions for specific tasks.\nUse the read tool to load a skill's file when the task matches its description.\nWhen a skill file references a relative path, resolve it against the skill directory (parent of SKILL.md / dirname of the path) and use that absolute path in tool commands.\n\n<available_skills>\n  <skill>\n    <name>1password</name>\n    <description>Set up and use 1Password CLI (op). Use when installing the CLI, enabling desktop app integration, signing in (single or multi-account), or reading/injecting/running secrets via op.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/1password/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>apple-notes</name>\n    <description>Manage Apple Notes via the `memo` CLI on macOS (create, view, edit, delete, search, move, and export notes). Use when a user asks OpenClaw to add a note, list notes, search notes, or manage note folders.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/apple-notes/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>apple-reminders</name>\n    <description>Manage Apple Reminders via remindctl CLI (list, add, edit, complete, delete). Supports lists, date filters, and JSON/plain output.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/apple-reminders/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>clawhub</name>\n    <description>Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/clawhub/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>gh-issues</name>\n    <description>Fetch GitHub issues, spawn sub-agents to implement fixes and open PRs, then monitor and address PR review comments. Usage: /gh-issues [owner/repo] [--label bug] [--limit 5] [--milestone v1.0] [--assignee @me] [--fork user/repo] [--watch] [--interval 5] [--reviews-only] [--cron] [--dry-run] [--model glm-5] [--notify-channel -1002381931352]</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/gh-issues/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>github</name>\n    <description>GitHub operations via `gh` CLI: issues, PRs, CI runs, code review, API queries. Use when: (1) checking PR status or CI, (2) creating/commenting on issues, (3) listing/filtering PRs or issues, (4) viewing run logs. NOT for: complex web UI interactions requiring manual browser flows (use browser tooling when available), bulk operations across many repos (script with gh api), or when gh auth is not configured.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/github/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>healthcheck</name>\n    <description>Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/healthcheck/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>imsg</name>\n    <description>iMessage/SMS CLI for listing chats, history, and sending messages via Messages.app.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/imsg/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>oracle</name>\n    <description>Best practices for using the oracle CLI (prompt + file bundling, engines, sessions, and file attachment patterns).</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/oracle/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>peekaboo</name>\n    <description>Capture and automate macOS UI with the Peekaboo CLI.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/peekaboo/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>skill-creator</name>\n    <description>Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/skill-creator/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>summarize</name>\n    <description>Summarize or extract text/transcripts from URLs, podcasts, and local files (great fallback for “transcribe this YouTube/video”).</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/summarize/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>video-frames</name>\n    <description>Extract frames or short clips from videos using ffmpeg.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/video-frames/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>weather</name>\n    <description>Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.</description>\n    <location>/opt/homebrew/lib/node_modules/openclaw/skills/weather/SKILL.md</location>\n  </skill>\n</available_skills>",
+      "skills": [
+        {
+          "name": "1password",
+          "requiredEnv": []
+        },
+        {
+          "name": "apple-notes",
+          "requiredEnv": []
+        },
+        {
+          "name": "apple-reminders",
+          "requiredEnv": []
+        },
+        {
+          "name": "clawhub",
+          "requiredEnv": []
+        },
+        {
+          "name": "gh-issues",
+          "primaryEnv": "GH_TOKEN",
+          "requiredEnv": []
+        },
+        {
+          "name": "github",
+          "requiredEnv": []
+        },
+        {
+          "name": "healthcheck"
+        },
+        {
+          "name": "imsg",
+          "requiredEnv": []
+        },
+        {
+          "name": "oracle",
+          "requiredEnv": []
+        },
+        {
+          "name": "peekaboo",
+          "requiredEnv": []
+        },
+        {
+          "name": "skill-creator"
+        },
+        {
+          "name": "summarize",
+          "requiredEnv": []
+        },
+        {
+          "name": "video-frames",
+          "requiredEnv": []
+        },
+        {
+          "name": "weather",
+          "requiredEnv": []
+        }
+      ],
+      "resolvedSkills": [
+        {
+          "name": "1password",
+          "description": "Set up and use 1Password CLI (op). Use when installing the CLI, enabling desktop app integration, signing in (single or multi-account), or reading/injecting/running secrets via op.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/1password/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/1password",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "apple-notes",
+          "description": "Manage Apple Notes via the `memo` CLI on macOS (create, view, edit, delete, search, move, and export notes). Use when a user asks OpenClaw to add a note, list notes, search notes, or manage note folders.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/apple-notes/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/apple-notes",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "apple-reminders",
+          "description": "Manage Apple Reminders via remindctl CLI (list, add, edit, complete, delete). Supports lists, date filters, and JSON/plain output.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/apple-reminders/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/apple-reminders",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "clawhub",
+          "description": "Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/clawhub/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/clawhub",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "gh-issues",
+          "description": "Fetch GitHub issues, spawn sub-agents to implement fixes and open PRs, then monitor and address PR review comments. Usage: /gh-issues [owner/repo] [--label bug] [--limit 5] [--milestone v1.0] [--assignee @me] [--fork user/repo] [--watch] [--interval 5] [--reviews-only] [--cron] [--dry-run] [--model glm-5] [--notify-channel -1002381931352]",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/gh-issues/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/gh-issues",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "github",
+          "description": "GitHub operations via `gh` CLI: issues, PRs, CI runs, code review, API queries. Use when: (1) checking PR status or CI, (2) creating/commenting on issues, (3) listing/filtering PRs or issues, (4) viewing run logs. NOT for: complex web UI interactions requiring manual browser flows (use browser tooling when available), bulk operations across many repos (script with gh api), or when gh auth is not configured.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/github/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/github",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "healthcheck",
+          "description": "Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/healthcheck/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/healthcheck",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "imsg",
+          "description": "iMessage/SMS CLI for listing chats, history, and sending messages via Messages.app.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/imsg/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/imsg",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "oracle",
+          "description": "Best practices for using the oracle CLI (prompt + file bundling, engines, sessions, and file attachment patterns).",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/oracle/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/oracle",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "peekaboo",
+          "description": "Capture and automate macOS UI with the Peekaboo CLI.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/peekaboo/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/peekaboo",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "skill-creator",
+          "description": "Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/skill-creator/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/skill-creator",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "summarize",
+          "description": "Summarize or extract text/transcripts from URLs, podcasts, and local files (great fallback for “transcribe this YouTube/video”).",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/summarize/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/summarize",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "video-frames",
+          "description": "Extract frames or short clips from videos using ffmpeg.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/video-frames/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/video-frames",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "weather",
+          "description": "Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.",
+          "filePath": "/opt/homebrew/lib/node_modules/openclaw/skills/weather/SKILL.md",
+          "baseDir": "/opt/homebrew/lib/node_modules/openclaw/skills/weather",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        }
+      ],
+      "version": 0
+    },
+    "modelProvider": "bailian",
+    "model": "qwen3-max-2026-01-23",
+    "systemPromptReport": {
+      "source": "run",
+      "generatedAt": 1772447677707,
+      "sessionId": "5d1b7aa5-af8d-4099-bc88-fe395a9deedb",
+      "sessionKey": "agent:coding:telegram:group:-1003661163902",
+      "provider": "bailian",
+      "model": "qwen3-max-2026-01-23",
+      "workspaceDir": "/Users/hope/.openclaw/agents/coding/workspace",
+      "bootstrapMaxChars": 20000,
+      "bootstrapTotalMaxChars": 150000,
+      "sandbox": {
+        "mode": "off",
+        "sandboxed": false
+      },
+      "systemPrompt": {
+        "chars": 36812,
+        "projectContextChars": 19883,
+        "nonProjectContextChars": 16929
+      },
+      "injectedWorkspaceFiles": [
+        {
+          "name": "AGENTS.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/AGENTS.md",
+          "missing": false,
+          "rawChars": 7804,
+          "injectedChars": 7804,
+          "truncated": false
+        },
+        {
+          "name": "SOUL.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/SOUL.md",
+          "missing": false,
+          "rawChars": 1664,
+          "injectedChars": 1664,
+          "truncated": false
+        },
+        {
+          "name": "TOOLS.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/TOOLS.md",
+          "missing": false,
+          "rawChars": 850,
+          "injectedChars": 850,
+          "truncated": false
+        },
+        {
+          "name": "IDENTITY.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/IDENTITY.md",
+          "missing": false,
+          "rawChars": 633,
+          "injectedChars": 633,
+          "truncated": false
+        },
+        {
+          "name": "USER.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/USER.md",
+          "missing": false,
+          "rawChars": 474,
+          "injectedChars": 474,
+          "truncated": false
+        },
+        {
+          "name": "HEARTBEAT.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/HEARTBEAT.md",
+          "missing": false,
+          "rawChars": 2254,
+          "injectedChars": 2254,
+          "truncated": false
+        },
+        {
+          "name": "BOOTSTRAP.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/BOOTSTRAP.md",
+          "missing": false,
+          "rawChars": 1449,
+          "injectedChars": 1449,
+          "truncated": false
+        },
+        {
+          "name": "MEMORY.md",
+          "path": "/Users/hope/.openclaw/agents/coding/workspace/MEMORY.md",
+          "missing": false,
+          "rawChars": 4049,
+          "injectedChars": 4049,
+          "truncated": false
+        }
+      ],
+      "skills": {
+        "promptChars": 5416,
+        "entries": [
+          {
+            "name": "1password",
+            "blockChars": 348
+          },
+          {
+            "name": "apple-notes",
+            "blockChars": 375
+          },
+          {
+            "name": "apple-reminders",
+            "blockChars": 310
+          },
+          {
+            "name": "clawhub",
+            "blockChars": 432
+          },
+          {
+            "name": "gh-issues",
+            "blockChars": 508
+          },
+          {
+            "name": "github",
+            "blockChars": 572
+          },
+          {
+            "name": "healthcheck",
+            "blockChars": 491
+          },
+          {
+            "name": "imsg",
+            "blockChars": 241
+          },
+          {
+            "name": "oracle",
+            "blockChars": 276
+          },
+          {
+            "name": "peekaboo",
+            "blockChars": 218
+          },
+          {
+            "name": "skill-creator",
+            "blockChars": 296
+          },
+          {
+            "name": "summarize",
+            "blockChars": 296
+          },
+          {
+            "name": "video-frames",
+            "blockChars": 229
+          },
+          {
+            "name": "weather",
+            "blockChars": 416
+          }
+        ]
+      },
+      "tools": {
+        "listChars": 2337,
+        "schemaChars": 16409,
+        "entries": [
+          {
+            "name": "read",
+            "summaryChars": 298,
+            "schemaChars": 392,
+            "propertiesCount": 4
+          },
+          {
+            "name": "edit",
+            "summaryChars": 129,
+            "schemaChars": 591,
+            "propertiesCount": 6
+          },
+          {
+            "name": "write",
+            "summaryChars": 127,
+            "schemaChars": 313,
+            "propertiesCount": 3
+          },
+          {
+            "name": "exec",
+            "summaryChars": 181,
+            "schemaChars": 1086,
+            "propertiesCount": 12
+          },
+          {
+            "name": "process",
+            "summaryChars": 85,
+            "schemaChars": 961,
+            "propertiesCount": 12
+          },
+          {
+            "name": "browser",
+            "summaryChars": 1251,
+            "schemaChars": 1921,
+            "propertiesCount": 29
+          },
+          {
+            "name": "canvas",
+            "summaryChars": 106,
+            "schemaChars": 661,
+            "propertiesCount": 18
+          },
+          {
+            "name": "nodes",
+            "summaryChars": 115,
+            "schemaChars": 1758,
+            "propertiesCount": 36
+          },
+          {
+            "name": "cron",
+            "summaryChars": 2689,
+            "schemaChars": 690,
+            "propertiesCount": 13
+          },
+          {
+            "name": "message",
+            "summaryChars": 157,
+            "schemaChars": 4304,
+            "propertiesCount": 86
+          },
+          {
+            "name": "tts",
+            "summaryChars": 152,
+            "schemaChars": 223,
+            "propertiesCount": 2
+          },
+          {
+            "name": "gateway",
+            "summaryChars": 354,
+            "schemaChars": 465,
+            "propertiesCount": 11
+          },
+          {
+            "name": "agents_list",
+            "summaryChars": 118,
+            "schemaChars": 33,
+            "propertiesCount": 0
+          },
+          {
+            "name": "sessions_list",
+            "summaryChars": 54,
+            "schemaChars": 212,
+            "propertiesCount": 4
+          },
+          {
+            "name": "sessions_history",
+            "summaryChars": 36,
+            "schemaChars": 161,
+            "propertiesCount": 3
+          },
+          {
+            "name": "sessions_send",
+            "summaryChars": 84,
+            "schemaChars": 273,
+            "propertiesCount": 5
+          },
+          {
+            "name": "sessions_spawn",
+            "summaryChars": 134,
+            "schemaChars": 549,
+            "propertiesCount": 13
+          },
+          {
+            "name": "subagents",
+            "summaryChars": 105,
+            "schemaChars": 191,
+            "propertiesCount": 4
+          },
+          {
+            "name": "session_status",
+            "summaryChars": 207,
+            "schemaChars": 89,
+            "propertiesCount": 2
+          },
+          {
+            "name": "web_search",
+            "summaryChars": 175,
+            "schemaChars": 895,
+            "propertiesCount": 6
+          },
+          {
+            "name": "web_fetch",
+            "summaryChars": 129,
+            "schemaChars": 374,
+            "propertiesCount": 3
+          },
+          {
+            "name": "memory_search",
+            "summaryChars": 334,
+            "schemaChars": 139,
+            "propertiesCount": 3
+          },
+          {
+            "name": "memory_get",
+            "summaryChars": 151,
+            "schemaChars": 128,
+            "propertiesCount": 3
+          }
+        ]
+      }
+    },
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "totalTokensFresh": true,
+    "compactionCount": 0,
+    "contextTokens": 262144,
+    "inputTokens": 26217,
+    "outputTokens": 94,
+    "totalTokens": 26217
+  }
+}

@@ -1,0 +1,993 @@
+2026-03-02T09:47:57.483Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/acpx/index.ts) (plugin=acpx, source=/opt/homebrew/lib/node_modules/openclaw/extensions/acpx/index.ts)
+2026-03-02T09:47:57.483Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/bluebubbles/index.ts) (plugin=bluebubbles, source=/opt/homebrew/lib/node_modules/openclaw/extensions/bluebubbles/index.ts)
+2026-03-02T09:47:57.483Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/copilot-proxy/index.ts) (plugin=copilot-proxy, source=/opt/homebrew/lib/node_modules/openclaw/extensions/copilot-proxy/index.ts)
+2026-03-02T09:47:57.484Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/device-pair/index.ts) (plugin=device-pair, source=/opt/homebrew/lib/node_modules/openclaw/extensions/device-pair/index.ts)
+2026-03-02T09:47:57.484Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/diagnostics-otel/index.ts) (plugin=diagnostics-otel, source=/opt/homebrew/lib/node_modules/openclaw/extensions/diagnostics-otel/index.ts)
+2026-03-02T09:47:57.484Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/discord/index.ts) (plugin=discord, source=/opt/homebrew/lib/node_modules/openclaw/extensions/discord/index.ts)
+2026-03-02T09:47:57.484Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/feishu/index.ts) (plugin=feishu, source=/opt/homebrew/lib/node_modules/openclaw/extensions/feishu/index.ts)
+2026-03-02T09:47:57.484Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/google-gemini-cli-auth/index.ts) (plugin=google-gemini-cli-auth, source=/opt/homebrew/lib/node_modules/openclaw/extensions/google-gemini-cli-auth/index.ts)
+2026-03-02T09:47:57.484Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/googlechat/index.ts) (plugin=googlechat, source=/opt/homebrew/lib/node_modules/openclaw/extensions/googlechat/index.ts)
+2026-03-02T09:47:57.484Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/imessage/index.ts) (plugin=imessage, source=/opt/homebrew/lib/node_modules/openclaw/extensions/imessage/index.ts)
+2026-03-02T09:47:57.484Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/irc/index.ts) (plugin=irc, source=/opt/homebrew/lib/node_modules/openclaw/extensions/irc/index.ts)
+2026-03-02T09:47:57.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/line/index.ts) (plugin=line, source=/opt/homebrew/lib/node_modules/openclaw/extensions/line/index.ts)
+2026-03-02T09:47:57.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/llm-task/index.ts) (plugin=llm-task, source=/opt/homebrew/lib/node_modules/openclaw/extensions/llm-task/index.ts)
+2026-03-02T09:47:57.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/lobster/index.ts) (plugin=lobster, source=/opt/homebrew/lib/node_modules/openclaw/extensions/lobster/index.ts)
+2026-03-02T09:47:57.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/matrix/index.ts) (plugin=matrix, source=/opt/homebrew/lib/node_modules/openclaw/extensions/matrix/index.ts)
+2026-03-02T09:47:57.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/mattermost/index.ts) (plugin=mattermost, source=/opt/homebrew/lib/node_modules/openclaw/extensions/mattermost/index.ts)
+2026-03-02T09:47:57.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/memory-core/index.ts) (plugin=memory-core, source=/opt/homebrew/lib/node_modules/openclaw/extensions/memory-core/index.ts)
+2026-03-02T09:47:57.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/memory-lancedb/index.ts) (plugin=memory-lancedb, source=/opt/homebrew/lib/node_modules/openclaw/extensions/memory-lancedb/index.ts)
+2026-03-02T09:47:57.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/minimax-portal-auth/index.ts) (plugin=minimax-portal-auth, source=/opt/homebrew/lib/node_modules/openclaw/extensions/minimax-portal-auth/index.ts)
+2026-03-02T09:47:57.486Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/msteams/index.ts) (plugin=msteams, source=/opt/homebrew/lib/node_modules/openclaw/extensions/msteams/index.ts)
+2026-03-02T09:47:57.486Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/nextcloud-talk/index.ts) (plugin=nextcloud-talk, source=/opt/homebrew/lib/node_modules/openclaw/extensions/nextcloud-talk/index.ts)
+2026-03-02T09:47:57.486Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/nostr/index.ts) (plugin=nostr, source=/opt/homebrew/lib/node_modules/openclaw/extensions/nostr/index.ts)
+2026-03-02T09:47:57.486Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/open-prose/index.ts) (plugin=open-prose, source=/opt/homebrew/lib/node_modules/openclaw/extensions/open-prose/index.ts)
+2026-03-02T09:47:57.486Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/phone-control/index.ts) (plugin=phone-control, source=/opt/homebrew/lib/node_modules/openclaw/extensions/phone-control/index.ts)
+2026-03-02T09:47:57.486Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/qwen-portal-auth/index.ts) (plugin=qwen-portal-auth, source=/opt/homebrew/lib/node_modules/openclaw/extensions/qwen-portal-auth/index.ts)
+2026-03-02T09:47:57.486Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/signal/index.ts) (plugin=signal, source=/opt/homebrew/lib/node_modules/openclaw/extensions/signal/index.ts)
+2026-03-02T09:47:57.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/slack/index.ts) (plugin=slack, source=/opt/homebrew/lib/node_modules/openclaw/extensions/slack/index.ts)
+2026-03-02T09:47:57.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/synology-chat/index.ts) (plugin=synology-chat, source=/opt/homebrew/lib/node_modules/openclaw/extensions/synology-chat/index.ts)
+2026-03-02T09:47:57.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/talk-voice/index.ts) (plugin=talk-voice, source=/opt/homebrew/lib/node_modules/openclaw/extensions/talk-voice/index.ts)
+2026-03-02T09:47:57.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/telegram/index.ts) (plugin=telegram, source=/opt/homebrew/lib/node_modules/openclaw/extensions/telegram/index.ts)
+2026-03-02T09:47:57.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/thread-ownership/index.ts) (plugin=thread-ownership, source=/opt/homebrew/lib/node_modules/openclaw/extensions/thread-ownership/index.ts)
+2026-03-02T09:47:57.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/tlon/index.ts) (plugin=tlon, source=/opt/homebrew/lib/node_modules/openclaw/extensions/tlon/index.ts)
+2026-03-02T09:47:57.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/twitch/index.ts) (plugin=twitch, source=/opt/homebrew/lib/node_modules/openclaw/extensions/twitch/index.ts)
+2026-03-02T09:47:57.488Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/voice-call/index.ts) (plugin=voice-call, source=/opt/homebrew/lib/node_modules/openclaw/extensions/voice-call/index.ts)
+2026-03-02T09:47:57.488Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/whatsapp/index.ts) (plugin=whatsapp, source=/opt/homebrew/lib/node_modules/openclaw/extensions/whatsapp/index.ts)
+2026-03-02T09:47:57.488Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/zalo/index.ts) (plugin=zalo, source=/opt/homebrew/lib/node_modules/openclaw/extensions/zalo/index.ts)
+2026-03-02T09:47:57.488Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/opt/homebrew/lib/node_modules/openclaw/extensions/zalouser/index.ts) (plugin=zalouser, source=/opt/homebrew/lib/node_modules/openclaw/extensions/zalouser/index.ts)
+2026-03-02T09:47:57.491Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=acpx, source=/Users/hope/.openclaw/extensions/acpx/index.ts)
+2026-03-02T09:47:57.491Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=copilot-proxy, source=/Users/hope/.openclaw/extensions/copilot-proxy/index.ts)
+2026-03-02T09:47:57.491Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=discord, source=/Users/hope/.openclaw/extensions/discord/index.ts)
+2026-03-02T09:47:57.491Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=google-gemini-cli-auth, source=/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts)
+2026-03-02T09:47:57.491Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=imessage, source=/Users/hope/.openclaw/extensions/imessage/index.ts)
+2026-03-02T09:47:57.491Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=line, source=/Users/hope/.openclaw/extensions/line/index.ts)
+2026-03-02T09:47:57.492Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=memory-core, source=/Users/hope/.openclaw/extensions/memory-core/index.ts)
+2026-03-02T09:47:57.492Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=minimax-portal-auth, source=/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts)
+2026-03-02T09:47:57.492Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=msteams, source=/Users/hope/.openclaw/extensions/msteams/index.ts)
+2026-03-02T09:47:57.492Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=open-prose, source=/Users/hope/.openclaw/extensions/open-prose/index.ts)
+2026-03-02T09:47:57.492Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=phone-control, source=/Users/hope/.openclaw/extensions/phone-control/index.ts)
+2026-03-02T09:47:57.492Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=qwen-portal-auth, source=/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts)
+2026-03-02T09:47:57.492Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=signal, source=/Users/hope/.openclaw/extensions/signal/index.ts)
+2026-03-02T09:47:57.493Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=slack, source=/Users/hope/.openclaw/extensions/slack/index.ts)
+2026-03-02T09:47:57.493Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=talk-voice, source=/Users/hope/.openclaw/extensions/talk-voice/index.ts)
+2026-03-02T09:47:57.493Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=telegram, source=/Users/hope/.openclaw/extensions/telegram/index.ts)
+2026-03-02T09:47:57.493Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=thread-ownership, source=/Users/hope/.openclaw/extensions/thread-ownership/index.ts)
+2026-03-02T09:47:57.494Z [gateway] [plugins] loaded without install/load-path provenance; treat as untracked local code and pin trust via plugins.allow or install records (plugin=whatsapp, source=/Users/hope/.openclaw/extensions/whatsapp/index.ts)
+2026-03-02T09:47:57.509Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-03-02T09:47:57.544Z [heartbeat] started
+2026-03-02T09:47:57.545Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-03-02T09:47:57.546Z [gateway] agent model: anthropic/claude-opus-4-6
+2026-03-02T09:47:57.546Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 15850)
+2026-03-02T09:47:57.546Z [gateway] log file: /tmp/openclaw/openclaw-2026-03-02.log
+2026-03-02T09:47:57.557Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-03-02T09:47:57.558Z [plugins] acpx runtime backend registered (command: /Users/hope/.openclaw/extensions/acpx/node_modules/.bin/acpx, expectedVersion: 0.1.15, pluginLocalInstall: enabled)
+2026-03-02T09:47:57.801Z [gateway] update available (latest): v2026.3.1 (current v2026.2.26). Run: openclaw update
+2026-03-02T09:48:11.694Z [gateway] device pairing auto-approved device=ff7a96aef849eea92708a1923902008981abc357ecee1a5984880c30d112ca34 role=operator
+2026-03-02T09:48:11.717Z [ws] webchat connected conn=c8b47a27-a2ea-4456-a5ab-549f6be24e41 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:48:11.788Z [ws] ⇄ res ✓ chat.history 60ms conn=c8b47a27…4e41 id=84bec7be…6424
+2026-03-02T09:48:11.789Z [ws] ⇄ res ✓ node.list 64ms conn=c8b47a27…4e41 id=2b8630bd…4a98
+2026-03-02T09:48:11.790Z [ws] ⇄ res ✓ device.pair.list 64ms conn=c8b47a27…4e41 id=3638d726…1e5d
+2026-03-02T09:50:03.895Z [gateway] signal SIGTERM received
+2026-03-02T09:50:03.897Z [gateway] received SIGTERM; shutting down
+2026-03-02T09:50:03.904Z [gmail-watcher] gmail watcher stopped
+2026-03-02T09:50:03.912Z [ws] webchat disconnected code=1012 reason=service restart conn=c8b47a27-a2ea-4456-a5ab-549f6be24e41
+2026-03-02T09:50:12.163Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/acpx/index.ts) (plugin=acpx, source=/Users/hope/.openclaw/extensions/acpx/index.ts)
+2026-03-02T09:50:12.164Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/bluebubbles/index.ts) (plugin=bluebubbles, source=/Users/hope/.openclaw/extensions/bluebubbles/index.ts)
+2026-03-02T09:50:12.164Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/copilot-proxy/index.ts) (plugin=copilot-proxy, source=/Users/hope/.openclaw/extensions/copilot-proxy/index.ts)
+2026-03-02T09:50:12.164Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/device-pair/index.ts) (plugin=device-pair, source=/Users/hope/.openclaw/extensions/device-pair/index.ts)
+2026-03-02T09:50:12.165Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts) (plugin=diagnostics-otel, source=/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts)
+2026-03-02T09:50:12.165Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diffs/index.ts) (plugin=diffs, source=/Users/hope/.openclaw/extensions/diffs/index.ts)
+2026-03-02T09:50:12.165Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/discord/index.ts) (plugin=discord, source=/Users/hope/.openclaw/extensions/discord/index.ts)
+2026-03-02T09:50:12.165Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/feishu/index.ts) (plugin=feishu, source=/Users/hope/.openclaw/extensions/feishu/index.ts)
+2026-03-02T09:50:12.166Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts) (plugin=google-gemini-cli-auth, source=/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts)
+2026-03-02T09:50:12.166Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/googlechat/index.ts) (plugin=googlechat, source=/Users/hope/.openclaw/extensions/googlechat/index.ts)
+2026-03-02T09:50:12.166Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/imessage/index.ts) (plugin=imessage, source=/Users/hope/.openclaw/extensions/imessage/index.ts)
+2026-03-02T09:50:12.166Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/irc/index.ts) (plugin=irc, source=/Users/hope/.openclaw/extensions/irc/index.ts)
+2026-03-02T09:50:12.166Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/line/index.ts) (plugin=line, source=/Users/hope/.openclaw/extensions/line/index.ts)
+2026-03-02T09:50:12.167Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/llm-task/index.ts) (plugin=llm-task, source=/Users/hope/.openclaw/extensions/llm-task/index.ts)
+2026-03-02T09:50:12.167Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/lobster/index.ts) (plugin=lobster, source=/Users/hope/.openclaw/extensions/lobster/index.ts)
+2026-03-02T09:50:12.167Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/matrix/index.ts) (plugin=matrix, source=/Users/hope/.openclaw/extensions/matrix/index.ts)
+2026-03-02T09:50:12.167Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/mattermost/index.ts) (plugin=mattermost, source=/Users/hope/.openclaw/extensions/mattermost/index.ts)
+2026-03-02T09:50:12.167Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-core/index.ts) (plugin=memory-core, source=/Users/hope/.openclaw/extensions/memory-core/index.ts)
+2026-03-02T09:50:12.167Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-lancedb/index.ts) (plugin=memory-lancedb, source=/Users/hope/.openclaw/extensions/memory-lancedb/index.ts)
+2026-03-02T09:50:12.168Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts) (plugin=minimax-portal-auth, source=/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts)
+2026-03-02T09:50:12.168Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/msteams/index.ts) (plugin=msteams, source=/Users/hope/.openclaw/extensions/msteams/index.ts)
+2026-03-02T09:50:12.168Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts) (plugin=nextcloud-talk, source=/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts)
+2026-03-02T09:50:12.168Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nostr/index.ts) (plugin=nostr, source=/Users/hope/.openclaw/extensions/nostr/index.ts)
+2026-03-02T09:50:12.168Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/open-prose/index.ts) (plugin=open-prose, source=/Users/hope/.openclaw/extensions/open-prose/index.ts)
+2026-03-02T09:50:12.168Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/phone-control/index.ts) (plugin=phone-control, source=/Users/hope/.openclaw/extensions/phone-control/index.ts)
+2026-03-02T09:50:12.169Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts) (plugin=qwen-portal-auth, source=/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts)
+2026-03-02T09:50:12.169Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/signal/index.ts) (plugin=signal, source=/Users/hope/.openclaw/extensions/signal/index.ts)
+2026-03-02T09:50:12.169Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/slack/index.ts) (plugin=slack, source=/Users/hope/.openclaw/extensions/slack/index.ts)
+2026-03-02T09:50:12.169Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/synology-chat/index.ts) (plugin=synology-chat, source=/Users/hope/.openclaw/extensions/synology-chat/index.ts)
+2026-03-02T09:50:12.169Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/talk-voice/index.ts) (plugin=talk-voice, source=/Users/hope/.openclaw/extensions/talk-voice/index.ts)
+2026-03-02T09:50:12.169Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/telegram/index.ts) (plugin=telegram, source=/Users/hope/.openclaw/extensions/telegram/index.ts)
+2026-03-02T09:50:12.169Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/thread-ownership/index.ts) (plugin=thread-ownership, source=/Users/hope/.openclaw/extensions/thread-ownership/index.ts)
+2026-03-02T09:50:12.170Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/tlon/index.ts) (plugin=tlon, source=/Users/hope/.openclaw/extensions/tlon/index.ts)
+2026-03-02T09:50:12.170Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/twitch/index.ts) (plugin=twitch, source=/Users/hope/.openclaw/extensions/twitch/index.ts)
+2026-03-02T09:50:12.170Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/voice-call/index.ts) (plugin=voice-call, source=/Users/hope/.openclaw/extensions/voice-call/index.ts)
+2026-03-02T09:50:12.170Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/whatsapp/index.ts) (plugin=whatsapp, source=/Users/hope/.openclaw/extensions/whatsapp/index.ts)
+2026-03-02T09:50:12.170Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalo/index.ts) (plugin=zalo, source=/Users/hope/.openclaw/extensions/zalo/index.ts)
+2026-03-02T09:50:12.170Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalouser/index.ts) (plugin=zalouser, source=/Users/hope/.openclaw/extensions/zalouser/index.ts)
+2026-03-02T09:50:12.186Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-03-02T09:50:12.269Z [heartbeat] started
+2026-03-02T09:50:12.272Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-03-02T09:50:12.275Z [gateway] agent model: anthropic/claude-opus-4-6
+2026-03-02T09:50:12.276Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 16241)
+2026-03-02T09:50:12.277Z [gateway] log file: /tmp/openclaw/openclaw-2026-03-02.log
+2026-03-02T09:50:12.294Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-03-02T09:50:12.340Z [ws] webchat connected conn=24cf4b8a-7a35-4e80-ba0c-6d533f691695 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:50:12.446Z [ws] ⇄ res ✓ chat.history 101ms conn=24cf4b8a…1695 id=3ce67bec…b2d5
+2026-03-02T09:50:27.880Z [gateway] signal SIGTERM received
+2026-03-02T09:50:27.881Z [gateway] received SIGTERM; shutting down
+2026-03-02T09:50:27.885Z [gmail-watcher] gmail watcher stopped
+2026-03-02T09:50:27.892Z [ws] webchat disconnected code=1012 reason=service restart conn=24cf4b8a-7a35-4e80-ba0c-6d533f691695
+2026-03-02T09:50:30.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/acpx/index.ts) (plugin=acpx, source=/Users/hope/.openclaw/extensions/acpx/index.ts)
+2026-03-02T09:50:30.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/bluebubbles/index.ts) (plugin=bluebubbles, source=/Users/hope/.openclaw/extensions/bluebubbles/index.ts)
+2026-03-02T09:50:30.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/copilot-proxy/index.ts) (plugin=copilot-proxy, source=/Users/hope/.openclaw/extensions/copilot-proxy/index.ts)
+2026-03-02T09:50:30.485Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/device-pair/index.ts) (plugin=device-pair, source=/Users/hope/.openclaw/extensions/device-pair/index.ts)
+2026-03-02T09:50:30.486Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts) (plugin=diagnostics-otel, source=/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts)
+2026-03-02T09:50:30.486Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diffs/index.ts) (plugin=diffs, source=/Users/hope/.openclaw/extensions/diffs/index.ts)
+2026-03-02T09:50:30.486Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/discord/index.ts) (plugin=discord, source=/Users/hope/.openclaw/extensions/discord/index.ts)
+2026-03-02T09:50:30.486Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/feishu/index.ts) (plugin=feishu, source=/Users/hope/.openclaw/extensions/feishu/index.ts)
+2026-03-02T09:50:30.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts) (plugin=google-gemini-cli-auth, source=/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts)
+2026-03-02T09:50:30.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/googlechat/index.ts) (plugin=googlechat, source=/Users/hope/.openclaw/extensions/googlechat/index.ts)
+2026-03-02T09:50:30.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/imessage/index.ts) (plugin=imessage, source=/Users/hope/.openclaw/extensions/imessage/index.ts)
+2026-03-02T09:50:30.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/irc/index.ts) (plugin=irc, source=/Users/hope/.openclaw/extensions/irc/index.ts)
+2026-03-02T09:50:30.487Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/line/index.ts) (plugin=line, source=/Users/hope/.openclaw/extensions/line/index.ts)
+2026-03-02T09:50:30.488Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/llm-task/index.ts) (plugin=llm-task, source=/Users/hope/.openclaw/extensions/llm-task/index.ts)
+2026-03-02T09:50:30.488Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/lobster/index.ts) (plugin=lobster, source=/Users/hope/.openclaw/extensions/lobster/index.ts)
+2026-03-02T09:50:30.488Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/matrix/index.ts) (plugin=matrix, source=/Users/hope/.openclaw/extensions/matrix/index.ts)
+2026-03-02T09:50:30.488Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/mattermost/index.ts) (plugin=mattermost, source=/Users/hope/.openclaw/extensions/mattermost/index.ts)
+2026-03-02T09:50:30.488Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-core/index.ts) (plugin=memory-core, source=/Users/hope/.openclaw/extensions/memory-core/index.ts)
+2026-03-02T09:50:30.488Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-lancedb/index.ts) (plugin=memory-lancedb, source=/Users/hope/.openclaw/extensions/memory-lancedb/index.ts)
+2026-03-02T09:50:30.488Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts) (plugin=minimax-portal-auth, source=/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts)
+2026-03-02T09:50:30.489Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/msteams/index.ts) (plugin=msteams, source=/Users/hope/.openclaw/extensions/msteams/index.ts)
+2026-03-02T09:50:30.489Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts) (plugin=nextcloud-talk, source=/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts)
+2026-03-02T09:50:30.489Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nostr/index.ts) (plugin=nostr, source=/Users/hope/.openclaw/extensions/nostr/index.ts)
+2026-03-02T09:50:30.489Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/open-prose/index.ts) (plugin=open-prose, source=/Users/hope/.openclaw/extensions/open-prose/index.ts)
+2026-03-02T09:50:30.489Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/phone-control/index.ts) (plugin=phone-control, source=/Users/hope/.openclaw/extensions/phone-control/index.ts)
+2026-03-02T09:50:30.489Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts) (plugin=qwen-portal-auth, source=/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts)
+2026-03-02T09:50:30.489Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/signal/index.ts) (plugin=signal, source=/Users/hope/.openclaw/extensions/signal/index.ts)
+2026-03-02T09:50:30.490Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/slack/index.ts) (plugin=slack, source=/Users/hope/.openclaw/extensions/slack/index.ts)
+2026-03-02T09:50:30.490Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/synology-chat/index.ts) (plugin=synology-chat, source=/Users/hope/.openclaw/extensions/synology-chat/index.ts)
+2026-03-02T09:50:30.490Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/talk-voice/index.ts) (plugin=talk-voice, source=/Users/hope/.openclaw/extensions/talk-voice/index.ts)
+2026-03-02T09:50:30.490Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/telegram/index.ts) (plugin=telegram, source=/Users/hope/.openclaw/extensions/telegram/index.ts)
+2026-03-02T09:50:30.490Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/thread-ownership/index.ts) (plugin=thread-ownership, source=/Users/hope/.openclaw/extensions/thread-ownership/index.ts)
+2026-03-02T09:50:30.490Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/tlon/index.ts) (plugin=tlon, source=/Users/hope/.openclaw/extensions/tlon/index.ts)
+2026-03-02T09:50:30.490Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/twitch/index.ts) (plugin=twitch, source=/Users/hope/.openclaw/extensions/twitch/index.ts)
+2026-03-02T09:50:30.492Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/voice-call/index.ts) (plugin=voice-call, source=/Users/hope/.openclaw/extensions/voice-call/index.ts)
+2026-03-02T09:50:30.492Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/whatsapp/index.ts) (plugin=whatsapp, source=/Users/hope/.openclaw/extensions/whatsapp/index.ts)
+2026-03-02T09:50:30.492Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalo/index.ts) (plugin=zalo, source=/Users/hope/.openclaw/extensions/zalo/index.ts)
+2026-03-02T09:50:30.492Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalouser/index.ts) (plugin=zalouser, source=/Users/hope/.openclaw/extensions/zalouser/index.ts)
+2026-03-02T09:50:30.507Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-03-02T09:50:30.568Z [heartbeat] started
+2026-03-02T09:50:30.573Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-03-02T09:50:30.574Z [gateway] agent model: anthropic/claude-opus-4-6
+2026-03-02T09:50:30.575Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 16450)
+2026-03-02T09:50:30.575Z [gateway] log file: /tmp/openclaw/openclaw-2026-03-02.log
+2026-03-02T09:50:30.600Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-03-02T09:50:32.354Z [ws] webchat connected conn=ddf64d8d-6c88-4eca-9885-509b70365ff3 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:50:32.476Z [ws] ⇄ res ✓ chat.history 113ms conn=ddf64d8d…5ff3 id=8a293a81…58bd
+2026-03-02T09:50:32.880Z [ws] webchat connected conn=831cc030-7d8e-4f51-ab74-bc9bf3b8941e remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:50:46.538Z [ws] webchat disconnected code=1001 reason=n/a conn=ddf64d8d-6c88-4eca-9885-509b70365ff3
+2026-03-02T09:50:46.588Z [ws] webchat connected conn=20c98798-80ce-45d2-9493-9103fb5515c9 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:51:47.565Z [ws] webchat disconnected code=1001 reason=n/a conn=20c98798-80ce-45d2-9493-9103fb5515c9
+2026-03-02T09:51:48.428Z [ws] webchat connected conn=16defb47-02b8-454e-a50a-aae5088a01b8 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:53:23.104Z [ws] ⇄ res ✓ config.get 305ms conn=16defb47…01b8 id=cc65f265…d414
+2026-03-02T09:55:18.497Z [ws] ⇄ res ✓ config.set 91ms conn=16defb47…01b8 id=4f60b86c…131b
+2026-03-02T09:55:19.046Z [reload] config change detected; evaluating reload (meta.lastTouchedVersion, meta.lastTouchedAt, wizard.lastRunAt, wizard.lastRunCommand, agents.defaults.workspace, agents.defaults.compaction, agents.defaults.model, agents.defaults.models, agents.defaults.heartbeat, agents.list, gateway.auth.token, update, auth, models, tools, bindings, channels, skills, plugins)
+2026-03-02T09:55:19.052Z [gateway] signal SIGUSR1 received
+2026-03-02T09:55:19.053Z [gateway] received SIGUSR1; restarting
+2026-03-02T09:55:19.057Z [gmail-watcher] gmail watcher stopped
+2026-03-02T09:55:19.065Z [ws] webchat disconnected code=1012 reason=service restart conn=831cc030-7d8e-4f51-ab74-bc9bf3b8941e
+2026-03-02T09:55:19.066Z [ws] webchat disconnected code=1012 reason=service restart conn=16defb47-02b8-454e-a50a-aae5088a01b8
+2026-03-02T09:55:21.121Z [gateway] signal SIGTERM received
+2026-03-02T09:55:21.124Z [gateway] received SIGTERM during shutdown; ignoring
+2026-03-02T09:55:21.237Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/acpx/index.ts) (plugin=acpx, source=/Users/hope/.openclaw/extensions/acpx/index.ts)
+2026-03-02T09:55:21.238Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/bluebubbles/index.ts) (plugin=bluebubbles, source=/Users/hope/.openclaw/extensions/bluebubbles/index.ts)
+2026-03-02T09:55:21.238Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/copilot-proxy/index.ts) (plugin=copilot-proxy, source=/Users/hope/.openclaw/extensions/copilot-proxy/index.ts)
+2026-03-02T09:55:21.239Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/device-pair/index.ts) (plugin=device-pair, source=/Users/hope/.openclaw/extensions/device-pair/index.ts)
+2026-03-02T09:55:21.239Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts) (plugin=diagnostics-otel, source=/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts)
+2026-03-02T09:55:21.240Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diffs/index.ts) (plugin=diffs, source=/Users/hope/.openclaw/extensions/diffs/index.ts)
+2026-03-02T09:55:21.240Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/discord/index.ts) (plugin=discord, source=/Users/hope/.openclaw/extensions/discord/index.ts)
+2026-03-02T09:55:21.241Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/feishu/index.ts) (plugin=feishu, source=/Users/hope/.openclaw/extensions/feishu/index.ts)
+2026-03-02T09:55:21.242Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts) (plugin=google-gemini-cli-auth, source=/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts)
+2026-03-02T09:55:21.242Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/googlechat/index.ts) (plugin=googlechat, source=/Users/hope/.openclaw/extensions/googlechat/index.ts)
+2026-03-02T09:55:21.242Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/imessage/index.ts) (plugin=imessage, source=/Users/hope/.openclaw/extensions/imessage/index.ts)
+2026-03-02T09:55:21.243Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/irc/index.ts) (plugin=irc, source=/Users/hope/.openclaw/extensions/irc/index.ts)
+2026-03-02T09:55:21.243Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/line/index.ts) (plugin=line, source=/Users/hope/.openclaw/extensions/line/index.ts)
+2026-03-02T09:55:21.244Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/llm-task/index.ts) (plugin=llm-task, source=/Users/hope/.openclaw/extensions/llm-task/index.ts)
+2026-03-02T09:55:21.244Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/lobster/index.ts) (plugin=lobster, source=/Users/hope/.openclaw/extensions/lobster/index.ts)
+2026-03-02T09:55:21.245Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/matrix/index.ts) (plugin=matrix, source=/Users/hope/.openclaw/extensions/matrix/index.ts)
+2026-03-02T09:55:21.245Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/mattermost/index.ts) (plugin=mattermost, source=/Users/hope/.openclaw/extensions/mattermost/index.ts)
+2026-03-02T09:55:21.246Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-core/index.ts) (plugin=memory-core, source=/Users/hope/.openclaw/extensions/memory-core/index.ts)
+2026-03-02T09:55:21.246Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-lancedb/index.ts) (plugin=memory-lancedb, source=/Users/hope/.openclaw/extensions/memory-lancedb/index.ts)
+2026-03-02T09:55:21.247Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts) (plugin=minimax-portal-auth, source=/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts)
+2026-03-02T09:55:21.247Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/msteams/index.ts) (plugin=msteams, source=/Users/hope/.openclaw/extensions/msteams/index.ts)
+2026-03-02T09:55:21.248Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts) (plugin=nextcloud-talk, source=/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts)
+2026-03-02T09:55:21.248Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nostr/index.ts) (plugin=nostr, source=/Users/hope/.openclaw/extensions/nostr/index.ts)
+2026-03-02T09:55:21.249Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/open-prose/index.ts) (plugin=open-prose, source=/Users/hope/.openclaw/extensions/open-prose/index.ts)
+2026-03-02T09:55:21.249Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/phone-control/index.ts) (plugin=phone-control, source=/Users/hope/.openclaw/extensions/phone-control/index.ts)
+2026-03-02T09:55:21.250Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts) (plugin=qwen-portal-auth, source=/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts)
+2026-03-02T09:55:21.250Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/signal/index.ts) (plugin=signal, source=/Users/hope/.openclaw/extensions/signal/index.ts)
+2026-03-02T09:55:21.251Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/slack/index.ts) (plugin=slack, source=/Users/hope/.openclaw/extensions/slack/index.ts)
+2026-03-02T09:55:21.251Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/synology-chat/index.ts) (plugin=synology-chat, source=/Users/hope/.openclaw/extensions/synology-chat/index.ts)
+2026-03-02T09:55:21.252Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/talk-voice/index.ts) (plugin=talk-voice, source=/Users/hope/.openclaw/extensions/talk-voice/index.ts)
+2026-03-02T09:55:21.252Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/telegram/index.ts) (plugin=telegram, source=/Users/hope/.openclaw/extensions/telegram/index.ts)
+2026-03-02T09:55:21.253Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/thread-ownership/index.ts) (plugin=thread-ownership, source=/Users/hope/.openclaw/extensions/thread-ownership/index.ts)
+2026-03-02T09:55:21.254Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/tlon/index.ts) (plugin=tlon, source=/Users/hope/.openclaw/extensions/tlon/index.ts)
+2026-03-02T09:55:21.254Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/twitch/index.ts) (plugin=twitch, source=/Users/hope/.openclaw/extensions/twitch/index.ts)
+2026-03-02T09:55:21.255Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/voice-call/index.ts) (plugin=voice-call, source=/Users/hope/.openclaw/extensions/voice-call/index.ts)
+2026-03-02T09:55:21.255Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/whatsapp/index.ts) (plugin=whatsapp, source=/Users/hope/.openclaw/extensions/whatsapp/index.ts)
+2026-03-02T09:55:21.255Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalo/index.ts) (plugin=zalo, source=/Users/hope/.openclaw/extensions/zalo/index.ts)
+2026-03-02T09:55:21.256Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalouser/index.ts) (plugin=zalouser, source=/Users/hope/.openclaw/extensions/zalouser/index.ts)
+2026-03-02T09:55:21.257Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-03-02T09:55:21.262Z [heartbeat] started
+2026-03-02T09:55:21.262Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-03-02T09:55:21.263Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-03-02T09:55:21.264Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 16450)
+2026-03-02T09:55:21.264Z [gateway] log file: /tmp/openclaw/openclaw-2026-03-02.log
+2026-03-02T09:55:21.276Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-03-02T09:55:21.885Z [ws] webchat connected conn=3cd1cb98-fab9-4563-a3bc-f7cacabc5d90 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:55:22.982Z [telegram] [mcs] starting provider (@one_mcs_bot)
+2026-03-02T09:55:22.994Z [telegram] autoSelectFamily=true (default-node22)
+2026-03-02T09:55:22.997Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-03-02T09:55:22.998Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-03-02T09:55:23.097Z [telegram] [stock] starting provider (@one_asset_bot)
+2026-03-02T09:55:23.098Z [telegram] [core] starting provider (@meme_hope_bot)
+2026-03-02T09:55:23.185Z [telegram] [coding] starting provider (@one_coding_bot)
+2026-03-02T09:55:23.559Z [ws] webchat connected conn=fdb386a4-d59a-4223-8ae9-b069e0867121 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+│
+◇  Config warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - plugins.entries.acpx: plugin acpx: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/acpx/index.ts)                      │
+│  - plugins.entries.bluebubbles: plugin bluebubbles: duplicate plugin id  │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/bluebubbles/index.ts)               │
+│  - plugins.entries.copilot-proxy: plugin copilot-proxy: duplicate        │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/copilot-proxy/index.ts)             │
+│  - plugins.entries.device-pair: plugin device-pair: duplicate plugin id  │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/device-pair/index.ts)               │
+│  - plugins.entries.diagnostics-otel: plugin diagnostics-otel: duplicate  │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts)          │
+│  - plugins.entries.diffs: plugin diffs: duplicate plugin id detected;    │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/diffs/index.ts)                     │
+│  - plugins.entries.discord: plugin discord: duplicate plugin id          │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/discord/index.ts)                   │
+│  - plugins.entries.feishu: plugin feishu: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/feishu/index.ts)                    │
+│  - plugins.entries.google-gemini-cli-auth: plugin                        │
+│    google-gemini-cli-auth: duplicate plugin id detected; later plugin    │
+│    may be overridden                                                     │
+│    (/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts)    │
+│  - plugins.entries.googlechat: plugin googlechat: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/googlechat/index.ts)                │
+│  - plugins.entries.imessage: plugin imessage: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/imessage/index.ts)                  │
+│  - plugins.entries.irc: plugin irc: duplicate plugin id detected; later  │
+│    plugin may be overridden                                              │
+│    (/Users/hope/.openclaw/extensions/irc/index.ts)                       │
+│  - plugins.entries.line: plugin line: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/line/index.ts)                      │
+│  - plugins.entries.llm-task: plugin llm-task: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/llm-task/index.ts)                  │
+│  - plugins.entries.lobster: plugin lobster: duplicate plugin id          │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/lobster/index.ts)                   │
+│  - plugins.entries.matrix: plugin matrix: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/matrix/index.ts)                    │
+│  - plugins.entries.mattermost: plugin mattermost: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/mattermost/index.ts)                │
+│  - plugins.entries.memory-core: plugin memory-core: duplicate plugin id  │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/memory-core/index.ts)               │
+│  - plugins.entries.memory-lancedb: plugin memory-lancedb: duplicate      │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/memory-lancedb/index.ts)            │
+│  - plugins.entries.minimax-portal-auth: plugin minimax-portal-auth:      │
+│    duplicate plugin id detected; later plugin may be overridden          │
+│    (/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts)       │
+│  - plugins.entries.msteams: plugin msteams: duplicate plugin id          │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/msteams/index.ts)                   │
+│  - plugins.entries.nextcloud-talk: plugin nextcloud-talk: duplicate      │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts)            │
+│  - plugins.entries.nostr: plugin nostr: duplicate plugin id detected;    │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/nostr/index.ts)                     │
+│  - plugins.entries.open-prose: plugin open-prose: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/open-prose/index.ts)                │
+│  - plugins.entries.phone-control: plugin phone-control: duplicate        │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/phone-control/index.ts)             │
+│  - plugins.entries.qwen-portal-auth: plugin qwen-portal-auth: duplicate  │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts)          │
+│  - plugins.entries.signal: plugin signal: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/signal/index.ts)                    │
+│  - plugins.entries.slack: plugin slack: duplicate plugin id detected;    │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/slack/index.ts)                     │
+│  - plugins.entries.synology-chat: plugin synology-chat: duplicate        │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/synology-chat/index.ts)             │
+│  - plugins.entries.talk-voice: plugin talk-voice: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/talk-voice/index.ts)                │
+│  - plugins.entries.telegram: plugin telegram: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/telegram/index.ts)                  │
+│  - plugins.entries.thread-ownership: plugin thread-ownership: duplicate  │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/thread-ownership/index.ts)          │
+│  - plugins.entries.tlon: plugin tlon: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/tlon/index.ts)                      │
+│  - plugins.entries.twitch: plugin twitch: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/twitch/index.ts)                    │
+│  - plugins.entries.voice-call: plugin voice-call: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/voice-call/index.ts)                │
+│  - plugins.entries.whatsapp: plugin whatsapp: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/whatsapp/index.ts)                  │
+│  - plugins.entries.zalo: plugin zalo: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/zalo/index.ts)                      │
+│  - plugins.entries.zalouser: plugin zalouser: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/zalouser/index.ts)                  │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - channels.telegram.groupPolicy is "allowlist" but groupAllowFrom (and  │
+│    allowFrom) is empty — all group messages will be silently dropped.    │
+│    Add sender IDs to channels.telegram.groupAllowFrom or                 │
+│    channels.telegram.allowFrom, or set groupPolicy to "open".            │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-03-02T09:55:26.421Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/acpx/index.ts) (plugin=acpx, source=/Users/hope/.openclaw/extensions/acpx/index.ts)
+2026-03-02T09:55:26.422Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/bluebubbles/index.ts) (plugin=bluebubbles, source=/Users/hope/.openclaw/extensions/bluebubbles/index.ts)
+2026-03-02T09:55:26.422Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/copilot-proxy/index.ts) (plugin=copilot-proxy, source=/Users/hope/.openclaw/extensions/copilot-proxy/index.ts)
+2026-03-02T09:55:26.423Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/device-pair/index.ts) (plugin=device-pair, source=/Users/hope/.openclaw/extensions/device-pair/index.ts)
+2026-03-02T09:55:26.424Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts) (plugin=diagnostics-otel, source=/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts)
+2026-03-02T09:55:26.425Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diffs/index.ts) (plugin=diffs, source=/Users/hope/.openclaw/extensions/diffs/index.ts)
+2026-03-02T09:55:26.425Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/discord/index.ts) (plugin=discord, source=/Users/hope/.openclaw/extensions/discord/index.ts)
+2026-03-02T09:55:26.426Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/feishu/index.ts) (plugin=feishu, source=/Users/hope/.openclaw/extensions/feishu/index.ts)
+2026-03-02T09:55:26.426Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts) (plugin=google-gemini-cli-auth, source=/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts)
+2026-03-02T09:55:26.427Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/googlechat/index.ts) (plugin=googlechat, source=/Users/hope/.openclaw/extensions/googlechat/index.ts)
+2026-03-02T09:55:26.427Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/imessage/index.ts) (plugin=imessage, source=/Users/hope/.openclaw/extensions/imessage/index.ts)
+2026-03-02T09:55:26.428Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/irc/index.ts) (plugin=irc, source=/Users/hope/.openclaw/extensions/irc/index.ts)
+2026-03-02T09:55:26.428Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/line/index.ts) (plugin=line, source=/Users/hope/.openclaw/extensions/line/index.ts)
+2026-03-02T09:55:26.429Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/llm-task/index.ts) (plugin=llm-task, source=/Users/hope/.openclaw/extensions/llm-task/index.ts)
+2026-03-02T09:55:26.429Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/lobster/index.ts) (plugin=lobster, source=/Users/hope/.openclaw/extensions/lobster/index.ts)
+2026-03-02T09:55:26.430Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/matrix/index.ts) (plugin=matrix, source=/Users/hope/.openclaw/extensions/matrix/index.ts)
+2026-03-02T09:55:26.430Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/mattermost/index.ts) (plugin=mattermost, source=/Users/hope/.openclaw/extensions/mattermost/index.ts)
+2026-03-02T09:55:26.430Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-core/index.ts) (plugin=memory-core, source=/Users/hope/.openclaw/extensions/memory-core/index.ts)
+2026-03-02T09:55:26.431Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-lancedb/index.ts) (plugin=memory-lancedb, source=/Users/hope/.openclaw/extensions/memory-lancedb/index.ts)
+2026-03-02T09:55:26.431Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts) (plugin=minimax-portal-auth, source=/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts)
+2026-03-02T09:55:26.432Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/msteams/index.ts) (plugin=msteams, source=/Users/hope/.openclaw/extensions/msteams/index.ts)
+2026-03-02T09:55:26.432Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts) (plugin=nextcloud-talk, source=/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts)
+2026-03-02T09:55:26.433Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nostr/index.ts) (plugin=nostr, source=/Users/hope/.openclaw/extensions/nostr/index.ts)
+2026-03-02T09:55:26.433Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/open-prose/index.ts) (plugin=open-prose, source=/Users/hope/.openclaw/extensions/open-prose/index.ts)
+2026-03-02T09:55:26.434Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/phone-control/index.ts) (plugin=phone-control, source=/Users/hope/.openclaw/extensions/phone-control/index.ts)
+2026-03-02T09:55:26.434Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts) (plugin=qwen-portal-auth, source=/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts)
+2026-03-02T09:55:26.436Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/signal/index.ts) (plugin=signal, source=/Users/hope/.openclaw/extensions/signal/index.ts)
+2026-03-02T09:55:26.436Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/slack/index.ts) (plugin=slack, source=/Users/hope/.openclaw/extensions/slack/index.ts)
+2026-03-02T09:55:26.437Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/synology-chat/index.ts) (plugin=synology-chat, source=/Users/hope/.openclaw/extensions/synology-chat/index.ts)
+2026-03-02T09:55:26.437Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/talk-voice/index.ts) (plugin=talk-voice, source=/Users/hope/.openclaw/extensions/talk-voice/index.ts)
+2026-03-02T09:55:26.438Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/telegram/index.ts) (plugin=telegram, source=/Users/hope/.openclaw/extensions/telegram/index.ts)
+2026-03-02T09:55:26.438Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/thread-ownership/index.ts) (plugin=thread-ownership, source=/Users/hope/.openclaw/extensions/thread-ownership/index.ts)
+2026-03-02T09:55:26.439Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/tlon/index.ts) (plugin=tlon, source=/Users/hope/.openclaw/extensions/tlon/index.ts)
+2026-03-02T09:55:26.439Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/twitch/index.ts) (plugin=twitch, source=/Users/hope/.openclaw/extensions/twitch/index.ts)
+2026-03-02T09:55:26.439Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/voice-call/index.ts) (plugin=voice-call, source=/Users/hope/.openclaw/extensions/voice-call/index.ts)
+2026-03-02T09:55:26.440Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/whatsapp/index.ts) (plugin=whatsapp, source=/Users/hope/.openclaw/extensions/whatsapp/index.ts)
+2026-03-02T09:55:26.440Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalo/index.ts) (plugin=zalo, source=/Users/hope/.openclaw/extensions/zalo/index.ts)
+2026-03-02T09:55:26.441Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalouser/index.ts) (plugin=zalouser, source=/Users/hope/.openclaw/extensions/zalouser/index.ts)
+2026-03-02T09:55:26.458Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-03-02T09:55:26.496Z [heartbeat] started
+2026-03-02T09:55:26.498Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-03-02T09:55:26.499Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-03-02T09:55:26.500Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 16600)
+2026-03-02T09:55:26.501Z [gateway] log file: /tmp/openclaw/openclaw-2026-03-02.log
+2026-03-02T09:55:26.520Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-03-02T09:55:26.887Z [ws] webchat connected conn=da7b60ca-88e4-4a38-806c-dc80450b7755 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:55:26.963Z [ws] webchat disconnected code=1001 reason=n/a conn=da7b60ca-88e4-4a38-806c-dc80450b7755
+2026-03-02T09:55:27.001Z [ws] webchat connected conn=788066a9-86c7-415e-bbf3-bdacbca9ce31 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:55:27.087Z [ws] webchat disconnected code=1001 reason=n/a conn=788066a9-86c7-415e-bbf3-bdacbca9ce31
+2026-03-02T09:55:27.127Z [ws] webchat connected conn=c07e08a0-bf9a-49cf-8f7d-982af383b471 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:55:27.205Z [ws] webchat disconnected code=1001 reason=n/a conn=c07e08a0-bf9a-49cf-8f7d-982af383b471
+2026-03-02T09:55:27.246Z [ws] webchat connected conn=5fd6d015-7ab9-497e-95aa-62a14d2d1212 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:55:27.365Z [ws] webchat disconnected code=1001 reason=n/a conn=5fd6d015-7ab9-497e-95aa-62a14d2d1212
+2026-03-02T09:55:27.402Z [ws] webchat connected conn=78edbb01-f5cc-49ca-ba8a-df1c057e27d9 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:55:27.525Z [ws] webchat disconnected code=1001 reason=n/a conn=78edbb01-f5cc-49ca-ba8a-df1c057e27d9
+2026-03-02T09:55:27.569Z [ws] webchat connected conn=263f0fd8-73d1-445e-9a9f-00698fe0e6df remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:55:27.707Z [ws] webchat disconnected code=1001 reason=n/a conn=263f0fd8-73d1-445e-9a9f-00698fe0e6df
+2026-03-02T09:55:27.756Z [ws] webchat connected conn=c426e07f-debe-470b-9eb6-8111fbd3cb66 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:55:27.831Z [ws] webchat disconnected code=1001 reason=n/a conn=c426e07f-debe-470b-9eb6-8111fbd3cb66
+2026-03-02T09:55:27.884Z [ws] webchat connected conn=88fdbaf5-300b-418f-9e08-0767a40bc656 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:55:27.886Z [ws] webchat connected conn=f84ea9a7-2d6f-4e16-8589-f57103f9a1df remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T09:55:28.090Z [telegram] [core] starting provider (@meme_hope_bot)
+2026-03-02T09:55:28.100Z [telegram] autoSelectFamily=true (default-node22)
+2026-03-02T09:55:28.102Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-03-02T09:55:28.104Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-03-02T09:55:28.208Z [telegram] [coding] starting provider (@one_coding_bot)
+2026-03-02T09:55:28.208Z [telegram] [stock] starting provider (@one_asset_bot)
+2026-03-02T09:55:28.210Z [telegram] [mcs] starting provider (@one_mcs_bot)
+2026-03-02T09:55:43.585Z [ws] ⇄ res ✓ config.get 291ms conn=88fdbaf5…c656 id=a42c0e0e…b00e
+2026-03-02T10:07:48.065Z [ws] webchat disconnected code=1001 reason=n/a conn=88fdbaf5-300b-418f-9e08-0767a40bc656
+2026-03-02T10:07:48.154Z [ws] webchat connected conn=204202b1-7ced-4870-b0e5-626ef1cbc48b remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:09:23.543Z [ws] webchat disconnected code=1001 reason=n/a conn=204202b1-7ced-4870-b0e5-626ef1cbc48b
+2026-03-02T10:09:23.597Z [ws] webchat connected conn=1b354bdf-5501-4f50-aa1f-f929205c2343 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:10:31.269Z [ws] webchat disconnected code=1001 reason=n/a conn=1b354bdf-5501-4f50-aa1f-f929205c2343
+2026-03-02T10:10:31.322Z [ws] webchat connected conn=7d84ffbd-e245-4d31-969f-0b87bb3eb78e remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:11:56.403Z [telegram] sendMessage ok chat=5520269161 message=289
+2026-03-02T10:12:59.329Z [ws] webchat disconnected code=1001 reason=n/a conn=7d84ffbd-e245-4d31-969f-0b87bb3eb78e
+2026-03-02T10:12:59.390Z [ws] webchat connected conn=7141e455-acde-4789-bdb3-f0d82a4628d4 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:18:54.517Z [ws] ⇄ res ✓ node.list 112ms conn=7141e455…28d4 id=1346983c…938d
+2026-03-02T10:22:32.876Z [telegram] sendMessage ok chat=-1003661163902 message=202
+2026-03-02T10:23:33.494Z [ws] ⇄ res ✓ config.get 50ms conn=7141e455…28d4 id=ab54cf6e…63e8
+2026-03-02T10:23:38.664Z [ws] webchat disconnected code=1001 reason=n/a conn=7141e455-acde-4789-bdb3-f0d82a4628d4
+2026-03-02T10:23:38.714Z [ws] webchat connected conn=500c480d-8c9d-42ae-b57a-e0e6420b36f6 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:23:39.923Z [ws] ⇄ res ✓ channels.status 6512ms conn=7141e455…28d4 id=0700257d…4296
+2026-03-02T10:24:47.417Z [telegram] sendMessage ok chat=-1003661163902 message=204
+2026-03-02T10:25:16.047Z [telegram] sendMessage ok chat=-1003661163902 message=206
+2026-03-02T10:25:17.133Z [telegram] sendMessage ok chat=-1003661163902 message=207
+2026-03-02T10:25:26.545Z [health-monitor] [telegram:coding] health-monitor: restarting (reason: stuck)
+2026-03-02T10:25:26.566Z [health-monitor] [telegram:core] health-monitor: restarting (reason: stuck)
+2026-03-02T10:25:26.570Z [health-monitor] [telegram:mcs] health-monitor: restarting (reason: stuck)
+2026-03-02T10:25:26.572Z [health-monitor] [telegram:stock] health-monitor: restarting (reason: stuck)
+2026-03-02T10:25:28.115Z [telegram] [stock] starting provider (@one_asset_bot)
+2026-03-02T10:25:28.190Z [telegram] [core] starting provider (@meme_hope_bot)
+2026-03-02T10:25:28.191Z [telegram] [coding] starting provider (@one_coding_bot)
+2026-03-02T10:25:28.305Z [telegram] [mcs] starting provider (@one_mcs_bot)
+2026-03-02T10:25:54.946Z [telegram] sendMessage ok chat=-1003661163902 message=209
+2026-03-02T10:25:55.937Z [telegram] sendMessage ok chat=-1003661163902 message=210
+2026-03-02T10:26:29.378Z [ws] webchat disconnected code=1001 reason=n/a conn=500c480d-8c9d-42ae-b57a-e0e6420b36f6
+2026-03-02T10:26:29.438Z [ws] webchat connected conn=ab167403-4218-473b-87ee-3713eefb05e3 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:26:30.171Z [ws] webchat disconnected code=1001 reason=n/a conn=ab167403-4218-473b-87ee-3713eefb05e3
+2026-03-02T10:26:30.222Z [ws] webchat connected conn=78ccb71b-3a39-45c3-9c35-909b117926e8 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:27:00.569Z [telegram] sendMessage ok chat=-1003661163902 message=212
+2026-03-02T10:28:17.413Z [telegram] sendMessage ok chat=-1003661163902 message=214
+2026-03-02T10:28:49.447Z [telegram] sendMessage ok chat=-1003661163902 message=216
+2026-03-02T10:34:13.286Z [telegram] sendMessage ok chat=-1003661163902 message=221
+2026-03-02T10:34:46.622Z [telegram] sendMessage ok chat=-1003661163902 message=223
+2026-03-02T10:37:18.198Z [ws] webchat disconnected code=1001 reason=n/a conn=f84ea9a7-2d6f-4e16-8589-f57103f9a1df
+2026-03-02T10:37:18.277Z [ws] webchat connected conn=fed928bb-a2d8-4f28-8fa9-e51950997ca1 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:38:16.670Z [ws] webchat disconnected code=1001 reason=n/a conn=fed928bb-a2d8-4f28-8fa9-e51950997ca1
+2026-03-02T10:38:16.730Z [ws] webchat connected conn=fbea7e7a-b915-4c13-9686-d2132d8688d3 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:38:17.209Z [ws] webchat disconnected code=1001 reason=n/a conn=fbea7e7a-b915-4c13-9686-d2132d8688d3
+2026-03-02T10:38:17.266Z [ws] webchat connected conn=51855e41-29e6-4bf2-b5d5-0219367c9c17 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:38:17.407Z [ws] webchat disconnected code=1001 reason=n/a conn=51855e41-29e6-4bf2-b5d5-0219367c9c17
+2026-03-02T10:38:17.453Z [ws] webchat connected conn=9bf895d2-36aa-4dce-8d75-d70ca0eeac89 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:40:20.764Z [ws] webchat connected conn=01352d36-b9eb-4ef6-bc1e-13d5d0caed7e remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:40:41.558Z [gateway] device pairing auto-approved device=f8302c0ad4bb8c630d528e09f433adc0faecd9c9460342d8f3d11530d92a6f5b role=operator
+2026-03-02T10:40:41.563Z [ws] webchat connected conn=99dbfc05-d71c-44a0-9434-0a79a1dba1cf remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:40:48.673Z [ws] webchat disconnected code=1001 reason=n/a conn=01352d36-b9eb-4ef6-bc1e-13d5d0caed7e
+2026-03-02T10:40:48.721Z [ws] webchat connected conn=3b72905c-1234-4dfd-9cf8-375d8a2da694 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:40:54.645Z [ws] webchat disconnected code=1001 reason=n/a conn=3b72905c-1234-4dfd-9cf8-375d8a2da694
+2026-03-02T10:41:00.533Z [ws] webchat disconnected code=1001 reason=n/a conn=9bf895d2-36aa-4dce-8d75-d70ca0eeac89
+2026-03-02T10:46:39.592Z [ws] webchat connected conn=f78c9a61-c417-4a5b-af75-9440d43206cc remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:46:42.022Z [ws] webchat disconnected code=1001 reason=n/a conn=f78c9a61-c417-4a5b-af75-9440d43206cc
+2026-03-02T10:47:08.410Z [ws] webchat disconnected code=1001 reason=n/a conn=99dbfc05-d71c-44a0-9434-0a79a1dba1cf
+2026-03-02T10:47:08.459Z [ws] webchat connected conn=9177f984-5892-454e-a6a1-ec21c6406ffa remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:48:40.046Z [ws] webchat disconnected code=1001 reason=n/a conn=9177f984-5892-454e-a6a1-ec21c6406ffa
+2026-03-02T10:48:40.099Z [ws] webchat connected conn=6a36f323-a99d-4448-abee-e3e76b92f937 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:53:30.015Z [ws] webchat disconnected code=1001 reason=n/a conn=6a36f323-a99d-4448-abee-e3e76b92f937
+2026-03-02T10:53:30.063Z [ws] webchat connected conn=6c187f70-a181-49b7-8f51-001b3d816149 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:53:33.174Z [ws] webchat disconnected code=1001 reason=n/a conn=6c187f70-a181-49b7-8f51-001b3d816149
+2026-03-02T10:53:33.227Z [ws] webchat connected conn=4d0cc1ce-8427-4b92-b799-892589a5c2f9 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:53:52.171Z [ws] webchat disconnected code=1001 reason=n/a conn=4d0cc1ce-8427-4b92-b799-892589a5c2f9
+2026-03-02T10:53:52.223Z [ws] webchat connected conn=5b7ebc19-9140-421f-adc8-f6f32c51d905 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:54:39.284Z [ws] webchat disconnected code=1001 reason=n/a conn=5b7ebc19-9140-421f-adc8-f6f32c51d905
+2026-03-02T10:54:39.326Z [ws] webchat connected conn=8e86d476-6cc5-4c3b-9a97-415e0b137163 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:54:40.610Z [ws] webchat disconnected code=1001 reason=n/a conn=8e86d476-6cc5-4c3b-9a97-415e0b137163
+2026-03-02T10:54:40.662Z [ws] webchat connected conn=17521cb8-0874-4927-a4e9-3cc2353d946d remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:54:44.414Z [ws] webchat disconnected code=1001 reason=n/a conn=17521cb8-0874-4927-a4e9-3cc2353d946d
+2026-03-02T10:54:44.462Z [ws] webchat connected conn=d8810086-c391-4559-84fb-745b3b374a00 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:54:51.407Z [ws] webchat disconnected code=1001 reason=WebSocket is closed due to suspension. conn=d8810086-c391-4559-84fb-745b3b374a00
+2026-03-02T10:54:51.459Z [ws] webchat connected conn=6e917420-acec-4809-b4cc-48d0bb18b61b remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T10:55:26.628Z [health-monitor] [telegram:coding] health-monitor: restarting (reason: stuck)
+2026-03-02T10:55:26.647Z [health-monitor] [telegram:core] health-monitor: restarting (reason: stuck)
+2026-03-02T10:55:26.652Z [health-monitor] [telegram:mcs] health-monitor: restarting (reason: stuck)
+2026-03-02T10:55:26.655Z [health-monitor] [telegram:stock] health-monitor: restarting (reason: stuck)
+2026-03-02T10:55:28.197Z [telegram] [mcs] starting provider (@one_mcs_bot)
+2026-03-02T10:55:28.318Z [telegram] [coding] starting provider (@one_coding_bot)
+2026-03-02T10:55:28.319Z [telegram] [stock] starting provider (@one_asset_bot)
+2026-03-02T10:55:28.320Z [telegram] [core] starting provider (@meme_hope_bot)
+2026-03-02T11:00:24.524Z [ws] webchat disconnected code=1001 reason=n/a conn=6e917420-acec-4809-b4cc-48d0bb18b61b
+2026-03-02T11:00:24.602Z [ws] webchat connected conn=511a578e-2c9c-49b9-a5e5-cae4c97961ad remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:00:28.706Z [ws] webchat disconnected code=1001 reason=n/a conn=511a578e-2c9c-49b9-a5e5-cae4c97961ad
+2026-03-02T11:00:28.759Z [ws] webchat connected conn=ae641b5d-6cb8-40a9-a719-c78065f047a8 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:11:32.576Z [ws] webchat disconnected code=1001 reason=n/a conn=ae641b5d-6cb8-40a9-a719-c78065f047a8
+2026-03-02T11:11:32.656Z [ws] webchat connected conn=16fb8d28-8ae9-4037-94e1-7eb9f3a06d2b remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:12:51.800Z [ws] webchat disconnected code=1001 reason=n/a conn=16fb8d28-8ae9-4037-94e1-7eb9f3a06d2b
+2026-03-02T11:12:51.851Z [ws] webchat connected conn=43c08838-9976-490a-8b9e-736a2e20866c remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:12:52.860Z [ws] webchat disconnected code=1001 reason=n/a conn=43c08838-9976-490a-8b9e-736a2e20866c
+2026-03-02T11:12:52.910Z [ws] webchat connected conn=b3803211-a8dd-4147-afe3-c8c1e5e22f70 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:25:00.765Z [ws] ⇄ res ✓ node.list 317ms conn=b3803211…2f70 id=9207a59a…0c9b
+2026-03-02T11:26:01.943Z [ws] webchat disconnected code=1001 reason=n/a conn=78ccb71b-3a39-45c3-9c35-909b117926e8
+2026-03-02T11:30:09.313Z [ws] webchat disconnected code=1001 reason=n/a conn=b3803211-a8dd-4147-afe3-c8c1e5e22f70
+2026-03-02T11:30:09.369Z [ws] webchat connected conn=e20c8acb-34b1-488c-ba58-87d17b7899fa remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:30:26.648Z [health-monitor] [telegram:coding] health-monitor: restarting (reason: stuck)
+2026-03-02T11:30:26.657Z [health-monitor] [telegram:core] health-monitor: restarting (reason: stuck)
+2026-03-02T11:30:26.660Z [health-monitor] [telegram:mcs] health-monitor: restarting (reason: stuck)
+2026-03-02T11:30:26.663Z [health-monitor] [telegram:stock] health-monitor: restarting (reason: stuck)
+2026-03-02T11:30:28.318Z [telegram] [stock] starting provider (@one_asset_bot)
+2026-03-02T11:30:28.436Z [telegram] [coding] starting provider (@one_coding_bot)
+2026-03-02T11:30:28.437Z [telegram] [mcs] starting provider (@one_mcs_bot)
+2026-03-02T11:30:28.438Z [telegram] [core] starting provider (@meme_hope_bot)
+2026-03-02T11:34:57.016Z [ws] webchat disconnected code=1001 reason=n/a conn=e20c8acb-34b1-488c-ba58-87d17b7899fa
+2026-03-02T11:34:57.131Z [ws] webchat connected conn=bdbc7610-2624-462d-a5d0-d8ec364b0a44 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:35:27.307Z [ws] webchat disconnected code=1001 reason=n/a conn=bdbc7610-2624-462d-a5d0-d8ec364b0a44
+2026-03-02T11:35:27.357Z [ws] webchat connected conn=d88dadcd-0310-4ad2-9ed0-9a1ac7097898 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:35:32.913Z [ws] webchat disconnected code=1001 reason=n/a conn=d88dadcd-0310-4ad2-9ed0-9a1ac7097898
+2026-03-02T11:35:32.963Z [ws] webchat connected conn=51d5c990-9eef-46f4-83bf-b28e0dff60c9 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:36:22.613Z [ws] webchat connected conn=72d204df-03be-4268-ae12-d555b3297b5f remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:38:42.495Z [gateway] signal SIGTERM received
+2026-03-02T11:38:42.499Z [gateway] received SIGTERM; shutting down
+2026-03-02T11:38:42.553Z [gmail-watcher] gmail watcher stopped
+2026-03-02T11:38:42.556Z [ws] webchat disconnected code=1006 reason=n/a conn=51d5c990-9eef-46f4-83bf-b28e0dff60c9
+2026-03-02T11:38:42.557Z [ws] webchat disconnected code=1012 reason=service restart conn=72d204df-03be-4268-ae12-d555b3297b5f
+│
+◇  Config warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - plugins.entries.acpx: plugin acpx: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/acpx/index.ts)                      │
+│  - plugins.entries.bluebubbles: plugin bluebubbles: duplicate plugin id  │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/bluebubbles/index.ts)               │
+│  - plugins.entries.copilot-proxy: plugin copilot-proxy: duplicate        │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/copilot-proxy/index.ts)             │
+│  - plugins.entries.device-pair: plugin device-pair: duplicate plugin id  │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/device-pair/index.ts)               │
+│  - plugins.entries.diagnostics-otel: plugin diagnostics-otel: duplicate  │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts)          │
+│  - plugins.entries.diffs: plugin diffs: duplicate plugin id detected;    │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/diffs/index.ts)                     │
+│  - plugins.entries.discord: plugin discord: duplicate plugin id          │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/discord/index.ts)                   │
+│  - plugins.entries.feishu: plugin feishu: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/feishu/index.ts)                    │
+│  - plugins.entries.google-gemini-cli-auth: plugin                        │
+│    google-gemini-cli-auth: duplicate plugin id detected; later plugin    │
+│    may be overridden                                                     │
+│    (/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts)    │
+│  - plugins.entries.googlechat: plugin googlechat: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/googlechat/index.ts)                │
+│  - plugins.entries.imessage: plugin imessage: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/imessage/index.ts)                  │
+│  - plugins.entries.irc: plugin irc: duplicate plugin id detected; later  │
+│    plugin may be overridden                                              │
+│    (/Users/hope/.openclaw/extensions/irc/index.ts)                       │
+│  - plugins.entries.line: plugin line: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/line/index.ts)                      │
+│  - plugins.entries.llm-task: plugin llm-task: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/llm-task/index.ts)                  │
+│  - plugins.entries.lobster: plugin lobster: duplicate plugin id          │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/lobster/index.ts)                   │
+│  - plugins.entries.matrix: plugin matrix: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/matrix/index.ts)                    │
+│  - plugins.entries.mattermost: plugin mattermost: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/mattermost/index.ts)                │
+│  - plugins.entries.memory-core: plugin memory-core: duplicate plugin id  │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/memory-core/index.ts)               │
+│  - plugins.entries.memory-lancedb: plugin memory-lancedb: duplicate      │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/memory-lancedb/index.ts)            │
+│  - plugins.entries.minimax-portal-auth: plugin minimax-portal-auth:      │
+│    duplicate plugin id detected; later plugin may be overridden          │
+│    (/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts)       │
+│  - plugins.entries.msteams: plugin msteams: duplicate plugin id          │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/msteams/index.ts)                   │
+│  - plugins.entries.nextcloud-talk: plugin nextcloud-talk: duplicate      │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts)            │
+│  - plugins.entries.nostr: plugin nostr: duplicate plugin id detected;    │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/nostr/index.ts)                     │
+│  - plugins.entries.open-prose: plugin open-prose: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/open-prose/index.ts)                │
+│  - plugins.entries.phone-control: plugin phone-control: duplicate        │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/phone-control/index.ts)             │
+│  - plugins.entries.qwen-portal-auth: plugin qwen-portal-auth: duplicate  │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts)          │
+│  - plugins.entries.signal: plugin signal: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/signal/index.ts)                    │
+│  - plugins.entries.slack: plugin slack: duplicate plugin id detected;    │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/slack/index.ts)                     │
+│  - plugins.entries.synology-chat: plugin synology-chat: duplicate        │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/synology-chat/index.ts)             │
+│  - plugins.entries.talk-voice: plugin talk-voice: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/talk-voice/index.ts)                │
+│  - plugins.entries.telegram: plugin telegram: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/telegram/index.ts)                  │
+│  - plugins.entries.thread-ownership: plugin thread-ownership: duplicate  │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/thread-ownership/index.ts)          │
+│  - plugins.entries.tlon: plugin tlon: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/tlon/index.ts)                      │
+│  - plugins.entries.twitch: plugin twitch: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/twitch/index.ts)                    │
+│  - plugins.entries.voice-call: plugin voice-call: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/voice-call/index.ts)                │
+│  - plugins.entries.whatsapp: plugin whatsapp: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/whatsapp/index.ts)                  │
+│  - plugins.entries.zalo: plugin zalo: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/zalo/index.ts)                      │
+│  - plugins.entries.zalouser: plugin zalouser: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/zalouser/index.ts)                  │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - channels.telegram.groupPolicy is "allowlist" but groupAllowFrom (and  │
+│    allowFrom) is empty — all group messages will be silently dropped.    │
+│    Add sender IDs to channels.telegram.groupAllowFrom or                 │
+│    channels.telegram.allowFrom, or set groupPolicy to "open".            │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-03-02T11:38:45.242Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/acpx/index.ts) (plugin=acpx, source=/Users/hope/.openclaw/extensions/acpx/index.ts)
+2026-03-02T11:38:45.243Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/bluebubbles/index.ts) (plugin=bluebubbles, source=/Users/hope/.openclaw/extensions/bluebubbles/index.ts)
+2026-03-02T11:38:45.243Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/copilot-proxy/index.ts) (plugin=copilot-proxy, source=/Users/hope/.openclaw/extensions/copilot-proxy/index.ts)
+2026-03-02T11:38:45.244Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/device-pair/index.ts) (plugin=device-pair, source=/Users/hope/.openclaw/extensions/device-pair/index.ts)
+2026-03-02T11:38:45.248Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts) (plugin=diagnostics-otel, source=/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts)
+2026-03-02T11:38:45.248Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diffs/index.ts) (plugin=diffs, source=/Users/hope/.openclaw/extensions/diffs/index.ts)
+2026-03-02T11:38:45.249Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/discord/index.ts) (plugin=discord, source=/Users/hope/.openclaw/extensions/discord/index.ts)
+2026-03-02T11:38:45.249Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/feishu/index.ts) (plugin=feishu, source=/Users/hope/.openclaw/extensions/feishu/index.ts)
+2026-03-02T11:38:45.250Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts) (plugin=google-gemini-cli-auth, source=/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts)
+2026-03-02T11:38:45.250Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/googlechat/index.ts) (plugin=googlechat, source=/Users/hope/.openclaw/extensions/googlechat/index.ts)
+2026-03-02T11:38:45.251Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/imessage/index.ts) (plugin=imessage, source=/Users/hope/.openclaw/extensions/imessage/index.ts)
+2026-03-02T11:38:45.251Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/irc/index.ts) (plugin=irc, source=/Users/hope/.openclaw/extensions/irc/index.ts)
+2026-03-02T11:38:45.252Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/line/index.ts) (plugin=line, source=/Users/hope/.openclaw/extensions/line/index.ts)
+2026-03-02T11:38:45.252Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/llm-task/index.ts) (plugin=llm-task, source=/Users/hope/.openclaw/extensions/llm-task/index.ts)
+2026-03-02T11:38:45.253Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/lobster/index.ts) (plugin=lobster, source=/Users/hope/.openclaw/extensions/lobster/index.ts)
+2026-03-02T11:38:45.253Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/matrix/index.ts) (plugin=matrix, source=/Users/hope/.openclaw/extensions/matrix/index.ts)
+2026-03-02T11:38:45.254Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/mattermost/index.ts) (plugin=mattermost, source=/Users/hope/.openclaw/extensions/mattermost/index.ts)
+2026-03-02T11:38:45.254Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-core/index.ts) (plugin=memory-core, source=/Users/hope/.openclaw/extensions/memory-core/index.ts)
+2026-03-02T11:38:45.255Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-lancedb/index.ts) (plugin=memory-lancedb, source=/Users/hope/.openclaw/extensions/memory-lancedb/index.ts)
+2026-03-02T11:38:45.255Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts) (plugin=minimax-portal-auth, source=/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts)
+2026-03-02T11:38:45.256Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/msteams/index.ts) (plugin=msteams, source=/Users/hope/.openclaw/extensions/msteams/index.ts)
+2026-03-02T11:38:45.256Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts) (plugin=nextcloud-talk, source=/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts)
+2026-03-02T11:38:45.257Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nostr/index.ts) (plugin=nostr, source=/Users/hope/.openclaw/extensions/nostr/index.ts)
+2026-03-02T11:38:45.257Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/open-prose/index.ts) (plugin=open-prose, source=/Users/hope/.openclaw/extensions/open-prose/index.ts)
+2026-03-02T11:38:45.258Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/phone-control/index.ts) (plugin=phone-control, source=/Users/hope/.openclaw/extensions/phone-control/index.ts)
+2026-03-02T11:38:45.258Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts) (plugin=qwen-portal-auth, source=/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts)
+2026-03-02T11:38:45.259Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/signal/index.ts) (plugin=signal, source=/Users/hope/.openclaw/extensions/signal/index.ts)
+2026-03-02T11:38:45.259Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/slack/index.ts) (plugin=slack, source=/Users/hope/.openclaw/extensions/slack/index.ts)
+2026-03-02T11:38:45.259Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/synology-chat/index.ts) (plugin=synology-chat, source=/Users/hope/.openclaw/extensions/synology-chat/index.ts)
+2026-03-02T11:38:45.260Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/talk-voice/index.ts) (plugin=talk-voice, source=/Users/hope/.openclaw/extensions/talk-voice/index.ts)
+2026-03-02T11:38:45.260Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/telegram/index.ts) (plugin=telegram, source=/Users/hope/.openclaw/extensions/telegram/index.ts)
+2026-03-02T11:38:45.261Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/thread-ownership/index.ts) (plugin=thread-ownership, source=/Users/hope/.openclaw/extensions/thread-ownership/index.ts)
+2026-03-02T11:38:45.261Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/tlon/index.ts) (plugin=tlon, source=/Users/hope/.openclaw/extensions/tlon/index.ts)
+2026-03-02T11:38:45.262Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/twitch/index.ts) (plugin=twitch, source=/Users/hope/.openclaw/extensions/twitch/index.ts)
+2026-03-02T11:38:45.262Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/voice-call/index.ts) (plugin=voice-call, source=/Users/hope/.openclaw/extensions/voice-call/index.ts)
+2026-03-02T11:38:45.263Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/whatsapp/index.ts) (plugin=whatsapp, source=/Users/hope/.openclaw/extensions/whatsapp/index.ts)
+2026-03-02T11:38:45.263Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalo/index.ts) (plugin=zalo, source=/Users/hope/.openclaw/extensions/zalo/index.ts)
+2026-03-02T11:38:45.264Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalouser/index.ts) (plugin=zalouser, source=/Users/hope/.openclaw/extensions/zalouser/index.ts)
+2026-03-02T11:38:45.282Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-03-02T11:38:45.322Z [heartbeat] started
+2026-03-02T11:38:45.324Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-03-02T11:38:45.325Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-03-02T11:38:45.326Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 18184)
+2026-03-02T11:38:45.327Z [gateway] log file: /tmp/openclaw/openclaw-2026-03-02.log
+2026-03-02T11:38:45.346Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-03-02T11:38:45.951Z [ws] webchat connected conn=e3f80f74-6163-4d1f-b5fa-845711394c97 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:38:46.042Z [gateway] signal SIGTERM received
+2026-03-02T11:38:46.043Z [gateway] received SIGTERM; shutting down
+2026-03-02T11:38:46.888Z [telegram] [mcs] starting provider (@one_mcs_bot)
+2026-03-02T11:38:47.031Z [telegram] [stock] starting provider (@one_asset_bot)
+2026-03-02T11:38:47.039Z [telegram] [core] starting provider (@meme_hope_bot)
+2026-03-02T11:38:47.047Z [telegram] [coding] starting provider (@one_coding_bot)
+2026-03-02T11:38:47.052Z [gmail-watcher] gmail watcher stopped
+2026-03-02T11:38:47.088Z [ws] webchat disconnected code=1012 reason=service restart conn=e3f80f74-6163-4d1f-b5fa-845711394c97
+│
+◇  Config warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - plugins.entries.acpx: plugin acpx: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/acpx/index.ts)                      │
+│  - plugins.entries.bluebubbles: plugin bluebubbles: duplicate plugin id  │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/bluebubbles/index.ts)               │
+│  - plugins.entries.copilot-proxy: plugin copilot-proxy: duplicate        │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/copilot-proxy/index.ts)             │
+│  - plugins.entries.device-pair: plugin device-pair: duplicate plugin id  │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/device-pair/index.ts)               │
+│  - plugins.entries.diagnostics-otel: plugin diagnostics-otel: duplicate  │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts)          │
+│  - plugins.entries.diffs: plugin diffs: duplicate plugin id detected;    │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/diffs/index.ts)                     │
+│  - plugins.entries.discord: plugin discord: duplicate plugin id          │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/discord/index.ts)                   │
+│  - plugins.entries.feishu: plugin feishu: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/feishu/index.ts)                    │
+│  - plugins.entries.google-gemini-cli-auth: plugin                        │
+│    google-gemini-cli-auth: duplicate plugin id detected; later plugin    │
+│    may be overridden                                                     │
+│    (/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts)    │
+│  - plugins.entries.googlechat: plugin googlechat: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/googlechat/index.ts)                │
+│  - plugins.entries.imessage: plugin imessage: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/imessage/index.ts)                  │
+│  - plugins.entries.irc: plugin irc: duplicate plugin id detected; later  │
+│    plugin may be overridden                                              │
+│    (/Users/hope/.openclaw/extensions/irc/index.ts)                       │
+│  - plugins.entries.line: plugin line: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/line/index.ts)                      │
+│  - plugins.entries.llm-task: plugin llm-task: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/llm-task/index.ts)                  │
+│  - plugins.entries.lobster: plugin lobster: duplicate plugin id          │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/lobster/index.ts)                   │
+│  - plugins.entries.matrix: plugin matrix: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/matrix/index.ts)                    │
+│  - plugins.entries.mattermost: plugin mattermost: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/mattermost/index.ts)                │
+│  - plugins.entries.memory-core: plugin memory-core: duplicate plugin id  │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/memory-core/index.ts)               │
+│  - plugins.entries.memory-lancedb: plugin memory-lancedb: duplicate      │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/memory-lancedb/index.ts)            │
+│  - plugins.entries.minimax-portal-auth: plugin minimax-portal-auth:      │
+│    duplicate plugin id detected; later plugin may be overridden          │
+│    (/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts)       │
+│  - plugins.entries.msteams: plugin msteams: duplicate plugin id          │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/msteams/index.ts)                   │
+│  - plugins.entries.nextcloud-talk: plugin nextcloud-talk: duplicate      │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts)            │
+│  - plugins.entries.nostr: plugin nostr: duplicate plugin id detected;    │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/nostr/index.ts)                     │
+│  - plugins.entries.open-prose: plugin open-prose: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/open-prose/index.ts)                │
+│  - plugins.entries.phone-control: plugin phone-control: duplicate        │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/phone-control/index.ts)             │
+│  - plugins.entries.qwen-portal-auth: plugin qwen-portal-auth: duplicate  │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts)          │
+│  - plugins.entries.signal: plugin signal: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/signal/index.ts)                    │
+│  - plugins.entries.slack: plugin slack: duplicate plugin id detected;    │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/slack/index.ts)                     │
+│  - plugins.entries.synology-chat: plugin synology-chat: duplicate        │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/synology-chat/index.ts)             │
+│  - plugins.entries.talk-voice: plugin talk-voice: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/talk-voice/index.ts)                │
+│  - plugins.entries.telegram: plugin telegram: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/telegram/index.ts)                  │
+│  - plugins.entries.thread-ownership: plugin thread-ownership: duplicate  │
+│    plugin id detected; later plugin may be overridden                    │
+│    (/Users/hope/.openclaw/extensions/thread-ownership/index.ts)          │
+│  - plugins.entries.tlon: plugin tlon: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/tlon/index.ts)                      │
+│  - plugins.entries.twitch: plugin twitch: duplicate plugin id detected;  │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/twitch/index.ts)                    │
+│  - plugins.entries.voice-call: plugin voice-call: duplicate plugin id    │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/voice-call/index.ts)                │
+│  - plugins.entries.whatsapp: plugin whatsapp: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/whatsapp/index.ts)                  │
+│  - plugins.entries.zalo: plugin zalo: duplicate plugin id detected;      │
+│    later plugin may be overridden                                        │
+│    (/Users/hope/.openclaw/extensions/zalo/index.ts)                      │
+│  - plugins.entries.zalouser: plugin zalouser: duplicate plugin id        │
+│    detected; later plugin may be overridden                              │
+│    (/Users/hope/.openclaw/extensions/zalouser/index.ts)                  │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+│
+◇  Doctor warnings ────────────────────────────────────────────────────────╮
+│                                                                          │
+│  - channels.telegram.groupPolicy is "allowlist" but groupAllowFrom (and  │
+│    allowFrom) is empty — all group messages will be silently dropped.    │
+│    Add sender IDs to channels.telegram.groupAllowFrom or                 │
+│    channels.telegram.allowFrom, or set groupPolicy to "open".            │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+2026-03-02T11:38:49.770Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/acpx/index.ts) (plugin=acpx, source=/Users/hope/.openclaw/extensions/acpx/index.ts)
+2026-03-02T11:38:49.772Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/bluebubbles/index.ts) (plugin=bluebubbles, source=/Users/hope/.openclaw/extensions/bluebubbles/index.ts)
+2026-03-02T11:38:49.772Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/copilot-proxy/index.ts) (plugin=copilot-proxy, source=/Users/hope/.openclaw/extensions/copilot-proxy/index.ts)
+2026-03-02T11:38:49.773Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/device-pair/index.ts) (plugin=device-pair, source=/Users/hope/.openclaw/extensions/device-pair/index.ts)
+2026-03-02T11:38:49.774Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts) (plugin=diagnostics-otel, source=/Users/hope/.openclaw/extensions/diagnostics-otel/index.ts)
+2026-03-02T11:38:49.775Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/diffs/index.ts) (plugin=diffs, source=/Users/hope/.openclaw/extensions/diffs/index.ts)
+2026-03-02T11:38:49.775Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/discord/index.ts) (plugin=discord, source=/Users/hope/.openclaw/extensions/discord/index.ts)
+2026-03-02T11:38:49.776Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/feishu/index.ts) (plugin=feishu, source=/Users/hope/.openclaw/extensions/feishu/index.ts)
+2026-03-02T11:38:49.776Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts) (plugin=google-gemini-cli-auth, source=/Users/hope/.openclaw/extensions/google-gemini-cli-auth/index.ts)
+2026-03-02T11:38:49.777Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/googlechat/index.ts) (plugin=googlechat, source=/Users/hope/.openclaw/extensions/googlechat/index.ts)
+2026-03-02T11:38:49.777Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/imessage/index.ts) (plugin=imessage, source=/Users/hope/.openclaw/extensions/imessage/index.ts)
+2026-03-02T11:38:49.778Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/irc/index.ts) (plugin=irc, source=/Users/hope/.openclaw/extensions/irc/index.ts)
+2026-03-02T11:38:49.778Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/line/index.ts) (plugin=line, source=/Users/hope/.openclaw/extensions/line/index.ts)
+2026-03-02T11:38:49.779Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/llm-task/index.ts) (plugin=llm-task, source=/Users/hope/.openclaw/extensions/llm-task/index.ts)
+2026-03-02T11:38:49.779Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/lobster/index.ts) (plugin=lobster, source=/Users/hope/.openclaw/extensions/lobster/index.ts)
+2026-03-02T11:38:49.780Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/matrix/index.ts) (plugin=matrix, source=/Users/hope/.openclaw/extensions/matrix/index.ts)
+2026-03-02T11:38:49.780Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/mattermost/index.ts) (plugin=mattermost, source=/Users/hope/.openclaw/extensions/mattermost/index.ts)
+2026-03-02T11:38:49.781Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-core/index.ts) (plugin=memory-core, source=/Users/hope/.openclaw/extensions/memory-core/index.ts)
+2026-03-02T11:38:49.781Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/memory-lancedb/index.ts) (plugin=memory-lancedb, source=/Users/hope/.openclaw/extensions/memory-lancedb/index.ts)
+2026-03-02T11:38:49.781Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts) (plugin=minimax-portal-auth, source=/Users/hope/.openclaw/extensions/minimax-portal-auth/index.ts)
+2026-03-02T11:38:49.782Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/msteams/index.ts) (plugin=msteams, source=/Users/hope/.openclaw/extensions/msteams/index.ts)
+2026-03-02T11:38:49.782Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts) (plugin=nextcloud-talk, source=/Users/hope/.openclaw/extensions/nextcloud-talk/index.ts)
+2026-03-02T11:38:49.783Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/nostr/index.ts) (plugin=nostr, source=/Users/hope/.openclaw/extensions/nostr/index.ts)
+2026-03-02T11:38:49.783Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/open-prose/index.ts) (plugin=open-prose, source=/Users/hope/.openclaw/extensions/open-prose/index.ts)
+2026-03-02T11:38:49.784Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/phone-control/index.ts) (plugin=phone-control, source=/Users/hope/.openclaw/extensions/phone-control/index.ts)
+2026-03-02T11:38:49.784Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts) (plugin=qwen-portal-auth, source=/Users/hope/.openclaw/extensions/qwen-portal-auth/index.ts)
+2026-03-02T11:38:49.785Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/signal/index.ts) (plugin=signal, source=/Users/hope/.openclaw/extensions/signal/index.ts)
+2026-03-02T11:38:49.785Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/slack/index.ts) (plugin=slack, source=/Users/hope/.openclaw/extensions/slack/index.ts)
+2026-03-02T11:38:49.786Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/synology-chat/index.ts) (plugin=synology-chat, source=/Users/hope/.openclaw/extensions/synology-chat/index.ts)
+2026-03-02T11:38:49.786Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/talk-voice/index.ts) (plugin=talk-voice, source=/Users/hope/.openclaw/extensions/talk-voice/index.ts)
+2026-03-02T11:38:49.787Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/telegram/index.ts) (plugin=telegram, source=/Users/hope/.openclaw/extensions/telegram/index.ts)
+2026-03-02T11:38:49.787Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/thread-ownership/index.ts) (plugin=thread-ownership, source=/Users/hope/.openclaw/extensions/thread-ownership/index.ts)
+2026-03-02T11:38:49.788Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/tlon/index.ts) (plugin=tlon, source=/Users/hope/.openclaw/extensions/tlon/index.ts)
+2026-03-02T11:38:49.788Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/twitch/index.ts) (plugin=twitch, source=/Users/hope/.openclaw/extensions/twitch/index.ts)
+2026-03-02T11:38:49.789Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/voice-call/index.ts) (plugin=voice-call, source=/Users/hope/.openclaw/extensions/voice-call/index.ts)
+2026-03-02T11:38:49.789Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/whatsapp/index.ts) (plugin=whatsapp, source=/Users/hope/.openclaw/extensions/whatsapp/index.ts)
+2026-03-02T11:38:49.789Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalo/index.ts) (plugin=zalo, source=/Users/hope/.openclaw/extensions/zalo/index.ts)
+2026-03-02T11:38:49.790Z [gateway] [plugins] duplicate plugin id detected; later plugin may be overridden (/Users/hope/.openclaw/extensions/zalouser/index.ts) (plugin=zalouser, source=/Users/hope/.openclaw/extensions/zalouser/index.ts)
+2026-03-02T11:38:49.797Z [canvas] host mounted at http://127.0.0.1:18789/__openclaw__/canvas/ (root /Users/hope/.openclaw/canvas)
+2026-03-02T11:38:49.830Z [heartbeat] started
+2026-03-02T11:38:49.831Z [health-monitor] started (interval: 300s, grace: 60s)
+2026-03-02T11:38:49.833Z [gateway] agent model: bailian/qwen3-max-2026-01-23
+2026-03-02T11:38:49.833Z [gateway] listening on ws://127.0.0.1:18789, ws://[::1]:18789 (PID 18249)
+2026-03-02T11:38:49.834Z [gateway] log file: /tmp/openclaw/openclaw-2026-03-02.log
+2026-03-02T11:38:49.853Z [browser/server] Browser control listening on http://127.0.0.1:18791/ (auth=token)
+2026-03-02T11:38:49.928Z [ws] webchat connected conn=46428066-0719-4ccc-8b2e-64dee987cd2c remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:38:51.220Z [ws] webchat connected conn=ec173675-f11a-4bfd-85fc-214db20c6b5a remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:38:51.408Z [telegram] [stock] starting provider (@one_asset_bot)
+2026-03-02T11:38:51.414Z [telegram] [coding] starting provider (@one_coding_bot)
+2026-03-02T11:38:51.422Z [telegram] autoSelectFamily=true (default-node22)
+2026-03-02T11:38:51.425Z [telegram] global undici dispatcher autoSelectFamily=true
+2026-03-02T11:38:51.427Z [telegram] dnsResultOrder=ipv4first (default-node22)
+2026-03-02T11:38:51.553Z [telegram] [mcs] starting provider (@one_mcs_bot)
+2026-03-02T11:38:51.555Z [telegram] [core] starting provider (@meme_hope_bot)
+2026-03-02T11:38:57.334Z [ws] webchat disconnected code=1001 reason=n/a conn=ec173675-f11a-4bfd-85fc-214db20c6b5a
+2026-03-02T11:38:57.391Z [ws] webchat connected conn=e8185c29-25b3-48b2-afb9-f38fd06c94ce remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T11:40:25.112Z [ws] webchat disconnected code=1001 reason=n/a conn=46428066-0719-4ccc-8b2e-64dee987cd2c
+2026-03-02T11:40:30.457Z [ws] webchat disconnected code=1001 reason=n/a conn=e8185c29-25b3-48b2-afb9-f38fd06c94ce
+2026-03-02T11:40:30.511Z [ws] webchat connected conn=ff694c15-bf74-43d6-974f-2b7fb12caade remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:02:59.286Z [ws] webchat disconnected code=1001 reason=n/a conn=ff694c15-bf74-43d6-974f-2b7fb12caade
+2026-03-02T12:02:59.388Z [ws] webchat connected conn=c67118a2-6bfb-4313-97f9-3ce4276f9482 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:03:16.497Z [ws] webchat disconnected code=1001 reason=n/a conn=c67118a2-6bfb-4313-97f9-3ce4276f9482
+2026-03-02T12:03:16.551Z [ws] webchat connected conn=cff2e0bc-b4e5-4e94-9a8f-ac183a7283ca remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:03:19.734Z [ws] ⇄ res ✓ config.get 303ms conn=cff2e0bc…83ca id=b03a726b…8f5c
+2026-03-02T12:03:27.317Z [ws] webchat disconnected code=1001 reason=n/a conn=cff2e0bc-b4e5-4e94-9a8f-ac183a7283ca
+2026-03-02T12:03:27.370Z [ws] webchat connected conn=c66db414-444e-43fe-9894-6cea2613e76b remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:03:30.617Z [ws] webchat disconnected code=1001 reason=n/a conn=c66db414-444e-43fe-9894-6cea2613e76b
+2026-03-02T12:03:30.670Z [ws] webchat connected conn=a055409c-2fab-4620-b9c3-ac4027dda333 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:03:33.694Z [ws] ⇄ res ✓ skills.status 111ms conn=a055409c…a333 id=87578a16…f41d
+2026-03-02T12:03:34.150Z [ws] ⇄ res ✓ config.get 53ms conn=a055409c…a333 id=a86f3ef9…aaf9
+2026-03-02T12:06:37.084Z [ws] webchat disconnected code=1001 reason=n/a conn=a055409c-2fab-4620-b9c3-ac4027dda333
+2026-03-02T12:06:37.134Z [ws] webchat connected conn=55424eb1-fb21-493e-8a96-af3679c480a8 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:06:46.570Z [ws] webchat disconnected code=1001 reason=n/a conn=55424eb1-fb21-493e-8a96-af3679c480a8
+2026-03-02T12:06:46.622Z [ws] webchat connected conn=a186e874-bdda-4027-9478-dfd6e6c9cfba remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:07:29.196Z [ws] ⇄ res ✓ config.get 55ms conn=a186e874…cfba id=2d8a4277…a5ba
+2026-03-02T12:07:37.975Z [ws] webchat disconnected code=1001 reason=n/a conn=a186e874-bdda-4027-9478-dfd6e6c9cfba
+2026-03-02T12:07:38.037Z [ws] webchat connected conn=7e9d5b45-8191-475b-a857-af5a76f2281c remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:07:38.835Z [ws] webchat disconnected code=1001 reason=n/a conn=7e9d5b45-8191-475b-a857-af5a76f2281c
+2026-03-02T12:07:38.886Z [ws] webchat connected conn=dc22a5de-ded7-412a-aa84-624400375350 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:07:51.800Z [ws] ⇄ res ✓ config.get 54ms conn=dc22a5de…5350 id=6aa51926…6b73
+2026-03-02T12:07:56.662Z [ws] webchat disconnected code=1001 reason=WebSocket is closed due to suspension. conn=dc22a5de-ded7-412a-aa84-624400375350
+2026-03-02T12:07:56.730Z [ws] webchat connected conn=1342822d-31eb-4735-9928-f9f1e1816983 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:08:49.885Z [health-monitor] [telegram:coding] health-monitor: restarting (reason: stuck)
+2026-03-02T12:08:49.913Z [health-monitor] [telegram:core] health-monitor: restarting (reason: stuck)
+2026-03-02T12:08:49.916Z [health-monitor] [telegram:mcs] health-monitor: restarting (reason: stuck)
+2026-03-02T12:08:49.919Z [health-monitor] [telegram:stock] health-monitor: restarting (reason: stuck)
+2026-03-02T12:08:51.492Z [telegram] [mcs] starting provider (@one_mcs_bot)
+2026-03-02T12:08:51.497Z [telegram] [coding] starting provider (@one_coding_bot)
+2026-03-02T12:08:51.501Z [telegram] [stock] starting provider (@one_asset_bot)
+2026-03-02T12:08:51.631Z [telegram] [core] starting provider (@meme_hope_bot)
+2026-03-02T12:09:05.463Z [ws] webchat disconnected code=1001 reason=n/a conn=1342822d-31eb-4735-9928-f9f1e1816983
+2026-03-02T12:09:05.518Z [ws] webchat connected conn=66d6d04a-23c8-48b5-ad5d-4e08d47851ba remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:09:11.829Z [ws] webchat disconnected code=1001 reason=n/a conn=66d6d04a-23c8-48b5-ad5d-4e08d47851ba
+2026-03-02T12:09:11.884Z [ws] webchat connected conn=394f4f97-c9b0-4d1f-8b95-97c205b77f48 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:09:12.615Z [ws] webchat disconnected code=1001 reason=n/a conn=394f4f97-c9b0-4d1f-8b95-97c205b77f48
+2026-03-02T12:09:12.685Z [ws] webchat connected conn=0347a8ec-28c3-4efd-8361-81869386a915 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:09:19.081Z [ws] webchat connected conn=b084e5e8-dd2f-4406-ae75-87ee0bc06c47 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:09:19.476Z [ws] webchat disconnected code=1001 reason=n/a conn=b084e5e8-dd2f-4406-ae75-87ee0bc06c47
+2026-03-02T12:09:19.554Z [ws] webchat connected conn=27762f8a-7422-4c38-95ed-023db0c20c71 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:09:21.627Z [ws] webchat disconnected code=1001 reason=n/a conn=0347a8ec-28c3-4efd-8361-81869386a915
+2026-03-02T12:09:31.645Z [ws] webchat disconnected code=1001 reason=WebSocket is closed due to suspension. conn=27762f8a-7422-4c38-95ed-023db0c20c71
+2026-03-02T12:09:31.693Z [ws] webchat connected conn=7e458969-61d8-4c48-b968-f5fcee7b5865 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:25:29.929Z [ws] webchat disconnected code=1001 reason=n/a conn=7e458969-61d8-4c48-b968-f5fcee7b5865
+2026-03-02T12:25:30.051Z [ws] webchat connected conn=b5bbdccb-3401-46aa-a917-1ea365ede345 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T12:38:49.953Z [health-monitor] [telegram:coding] health-monitor: restarting (reason: stuck)
+2026-03-02T12:38:49.963Z [health-monitor] [telegram:core] health-monitor: restarting (reason: stuck)
+2026-03-02T12:38:49.969Z [health-monitor] [telegram:mcs] health-monitor: restarting (reason: stuck)
+2026-03-02T12:38:49.975Z [health-monitor] [telegram:stock] health-monitor: restarting (reason: stuck)
+2026-03-02T12:38:51.539Z [telegram] [stock] starting provider (@one_asset_bot)
+2026-03-02T12:38:51.674Z [telegram] [core] starting provider (@meme_hope_bot)
+2026-03-02T12:38:51.675Z [telegram] [mcs] starting provider (@one_mcs_bot)
+2026-03-02T12:38:51.740Z [telegram] [coding] starting provider (@one_coding_bot)
+2026-03-02T12:47:51.056Z [ws] webchat disconnected code=1001 reason=n/a conn=b5bbdccb-3401-46aa-a917-1ea365ede345
+2026-03-02T12:47:51.159Z [ws] webchat connected conn=db009f3f-9d3b-4bca-8665-b92322a943f3 remote=127.0.0.1 client=openclaw-control-ui webchat vdev
+2026-03-02T13:03:16.298Z [telegram] sendMessage ok chat=5520269161 message=291
+2026-03-02T13:05:14.716Z [telegram] sendMessage ok chat=5520269161 message=293
+2026-03-02T13:05:15.721Z [telegram] sendMessage ok chat=5520269161 message=294
+2026-03-02T13:05:16.765Z [telegram] sendMessage ok chat=5520269161 message=295
+2026-03-02T13:05:17.736Z [telegram] sendMessage ok chat=5520269161 message=296
+2026-03-02T13:05:18.699Z [telegram] sendMessage ok chat=5520269161 message=297
+2026-03-02T13:07:35.154Z [telegram] sendMessage ok chat=5520269161 message=299
+2026-03-02T13:07:36.154Z [telegram] sendMessage ok chat=5520269161 message=300
+2026-03-02T13:07:37.166Z [telegram] sendMessage ok chat=5520269161 message=301
+2026-03-02T13:08:49.982Z [health-monitor] [telegram:coding] health-monitor: restarting (reason: stuck)
+2026-03-02T13:08:49.991Z [health-monitor] [telegram:core] health-monitor: restarting (reason: stuck)
+2026-03-02T13:08:49.997Z [health-monitor] [telegram:mcs] health-monitor: restarting (reason: stuck)
+2026-03-02T13:08:51.582Z [telegram] [coding] starting provider (@one_coding_bot)
+2026-03-02T13:08:51.589Z [telegram] [core] starting provider (@meme_hope_bot)
+2026-03-02T13:08:51.727Z [telegram] [mcs] starting provider (@one_mcs_bot)

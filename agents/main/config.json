@@ -1,0 +1,9 @@
+{
+  "sandbox": {
+    "mode": "off"
+  },
+  "tools": {
+    "allow": ["read", "write", "edit", "exec", "process"],
+    "deny": []
+  }
+}

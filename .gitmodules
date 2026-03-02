@@ -1,0 +1,9 @@
+[submodule "skills/lobstalk"]
+	path = skills/lobstalk
+	url = ./skills/lobstalk
+[submodule "workspace-coding"]
+	path = workspace-coding
+	url = ./workspace-coding
+[submodule "workspace"]
+	path = workspace
+	url = ./workspace
