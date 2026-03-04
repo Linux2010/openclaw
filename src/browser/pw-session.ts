@@ -494,6 +494,59 @@ export async function getPageForTargetId(opts: {
   return found;
 }
 
+/**
+ * Get page for target ID with auto-retry for extension relay scenarios.
+ * This function handles the "tab not found" error that can occur in extension relay
+ * mode after navigation by automatically reconnecting and retrying once.
+ */
+export async function getPageForTargetIdWithRetry(opts: {
+  cdpUrl: string;
+  targetId: string;
+}): Promise<Page> {
+  try {
+    // First attempt - try the normal way
+    return await getPageForTargetId(opts);
+  } catch (error) {
+    const err = error as Error;
+    if (err.message !== "tab not found") {
+      // Re-throw non-tab-not-found errors
+      throw error;
+    }
+
+    // Only retry for extension relay URLs (localhost CDP connections)
+    const isExtensionRelay = opts.cdpUrl.startsWith("ws://127.0.0.1:") || 
+                            opts.cdpUrl.startsWith("ws://localhost:");
+    
+    if (!isExtensionRelay) {
+      // Don't retry for remote connections
+      throw error;
+    }
+
+    // Force disconnect to clear stale connection state
+    await forceDisconnectPlaywrightForTarget({
+      cdpUrl: opts.cdpUrl,
+      targetId: opts.targetId,
+      reason: "recovering from tab not found after navigation",
+    });
+
+    // Second attempt - should work with fresh connection
+    try {
+      return await getPageForTargetId(opts);
+    } catch (retryError) {
+      // If retry still fails, check if we have a single page fallback
+      const { browser } = await connectBrowser(opts.cdpUrl);
+      const pages = await getAllPages(browser);
+      if (pages.length === 1) {
+        // Extension relays can block CDP attachment APIs entirely.
+        // If Playwright only exposes one page, return it as best-effort fallback.
+        return pages[0];
+      }
+      // Re-throw the retry error
+      throw retryError;
+    }
+  }
+}
+
 export function refLocator(page: Page, ref: string) {
   const normalized = ref.startsWith("@")
     ? ref.slice(1)
