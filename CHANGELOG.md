@@ -10,6 +10,7 @@ Docs: https://docs.openclaw.ai
 
 ### Fixes
 
+- **File Tools**: fix atomic write implementation to sync to disk before stat, preventing 0-byte file regression in v2026.3.11 where writeFile reported success but created empty files (affected Kimi, Grok, GPT-5.4 models). (#44372)
 - **Web Search**: respect `tools.web.search.perplexity.baseUrl` config for Perplexity Search API, fixing 401 errors for OpenRouter proxy users. (#40867)
 - macOS/LaunchAgent install: tighten LaunchAgent directory and plist permissions during install so launchd bootstrap does not fail when the target home path or generated plist inherited group/world-writable modes.
 
