@@ -6,7 +6,7 @@ Docs: https://docs.openclaw.ai
 
 ### Changes
 
-- Placeholder: replace with the first 2026.3.14 user-facing change.
+- Heartbeat/timeout: add `agents.defaults.heartbeat.timeoutSeconds` and `agents.list[].heartbeat.timeoutSeconds` so heartbeat runs can fail fast (e.g., 60s) when a model hangs, without affecting interactive agent turn timeouts. Defaults to `agents.defaults.timeoutSeconds` (600s) when unset. (#47456)
 
 ## 2026.3.13
 
