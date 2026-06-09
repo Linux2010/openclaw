@@ -36,6 +36,8 @@ export function createCanonicalFixtureSkill(params: {
   mtimeMs?: number;
   version?: number | string;
 }): Skill {
+  // Derive version from mtimeMs if not explicitly provided (matches local-loader.ts behavior)
+  const version = params.version ?? params.mtimeMs;
   return {
     name: params.name,
     description: params.description,
@@ -50,7 +52,7 @@ export function createCanonicalFixtureSkill(params: {
     }),
     disableModelInvocation: params.disableModelInvocation ?? false,
     mtimeMs: params.mtimeMs,
-    version: params.version,
+    version,
   };
 }
 

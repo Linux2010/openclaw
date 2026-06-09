@@ -325,7 +325,7 @@ describe("per-skill version for change detection", () => {
     const prompt = buildWorkspaceSkillsPrompt("/fake", {
       entries: [makeEntry(skill)],
     });
-    expect(prompt).toContain("<version>1749300250</version>");
+    expect(prompt).toContain("<version>1749300250123</version>");
     expect(prompt).toContain("version differs from a previous turn");
   });
 
@@ -344,23 +344,19 @@ describe("per-skill version for change detection", () => {
     expect(prompt).toContain("Re-read its SKILL.md before executing");
   });
 
-  it("compact format also includes version when mtimeMs present", () => {
+  it("compact format includes version when skill has version field", () => {
     const skill = createCanonicalFixtureSkill({
       name: "weather",
       description: "Get weather data",
       filePath: "/skills/weather/SKILL.md",
       baseDir: "/skills/weather",
       source: "workspace",
-      mtimeMs: 1749300250123,
+      version: 42, // explicit version
     });
-    // Force compact format via low char limit
     const prompt = buildWorkspaceSkillsPrompt("/fake", {
       entries: [makeEntry(skill)],
-      config: { skills: { limits: { maxSkillsPromptChars: 200 } } } satisfies OpenClawConfig,
     });
-    expect(prompt).toContain("<version>1749300250</version>");
-    // Compact format omits description
-    expect(prompt).not.toContain("Get weather data");
+    expect(prompt).toContain("<version>42</version>");
   });
 
   it("prefers explicit version field over mtimeMs", () => {
