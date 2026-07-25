@@ -978,6 +978,30 @@ describe("coerceDisplayValue middle truncation", () => {
       expect(detail).toBe("search text in src/");
     });
 
+    it("falls back to neutral label when pattern contains tabs", () => {
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: "rg 'col1\tcol2' src/" },
+          detailMode: "explain",
+        }),
+      );
+      expect(detail).toBe("search text in src/");
+    });
+
+    it("falls back to neutral label when pattern contains ANSI escape bytes", () => {
+      // Embed a literal ESC byte (0x1b) in the command string; splitShellWords
+      // preserves it when it appears inside single quotes.
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: "rg '\x1b[31m' src/" },
+          detailMode: "explain",
+        }),
+      );
+      expect(detail).toBe("search text in src/");
+    });
+
     it("falls back to neutral label when pattern is excessively long", () => {
       const longPattern = "x".repeat(81);
       const detail = formatToolDetail(
