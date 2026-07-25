@@ -28,11 +28,21 @@ import {
  * text, composite fallback strings, and patterns with control characters.
  */
 function isSafeSearchPattern(pattern: string): boolean {
-  if (pattern.length > 80) return false;
-  if (pattern.startsWith("search ")) return false;
-  if (pattern.startsWith("Bash failed:")) return false;
-  if (pattern.includes("`")) return false;
-  if (/[\r\n]/.test(pattern)) return false;
+  if (pattern.length > 80) {
+    return false;
+  }
+  if (pattern.startsWith("search ")) {
+    return false;
+  }
+  if (pattern.startsWith("Bash failed:")) {
+    return false;
+  }
+  if (pattern.includes("`")) {
+    return false;
+  }
+  if (/[\r\n]/.test(pattern)) {
+    return false;
+  }
   return true;
 }
 
