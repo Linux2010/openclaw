@@ -905,4 +905,123 @@ describe("coerceDisplayValue middle truncation", () => {
     expect(detail).not.toContain("AKIDABCDEFGHIJKLMNOP1234567890");
     expect(detail).toContain("AKIDAB…7890");
   });
+
+  describe("grep/rg search summary sanitization", () => {
+    it("produces normal search summary for safe patterns", () => {
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: 'rg "TODO" src/' },
+          detailMode: "explain",
+        }),
+      );
+      expect(detail).toBe('search "TODO" in src/');
+    });
+
+    it("produces normal search summary for rg with -e flag", () => {
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: "rg -e 'function foo' lib/" },
+          detailMode: "explain",
+        }),
+      );
+      // -e consumes the pattern, so lib/ is the only positional and becomes
+      // the target only when there is more than one positional arg.
+      expect(detail).toBe('search "function foo"');
+    });
+
+    it("falls back to neutral label when pattern starts with 'search '", () => {
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: 'rg "search \\"pattern\\" in target" src/' },
+          detailMode: "explain",
+        }),
+      );
+      expect(detail).toBe("search text in src/");
+      expect(detail).not.toContain('search "search');
+    });
+
+    it("falls back to neutral label when pattern starts with 'Bash failed:'", () => {
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: 'rg "Bash failed: search" src/' },
+          detailMode: "explain",
+        }),
+      );
+      expect(detail).toBe("search text in src/");
+    });
+
+    it("falls back to neutral label when pattern contains backticks", () => {
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: "rg '`code`' src/" },
+          detailMode: "explain",
+        }),
+      );
+      expect(detail).toBe("search text in src/");
+    });
+
+    it("falls back to neutral label when pattern contains newlines", () => {
+      // Use a command string where the pattern arg itself contains a literal newline,
+      // which splitShellWords preserves when the shell quoting embeds one.
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: "rg 'line1\nline2' src/" },
+          detailMode: "explain",
+        }),
+      );
+      expect(detail).toBe("search text in src/");
+    });
+
+    it("falls back to neutral label when pattern is excessively long", () => {
+      const longPattern = "x".repeat(81);
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: `rg "${longPattern}" src/` },
+          detailMode: "explain",
+        }),
+      );
+      expect(detail).toBe("search text in src/");
+    });
+
+    it("preserves target in fallback when target is present", () => {
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: 'rg "search \\"recursive\\"" lib/' },
+          detailMode: "explain",
+        }),
+      );
+      expect(detail).toBe("search text in lib/");
+    });
+
+    it("omits target in fallback when no target is present", () => {
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: 'rg "search \\"recursive\\""' },
+          detailMode: "explain",
+        }),
+      );
+      expect(detail).toBe("search text");
+    });
+
+    it("allows patterns at the 80-char boundary", () => {
+      const boundaryPattern = "a".repeat(80);
+      const detail = formatToolDetail(
+        resolveToolDisplay({
+          name: "bash",
+          args: { command: `rg "${boundaryPattern}" src/` },
+          detailMode: "explain",
+        }),
+      );
+      expect(detail).toBe(`search "${boundaryPattern}" in src/`);
+    });
+  });
 });

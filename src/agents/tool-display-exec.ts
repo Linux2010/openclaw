@@ -22,6 +22,20 @@ import {
   unwrapShellWrapper,
 } from "./tool-display-exec-shell.js";
 
+/**
+ * Reject patterns that would produce recursive or malformed summaries when
+ * interpolated into `search "<pattern>" in <target>`.  Covers already-summarized
+ * text, composite fallback strings, and patterns with control characters.
+ */
+function isSafeSearchPattern(pattern: string): boolean {
+  if (pattern.length > 80) return false;
+  if (pattern.startsWith("search ")) return false;
+  if (pattern.startsWith("Bash failed:")) return false;
+  if (pattern.includes("`")) return false;
+  if (/[\r\n]/.test(pattern)) return false;
+  return true;
+}
+
 function summarizeKnownExec(words: string[]): string {
   if (words.length === 0) {
     return "run command";
@@ -117,10 +131,10 @@ function summarizeKnownExec(words: string[]): string {
     ]);
     const pattern = optionValue(words, ["-e", "--regexp"]) ?? positional[0];
     const target = positional.length > 1 ? positional.at(-1) : undefined;
-    if (pattern) {
+    if (pattern && isSafeSearchPattern(pattern)) {
       return target ? `search "${pattern}" in ${target}` : `search "${pattern}"`;
     }
-    return "search text";
+    return target ? `search text in ${target}` : "search text";
   }
 
   if (bin === "find") {
