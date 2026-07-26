@@ -1200,9 +1200,7 @@ describe("runEmbeddedAgent incomplete-turn safety", () => {
 
       expect(mockedRunEmbeddedAttempt).toHaveBeenCalledTimes(1);
       expect(result.payloads?.[0]).toMatchObject({ isError: true });
-      expect(result.payloads?.[0]?.text).toContain(
-        "some tool actions may have already been executed",
-      );
+      expect(result.payloads?.[0]?.text).toContain("Tool work completed");
       expectNoWarnMessageWith("settled post-tool turn lacked a final answer");
     } finally {
       resetRunOverflowCompactionHarnessMocks();
@@ -1348,9 +1346,7 @@ describe("runEmbeddedAgent incomplete-turn safety", () => {
 
     expect(mockedRunEmbeddedAttempt).toHaveBeenCalledTimes(2);
     expect(result.payloads?.[0]).toMatchObject({ isError: true });
-    expect(result.payloads?.[0]?.text).toContain(
-      "some tool actions may have already been executed",
-    );
+    expect(result.payloads?.[0]?.text).toContain("Tool work completed");
     expectNoWarnMessageWith("empty response detected");
     expectWarnMessageWith("settled-turn finalization failed closed");
   });
@@ -1417,9 +1413,7 @@ describe("runEmbeddedAgent incomplete-turn safety", () => {
 
     expect(mockedRunEmbeddedAttempt).toHaveBeenCalledTimes(2);
     expect(result.payloads?.[0]).toMatchObject({ isError: true });
-    expect(result.payloads?.[0]?.text).toContain(
-      "some tool actions may have already been executed",
-    );
+    expect(result.payloads?.[0]?.text).toContain("Tool work completed");
   });
 
   it("surfaces the existing incomplete-turn error after one tool-use continuation", async () => {
@@ -1454,9 +1448,7 @@ describe("runEmbeddedAgent incomplete-turn safety", () => {
 
     expect(mockedRunEmbeddedAttempt).toHaveBeenCalledTimes(2);
     expect(result.payloads?.[0]?.isError).toBe(true);
-    expect(result.payloads?.[0]?.text).toContain(
-      "some tool actions may have already been executed",
-    );
+    expect(result.payloads?.[0]?.text).toContain("Tool work completed");
     expectWarnMessageWith("settled-turn finalization failed closed");
   });
 
@@ -2638,7 +2630,7 @@ describe("runEmbeddedAgent incomplete-turn safety", () => {
       }),
     });
 
-    expect(incompleteTurnText).toContain("couldn't generate a response");
+    expect(incompleteTurnText).toContain("Tool work completed");
   });
 
   it("surfaces no-visible-answer recovery for app-server interrupted tool-only output", () => {
@@ -2668,7 +2660,7 @@ describe("runEmbeddedAgent incomplete-turn safety", () => {
       attempt: interruptedToolOnlyAttempt,
     });
 
-    expect(incompleteTurnText).toContain("couldn't generate a response");
+    expect(incompleteTurnText).toContain("Tool work completed");
 
     const explicitCancellationText = resolveIncompleteTurnPayloadText({
       payloadCount: interruptedToolOnlyAttempt.assistantTexts.length,
@@ -2821,7 +2813,7 @@ describe("runEmbeddedAgent incomplete-turn safety", () => {
       }),
     });
 
-    expect(incompleteTurnText).toContain("verify before retrying");
+    expect(incompleteTurnText).toContain("Tool work completed");
   });
 
   it("returns a degraded tool-work-completed message when all tools succeeded but final response is empty (#111764)", () => {
@@ -2876,7 +2868,10 @@ describe("runEmbeddedAgent incomplete-turn safety", () => {
     expect(incompleteTurnText).not.toContain("Tool work completed");
   });
 
-  it("returns generic side-effect message when tools had async-started activity (#111764)", () => {
+  it("returns null for tools with async-started activity (#111764)", () => {
+    // Async-started tools are excluded earlier in the function by
+    // hasAsyncStartedToolActivity, so the function returns null
+    // (no incomplete-turn surface) rather than any user message.
     const incompleteTurnText = resolveIncompleteTurnPayloadText({
       payloadCount: 0,
       aborted: false,
@@ -2900,8 +2895,7 @@ describe("runEmbeddedAgent incomplete-turn safety", () => {
       }),
     });
 
-    expect(incompleteTurnText).toContain("verify before retrying");
-    expect(incompleteTurnText).not.toContain("Tool work completed");
+    expect(incompleteTurnText).toBeNull();
   });
 
   it("does not flag a completed tool-use turn with end_turn as incomplete (#76477)", () => {
@@ -4298,8 +4292,8 @@ describe("runEmbeddedAgent incomplete-turn safety", () => {
       }),
     });
 
-    expect(incompleteTurnText).toContain("couldn't generate a response");
-    expect(incompleteTurnText).toContain("verify before retrying");
+    expect(incompleteTurnText).toContain("Tool work completed");
+    expect(incompleteTurnText).toContain("Check the produced artifacts");
   });
 
   it("retries generic empty Bedrock Converse turns without visible text", () => {
