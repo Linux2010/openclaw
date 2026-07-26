@@ -2824,6 +2824,86 @@ describe("runEmbeddedAgent incomplete-turn safety", () => {
     expect(incompleteTurnText).toContain("verify before retrying");
   });
 
+  it("returns a degraded tool-work-completed message when all tools succeeded but final response is empty (#111764)", () => {
+    // When tools completed successfully (no errors, no async-started tools)
+    // but the final assistant response is empty, the user should see a message
+    // that accurately reflects the tool work completed, not a generic "tool
+    // actions may have been executed" warning.
+    const incompleteTurnText = resolveIncompleteTurnPayloadText({
+      payloadCount: 0,
+      aborted: false,
+      timedOut: false,
+      attempt: makeAttemptResult({
+        assistantTexts: [],
+        toolMetas: [{ toolName: "write", meta: "path=output.txt" }],
+        lastAssistant: {
+          role: "assistant",
+          stopReason: "stop",
+          provider: "openai",
+          model: "gpt-5.5",
+          content: [],
+        } as unknown as EmbeddedRunAttemptResult["lastAssistant"],
+      }),
+    });
+
+    expect(incompleteTurnText).toContain("Tool work completed");
+    expect(incompleteTurnText).toContain("Check the produced artifacts");
+    expect(incompleteTurnText).not.toContain("verify before retrying");
+  });
+
+  it("returns generic side-effect message when tools had errors (#111764)", () => {
+    const incompleteTurnText = resolveIncompleteTurnPayloadText({
+      payloadCount: 0,
+      aborted: false,
+      timedOut: false,
+      attempt: makeAttemptResult({
+        assistantTexts: [],
+        toolMetas: [
+          { toolName: "write", meta: "path=output.txt" },
+          { toolName: "bash", meta: "cmd=invalid", isError: true },
+        ],
+        lastAssistant: {
+          role: "assistant",
+          stopReason: "stop",
+          provider: "openai",
+          model: "gpt-5.5",
+          content: [],
+        } as unknown as EmbeddedRunAttemptResult["lastAssistant"],
+      }),
+    });
+
+    expect(incompleteTurnText).toContain("verify before retrying");
+    expect(incompleteTurnText).not.toContain("Tool work completed");
+  });
+
+  it("returns generic side-effect message when tools had async-started activity (#111764)", () => {
+    const incompleteTurnText = resolveIncompleteTurnPayloadText({
+      payloadCount: 0,
+      aborted: false,
+      timedOut: false,
+      attempt: makeAttemptResult({
+        assistantTexts: [],
+        toolMetas: [
+          {
+            toolName: "image_generate",
+            meta: 'prompt="a portrait"',
+            asyncStarted: true,
+          },
+        ],
+        lastAssistant: {
+          role: "assistant",
+          stopReason: "stop",
+          provider: "openai",
+          model: "gpt-5.5",
+          content: [],
+        } as unknown as EmbeddedRunAttemptResult["lastAssistant"],
+      }),
+    });
+
+    expect(incompleteTurnText).toContain("verify before retrying");
+    expect(incompleteTurnText).not.toContain("Tool work completed");
+  });
+
   it("does not flag a completed tool-use turn with end_turn as incomplete (#76477)", () => {
     // When the model successfully produces post-tool text, lastAssistant has
     // stopReason=end_turn. The incomplete-turn guard should not fire.
