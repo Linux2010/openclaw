@@ -533,7 +533,17 @@ describe("runEmbeddedAgentViaCliBackendIfEligible execution", () => {
           phase: "start",
           name: "mcp__openclaw__memory_search",
           toolCallId: "call-1",
-          args: { query: "wings" },
+          args: {},
+        },
+      });
+      emitAgentEvent({
+        runId: cliParams.runId,
+        stream: "tool",
+        data: {
+          phase: "update",
+          name: "mcp__openclaw__memory_search",
+          toolCallId: "call-1",
+          args: { query: "recovered wings" },
         },
       });
       emitAgentEvent({
@@ -564,10 +574,18 @@ describe("runEmbeddedAgentViaCliBackendIfEligible execution", () => {
     expect(transcriptRecorder.noteAssistantText).toHaveBeenCalledWith("partial answer");
     expect(transcriptRecorder.noteToolEvent).toHaveBeenCalledWith(
       expect.objectContaining({
+        phase: "update",
+        toolName: "memory_search",
+        toolCallId: "call-1",
+        args: { query: "recovered wings" },
+      }),
+    );
+    expect(transcriptRecorder.noteToolEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
         phase: "start",
         toolName: "memory_search",
         toolCallId: "call-1",
-        args: { query: "wings" },
+        args: {},
       }),
     );
     expect(transcriptRecorder.noteToolEvent).toHaveBeenCalledWith(

@@ -22,7 +22,7 @@ type ToolResultContent =
   | { type: "image"; data: string; mimeType: string };
 
 type CliDispatchTranscriptToolEvent = {
-  phase: "start" | "result";
+  phase: "start" | "update" | "result";
   toolName: string;
   toolCallId?: string;
   args?: Record<string, unknown>;
@@ -71,6 +71,10 @@ export function createCliDispatchTranscriptRecorder(params: {
   let finalized = false;
   let turnTainted = false;
   let toolRecordSequence = 0;
+  const pendingToolCalls = new Map<
+    string,
+    { toolName: string; toolCallId: string; args: Record<string, unknown>; tainted: boolean }
+  >();
 
   const scope = {
     sessionId: params.sessionId,
@@ -128,6 +132,41 @@ export function createCliDispatchTranscriptRecorder(params: {
       : {}),
   }));
 
+  const enqueueToolCall = (tool: {
+    toolName: string;
+    toolCallId: string;
+    args: Record<string, unknown>;
+    tainted: boolean;
+  }) => {
+    enqueue(() =>
+      buildZeroUsageAssistantMessage(
+        [
+          {
+            type: "toolCall",
+            id: tool.toolCallId,
+            name: tool.toolName,
+            arguments: tool.args,
+          },
+        ],
+        "toolUse",
+        tool.tainted,
+      ),
+    );
+  };
+  const flushPendingToolCall = (toolCallId: string) => {
+    const pending = pendingToolCalls.get(toolCallId);
+    if (!pending) {
+      return;
+    }
+    pendingToolCalls.delete(toolCallId);
+    enqueueToolCall(pending);
+  };
+  const flushPendingToolCalls = () => {
+    for (const toolCallId of pendingToolCalls.keys()) {
+      flushPendingToolCall(toolCallId);
+    }
+  };
+
   return {
     noteToolEvent: (event) => {
       if (finalized) {
@@ -137,22 +176,33 @@ export function createCliDispatchTranscriptRecorder(params: {
       const toolCallId =
         event.toolCallId?.trim() || `${params.runId}-tool-${String(toolRecordSequence)}`;
       if (event.phase === "start") {
-        const taintedAtStart = turnTainted;
-        enqueue(() =>
-          buildZeroUsageAssistantMessage(
-            [
-              {
-                type: "toolCall",
-                id: toolCallId,
-                name: event.toolName,
-                arguments: event.args ?? {},
-              },
-            ],
-            "toolUse",
-            taintedAtStart,
-          ),
-        );
+        const tool = {
+          toolName: event.toolName,
+          toolCallId,
+          args: event.args ?? {},
+          tainted: turnTainted,
+        };
+        // Hold an empty start until its update or result so the transcript has
+        // one tool-call record with the recovered arguments, not a duplicate.
+        if (Object.keys(tool.args).length === 0) {
+          pendingToolCalls.set(toolCallId, tool);
+        } else {
+          enqueueToolCall(tool);
+        }
         return;
+      }
+      if (event.phase === "update") {
+        const pending = pendingToolCalls.get(toolCallId);
+        if (pending && event.args && Object.keys(event.args).length > 0) {
+          pending.args = event.args;
+          pendingToolCalls.delete(toolCallId);
+          enqueueToolCall(pending);
+        }
+        return;
+      }
+      const pending = pendingToolCalls.get(toolCallId);
+      if (pending) {
+        flushPendingToolCall(toolCallId);
       }
       turnTainted ||= event.resultContentSource === "network";
       enqueue(() => ({
@@ -177,6 +227,7 @@ export function createCliDispatchTranscriptRecorder(params: {
       if (finalized) {
         return;
       }
+      flushPendingToolCalls();
       const text = lastAssistantText.trim();
       if (!text || text === lastWrittenAssistantText) {
         return;
@@ -189,6 +240,7 @@ export function createCliDispatchTranscriptRecorder(params: {
         await tail;
         return;
       }
+      flushPendingToolCalls();
       finalized = true;
       const text = finalText?.trim() || lastAssistantText.trim();
       if (text && text !== lastWrittenAssistantText) {

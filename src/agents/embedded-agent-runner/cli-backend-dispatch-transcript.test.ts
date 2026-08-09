@@ -102,6 +102,47 @@ describe("createCliDispatchTranscriptRecorder", () => {
     });
   });
 
+  it("records recovered arguments once across an empty start, update, and result", async () => {
+    const recorder = createCliDispatchTranscriptRecorder(recorderParams());
+    recorder.noteToolEvent({
+      phase: "start",
+      toolName: "exec",
+      toolCallId: "call-recovered",
+      args: {},
+    });
+    recorder.noteToolEvent({
+      phase: "update",
+      toolName: "exec",
+      toolCallId: "call-recovered",
+      args: { command: "jj rebase -s abc -d main" },
+    });
+    recorder.noteToolEvent({
+      phase: "result",
+      toolName: "exec",
+      toolCallId: "call-recovered",
+      result: "ok",
+      isError: false,
+    });
+    await recorder.finalize();
+
+    const messages = appendedRecords().map((record) => record.message);
+    expect(messages.filter((message) => message.role === "assistant")).toHaveLength(1);
+    expect(messages[1]).toMatchObject({
+      role: "assistant",
+      content: [
+        {
+          type: "toolCall",
+          id: "call-recovered",
+          arguments: { command: "jj rebase -s abc -d main" },
+        },
+      ],
+    });
+    expect(messages[2]).toMatchObject({
+      role: "toolResult",
+      toolCallId: "call-recovered",
+    });
+  });
+
   it("persists network-result taint on the result and subsequent assistant", async () => {
     const recorder = createCliDispatchTranscriptRecorder(recorderParams());
     recorder.noteToolEvent({
