@@ -281,6 +281,32 @@ describe("worker live events", () => {
     expect(JSON.stringify(events)).not.toContain(credential);
   });
 
+  it("delivers recovered args from an args-only tool update", () => {
+    const toolCallId = "call-recovered";
+    ack(live(1, tool({ phase: "start", name: "exec", toolCallId, args: {} })));
+    ack(
+      live(
+        2,
+        tool({
+          phase: "update",
+          name: "exec",
+          toolCallId,
+          args: { command: "ls -la" },
+        }),
+      ),
+    );
+
+    expect(events[1]).toMatchObject({
+      stream: "tool",
+      data: {
+        phase: "update",
+        name: "exec",
+        toolCallId,
+        args: { command: "ls -la" },
+      },
+    });
+  });
+
   it("replays an unacked tail once", () => {
     ack(msg(2, " world"), 0);
     ack(msg(1), 2, { ...ID });
