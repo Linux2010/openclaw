@@ -764,6 +764,21 @@ describe("createCliToolSummaryTracker", () => {
     expect(payload.text).toContain("Wed Jun 10 2026");
   });
 
+  it("refreshes the summary metadata from recovered args on an update", async () => {
+    const deliver = vi.fn();
+    const tracker = createCliToolSummaryTracker({
+      shouldEmitToolResult: () => true,
+      shouldEmitToolOutput: () => false,
+      deliver,
+    });
+    await tracker.noteToolEvent({ ...startEvent, args: {} });
+    await tracker.noteToolEvent({ ...startEvent, phase: "update", args: { command: "ls -la" } });
+    await tracker.noteToolEvent(resultEvent);
+
+    const payload = deliver.mock.calls[0]?.[0] as { text: string };
+    expect(payload.text).toContain("ls -la");
+  });
+
   it("renders top-level structured CLI results in full verbose output", async () => {
     const deliver = vi.fn();
     const tracker = createCliToolSummaryTracker({

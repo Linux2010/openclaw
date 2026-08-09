@@ -308,14 +308,14 @@ export function createCliToolSummaryTracker(params: {
   const metaByCallId = new Map<string, string | undefined>();
   return {
     noteToolEvent: async (payload: CliToolEventPayload): Promise<void> => {
-      if (payload.phase === "start") {
+      if (payload.phase === "start" || payload.phase === "update") {
         if (payload.toolCallId && payload.name) {
-          metaByCallId.set(
-            payload.toolCallId,
-            inferToolMetaFromArgs(payload.name, payload.args, {
-              detailMode: params.detailMode ?? "explain",
-            }),
-          );
+          const meta = inferToolMetaFromArgs(payload.name, payload.args, {
+            detailMode: params.detailMode ?? "explain",
+          });
+          if (meta !== undefined) {
+            metaByCallId.set(payload.toolCallId, meta);
+          }
         }
         return;
       }
