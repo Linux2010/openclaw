@@ -235,15 +235,15 @@ describe("executeAgentTurn: CLI progress bridging", () => {
     await new Promise((resolve) => {
       setImmediate(resolve);
     });
-
     expect(result.kind).toBe("success");
     expect(completionReceiptCount).toBe(1);
-    expect(onToolStart).toHaveBeenCalledTimes(2);
-    expect(onToolStart.mock.calls.map((call) => call[0].phase)).toEqual(["start", "update"]);
     expect(
-      onToolStart.mock.calls.map(
-        ([payload]) => [payload.phase, payload.name, payload.toolCallId, payload.args],
-      ),
+      onToolStart.mock.calls.map(([payload]) => [
+        payload.phase,
+        payload.name,
+        payload.toolCallId,
+        payload.args,
+      ]),
     ).toEqual([
       ["start", "Bash", "toolu_backfill", {}],
       ["update", "Bash", "toolu_backfill", { command: "ls -la" }],
