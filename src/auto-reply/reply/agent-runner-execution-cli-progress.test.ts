@@ -239,7 +239,7 @@ describe("executeAgentTurn: CLI progress bridging", () => {
     expect(result.kind).toBe("success");
     expect(completionReceiptCount).toBe(1);
     expect(onToolStart).toHaveBeenCalledTimes(2);
-    expect(onToolStart.mock.calls.map(([payload]) => payload.phase)).toEqual(["start", "update"]);
+    expect(onToolStart.mock.calls.map((call) => call[0].phase)).toEqual(["start", "update"]);
     expect(
       onToolStart.mock.calls.map(
         ([payload]) => [payload.phase, payload.name, payload.toolCallId, payload.args],
