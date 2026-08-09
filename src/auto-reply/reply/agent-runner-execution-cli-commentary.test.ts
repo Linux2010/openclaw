@@ -244,7 +244,13 @@ describe("executeAgentTurn: CLI durable commentary", () => {
           toolCallId: "tool-backfill",
           args: { command: "ls -la" },
         },
-        { phase: "result", name: "Bash", toolCallId: "tool-backfill", result: "ok" },
+        {
+          phase: "result",
+          name: "Bash",
+          toolCallId: "tool-backfill",
+          args: { command: "ls -la" },
+          result: "ok",
+        },
       ]);
       const completionReceiptCount = onToolStart.mock.calls.filter(
         ([payload]) => payload.phase === "start",
