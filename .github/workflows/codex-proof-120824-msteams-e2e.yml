@@ -51,7 +51,7 @@ jobs:
         run: |
           set -euo pipefail
           output_dir=.artifacts/qa-e2e/msteams-thread-reply-pagination
-          pnpm openclaw msteams \
+          pnpm openclaw qa msteams \
             --repo-root . \
             --provider-mode mock-openai \
             --output-dir "$output_dir" \
