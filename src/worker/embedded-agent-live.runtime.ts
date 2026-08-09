@@ -71,12 +71,16 @@ function boundLiveEvent(event: WorkerLiveEvent): WorkerLiveEvent {
         payload: { ...event.payload, args: boundLiveValue(event.payload.args) },
       };
     } else if (event.payload.phase === "update") {
+      const payload = { ...event.payload };
+      if (Object.hasOwn(event.payload, "args")) {
+        payload.args = boundLiveValue(event.payload.args);
+      }
+      if (Object.hasOwn(event.payload, "partialResult")) {
+        payload.partialResult = boundLiveValue(event.payload.partialResult);
+      }
       bounded = {
         kind: "tool",
-        payload: {
-          ...event.payload,
-          partialResult: boundLiveValue(event.payload.partialResult),
-        },
+        payload,
       };
     } else {
       bounded = {
@@ -131,7 +135,10 @@ function coalescePendingLiveEvent(pending: WorkerLiveEvent[], event: WorkerLiveE
     event.payload.phase === "update" &&
     previous.payload.toolCallId === event.payload.toolCallId
   ) {
-    pending[index] = boundLiveEvent(event);
+    pending[index] = boundLiveEvent({
+      kind: "tool",
+      payload: { ...previous.payload, ...event.payload },
+    });
     return true;
   }
   return false;

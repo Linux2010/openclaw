@@ -76,10 +76,16 @@ describe("createChatRunState", () => {
       phase: "update",
       name: "read",
       toolCallId: "active",
+      args: { path: "a" },
+    });
+    event(4, "tool", {
+      phase: "update",
+      name: "read",
+      toolCallId: "active",
       partialResult: "halfway",
     });
-    event(4, "tool", { phase: "start", name: "exec", toolCallId: "done", args: {} });
-    event(5, "tool", {
+    event(5, "tool", { phase: "start", name: "exec", toolCallId: "done", args: {} });
+    event(6, "tool", {
       phase: "result",
       name: "exec",
       toolCallId: "done",
@@ -90,7 +96,16 @@ describe("createChatRunState", () => {
     expect(state.runs.get("run-1")?.progressSnapshot?.events).toMatchObject([
       { seq: 1, stream: "item", data: { itemId: "p-1", progressText: "Inspecting" } },
       { seq: 2, stream: "tool", data: { phase: "start", toolCallId: "active" } },
-      { seq: 3, stream: "tool", data: { phase: "update", toolCallId: "active" } },
+      {
+        seq: 4,
+        stream: "tool",
+        data: {
+          phase: "update",
+          toolCallId: "active",
+          args: { path: "a" },
+          partialResult: "halfway",
+        },
+      },
     ]);
 
     for (let seq = 6; seq <= 70; seq += 1) {
