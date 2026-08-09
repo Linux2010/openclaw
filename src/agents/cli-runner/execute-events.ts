@@ -117,6 +117,11 @@ export function createCliEventHandlers(params: {
   const emitCliToolUseUpdate = (event: CliToolUseStartDelta) => {
     observedCliActivity = true;
     recordToolStart(event);
+    // Refresh the canonical tool-tracking state (loopback correlation and
+    // message-delivery evidence) with the recovered args. handleCliToolUseStart
+    // only mutates tracking state and emits no lifecycle event, so this does not
+    // create a second start.
+    params.toolTracking.handleCliToolUseStart(event);
     if (emitLiveEvents) {
       emitAgentEvent({
         runId: runParams.runId,
