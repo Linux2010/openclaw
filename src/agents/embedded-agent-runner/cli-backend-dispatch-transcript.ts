@@ -335,7 +335,7 @@ function replaceTranscriptToolCallArguments(
   event: unknown,
   toolCallId: string,
   args: Record<string, unknown>,
-): unknown | undefined {
+): unknown {
   if (!isRecord(event) || event.type !== "message" || !isRecord(event.message)) {
     return undefined;
   }
