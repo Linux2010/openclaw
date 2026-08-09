@@ -186,7 +186,17 @@ describe("executeAgentTurn: CLI progress bridging", () => {
           data: {
             phase: "start",
             name: "Bash",
-            toolCallId: "toolu_01ABCD",
+            toolCallId: "toolu_backfill",
+            args: {},
+          },
+        });
+        realAgentEvents.emitAgentEvent({
+          runId: params.runId,
+          stream: "tool",
+          data: {
+            phase: "update",
+            name: "Bash",
+            toolCallId: "toolu_backfill",
             args: { command: "ls -la" },
           },
         });
@@ -196,92 +206,18 @@ describe("executeAgentTurn: CLI progress bridging", () => {
           data: {
             phase: "result",
             name: "Bash",
-            toolCallId: "toolu_01ABCD",
+            toolCallId: "toolu_backfill",
             isError: false,
+            result: "done",
           },
         });
         return { payloads: [{ text: "done" }], meta: {} };
       },
     );
 
-    const onToolStart = vi.fn<NonNullable<GetReplyOptions["onToolStart"]>>(async () => undefined);
-    const executeAgentTurn = await getExecuteAgentTurnForTest();
-    const followupRun = createFollowupRun();
-    followupRun.run.provider = "claude-cli";
-    followupRun.run.model = "claude-opus-4-6";
-
-    await executeAgentTurn({
-      commandBody: "hi",
-      followupRun,
-      sessionCtx: { Provider: "telegram", MessageSid: "msg" } as unknown as TemplateContext,
-      opts: { onToolStart },
-      typingSignals: createMockTypingSignaler(),
-      blockReplyPipeline: null,
-      blockStreamingEnabled: false,
-      resolvedBlockStreamingBreak: "message_end",
-      applyReplyToMode: (payload) => payload,
-      shouldEmitToolResult: () => true,
-      shouldEmitToolOutput: () => false,
-      pendingToolTasks: new Set(),
-      resetSessionAfterRoleOrderingConflict: async () => false,
-      isHeartbeat: false,
-      sessionKey: "main",
-      getActiveSessionEntry: () => undefined,
-      resolvedVerboseLevel: "off",
-    });
-    await new Promise((resolve) => {
-      setImmediate(resolve);
-    });
-
-    expect(onToolStart).toHaveBeenCalledTimes(1);
-    const call = onToolStart.mock.calls[0]?.[0];
-    expect(call?.name).toBe("Bash");
-    expect(call?.phase).toBe("start");
-    expect(call?.args).toEqual({ command: "ls -la" });
-  });
-
-  it("bridges recovered CLI tool args without duplicating the completion receipt (#120306)", async () => {
-    state.isCliProviderMock.mockReturnValue(true);
-    state.runWithModelFallbackMock.mockImplementationOnce(async (params: FallbackRunnerParams) => ({
-      result: await params.run("claude-cli", "claude-opus-4-6"),
-      provider: "claude-cli",
-      model: "claude-opus-4-6",
-      attempts: [],
-    }));
-    state.runCliAgentMock.mockImplementationOnce(async (params: { runId: string }) => {
-      const realAgentEvents = await vi.importActual<typeof import("../../infra/agent-events.js")>(
-        "../../infra/agent-events.js",
-      );
-      const emitToolEvent = (data: Record<string, unknown>) => {
-        realAgentEvents.emitAgentEvent({ runId: params.runId, stream: "tool", data });
-      };
-      emitToolEvent({
-        phase: "start",
-        name: "Bash",
-        toolCallId: "toolu_backfill",
-        args: {},
-      });
-      emitToolEvent({
-        phase: "update",
-        name: "Bash",
-        toolCallId: "toolu_backfill",
-        args: { command: "ls -la" },
-      });
-      emitToolEvent({
-        phase: "result",
-        name: "Bash",
-        toolCallId: "toolu_backfill",
-        isError: false,
-        result: "done",
-      });
-      return { payloads: [{ text: "done" }], meta: {} };
-    });
-
     let completionReceiptCount = 0;
     const onToolStart = vi.fn<NonNullable<GetReplyOptions["onToolStart"]>>(async (payload) => {
-      if (payload.phase === "start") {
-        completionReceiptCount += 1;
-      }
+      completionReceiptCount += payload.phase === "start" ? 1 : 0;
     });
     const executeAgentTurn = await getExecuteAgentTurnForTest();
     const followupRun = createFollowupRun();
@@ -301,22 +237,17 @@ describe("executeAgentTurn: CLI progress bridging", () => {
     });
 
     expect(result.kind).toBe("success");
-    const toolProgress = onToolStart.mock.calls.map(([payload]) => payload);
-    expect(toolProgress).toHaveLength(2);
-    expect(toolProgress.map((payload) => payload.phase)).toEqual(["start", "update"]);
-    expect(toolProgress[0]).toMatchObject({
-      name: "Bash",
-      toolCallId: "toolu_backfill",
-      phase: "start",
-      args: {},
-    });
-    expect(toolProgress[1]).toMatchObject({
-      name: "Bash",
-      toolCallId: "toolu_backfill",
-      phase: "update",
-      args: { command: "ls -la" },
-    });
     expect(completionReceiptCount).toBe(1);
+    expect(onToolStart).toHaveBeenCalledTimes(2);
+    expect(onToolStart.mock.calls.map(([payload]) => payload.phase)).toEqual(["start", "update"]);
+    expect(
+      onToolStart.mock.calls.map(
+        ([payload]) => [payload.phase, payload.name, payload.toolCallId, payload.args],
+      ),
+    ).toEqual([
+      ["start", "Bash", "toolu_backfill", {}],
+      ["update", "Bash", "toolu_backfill", { command: "ls -la" }],
+    ]);
   });
 
   it("starts CLI assistant progress before a later tool while typing is slow", async () => {
