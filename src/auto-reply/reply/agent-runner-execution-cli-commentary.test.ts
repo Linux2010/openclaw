@@ -214,12 +214,19 @@ describe("executeAgentTurn: CLI durable commentary", () => {
       if (event.stream !== "tool") {
         return;
       }
+      const data = event.data as {
+        phase: string;
+        name: string;
+        toolCallId?: string;
+        args?: unknown;
+        result?: unknown;
+      };
       toolEvents.push({
-        phase: event.data.phase,
-        name: event.data.name,
-        toolCallId: event.data.toolCallId,
-        ...(event.data.args !== undefined ? { args: event.data.args } : {}),
-        ...(event.data.result !== undefined ? { result: event.data.result } : {}),
+        phase: data.phase,
+        name: data.name,
+        toolCallId: data.toolCallId,
+        ...(data.args !== undefined ? { args: data.args } : {}),
+        ...(data.result !== undefined ? { result: data.result } : {}),
       });
     });
 
