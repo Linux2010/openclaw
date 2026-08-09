@@ -1,0 +1,123 @@
+title: Microsoft Teams thread reply pagination
+
+scenario:
+  id: msteams-thread-reply-pagination
+  surface: channels
+  coverage:
+    primary:
+      - channels.native-threads
+    secondary:
+      - channels.message-final-reply
+  objective: Verify the real Microsoft Teams Gateway path follows Graph reply pagination and fails closed on a second-page error.
+  successCriteria:
+    - The newest 50-reply window contains reply-011 and reply-060 but excludes reply-010.
+    - A second-page 503 injects none of the partial first-page replies.
+    - Both cases reach the mock provider and deliver a threaded outbound reply.
+    - The summary records only aggregate Graph ledger fields and boolean verdicts.
+  codeRefs:
+    - extensions/msteams/src/graph.ts
+    - extensions/msteams/src/graph-thread.ts
+    - extensions/msteams/src/monitor-handler/thread-context.ts
+    - extensions/msteams/src/qa/adapter.runtime.ts
+    - extensions/msteams/src/qa/graph-server.ts
+  execution:
+    kind: flow
+    channel: msteams
+    suiteIsolation: isolated
+    isolationReason: Owns a mutable loopback Graph fixture and native Teams thread sessions.
+    summary: Exercise Graph thread pagination through an ephemeral Gateway, the real Teams plugin, mock provider, and loopback outbound connector.
+    config:
+      requiredProviderMode: mock-openai
+      successPrompt: qa msteams pagination success
+      failurePrompt: qa msteams pagination second page failure
+      successMarker: QA-MSTEAMS-PAGINATION-OK
+      failureMarker: QA-MSTEAMS-PAGINATION-503-OK
+
+flow:
+  steps:
+    - name: follows both pages and injects the newest reply window
+      actions:
+        - assert:
+            expr: "env.providerMode === config.requiredProviderMode"
+            message: this seeded scenario is mock-openai only
+        - call: waitForGatewayHealthy
+          args: [{ ref: env }, 60000]
+        - call: waitForTransportReady
+          args: [{ ref: env }, 60000]
+        - call: reset
+        - call: msteamsGraphFixture.configure
+          args: [ok]
+        - set: successCursor
+          value:
+            expr: "(await fetchJson(`${env.mock.baseUrl}/debug/request-cursor`)).cursor"
+        - sendInbound:
+            conversation: { id: pagination-ok, kind: channel, title: Pagination OK }
+            senderId: driver
+            senderName: Teams QA Driver
+            threadId: qa-parent
+            replyToId: qa-parent
+            text:
+              expr: "`@openclaw ${config.successPrompt}. Reply exactly: ${config.successMarker}`"
+        - waitForOutbound:
+            conversation: { id: pagination-ok, kind: channel }
+            textIncludes: { ref: config.successMarker }
+            threadId: qa-parent
+            timeoutMs:
+              expr: liveTurnTimeoutMs(env, 90000)
+          saveAs: successOutbound
+        - set: successRequest
+          value:
+            expr: "(await fetchJson(`${env.mock.baseUrl}/debug/requests?after=${successCursor}`)).findLast((request) => String(request.allInputText ?? '').includes(config.successPrompt))"
+        - call: msteamsGraphFixture.readLedger
+          saveAs: successLedger
+        - set: successReplyMarkers
+          value:
+            expr: "Array.from(String(successRequest?.allInputText ?? '').matchAll(/reply-\\d{3}\\b/gu), (match) => match[0])"
+        - set: expectedSuccessReplyMarkers
+          value:
+            expr: "Array.from({ length: 50 }, (_, index) => `reply-${String(index + 11).padStart(3, '0')}`)"
+        - assert:
+            expr: "Boolean(successRequest) && successReplyMarkers.length === 50 && new Set(successReplyMarkers).size === 50 && expectedSuccessReplyMarkers.every((marker) => successReplyMarkers.includes(marker))"
+            message: the mock provider did not receive exactly the unique reply-011 through reply-060 set
+        - assert:
+            expr: "successLedger.nextLinkFollowed === true && successLedger.pageCounts.length === 3 && successLedger.pageCounts.includes(1) && successLedger.pageCounts.includes(50) && successLedger.pageCounts.includes(10) && successLedger.statuses.length === 3 && successLedger.statuses.every((status) => status === 200)"
+            message:
+              expr: "`unexpected success ledger: ${JSON.stringify(successLedger)}`"
+      detailsExpr: "JSON.stringify({ verdict: 'PASS', case: 'ok', window: { hasReply011: true, hasReply060: true, hasReply010: false }, ledger: successLedger, outbound: { delivered: true, threaded: successOutbound.threadId === 'qa-parent' } })"
+
+    - name: discards partial replies when page two returns 503
+      actions:
+        - call: reset
+        - call: msteamsGraphFixture.configure
+          args: ["503"]
+        - set: failureCursor
+          value:
+            expr: "(await fetchJson(`${env.mock.baseUrl}/debug/request-cursor`)).cursor"
+        - sendInbound:
+            conversation: { id: pagination-503, kind: channel, title: Pagination 503 }
+            senderId: driver
+            senderName: Teams QA Driver
+            threadId: qa-parent
+            replyToId: qa-parent
+            text:
+              expr: "`@openclaw ${config.failurePrompt}. Reply exactly: ${config.failureMarker}`"
+        - waitForOutbound:
+            conversation: { id: pagination-503, kind: channel }
+            textIncludes: { ref: config.failureMarker }
+            threadId: qa-parent
+            timeoutMs:
+              expr: liveTurnTimeoutMs(env, 90000)
+          saveAs: failureOutbound
+        - set: failureRequest
+          value:
+            expr: "(await fetchJson(`${env.mock.baseUrl}/debug/requests?after=${failureCursor}`)).findLast((request) => String(request.allInputText ?? '').includes(config.failurePrompt))"
+        - call: msteamsGraphFixture.readLedger
+          saveAs: failureLedger
+        - assert:
+            expr: "Boolean(failureRequest) && String(failureRequest.allInputText ?? '').includes('QA parent message') && !/reply-\\d{3}\\b/u.test(String(failureRequest.allInputText ?? ''))"
+            message: the parent was missing or a partial first Graph page leaked after page two failed
+        - assert:
+            expr: "failureLedger.nextLinkFollowed === true && failureLedger.pageCounts.length === 2 && failureLedger.pageCounts.includes(1) && failureLedger.pageCounts.includes(50) && failureLedger.statuses.length === 3 && failureLedger.statuses.filter((status) => status === 200).length === 2 && failureLedger.statuses.filter((status) => status === 503).length === 1"
+            message:
+              expr: "`unexpected 503 ledger: ${JSON.stringify(failureLedger)}`"
+      detailsExpr: "JSON.stringify({ verdict: 'PASS', case: '503', partialRepliesInjected: false, ledger: failureLedger, outbound: { delivered: true, threaded: failureOutbound.threadId === 'qa-parent' } })"

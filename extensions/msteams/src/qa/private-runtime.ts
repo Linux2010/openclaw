@@ -13,6 +13,7 @@ type PrivateQaEnv = Partial<Record<typeof PRIVATE_QA_BUILD_ENV, string>>;
 
 type PrivateQaBootstrap = {
   connectorUrl?: string;
+  graphRoot?: string;
   nonce?: string;
   botToken?: string;
 };
@@ -118,10 +119,15 @@ class PrivateQaHttpClient {
 
 type MSTeamsPrivateQaRuntime = {
   client: PrivateQaHttpClient;
+  graphRoot: string;
   listenHost: "127.0.0.1";
   skipAuth: true;
   token: () => Promise<string>;
 };
+
+export function resolveMSTeamsPrivateQaGraphRoot(): string | undefined {
+  return resolveMSTeamsPrivateQaRuntime()?.graphRoot;
+}
 
 export function resolveMSTeamsPrivateQaRuntime(
   env: PrivateQaEnv = process.env,
@@ -138,11 +144,12 @@ export function resolveMSTeamsPrivateQaRuntime(
     throw new Error("Microsoft Teams private QA runtime requires OPENCLAW_BUILD_PRIVATE_QA=1");
   }
   const connectorUrl = bootstrap.connectorUrl?.trim();
+  const graphRoot = bootstrap.graphRoot?.trim();
   const nonce = bootstrap.nonce?.trim();
   const botToken = bootstrap.botToken?.trim();
-  if (!connectorUrl || !nonce || !botToken) {
+  if (!connectorUrl || !graphRoot || !nonce || !botToken) {
     throw new Error(
-      "Microsoft Teams private QA bootstrap requires connector URL, nonce, and bot token",
+      "Microsoft Teams private QA bootstrap requires connector URL, Graph root, nonce, and bot token",
     );
   }
   const parsedConnectorUrl = new URL(connectorUrl);
@@ -152,9 +159,17 @@ export function resolveMSTeamsPrivateQaRuntime(
   ) {
     throw new Error("Microsoft Teams private QA connector must use loopback HTTP");
   }
+  const parsedGraphRoot = new URL(graphRoot);
+  if (
+    parsedGraphRoot.protocol !== "http:" ||
+    (parsedGraphRoot.hostname !== "127.0.0.1" && parsedGraphRoot.hostname !== "localhost")
+  ) {
+    throw new Error("Microsoft Teams private QA Graph root must use loopback HTTP");
+  }
   const client = new PrivateQaHttpClient(parsedConnectorUrl.toString(), nonce);
   return {
     client,
+    graphRoot: parsedGraphRoot.toString().replace(/\/$/u, ""),
     listenHost: "127.0.0.1",
     skipAuth: true,
     token: async () => botToken,

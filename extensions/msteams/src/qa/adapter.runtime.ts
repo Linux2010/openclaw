@@ -13,6 +13,10 @@ import {
   reserveMSTeamsQaWebhookPort,
   startMSTeamsQaBotFrameworkServer,
 } from "./bot-framework-server.js";
+import {
+  startMSTeamsQaGraphServer,
+  type MSTeamsQaGraphSecondPageMode,
+} from "./graph-server.js";
 
 type AdapterFactory = NonNullable<QaRunnerCliRegistration["adapterFactory"]>;
 type FactoryContext = Parameters<AdapterFactory["create"]>[0];
@@ -127,6 +131,13 @@ export async function createMSTeamsQaTransportAdapter(
       conversationKindByNativeId.set(outbound.conversationId, kind);
     },
   });
+  let graphServer: Awaited<ReturnType<typeof startMSTeamsQaGraphServer>>;
+  try {
+    graphServer = await startMSTeamsQaGraphServer();
+  } catch (error) {
+    await connector.close().catch(() => undefined);
+    throw error;
+  }
   try {
     await fs.mkdir(context.outputDir, { recursive: true });
     await fs.writeFile(
@@ -135,6 +146,7 @@ export async function createMSTeamsQaTransportAdapter(
         'const key = Symbol.for("openclaw.msteams.privateQaRuntime");',
         `globalThis[key] = ${JSON.stringify({
           connectorUrl: connector.baseUrl,
+          graphRoot: `${graphServer.baseUrl}v1.0`,
           nonce,
           botToken,
         })};`,
@@ -143,7 +155,7 @@ export async function createMSTeamsQaTransportAdapter(
       { encoding: "utf8", mode: 0o600 },
     );
   } catch (error) {
-    await connector.close().catch(() => undefined);
+    await Promise.allSettled([connector.close(), graphServer.close()]);
     throw error;
   }
 
@@ -256,6 +268,17 @@ export async function createMSTeamsQaTransportAdapter(
         .filter(Boolean)
         .join(" "),
     }),
+    prepareFlow: async () => ({
+      msteamsGraphFixture: {
+        configure(mode: unknown) {
+          if (mode !== "ok" && mode !== "503") {
+            throw new Error(`unsupported Microsoft Teams QA Graph mode: ${String(mode)}`);
+          }
+          graphServer.setSecondPageMode(mode as MSTeamsQaGraphSecondPageMode);
+        },
+        readLedger: () => graphServer.readLedger(),
+      },
+    }),
     waitReady: async ({ gateway, timeoutMs, pollIntervalMs }) =>
       await waitForMSTeamsChannelReady(gateway, timeoutMs, pollIntervalMs),
     buildAgentDelivery: ({ target }) => ({
@@ -268,13 +291,14 @@ export async function createMSTeamsQaTransportAdapter(
       throw new Error("Microsoft Teams live QA adapter does not implement transport actions");
     },
     createReportNotes: () => [
-      "Uses a loopback Bot Framework Connector with the real Microsoft Teams plugin and Gateway.",
+      "Uses loopback Bot Framework and Graph fixtures with the real Microsoft Teams plugin and Gateway.",
     ],
     async cleanup() {
-      try {
-        await connector.close();
-      } finally {
-        await fs.rm(bootstrapPath, { force: true });
+      const results = await Promise.allSettled([connector.close(), graphServer.close()]);
+      await fs.rm(bootstrapPath, { force: true });
+      const failure = results.find((result) => result.status === "rejected");
+      if (failure?.status === "rejected") {
+        throw failure.reason;
       }
     },
   };

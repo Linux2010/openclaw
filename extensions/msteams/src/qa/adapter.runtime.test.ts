@@ -57,13 +57,47 @@ describe("Microsoft Teams QA transport adapter", () => {
     expect(bootstrap).toContain("http://127.0.0.1:");
     const bootstrapConfig = JSON.parse(
       /globalThis\[key\] = (.+);$/mu.exec(bootstrap)?.[1] ?? "{}",
-    ) as { connectorUrl?: string; nonce?: string; botToken?: string };
+    ) as { connectorUrl?: string; graphRoot?: string; nonce?: string; botToken?: string };
     expect(bootstrapConfig).toMatchObject({
       connectorUrl: expect.stringMatching(/^http:\/\/127\.0\.0\.1:\d+\/$/u),
+      graphRoot: expect.stringMatching(/^http:\/\/127\.0\.0\.1:\d+\/v1\.0$/u),
       nonce: expect.any(String),
       botToken: expect.any(String),
     });
     expect(bootstrapConfig.botToken?.split(".")).toHaveLength(3);
+
+    const prepared = await adapter.prepareFlow?.({
+      config: {},
+      gateway: {
+        baseUrl: "http://127.0.0.1",
+        call: vi.fn(),
+        runtimeEnv: {},
+        tempRoot: outputDir,
+        workspaceDir: outputDir,
+      },
+      outputDir,
+      scenarioId: "msteams-thread-reply-pagination",
+      scenarioTitle: "Microsoft Teams thread reply pagination",
+      timeoutMs: 60_000,
+      waitForConfigRestartSettle: vi.fn(),
+    });
+    const graphFixture = prepared?.msteamsGraphFixture as {
+      configure: (mode: unknown) => void;
+      readLedger: () => { nextLinkFollowed: boolean; pageCounts: number[]; statuses: number[] };
+    };
+    graphFixture.configure("503");
+    const firstGraphPage = await fetch(
+      `${bootstrapConfig.graphRoot}/teams/fixture/channels/fixture/messages/fixture/replies`,
+    );
+    const nextLink = ((await firstGraphPage.json()) as { "@odata.nextLink": string })[
+      "@odata.nextLink"
+    ];
+    expect((await fetch(nextLink)).status).toBe(503);
+    expect(graphFixture.readLedger()).toEqual({
+      nextLinkFollowed: true,
+      pageCounts: [50],
+      statuses: [200, 503],
+    });
 
     const config = adapter.createGatewayConfig({ baseUrl: "http://127.0.0.1" });
     const webhookPort = config.channels?.msteams?.webhook?.port;

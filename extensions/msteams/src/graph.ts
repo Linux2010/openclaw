@@ -1,6 +1,7 @@
 // Msteams plugin module implements graph behavior.
 import { responseWithRelease } from "openclaw/plugin-sdk/fetch-runtime";
 import { readProviderJsonResponse } from "openclaw/plugin-sdk/provider-http";
+import { ssrfPolicyFromHttpBaseUrlAllowedOrigin } from "openclaw/plugin-sdk/ssrf-runtime";
 import { fetchWithSsrFGuard, type MSTeamsConfig } from "../runtime-api.js";
 import { GRAPH_ROOT } from "./attachments/shared.js";
 import { resolveMSTeamsSdkCloudOptions } from "./cloud.js";
@@ -15,8 +16,29 @@ import { createMSTeamsTokenProvider, loadMSTeamsSdkWithAuth } from "./sdk.js";
 import { readAccessToken } from "./token-response.js";
 import { resolveDelegatedAccessToken, resolveMSTeamsCredentials } from "./token.js";
 import { buildUserAgent } from "./user-agent.js";
+import { resolveMSTeamsPrivateQaGraphRoot } from "./qa/private-runtime.js";
 
 const GRAPH_BETA = "https://graph.microsoft.com/beta";
+
+function resolveGraphRequestRoot(root?: string): string {
+  return resolveMSTeamsPrivateQaGraphRoot() ?? root ?? GRAPH_ROOT;
+}
+
+function resolveGraphNextPath(nextLink: string): string {
+  const privateQaRoot = resolveMSTeamsPrivateQaGraphRoot();
+  if (privateQaRoot) {
+    const nextUrl = new URL(nextLink);
+    if (nextUrl.origin !== new URL(privateQaRoot).origin) {
+      throw new Error(
+        "Microsoft Teams private QA Graph nextLink must use the fixture loopback origin",
+      );
+    }
+    return `${nextUrl.pathname}${nextUrl.search}`;
+  }
+  return nextLink
+    .replace("https://graph.microsoft.com/v1.0", "")
+    .replace("https://graph.microsoft.com/beta", "");
+}
 
 export type GraphUser = {
   id?: string;
@@ -56,7 +78,9 @@ async function requestGraph(params: {
   deadline?: MSTeamsRequestDeadline;
 }): Promise<Response> {
   const hasBody = params.body !== undefined;
-  const url = `${params.root ?? GRAPH_ROOT}${params.path}`;
+  const privateQaRoot = resolveMSTeamsPrivateQaGraphRoot();
+  const root = privateQaRoot ?? resolveGraphRequestRoot(params.root);
+  const url = `${root}${params.path}`;
   const { response, release } = await fetchWithSsrFGuard({
     url,
     init: {
@@ -69,6 +93,9 @@ async function requestGraph(params: {
       },
       body: hasBody ? JSON.stringify(params.body) : undefined,
     },
+    ...(privateQaRoot
+      ? { policy: ssrfPolicyFromHttpBaseUrlAllowedOrigin(privateQaRoot) }
+      : {}),
     auditContext: "msteams.graph",
     timeoutMs: resolveMSTeamsRequestTimeoutMs(params.deadline),
   });
@@ -140,6 +167,12 @@ export async function fetchGraphAbsoluteUrl<T>(params: {
   url: string;
   headers?: Record<string, string>;
 }): Promise<T> {
+  const privateQaRoot = resolveMSTeamsPrivateQaGraphRoot();
+  if (privateQaRoot && new URL(params.url).origin !== new URL(privateQaRoot).origin) {
+    throw new Error(
+      "Microsoft Teams private QA Graph URL must use the fixture loopback origin",
+    );
+  }
   const { response, release } = await fetchWithSsrFGuard({
     url: params.url,
     init: {
@@ -149,6 +182,9 @@ export async function fetchGraphAbsoluteUrl<T>(params: {
         ...params.headers,
       },
     },
+    ...(privateQaRoot
+      ? { policy: ssrfPolicyFromHttpBaseUrlAllowedOrigin(privateQaRoot) }
+      : {}),
     auditContext: "msteams.graph.absolute",
     timeoutMs: MSTEAMS_REQUEST_TIMEOUT_MS,
   });
@@ -217,9 +253,7 @@ export async function fetchAllGraphPages<T>(params: {
     // @odata.nextLink is an absolute URL; strip the Graph root to get a relative path
     const rawNext: string | undefined = res["@odata.nextLink"];
     if (rawNext) {
-      nextPath = rawNext
-        .replace("https://graph.microsoft.com/v1.0", "")
-        .replace("https://graph.microsoft.com/beta", "");
+      nextPath = resolveGraphNextPath(rawNext);
     } else {
       nextPath = undefined;
     }
