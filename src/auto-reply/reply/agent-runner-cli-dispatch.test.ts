@@ -772,11 +772,15 @@ describe("createCliToolSummaryTracker", () => {
       deliver,
     });
     await tracker.noteToolEvent({ ...startEvent, args: {} });
-    await tracker.noteToolEvent({ ...startEvent, phase: "update", args: { command: "ls -la" } });
+    await tracker.noteToolEvent({
+      ...startEvent,
+      phase: "update",
+      args: { command: "jj rebase -s abc -d main" },
+    });
     await tracker.noteToolEvent(resultEvent);
 
     const payload = deliver.mock.calls[0]?.[0] as { text: string };
-    expect(payload.text).toContain("ls -la");
+    expect(payload.text).toContain("jj rebase -s abc -d main");
   });
 
   it("renders top-level structured CLI results in full verbose output", async () => {
