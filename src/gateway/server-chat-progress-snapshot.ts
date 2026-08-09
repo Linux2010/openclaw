@@ -49,16 +49,17 @@ export function updateChatRunProgressSnapshot(
     });
   };
 
+  const previousUpdate =
+    isTool && phase === "update"
+      ? next.events.find(
+          (candidate) =>
+            candidate.stream === "tool" &&
+            candidate.data?.toolCallId === toolCallId &&
+            candidate.data?.phase === "update",
+        )
+      : undefined;
+
   if (isTool) {
-    const previousUpdate =
-      phase === "update"
-        ? next.events.find(
-            (candidate) =>
-              candidate.stream === "tool" &&
-              candidate.data?.toolCallId === toolCallId &&
-              candidate.data?.phase === "update",
-          )
-        : undefined;
     removeWhere((candidate) => {
       if (candidate.stream !== "tool" || candidate.data?.toolCallId !== toolCallId) {
         return false;
