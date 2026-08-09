@@ -277,7 +277,7 @@ describe("worker live events", () => {
       name: "exec",
       result: { content: [{ bytes: 6, omitted: true }], details: { aggregated: capped("r") } },
     });
-    expect(events[3]?.data).toMatchObject({ name: "bash", args: { command: "ls -la" } });
+    expect(events[3]?.data).toMatchObject({ name: "exec", args: { command: "ls -la" } });
     expect(JSON.stringify(events)).not.toContain(credential);
   });
 
