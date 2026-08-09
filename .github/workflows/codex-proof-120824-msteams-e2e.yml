@@ -51,10 +51,9 @@ jobs:
         run: |
           set -euo pipefail
           output_dir=.artifacts/qa-e2e/msteams-thread-reply-pagination
-          pnpm openclaw qa run \
+          pnpm openclaw msteams \
             --repo-root . \
-            --qa-profile smoke-ci \
-            --concurrency 1 \
+            --provider-mode mock-openai \
             --output-dir "$output_dir" \
             --scenario msteams-thread-reply-pagination
           jq -c '{status, scenarios: [.scenarios[] | {name, status, details}]}' \
