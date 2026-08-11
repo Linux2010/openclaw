@@ -774,6 +774,7 @@ describe("createCliToolSummaryTracker", () => {
   it("refreshes the summary metadata from recovered args on an update", async () => {
     const deliver = vi.fn();
     const tracker = createCliToolSummaryTracker({
+      commandDetailsVisible: false,
       shouldEmitToolResult: () => true,
       shouldEmitToolOutput: () => false,
       deliver,

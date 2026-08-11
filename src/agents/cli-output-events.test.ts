@@ -24,6 +24,13 @@ function claudeBlockStart(contentBlock: Record<string, unknown>, index?: number)
   });
 }
 
+function claudeBlockStop(index?: number) {
+  return claudeStreamEvent({
+    type: "content_block_stop",
+    ...(index === undefined ? {} : { index }),
+  });
+}
+
 function claudeTextDelta(text: string, index?: number | string) {
   return claudeStreamEvent({
     type: "content_block_delta",
