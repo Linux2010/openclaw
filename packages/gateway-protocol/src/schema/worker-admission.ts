@@ -397,29 +397,17 @@ const WorkerLiveToolCommonProperties = {
   hideFromChannelProgress: Type.Optional(Type.Literal(true)),
 };
 
-// A recovered argument snapshot can arrive independently of streamed output.
-const WorkerLiveToolUpdatePayloadSchema = Type.Union([
-  workerLiveObject({
-    ...WorkerLiveToolCommonProperties,
-    phase: Type.Literal("update"),
-    partialResult: Type.Unknown(),
-    args: Type.Optional(Type.Unknown()),
-  }),
-  workerLiveObject({
-    ...WorkerLiveToolCommonProperties,
-    phase: Type.Literal("update"),
-    args: Type.Unknown(),
-    partialResult: Type.Optional(Type.Unknown()),
-  }),
-]);
-
 const WorkerLiveToolPayloadSchema = Type.Union([
   workerLiveObject({
     ...WorkerLiveToolCommonProperties,
     phase: Type.Literal("start"),
     args: Type.Unknown(),
   }),
-  WorkerLiveToolUpdatePayloadSchema,
+  workerLiveObject({
+    ...WorkerLiveToolCommonProperties,
+    phase: Type.Literal("update"),
+    partialResult: Type.Unknown(),
+  }),
   workerLiveObject({
     ...WorkerLiveToolCommonProperties,
     phase: Type.Literal("result"),

@@ -247,7 +247,6 @@ describe("worker live events", () => {
         phase: "update",
         name: " BASH ",
         toolCallId: "call",
-        args: { command: "ls -la" },
         partialResult: output("p", "running"),
       }),
       tool({
@@ -277,34 +276,7 @@ describe("worker live events", () => {
       name: "exec",
       result: { content: [{ bytes: 6, omitted: true }], details: { aggregated: capped("r") } },
     });
-    expect(events[3]?.data).toMatchObject({ name: "exec", args: { command: "ls -la" } });
     expect(JSON.stringify(events)).not.toContain(credential);
-  });
-
-  it("delivers recovered args from an args-only tool update", () => {
-    const toolCallId = "call-recovered";
-    ack(live(1, tool({ phase: "start", name: "exec", toolCallId, args: {} })));
-    ack(
-      live(
-        2,
-        tool({
-          phase: "update",
-          name: "exec",
-          toolCallId,
-          args: { command: "ls -la" },
-        }),
-      ),
-    );
-
-    expect(events[1]).toMatchObject({
-      stream: "tool",
-      data: {
-        phase: "update",
-        name: "exec",
-        toolCallId,
-        args: { command: "ls -la" },
-      },
-    });
   });
 
   it("replays an unacked tail once", () => {

@@ -348,8 +348,6 @@ describe("worker protocol schemas", () => {
       event("thinking", { text: "x", delta: "x" }),
       tool("start", { args: {} }),
       tool("update", { partialResult: { output: "x" } }),
-      tool("update", { args: { command: "ls -la" } }),
-      tool("update", { args: { command: "ls -la" }, partialResult: { output: "x" } }),
       tool("result", { result: { output: "x" }, isError: false }),
       approval("requested", "pending"),
       approval("resolved", "approved"),
@@ -393,7 +391,6 @@ describe("worker protocol schemas", () => {
     for (const invalid of [
       params(event("unknown", {})),
       params(tool("start", { args: {}, partialResult: {} })),
-      params(tool("update", {})),
       params(approval("requested", "approved")),
       params(lifecycle("end", { endedAt: 4, error: "stopped" })),
       params(fallbackStep("retrying")),
