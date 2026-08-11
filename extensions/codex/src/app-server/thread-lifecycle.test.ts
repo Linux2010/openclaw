@@ -35,6 +35,7 @@ import {
   resolveReasoningEffort,
   startOrResumeThread as startOrResumeThreadImpl,
 } from "./thread-lifecycle.js";
+import { attestCodexRestrictedToolSurfaceMcpServersDisabled } from "./thread-requests.js";
 
 type CodexThreadLifecycleTimingLogger = NonNullable<
   NonNullable<Parameters<typeof startOrResumeThreadImpl>[0]["timing"]>["log"]
@@ -61,6 +62,97 @@ describe("Codex incognito thread persistence", () => {
 });
 
 describe("Codex ring-zero thread config", () => {
+  it("accepts upstream-shaped inactive rows for the disabled MCP names", async () => {
+    const request = vi.fn(async () => ({
+      data: [disabledMcpServerStatus("inherited")],
+      nextCursor: null,
+    }));
+
+    await expect(
+      attestCodexRestrictedToolSurfaceMcpServersDisabled(
+        { request } as never,
+        "thread-restricted",
+        { mcp_servers: { inherited: { enabled: false } } },
+      ),
+    ).resolves.toBeUndefined();
+
+    expect(request).toHaveBeenCalledWith(
+      "mcpServerStatus/list",
+      { threadId: "thread-restricted", detail: "toolsAndAuthOnly" },
+      { signal: undefined },
+    );
+  });
+
+  it.each([
+    {
+      name: "an unexpected server",
+      status: { name: "unexpected", serverInfo: null, tools: {} },
+      failure: "found unexpected server unexpected",
+    },
+    {
+      name: "an active disabled server",
+      status: {
+        name: "inherited",
+        serverInfo: { name: "inherited", version: "1.0.0" },
+        tools: {},
+      },
+      failure: "found active server inherited",
+    },
+    {
+      name: "a disabled server without explicit inactive status",
+      status: { name: "inherited", tools: {} },
+      failure: "returned malformed server inherited",
+    },
+    {
+      name: "tools from a disabled server",
+      status: { name: "inherited", serverInfo: null, tools: { lookup: {} } },
+      failure: "found tools for server inherited",
+    },
+  ])("rejects $name", async ({ status, failure }) => {
+    const request = vi.fn(async () => ({ data: [status], nextCursor: null }));
+
+    await expect(
+      attestCodexRestrictedToolSurfaceMcpServersDisabled(
+        { request } as never,
+        "thread-restricted",
+        { mcp_servers: { inherited: { enabled: false } } },
+      ),
+    ).rejects.toThrow(failure);
+  });
+
+  it.each([
+    {
+      name: "an empty status inventory",
+      statuses: [],
+      failure: "is missing server inherited",
+    },
+    {
+      name: "one missing server",
+      statuses: [disabledMcpServerStatus("inherited")],
+      failure: "is missing server request",
+    },
+    {
+      name: "a duplicate server",
+      statuses: [disabledMcpServerStatus("inherited"), disabledMcpServerStatus("inherited")],
+      failure: "returned duplicate server inherited",
+    },
+  ])("rejects $name", async ({ statuses, failure }) => {
+    const request = vi.fn(async () => ({ data: statuses, nextCursor: null }));
+
+    await expect(
+      attestCodexRestrictedToolSurfaceMcpServersDisabled(
+        { request } as never,
+        "thread-restricted",
+        {
+          mcp_servers: {
+            inherited: { enabled: false },
+            request: { enabled: false },
+          },
+        },
+      ),
+    ).rejects.toThrow(failure);
+  });
+
   it("applies the restriction to both thread start and resume", () => {
     const params = createAttemptParams({ provider: "openai" });
     params.toolsAllow = ["openclaw"];
@@ -580,6 +672,17 @@ function nativeThreadResult(threadId: string, model: string, modelProvider: stri
   };
 }
 
+function disabledMcpServerStatus(name: string) {
+  return {
+    name,
+    serverInfo: null,
+    tools: {},
+    resources: [],
+    resourceTemplates: [],
+    authStatus: "unsupported",
+  };
+}
+
 function sourceThread(params: {
   threadId: string;
   status?: "idle" | "active";
@@ -682,12 +785,14 @@ describe("Codex app-server native code mode config", () => {
     });
 
     expect(instructions).toContain("Use Codex native `spawn_agent` for Codex subagents");
-    // Codex defers native collab tools behind tool_search on search-capable
-    // models; the instructions must teach the retrieval path or models fall
-    // back to the always-direct sessions_spawn.
+    // Codex defers native collab tools behind tool_search or code mode; the
+    // instructions must teach both retrieval paths or models fall back to the
+    // always-direct sessions_spawn.
+    expect(instructions).toContain("Use `tool_search` when directly callable");
     expect(instructions).toContain(
-      "when `spawn_agent` is not directly listed, load it with `tool_search` before spawning",
+      "On code-mode-only models, use `exec` instead: filter `ALL_TOOLS` by name and description",
     );
+    expect(instructions).toContain("call the matching entry through `tools`");
     expect(instructions).toContain(
       "Use OpenClaw `sessions_spawn` only for OpenClaw or ACP delegation, never as a substitute for `spawn_agent`.",
     );
@@ -849,7 +954,11 @@ describe("Codex app-server native code mode config", () => {
     expect(instructions).toContain(
       "Deferred searchable OpenClaw dynamic tools available: image_generate, music_generate.",
     );
-    expect(instructions).toContain("Use `tool_search` to load exact callable specs before use.");
+    expect(instructions).toContain("Use `tool_search` when directly callable");
+    expect(instructions).toContain(
+      "On code-mode-only models, use `exec` instead: filter `ALL_TOOLS` by name and description",
+    );
+    expect(instructions).toContain("call the matching entry through `tools`");
     expect(instructions).not.toContain("message,");
   });
 
@@ -1785,20 +1894,6 @@ describe("Codex app-server turn params", () => {
     );
     expect(heartbeatCollaborationMode.settings.developer_instructions).toContain(
       "If `heartbeat_respond` is not already available and `tool_search` is available",
-    );
-
-    params.bootstrapContextRunKind = "commitment-only";
-    const commitmentCollaborationMode = buildTurnCollaborationMode(params, {
-      turnScopedDeveloperInstructions: "Turn-only workspace instructions.",
-    });
-    expect(commitmentCollaborationMode.settings.developer_instructions).toContain(
-      "# Collaboration Mode: Default",
-    );
-    expect(commitmentCollaborationMode.settings.developer_instructions).toContain(
-      "Turn-only workspace instructions.",
-    );
-    expect(commitmentCollaborationMode.settings.developer_instructions).not.toContain(
-      "This is an OpenClaw heartbeat turn",
     );
 
     params.trigger = "user";
@@ -2836,6 +2931,219 @@ describe("Codex app-server supervised branch lifecycle", () => {
       appServerRuntimeFingerprint: buildCodexAppServerConnectionFingerprint(commonParams.appServer),
     });
   });
+
+  it("isolates both supervised threads and restores native MCP config on the next unrestricted turn", async () => {
+    const sourceThreadId = "thread-source";
+    const probeThreadId = "thread-probe";
+    const finalThreadId = "thread-final";
+    const workspaceDir = path.join(tempDir, "workspace");
+    const attempt = createThreadLifecycleParams(path.join(tempDir, "session.jsonl"), workspaceDir);
+    attempt.pluginHarnessToolPolicyRestricted = true;
+    attempt.toolsAllow = ["openclaw"];
+    const identity = await seedPendingSupervisionBinding({
+      attempt,
+      cwd: workspaceDir,
+      pending: { sourceThreadId },
+    });
+    const request = vi.fn(async (method: string, requestParams?: unknown) => {
+      if (method === "config/read") {
+        return {
+          config: { mcp_servers: { inherited: { command: "inherited-mcp" } } },
+          layers: [{ name: { type: "user" } }],
+        };
+      }
+      if (method === "configRequirements/read") {
+        return { requirements: null };
+      }
+      if (method === "thread/read") {
+        const threadId = (requestParams as { threadId?: string }).threadId;
+        return {
+          thread:
+            threadId === sourceThreadId
+              ? sourceThread({ threadId: sourceThreadId })
+              : sourceThread({ threadId: finalThreadId }),
+        };
+      }
+      if (method === "thread/fork") {
+        return nativeThreadResult(probeThreadId, "native-effective", "native-provider");
+      }
+      if (method === "thread/start" || method === "thread/resume") {
+        return nativeThreadResult(finalThreadId, "native-effective", "native-provider");
+      }
+      if (method === "mcpServerStatus/list") {
+        return {
+          data: [disabledMcpServerStatus("inherited"), disabledMcpServerStatus("request-only")],
+          nextCursor: null,
+        };
+      }
+      if (method === "thread/archive") {
+        return {};
+      }
+      throw new Error(`unexpected method: ${method}`);
+    });
+    const common = {
+      client: { request } as never,
+      params: attempt,
+      cwd: workspaceDir,
+      dynamicTools: [],
+      config: { mcp_servers: { "request-only": { command: "request-mcp" } } },
+      appServer: createThreadLifecycleAppServerOptions(),
+      nativeCodeModeEnabled: false,
+      userMcpServersEnabled: false,
+      hostSystemAgentActive: true,
+    };
+
+    await expect(startOrResumeThread(common)).resolves.toMatchObject({
+      threadId: finalThreadId,
+      lifecycle: { action: "forked" },
+    });
+
+    expect(request.mock.calls.map(([method]) => method)).toEqual([
+      "config/read",
+      "configRequirements/read",
+      "thread/read",
+      "thread/fork",
+      "mcpServerStatus/list",
+      "thread/start",
+      "mcpServerStatus/list",
+      "thread/archive",
+    ]);
+    for (const method of ["thread/fork", "thread/start"]) {
+      const threadRequest = request.mock.calls.find(([candidate]) => candidate === method)?.[1] as
+        | { config?: Record<string, unknown> }
+        | undefined;
+      expect(threadRequest?.config).toMatchObject({
+        mcp_servers: {
+          inherited: { enabled: false },
+          "request-only": { enabled: false },
+        },
+      });
+    }
+    expect(request.mock.calls.find(([method]) => method === "thread/start")?.[1]).toMatchObject({
+      baseInstructions: "",
+    });
+    expect(
+      request.mock.calls
+        .filter(([method]) => method === "mcpServerStatus/list")
+        .map(([, requestParams]) => requestParams),
+    ).toEqual([
+      { threadId: probeThreadId, detail: "toolsAndAuthOnly" },
+      { threadId: finalThreadId, detail: "toolsAndAuthOnly" },
+    ]);
+
+    attempt.pluginHarnessToolPolicyRestricted = false;
+    attempt.toolsAllow = undefined;
+    request.mockClear();
+    await expect(
+      startOrResumeThread({
+        ...common,
+        hostSystemAgentActive: false,
+        nativeCodeModeEnabled: true,
+      }),
+    ).resolves.toMatchObject({
+      threadId: finalThreadId,
+      lifecycle: { action: "resumed" },
+    });
+
+    expect(request.mock.calls.map(([method]) => method)).toEqual(["thread/read", "thread/resume"]);
+    const resumeParams = request.mock.calls[1]?.[1] as { config?: Record<string, unknown> };
+    expect(resumeParams.config).toMatchObject({
+      mcp_servers: { "request-only": { command: "request-mcp" } },
+    });
+    expect(resumeParams.config).not.toHaveProperty("mcp_servers.inherited");
+    const restoredBinding = await testCodexAppServerBindingStore.read(identity);
+    expect(restoredBinding?.pendingSupervisionBranch).toBeUndefined();
+    expect(restoredBinding).not.toHaveProperty("restrictedToolSurface");
+  });
+
+  it.each(["probe", "final"] as const)(
+    "cleans tracked threads and preserves the pending binding when the %s MCP attestation fails",
+    async (failedThread) => {
+      const sourceThreadId = "thread-source";
+      const probeThreadId = "thread-probe";
+      const finalThreadId = "thread-final";
+      const workspaceDir = path.join(tempDir, "workspace");
+      const attempt = createThreadLifecycleParams(
+        path.join(tempDir, "session.jsonl"),
+        workspaceDir,
+      );
+      attempt.pluginHarnessToolPolicyRestricted = true;
+      const identity = await seedPendingSupervisionBinding({
+        attempt,
+        cwd: workspaceDir,
+        pending: { sourceThreadId },
+      });
+      let attestationCount = 0;
+      const request = vi.fn(async (method: string, _requestParams?: unknown) => {
+        if (method === "config/read") {
+          return {
+            config: { mcp_servers: { inherited: { command: "inherited-mcp" } } },
+            layers: [{ name: { type: "user" } }],
+          };
+        }
+        if (method === "configRequirements/read") {
+          return { requirements: null };
+        }
+        if (method === "thread/read") {
+          return { thread: sourceThread({ threadId: sourceThreadId }) };
+        }
+        if (method === "thread/fork") {
+          return nativeThreadResult(probeThreadId, "native-effective", "native-provider");
+        }
+        if (method === "thread/start") {
+          return nativeThreadResult(finalThreadId, "native-effective", "native-provider");
+        }
+        if (method === "mcpServerStatus/list") {
+          attestationCount += 1;
+          const shouldFail = failedThread === "probe" || attestationCount === 2;
+          return {
+            data: shouldFail
+              ? [{ name: "unexpected", serverInfo: null, tools: {} }]
+              : [disabledMcpServerStatus("inherited")],
+            nextCursor: null,
+          };
+        }
+        if (method === "thread/archive") {
+          return {};
+        }
+        throw new Error(`unexpected method: ${method}`);
+      });
+      const abandonClient = vi.fn(async () => undefined);
+
+      await expect(
+        startOrResumeThread({
+          client: { request } as never,
+          abandonClient,
+          params: attempt,
+          cwd: workspaceDir,
+          dynamicTools: [],
+          appServer: createThreadLifecycleAppServerOptions(),
+          nativeCodeModeEnabled: false,
+          userMcpServersEnabled: false,
+        }),
+      ).rejects.toThrow("found unexpected server unexpected");
+
+      const methods = request.mock.calls.map(([method]) => method);
+      expect(methods).not.toContain("thread/inject_items");
+      expect(methods.filter((method) => method === "thread/start")).toHaveLength(
+        failedThread === "probe" ? 0 : 1,
+      );
+      expect(
+        request.mock.calls
+          .filter(([method]) => method === "thread/archive")
+          .map(([, requestParams]) => requestParams),
+      ).toEqual(
+        (failedThread === "probe" ? [probeThreadId] : [probeThreadId, finalThreadId]).map(
+          (threadId) => ({ threadId }),
+        ),
+      );
+      expect(abandonClient).not.toHaveBeenCalled();
+      await expect(testCodexAppServerBindingStore.read(identity)).resolves.toMatchObject({
+        threadId: sourceThreadId,
+        pendingSupervisionBranch: { sourceThreadId },
+      });
+    },
+  );
 
   it.each([
     {
@@ -4195,6 +4503,7 @@ describe("Codex app-server thread lifecycle timing", () => {
 describe("resolveReasoningEffort (#71946)", () => {
   describe("modern Codex models (none/low/medium/high/xhigh enum)", () => {
     it.each([
+      "gpt-5.6",
       "gpt-5.6-sol",
       "gpt-5.6-terra",
       "gpt-5.6-luna",
@@ -4210,6 +4519,7 @@ describe("resolveReasoningEffort (#71946)", () => {
     );
 
     it.each([
+      "gpt-5.6",
       "gpt-5.6-sol",
       "gpt-5.6-terra",
       "gpt-5.6-luna",

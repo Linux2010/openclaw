@@ -17,7 +17,6 @@ describe("createChatRunState", () => {
       planSnapshot: { steps: [{ step: "Inspect", status: "in_progress" }] },
       bufferUpdatedAt: 1,
       deltaSentAt: 2,
-      deltaLastBroadcastLen: 9,
       deltaLastBroadcastText: "projected",
       agentText: { assistant: { lastSentAt: 3 } },
       abortMarker: createChatAbortMarker(4),
@@ -73,31 +72,51 @@ describe("createChatRunState", () => {
       args: { path: "a" },
     });
     event(3, "tool", {
-      phase: "update",
-      name: "read",
+      phase: "input_delta",
+      name: "edit",
       toolCallId: "active",
-      args: { path: "a" },
+      diff: { added: 3, removed: 1 },
     });
     event(4, "tool", {
       phase: "update",
       name: "read",
       toolCallId: "active",
+      args: { path: "a" },
+    });
+    event(5, "tool", {
+      phase: "update",
+      name: "read",
+      toolCallId: "active",
       partialResult: "halfway",
     });
-    event(5, "tool", { phase: "start", name: "exec", toolCallId: "done", args: {} });
-    event(6, "tool", {
+    event(6, "tool", { phase: "start", name: "exec", toolCallId: "done", args: {} });
+    event(7, "tool", {
       phase: "result",
       name: "exec",
       toolCallId: "done",
       result: "x".repeat(256_000),
     });
-    event(3, "tool", { phase: "result", name: "read", toolCallId: "active" });
+    event(8, "item", {
+      kind: "preamble",
+      itemId: "p-1",
+      progressText: "Inspection complete",
+    });
+    event(9, "item", {
+      kind: "preamble",
+      itemId: "p-2",
+      progressText: "Running autoreview",
+    });
+    event(4, "tool", { phase: "result", name: "read", toolCallId: "active" });
 
     expect(state.runs.get("run-1")?.progressSnapshot?.events).toMatchObject([
-      { seq: 1, stream: "item", data: { itemId: "p-1", progressText: "Inspecting" } },
       { seq: 2, stream: "tool", data: { phase: "start", toolCallId: "active" } },
       {
-        seq: 4,
+        seq: 3,
+        stream: "tool",
+        data: { phase: "input_delta", toolCallId: "active", diff: { added: 3, removed: 1 } },
+      },
+      {
+        seq: 5,
         stream: "tool",
         data: {
           phase: "update",
@@ -106,9 +125,16 @@ describe("createChatRunState", () => {
           partialResult: "halfway",
         },
       },
+      {
+        seq: 8,
+        stream: "item",
+        ts: 1_001,
+        data: { itemId: "p-1", progressText: "Inspection complete" },
+      },
+      { seq: 9, stream: "item", data: { itemId: "p-2", progressText: "Running autoreview" } },
     ]);
 
-    for (let seq = 6; seq <= 70; seq += 1) {
+    for (let seq = 10; seq <= 72; seq += 1) {
       event(seq, "tool", {
         phase: "start",
         name: "read",
@@ -122,7 +148,7 @@ describe("createChatRunState", () => {
     expect(snapshot?.events.at(-1)?.data).toEqual({
       phase: "start",
       name: "read",
-      toolCallId: "tool-70",
+      toolCallId: "tool-72",
     });
   });
 });

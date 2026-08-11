@@ -1801,10 +1801,10 @@ CREATE TABLE IF NOT EXISTS worktrees (
   owner_id TEXT,
   snapshot_ref TEXT,
   provisioned_paths_json TEXT,
-  run_end_cleanup_json TEXT,
   created_at INTEGER NOT NULL,
   last_active_at INTEGER NOT NULL,
-  removed_at INTEGER
+  removed_at INTEGER,
+  run_end_cleanup_json TEXT
 ) STRICT;
 
 CREATE INDEX IF NOT EXISTS idx_worktrees_repo_fingerprint
@@ -1819,6 +1819,16 @@ CREATE TABLE IF NOT EXISTS worktree_provisioned_file_chunks (
   chunk_index INTEGER NOT NULL CHECK (chunk_index >= 0),
   data BLOB NOT NULL,
   PRIMARY KEY (worktree_id, path, chunk_index)
+) STRICT;
+
+CREATE TABLE IF NOT EXISTS projects (
+  id TEXT NOT NULL PRIMARY KEY,
+  display_name TEXT NOT NULL,
+  repo_root TEXT NOT NULL,
+  origin_url TEXT,
+  source TEXT NOT NULL CHECK (source IN ('registered', 'cloned')),
+  created_at_ms INT NOT NULL,
+  updated_at_ms INT NOT NULL
 ) STRICT;
 
 -- Gateway-owned custom session group catalog (names + display order).
@@ -1851,6 +1861,7 @@ CREATE TABLE IF NOT EXISTS worker_environments (
   ssh_user TEXT,
   ssh_host_key TEXT,
   ssh_key_ref_json TEXT,
+  desktop_json TEXT,
   state TEXT NOT NULL CHECK (
     state IN (
       'requested',
@@ -1877,7 +1888,8 @@ CREATE TABLE IF NOT EXISTS worker_environments (
   state_changed_at_ms INTEGER NOT NULL,
   idle_since_at_ms INTEGER,
   destroy_requested_at_ms INTEGER,
-  last_error TEXT
+  last_error TEXT,
+  shared_host INTEGER
 ) STRICT;
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_worker_environments_provider_lease
@@ -1940,6 +1952,8 @@ CREATE TABLE IF NOT EXISTS worker_session_placements (
   created_at_ms INTEGER NOT NULL,
   updated_at_ms INTEGER NOT NULL,
   state_changed_at_ms INTEGER NOT NULL,
+  terminal_reason TEXT,
+  terminal_at_ms INTEGER,
   CHECK (
     (state IN ('local', 'requested')
       AND environment_id IS NULL AND active_owner_epoch IS NULL
@@ -2234,3 +2248,21 @@ CREATE TABLE IF NOT EXISTS model_catalog_remote (
   last_modified TEXT,
   checked_at INTEGER NOT NULL
 ) STRICT;
+
+-- scope_id is non-null because SQLite treats NULLs as distinct in unique indexes/PKs,
+-- which would allow duplicate team rows. This PK also avoids a rebuild for identity scope.
+CREATE TABLE IF NOT EXISTS secret_store_entries (
+  scope_kind TEXT NOT NULL CHECK (scope_kind IN ('team', 'identity')),
+  scope_id TEXT NOT NULL,
+  name TEXT NOT NULL,
+  value TEXT NOT NULL,
+  kind TEXT NOT NULL CHECK (kind IN ('secret', 'env')),
+  created_at_ms INTEGER NOT NULL CHECK (created_at_ms >= 0),
+  updated_at_ms INTEGER NOT NULL CHECK (updated_at_ms >= 0),
+  updated_by TEXT,
+  deleted_at_ms INTEGER,
+  CHECK ((scope_kind = 'team' AND scope_id = '') OR (scope_kind = 'identity' AND length(scope_id) > 0)),
+  PRIMARY KEY (scope_kind, scope_id, name)
+) STRICT;
+CREATE INDEX IF NOT EXISTS secret_store_entries_live_idx
+  ON secret_store_entries (scope_kind, scope_id, name) WHERE deleted_at_ms IS NULL;

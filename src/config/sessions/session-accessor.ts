@@ -126,7 +126,7 @@ export type {
 } from "./session-accessor.entry-mutation.js";
 export {
   countSessionEntryRowsReadOnly,
-  ensureSqliteSessionEntrySync as ensureSessionEntrySync,
+  ensureSessionEntrySync,
   copySessionOwnedStateForCanonicalRepair,
   hasSessionEntriesByStatusReadOnly,
   listSessionGenerationIdsForCanonicalRepair,
@@ -263,6 +263,7 @@ export {
 } from "./session-accessor.sqlite-transcript-watermark.js";
 export {
   resolveConcreteSessionStorePath,
+  resolveSessionTranscriptDatabasePath,
   resolveSessionTranscriptReadTarget,
   resolveSessionTranscriptRuntimeReadTarget,
   resolveSessionTranscriptRuntimeTarget,

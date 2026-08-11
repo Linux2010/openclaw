@@ -25,12 +25,11 @@ import { readCodexPluginConfig, type CodexPluginConfig } from "./config.js";
 import { dynamicToolBuildState } from "./dynamic-tool-build-state.js";
 import {
   filterCodexDynamicTools,
-  filterCodexDynamicToolsWithOpenClawShell,
-  isSystemAgentOnlyCodexDynamicToolAllowlist,
+  filterCodexDynamicToolsForDisabledNativeSurface,
   isForcedPrivateQaCodexRuntime,
+  isSystemAgentOnlyCodexDynamicToolAllowlist,
   normalizeCodexDynamicToolName,
 } from "./dynamic-tool-profile.js";
-import { addCodexMessageToolOnlyFinalControl } from "./message-tool-final-control.js";
 import {
   resolveCodexNodeExecToolOverrides,
   resolveCodexNativeExecutionPolicy,
@@ -328,6 +327,9 @@ export async function buildDynamicTools(input: DynamicToolBuildParams) {
       requireExplicitMessageTarget:
         params.requireExplicitMessageTarget ?? isSubagentSessionKey(params.sessionKey),
       sourceReplyDeliveryMode: params.sourceReplyDeliveryMode,
+      // Same sibling-harness rule as clientCaps above: without this forward,
+      // suggest_task/dismiss_task silently never exist for Codex-harness runs.
+      taskSuggestionDeliveryMode: params.taskSuggestionDeliveryMode,
       disableMessageTool: input.ignoreDisableMessageTool ? false : params.disableMessageTool,
       forceMessageTool: shouldForceMessageTool(messagePolicyParams),
       enableHeartbeatTool: params.trigger === "heartbeat" || input.forceHeartbeatTool === true,
@@ -356,13 +358,9 @@ export async function buildDynamicTools(input: DynamicToolBuildParams) {
         run: buildOpenClawCodingTools,
       })
     : buildOpenClawCodingTools();
-  const codexScopedTools = addCodexMessageToolOnlyFinalControl(
-    allTools,
-    params.sourceReplyDeliveryMode,
-  );
   toolBuildStages.mark("create-openclaw-coding-tools");
   const preNormalizationDiagnostics: RuntimeToolSchemaDiagnostic[] = [];
-  const readableAllToolProjection = filterProviderNormalizableTools(codexScopedTools);
+  const readableAllToolProjection = filterProviderNormalizableTools(allTools);
   preNormalizationDiagnostics.push(...readableAllToolProjection.diagnostics);
   const webSearchPlan = resolveCodexWebSearchPlan({
     config: params.config,
@@ -371,9 +369,12 @@ export async function buildDynamicTools(input: DynamicToolBuildParams) {
     nativeProviderWebSearchSupport: input.nativeProviderWebSearchSupport,
   });
   const readableAllTools = [...readableAllToolProjection.tools];
-  const normallyProfiledTools = shouldKeepOpenClawShellDynamicTools(input, nativeExecutionPolicy)
-    ? filterCodexDynamicToolsWithOpenClawShell(readableAllTools, input.pluginConfig)
-    : filterCodexDynamicTools(readableAllTools, input.pluginConfig);
+  const normallyProfiledTools =
+    input.nativeToolSurfaceEnabled === false
+      ? filterCodexDynamicToolsForDisabledNativeSurface(readableAllTools, input.pluginConfig, {
+          preserveShell: shouldKeepOpenClawShellDynamicTools(input, nativeExecutionPolicy),
+        })
+      : filterCodexDynamicTools(readableAllTools, input.pluginConfig);
   const hostSystemAgentActive =
     input.isHostScopedToolActive?.("openclaw") ?? isHostScopedAgentToolActive("openclaw");
   const profileFilteredTools =
@@ -536,6 +537,9 @@ export function shouldEnableCodexAppServerNativeToolSurface(
     sandboxExecServerEnabled?: boolean;
   } = {},
 ): boolean {
+  if (params.pluginHarnessToolPolicyRestricted === true) {
+    return false;
+  }
   if (isCodexMemoryFlushRun(params)) {
     return false;
   }

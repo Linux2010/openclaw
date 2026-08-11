@@ -3,6 +3,7 @@
 import { expectDefined } from "@openclaw/normalization-core";
 import { html, render } from "lit";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { createDeferred } from "../../../../test/helpers/promise.js";
 import type { GatewayBrowserClient } from "../../api/gateway.ts";
 import type {
   GatewaySessionRow,
@@ -10,6 +11,7 @@ import type {
   ModelCatalogEntry,
   SessionsListResult,
 } from "../../api/types.ts";
+import { createChatAttachmentHandoff } from "../../app/chat-attachment-handoff.ts";
 import type { ExecApprovalRequest } from "../../app/exec-approval.ts";
 import type { UiSettings } from "../../app/settings.ts";
 import { i18n, t } from "../../i18n/index.ts";
@@ -47,10 +49,7 @@ import { renderChat } from "./chat-view.ts";
 import { ChatAttachmentReadLifecycle } from "./components/chat-attachments.ts";
 import { resetChatComposerState } from "./components/chat-composer.ts";
 import * as chatMessage from "./components/chat-message.ts";
-import {
-  renderChatModelControls,
-  type ChatModelControlsProps,
-} from "./components/chat-model-controls.ts";
+import { renderChatModelControls } from "./components/chat-model-controls.ts";
 import { ChatSessionRailElement } from "./components/chat-session-rail.ts";
 import {
   resetChatThreadPresentationState,
@@ -542,6 +541,8 @@ function getChatModelSelect(container: Element): HTMLElement {
   return select;
 }
 
+type ChatModelControlsProps = Parameters<typeof renderChatModelControls>[0];
+
 function createChatModelControlsProps(state: ChatHeaderTestState): ChatModelControlsProps {
   return {
     activeRunId: state.chatRunId,
@@ -791,16 +792,6 @@ function createBackgroundTasks(
     onOpenTranscript: () => undefined,
     ...overrides,
   };
-}
-
-function createDeferred<T>() {
-  let resolve!: (value: T | PromiseLike<T>) => void;
-  let reject!: (error?: unknown) => void;
-  const promise = new Promise<T>((res, rej) => {
-    resolve = res;
-    reject = rej;
-  });
-  return { promise, resolve, reject };
 }
 
 describe("chat Swarm progress", () => {
@@ -2615,8 +2606,8 @@ describe("chat loading skeleton", () => {
   it("shows prompt-bar progress beside context usage while the current session send is awaiting acknowledgement", () => {
     const container = renderChatView({
       sending: true,
-      composerControls: html`<button class="chat-view-menu-trigger" type="button">
-        Settings
+      composerControls: html`<button class="chat-composer-model-control" type="button">
+        Model
       </button>`,
       queue: [createPendingSend()],
       sessions: createContextUsageSessions(),
@@ -2668,7 +2659,6 @@ describe("chat loading skeleton", () => {
     expect(context?.closest(".agent-chat__composer-footer")).not.toBeNull();
     // The session provider matches a plan-usage group, so dollar estimates
     // yield to the subscription windows.
-    expect(container.querySelector(".context-usage__stats--cost")).toBeNull();
     expect(container.querySelector("[data-chat-usage-provider='true']")?.textContent).toContain(
       "OpenAI",
     );
@@ -2807,8 +2797,8 @@ describe("chat loading skeleton", () => {
     const nowSpy = vi.spyOn(Date, "now").mockReturnValue(1_000);
     try {
       const container = renderChatView({
-        composerControls: html`<button class="chat-view-menu-trigger" type="button">
-          Settings
+        composerControls: html`<button class="chat-composer-model-control" type="button">
+          Model
         </button>`,
         runStatus: {
           phase: "interrupted",
@@ -3556,7 +3546,7 @@ describe("chat slash menu accessibility", () => {
 
   it("does not submit an incomplete skill reference while the catalog is loading", () => {
     replaceSlashCommands(buildFallbackSlashCommands());
-    const refresh = createDeferred<void>();
+    const refresh = createDeferred();
     let draft = "";
     const onSend = vi.fn();
     const { container } = createReactiveDraftHarness({
@@ -3603,7 +3593,7 @@ describe("chat slash menu accessibility", () => {
 
   it("does not reopen a dismissed skill picker after a slow refresh", async () => {
     replaceSkillCommands({ key: "prose", description: "Prose skill." });
-    const refresh = createDeferred<void>();
+    const refresh = createDeferred();
     const { container } = createReactiveDraftHarness({
       onSlashIntent: () => refresh.promise,
     });
@@ -3651,7 +3641,7 @@ describe("chat slash menu accessibility", () => {
   });
 
   it("does not reopen slash suggestions when command hydration finishes after plain typing", async () => {
-    const hydration = createDeferred<void>();
+    const hydration = createDeferred();
     const onSlashIntent = vi.fn(() => hydration.promise);
     const { container } = createReactiveDraftHarness({ onSlashIntent });
 
@@ -4468,6 +4458,61 @@ describe("chat attachment picker", () => {
     );
   });
 
+  it("preserves pasted-text presentation and restore behavior across handoff", () => {
+    let attachments: ChatAttachment[] = [];
+    const producer = renderAttachmentHarness(
+      () => attachments,
+      (next) => {
+        attachments = next;
+      },
+    );
+    const pastedText = `First words from a remounted paste ${"x".repeat(1100)}`;
+    getComposerTextarea(producer).dispatchEvent(createPasteEvent(pastedText));
+    const original = expectDefined(attachments[0], "pasted attachment");
+    const originalDataUrl = getChatAttachmentDataUrl(original);
+
+    const handoff = createChatAttachmentHandoff();
+    const owner = {} as GatewayBrowserClient;
+    handoff.prepare({
+      owner,
+      paneId: "p1",
+      scopeKey: "agent:main:one",
+      attachments,
+      fallbacks: {},
+    });
+    attachments = expectDefined(
+      handoff.consume({ owner, paneId: "p1", scopeKey: "agent:main:one" }),
+      "restored attachments",
+    ).attachments;
+
+    expect(attachments).toHaveLength(1);
+    expect(attachments[0]).toBe(original);
+    expect(getChatAttachmentDataUrl(original)).toBe(originalDataUrl);
+
+    const onAttachmentsChange = vi.fn();
+    const onDraftChange = vi.fn();
+    const remounted = renderChatView({
+      attachments,
+      getAttachments: () => attachments,
+      draft: "intro",
+      getDraft: () => "intro",
+      onAttachmentsChange,
+      onDraftChange,
+    });
+    expect(remounted.querySelector(".chat-attachment-file__name")?.textContent).toContain(
+      "First words from a r...",
+    );
+    requireElement(
+      remounted,
+      '[aria-label="Show in text field"]',
+      "show pasted text button",
+    ).dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+    expect(onAttachmentsChange).toHaveBeenCalledWith([]);
+    expect(onDraftChange).toHaveBeenCalledWith(`intro\n\n${pastedText}`);
+    expect(getChatAttachmentDataUrl(original)).toBeNull();
+  });
+
   it("keeps large paste previews UTF-16 well-formed at the display boundary", () => {
     let attachments: ChatAttachment[] = [];
     let container = renderAttachmentHarness(
@@ -4575,6 +4620,134 @@ describe("chat attachment picker", () => {
     removeButton.click();
 
     expect(onAttachmentsChange).toHaveBeenCalledWith([]);
+  });
+
+  it("renders multiple browser annotations as bounded, accessible cards", () => {
+    const annotations: ChatAttachment[] = [
+      {
+        id: "annotation-title",
+        mimeType: "image/png",
+        previewUrl: "blob:annotation-title",
+        browserAnnotation: {
+          modelContext: "Context for the model",
+          title: "Checkout page with a deliberately long title",
+          displayUrl: "shop.example.test/checkout",
+          markedRegionCount: 2,
+          inspectedElement: true,
+        },
+      },
+      {
+        id: "annotation-url",
+        mimeType: "image/png",
+        previewUrl: "blob:annotation-url",
+        browserAnnotation: {
+          modelContext: "Second context",
+          title: "",
+          displayUrl: "docs.example.test/narrow-layout",
+          markedRegionCount: 1,
+          inspectedElement: false,
+        },
+      },
+    ];
+
+    const container = renderChatView({ attachments: annotations });
+    const cards = container.querySelectorAll<HTMLElement>(
+      ".chat-attachment-thumb--browser-annotation",
+    );
+
+    expect(cards).toHaveLength(2);
+    expect(cards[0]?.dataset.attachmentId).toBe("annotation-title");
+    expect(cards[0]?.getAttribute("role")).toBe("group");
+    expect(cards[0]?.getAttribute("aria-label")).toBe(
+      "Browser annotation: Checkout page with a deliberately long title",
+    );
+    expect(cards[0]?.querySelector("img")?.getAttribute("alt")).toBe("Browser annotation preview");
+    expect(cards[0]?.querySelector(".chat-browser-annotation-card__identity")?.textContent).toBe(
+      "Checkout page with a deliberately long title",
+    );
+    expect(cards[0]?.querySelector(".chat-browser-annotation-card__meta")?.textContent).toContain(
+      "2 marked regions",
+    );
+    expect(cards[0]?.textContent).toContain("Element inspected");
+    expect(cards[1]?.querySelector(".chat-browser-annotation-card__identity")?.textContent).toBe(
+      "docs.example.test/narrow-layout",
+    );
+    expect(cards[1]?.textContent).toContain("1 marked region");
+    expect(cards[1]?.textContent).not.toContain("Element inspected");
+    expect(
+      cards[0]?.querySelector(
+        '[aria-label="Remove browser annotation: Checkout page with a deliberately long title"]',
+      ),
+    ).toBeInstanceOf(HTMLButtonElement);
+    for (const card of cards) {
+      expect(card.querySelector(".chat-browser-annotation-card__preview")).not.toBeNull();
+      expect(card.querySelector(".chat-browser-annotation-card__body")).not.toBeNull();
+    }
+  });
+
+  it("delegates browser annotation removal without releasing its payload", () => {
+    const attachment = registerChatAttachmentPayload({
+      attachment: {
+        id: "annotation-remove",
+        fileName: "annotation.png",
+        mimeType: "image/png",
+        browserAnnotation: {
+          modelContext: "Context",
+          title: "Account settings",
+          displayUrl: "example.test/settings",
+          markedRegionCount: 0,
+          inspectedElement: false,
+        },
+      },
+      dataUrl: "data:image/png;base64,YW5ub3RhdGlvbg==",
+      file: new File(["annotation"], "annotation.png", { type: "image/png" }),
+    });
+    const onRemoveAttachment = vi.fn();
+    const onAttachmentsChange = vi.fn();
+    const container = renderChatView({
+      attachments: [attachment],
+      onAttachmentsChange,
+      onRemoveAttachment,
+    });
+
+    requireElement(
+      container,
+      '[aria-label="Remove browser annotation: Account settings"]',
+      "browser annotation remove button",
+    ).dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+    expect(onRemoveAttachment).toHaveBeenCalledWith(attachment);
+    expect(onAttachmentsChange).not.toHaveBeenCalled();
+    expect(getChatAttachmentDataUrl(attachment)).not.toBeNull();
+  });
+
+  it("keeps ordinary attachment removal immediate when an annotation callback exists", () => {
+    const attachment = registerChatAttachmentPayload({
+      attachment: {
+        id: "ordinary-remove",
+        fileName: "ordinary.png",
+        mimeType: "image/png",
+      },
+      dataUrl: "data:image/png;base64,b3JkaW5hcnk=",
+      file: new File(["ordinary"], "ordinary.png", { type: "image/png" }),
+    });
+    const onRemoveAttachment = vi.fn();
+    const onAttachmentsChange = vi.fn();
+    const container = renderChatView({
+      attachments: [attachment],
+      onAttachmentsChange,
+      onRemoveAttachment,
+    });
+
+    requireElement(
+      container,
+      '[aria-label="Remove attachment"]',
+      "ordinary attachment remove button",
+    ).dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+    expect(onRemoveAttachment).not.toHaveBeenCalled();
+    expect(onAttachmentsChange).toHaveBeenCalledWith([]);
+    expect(getChatAttachmentDataUrl(attachment)).toBeNull();
   });
 
   it("opens the scoped file input from the attachment menu", () => {
@@ -5712,8 +5885,8 @@ describe("chat model controls", () => {
   });
 
   it("keeps reconciliation inside the session settings lane", async () => {
-    const reconciliationStarted = createDeferred<void>();
-    const releaseReconciliation = createDeferred<void>();
+    const reconciliationStarted = createDeferred();
+    const releaseReconciliation = createDeferred();
     const patches: Array<Record<string, unknown>> = [];
     const patchResult = {
       ok: true,

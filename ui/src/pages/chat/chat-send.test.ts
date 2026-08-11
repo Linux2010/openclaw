@@ -4,6 +4,7 @@ import { reduceSessionProjection } from "@openclaw/gateway-client/browser";
 import { expectDefined } from "@openclaw/normalization-core";
 import { createRequireRecord } from "openclaw/plugin-sdk/test-fixtures";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { createDeferred } from "../../../../test/helpers/promise.js";
 import { GatewayRequestError } from "../../api/gateway.ts";
 import type { AgentsListResult, GatewaySessionRow, SessionsListResult } from "../../api/types.ts";
 import { SLASH_COMMANDS } from "../../lib/chat/commands.ts";
@@ -288,19 +289,6 @@ function idleChatHistory(sessionKey = "agent:main") {
     messages: [],
     sessionInfo: row(sessionKey, { hasActiveRun: false, status: "done" }),
   };
-}
-
-function createDeferred<T>() {
-  let resolve: ((value: T) => void) | undefined;
-  let reject: ((reason?: unknown) => void) | undefined;
-  const promise = new Promise<T>((res, rej) => {
-    resolve = res;
-    reject = rej;
-  });
-  if (!resolve || !reject) {
-    throw new Error("Expected deferred callbacks to be initialized");
-  }
-  return { promise, resolve, reject };
 }
 
 const neverSettlesPromise: Promise<never> = Promise.race([]);
@@ -1621,7 +1609,7 @@ describe("handleSendChat", () => {
   });
 
   it("keeps a resolved model reconciliation inside the canonical settings queue", async () => {
-    const reconcile = createDeferred<void>();
+    const reconcile = createDeferred();
     let patchCount = 0;
     const host = makeChatHost({
       requestHandlers: {
@@ -3554,6 +3542,7 @@ describe("handleSendChat", () => {
         expect.objectContaining({
           message: "steer without waiting for history",
           queueMode: "steer",
+          replyToId: "steer-behind-outbox-source",
         }),
       ),
     );
@@ -3561,6 +3550,9 @@ describe("handleSendChat", () => {
 
     expect(host.chatReplyTarget).toBeNull();
     expect(host.chatRunId).toBe("active-run");
+    expect(host.chatQueue.find((item) => item.kind === "steered")?.replyToId).toBe(
+      "steer-behind-outbox-source",
+    );
     olderHistory.resolve({
       messages: [{ role: "user", __openclaw: { idempotencyKey: "older-reconciliation-run:user" } }],
       sessionInfo: row("agent:main", { hasActiveRun: true, status: "running" }),
@@ -7098,6 +7090,42 @@ describe("handleSendChat", () => {
     expect(
       findRequestPayload(host.request as unknown as MockCallSource, "chat.send", "empty-leaf send"),
     ).toHaveProperty("expectedLeafEntryId", null);
+  });
+
+  it("waits for terminal history reconciliation before sending a follow-up", async () => {
+    const history = createDeferred<unknown>();
+    const host = makeChatHost({
+      requestHandlers: {
+        "chat.history": () => history.promise,
+        "chat.send": (params: unknown) => {
+          const payload = requireRecord(params, "reconciled follow-up payload");
+          return { runId: payload.idempotencyKey, status: "started" };
+        },
+      },
+      chatDisplayedLeafEntryId: "leaf-before-terminal",
+      chatMessage: "immediate follow-up",
+    });
+    const historyLoad = loadChatHistory(host as unknown as Parameters<typeof loadChatHistory>[0]);
+
+    const sending = handleSendChat(host);
+    await Promise.resolve();
+    const sendsBeforeHistory = host.request.mock.calls.filter(
+      ([method]) => method === "chat.send",
+    ).length;
+    history.resolve({
+      messages: [],
+      sessionInfo: {
+        activeLeafEntryId: "leaf-after-terminal",
+        key: "agent:main",
+        sessionId: "session-main",
+      },
+    });
+    await Promise.all([historyLoad, sending]);
+
+    expect(sendsBeforeHistory).toBe(0);
+    expect(
+      findRequestPayload(host.request as unknown as MockCallSource, "chat.send", "follow-up send"),
+    ).toMatchObject({ expectedLeafEntryId: "leaf-after-terminal" });
   });
 
   it("omits the active leaf when draining a restored outbox", async () => {

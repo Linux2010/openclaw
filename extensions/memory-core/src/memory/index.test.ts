@@ -13,7 +13,7 @@ import {
   type MemorySyncParams,
 } from "openclaw/plugin-sdk/memory-core-host-engine-storage";
 import { resolveSessionTranscriptsDirForAgent } from "openclaw/plugin-sdk/memory-core-host-runtime-core";
-import { upsertSessionEntry } from "openclaw/plugin-sdk/session-store-runtime";
+import { deleteSessionEntry, upsertSessionEntry } from "openclaw/plugin-sdk/session-store-runtime";
 import { appendSessionTranscriptMessageByIdentity } from "openclaw/plugin-sdk/session-transcript-runtime";
 import { resolveOpenClawAgentSqlitePath } from "openclaw/plugin-sdk/sqlite-runtime";
 import {
@@ -1916,15 +1916,15 @@ describe("memory index", () => {
       syncing: Promise<void> | null;
       queuedSessions: Map<string, MemorySessionSyncTarget>;
       queuedSessionSync: Promise<void> | null;
-      runSyncWithReadonlyRecovery: (params?: MemorySyncParams) => Promise<void>;
+      runSync: (params?: MemorySyncParams) => Promise<void>;
     };
-    const runSyncWithReadonlyRecovery = owner.runSyncWithReadonlyRecovery.bind(owner);
-    const runSync = vi
-      .spyOn(owner, "runSyncWithReadonlyRecovery")
-      .mockImplementationOnce(async (params) => await runSyncWithReadonlyRecovery(params))
+    const originalRunSync = owner.runSync.bind(owner);
+    const runSyncSpy = vi
+      .spyOn(owner, "runSync")
+      .mockImplementationOnce(async (params) => await originalRunSync(params))
       .mockImplementationOnce(async () => await activeSyncGate)
       .mockImplementationOnce(async () => await queuedSyncGate)
-      .mockImplementation(async (params) => await runSyncWithReadonlyRecovery(params));
+      .mockImplementation(async (params) => await originalRunSync(params));
     const queuedError = new Error("controlled queued rejection");
     try {
       await manager.sync({ reason: "test-live-rejection-baseline", force: true });
@@ -1968,7 +1968,7 @@ describe("memory index", () => {
       const failuresPromise = Promise.allSettled([active, failedQueued]);
       resolveActiveSync?.();
       await vi.waitFor(() => {
-        expect(runSync).toHaveBeenCalledTimes(3);
+        expect(runSyncSpy).toHaveBeenCalledTimes(3);
         expect(owner.syncing).not.toBeNull();
         expect(owner.queuedSessionSync).not.toBeNull();
       });
@@ -2074,7 +2074,7 @@ describe("memory index", () => {
       resolveActiveSync?.();
       rejectQueuedSync?.(queuedError);
       await manager.close?.();
-      runSync.mockRestore();
+      runSyncSpy.mockRestore();
     }
   });
 
@@ -2097,12 +2097,10 @@ describe("memory index", () => {
       queuedProgressCallbacks: Set<NonNullable<MemorySyncParams["progress"]>>;
       queuedForce: boolean;
       syncAdmitted: (params?: MemorySyncParams) => Promise<void>;
-      runSyncWithReadonlyRecovery: (params?: MemorySyncParams) => Promise<void>;
+      runSync: (params?: MemorySyncParams) => Promise<void>;
     };
     const syncAdmitted = vi.spyOn(owner, "syncAdmitted");
-    const runSyncWithReadonlyRecovery = vi
-      .spyOn(owner, "runSyncWithReadonlyRecovery")
-      .mockReturnValueOnce(fullSyncGate);
+    const runSyncSpy = vi.spyOn(owner, "runSync").mockReturnValueOnce(fullSyncGate);
     const progress = vi.fn();
     owner.queuedSessions.set("retained", {
       agentId: "main",
@@ -2137,7 +2135,7 @@ describe("memory index", () => {
         undefined,
         undefined,
       ]);
-      expect(runSyncWithReadonlyRecovery).toHaveBeenCalledTimes(1);
+      expect(runSyncSpy).toHaveBeenCalledTimes(1);
       expect(syncAdmitted).toHaveBeenCalledTimes(2);
       expect(owner.closed).toBe(true);
       expect(owner.queuedSessions.size).toBe(0);
@@ -2147,7 +2145,7 @@ describe("memory index", () => {
     } finally {
       resolveFullSync?.();
       await manager.close?.();
-      runSyncWithReadonlyRecovery.mockRestore();
+      runSyncSpy.mockRestore();
       syncAdmitted.mockRestore();
     }
   });
@@ -2171,10 +2169,10 @@ describe("memory index", () => {
       queuedProgressCallbacks: Set<NonNullable<MemorySyncParams["progress"]>>;
       queuedForce: boolean;
       queuedSessionSync: Promise<void> | null;
-      runSyncWithReadonlyRecovery: (params?: MemorySyncParams) => Promise<void>;
+      runSync: (params?: MemorySyncParams) => Promise<void>;
     };
-    const runSyncWithReadonlyRecovery = vi
-      .spyOn(owner, "runSyncWithReadonlyRecovery")
+    const runSyncSpy = vi
+      .spyOn(owner, "runSync")
       .mockReturnValueOnce(activeSyncGate)
       .mockRejectedValueOnce(new Error("test queued failure"));
     const progress = vi.fn();
@@ -2209,7 +2207,7 @@ describe("memory index", () => {
       await active;
       await queuedRejection;
 
-      expect(runSyncWithReadonlyRecovery).toHaveBeenCalledTimes(2);
+      expect(runSyncSpy).toHaveBeenCalledTimes(2);
       expect(owner.queuedArchiveFiles).toEqual(
         new Set(["/tmp/retained-close-after-failure.jsonl"]),
       );
@@ -2234,7 +2232,7 @@ describe("memory index", () => {
     } finally {
       resolveActiveSync?.();
       await manager.close?.();
-      runSyncWithReadonlyRecovery.mockRestore();
+      runSyncSpy.mockRestore();
     }
   });
 
@@ -2423,26 +2421,26 @@ describe("memory index", () => {
     const manager = await getFreshManager(cfg);
     let releaseSync: () => void = () => {};
     const syncStarted = new Promise<void>((resolve) => {
-      const originalRunSyncWithReadonlyRecovery = (
+      const originalRunSync = (
         manager as unknown as {
-          runSyncWithReadonlyRecovery: (params?: {
+          runSync: (params?: {
             reason?: string;
             force?: boolean;
             archiveFiles?: string[];
             progress?: (update: unknown) => void;
           }) => Promise<void>;
         }
-      ).runSyncWithReadonlyRecovery.bind(manager);
+      ).runSync.bind(manager);
       (
         manager as unknown as {
-          runSyncWithReadonlyRecovery: typeof originalRunSyncWithReadonlyRecovery;
+          runSync: typeof originalRunSync;
         }
-      ).runSyncWithReadonlyRecovery = async (params) => {
+      ).runSync = async (params) => {
         resolve();
         await new Promise<void>((syncResolve) => {
           releaseSync = syncResolve;
         });
-        await originalRunSyncWithReadonlyRecovery(params);
+        await originalRunSync(params);
       };
     });
 
@@ -2971,6 +2969,49 @@ describe("memory index", () => {
         hybrid: { enabled: true, vectorWeight: 0.7, textWeight: 0.3 },
       }),
     );
+  });
+
+  it("supplements thin strict FTS results for conversational queries", async () => {
+    const cases = [
+      {
+        query: "that thing we discussed about the API",
+        strictFile: "strict-english.md",
+        strictText: "That thing we discussed about the API belongs in the first draft.",
+        recallFile: "recall-english.md",
+        recallText: "API authentication uses short-lived OAuth tokens.",
+      },
+      {
+        query: "ayer hablamos sobre estrategia de despliegue",
+        strictFile: "strict-spanish.md",
+        strictText: "Ayer hablamos sobre estrategia de despliegue para la primera region.",
+        recallFile: "recall-spanish.md",
+        recallText: "La estrategia de despliegue requiere una ventana de mantenimiento.",
+      },
+    ] as const;
+    for (const entry of cases) {
+      await fs.writeFile(path.join(memoryDir, entry.strictFile), entry.strictText);
+      await fs.writeFile(path.join(memoryDir, entry.recallFile), entry.recallText);
+    }
+
+    const manager = await getPersistentManager(
+      createCfg({
+        minScore: 0,
+        hybrid: { enabled: true, vectorWeight: 0.7, textWeight: 0.3 },
+      }),
+    );
+    await manager.sync({ reason: "test" });
+    const provider = Reflect.get(manager, "provider") as {
+      embedQuery: (text: string) => Promise<number[]>;
+    };
+    const embedQuerySpy = vi.spyOn(provider, "embedQuery");
+
+    for (const entry of cases) {
+      const results = await manager.search(entry.query, { maxResults: 6 });
+      expect(results.some((result) => result.path.endsWith(`memory/${entry.recallFile}`))).toBe(
+        true,
+      );
+    }
+    expect(embedQuerySpy).toHaveBeenCalledTimes(cases.length);
   });
 
   it("bounds per-keyword FTS fallback in provider-backed hybrid search", async () => {
@@ -5141,6 +5182,90 @@ describe("memory index", () => {
 
       const result = manager.status();
       expect(result.dirty).toBe(true);
+    } finally {
+      restoreMemoryIndexStateDir();
+    }
+  });
+
+  it("prunes removed sessions without re-embedding unchanged survivors", async () => {
+    const cfg = createCfg({
+      provider: "gemini",
+      sources: ["sessions"],
+      sessionMemory: true,
+      minScore: 0,
+    });
+    const stateDirName = ".state-status-stale-session-test";
+    setMemoryIndexStateDir(path.join(workspaceDir, stateDirName));
+    const sessionId = "status-stale-session-test";
+    const sessionKey = `agent:main:memory:${sessionId}`;
+    const survivorId = "status-stale-session-survivor";
+    const survivorKey = `agent:main:memory:${survivorId}`;
+    const storePath = path.join(resolveSessionTranscriptsDirForAgent("main"), "sessions.json");
+    try {
+      await seedMemoryIndexSessionTranscript({
+        sessionId,
+        sessionKey,
+        messages: [
+          {
+            role: "user",
+            timestamp: 1,
+            content: "Deleted session index canary ORBIT-DELETE-91.",
+          },
+        ],
+      });
+      await seedMemoryIndexSessionTranscript({
+        sessionId: survivorId,
+        sessionKey: survivorKey,
+        messages: [
+          {
+            role: "user",
+            timestamp: 2,
+            content: "Surviving session index canary ORBIT-SURVIVE-92.",
+          },
+        ],
+      });
+
+      const initial = await getFreshManager(cfg, "cli");
+      managersForCleanup.add(initial);
+      await initial.sync({ reason: "cli", force: true });
+      await expect(
+        initial.search("ORBIT-DELETE-91", { minScore: 0, sources: ["sessions"] }),
+      ).resolves.not.toEqual([]);
+      await initial.close?.();
+      const agentDb = new DatabaseSync(resolveOpenClawAgentSqlitePath({ agentId: "main" }));
+      agentDb.exec("DELETE FROM memory_embedding_cache");
+      agentDb.close();
+      embedBatchCalls = 0;
+
+      await expect(
+        deleteSessionEntry({
+          agentId: "main",
+          archiveTranscript: false,
+          expectedSessionId: sessionId,
+          sessionKey,
+          storePath,
+        }),
+      ).resolves.toBe(true);
+
+      const statusManager = await getFreshManager(cfg, "status");
+      managersForCleanup.add(statusManager);
+      expect(statusManager.status().dirty).toBe(true);
+
+      await statusManager.sync({ reason: "cli" });
+      expect(embedBatchCalls).toBe(0);
+      const deletedResults = await statusManager.search("ORBIT-DELETE-91", {
+        minScore: 0,
+        sources: ["sessions"],
+      });
+      expect(deletedResults.some((result) => result.path.includes(sessionId))).toBe(false);
+      await expect(
+        statusManager.search("ORBIT-SURVIVE-92", { minScore: 0, sources: ["sessions"] }),
+      ).resolves.not.toEqual([]);
+      const db = Reflect.get(statusManager, "db") as DatabaseSync;
+      const sourceCount = db
+        .prepare("SELECT COUNT(*) AS count FROM memory_index_sources WHERE source = 'sessions'")
+        .get() as { count: number };
+      expect(sourceCount.count).toBe(1);
     } finally {
       restoreMemoryIndexStateDir();
     }
