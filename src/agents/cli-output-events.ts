@@ -333,7 +333,7 @@ export function dispatchClaudeCliStreamingToolEvent(params: {
         const args =
           pending.inputJsonParts.length > 0
             ? parseToolInputJson(pending.inputJsonParts)
-            : pending.initialInput ?? {};
+            : (pending.initialInput ?? {});
         emitToolStartOnce(
           tracker,
           pending.toolCallId,
@@ -363,14 +363,7 @@ export function dispatchClaudeCliStreamingToolEvent(params: {
         }
         const args: Record<string, unknown> = isRecord(block.input) ? block.input : {};
         emitToolStartOnce(tracker, toolCallId, name, block.type, args, params.onToolUseStart);
-        emitToolArgsBackfill(
-          tracker,
-          toolCallId,
-          name,
-          block.type,
-          args,
-          params.onToolUseUpdate,
-        );
+        emitToolArgsBackfill(tracker, toolCallId, name, block.type, args, params.onToolUseUpdate);
       } else if (isClaudeAssistantToolResultBlockType(block.type)) {
         const toolCallId = typeof block.tool_use_id === "string" ? block.tool_use_id.trim() : "";
         if (!toolCallId) {
