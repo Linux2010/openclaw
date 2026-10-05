@@ -439,7 +439,10 @@ export function isCompetingSessionWorkAdmissionActiveExcluding(
   ownIdentity: string,
 ): boolean {
   const [normalizedOwnIdentity] = normalizeSessionIdentities(scope, [ownIdentity]);
-  const ownAdmissions = ACTIVE_SESSION_WORK_ADMISSIONS.get(normalizedOwnIdentity);
+  const ownAdmissions =
+    normalizedOwnIdentity !== undefined
+      ? ACTIVE_SESSION_WORK_ADMISSIONS.get(normalizedOwnIdentity)
+      : undefined;
   return normalizeSessionIdentities(scope, identities).some((identity) =>
     Array.from(ACTIVE_SESSION_WORK_ADMISSIONS.get(identity) ?? []).some(
       (admission) => admission.phase === "acquired" && !ownAdmissions?.has(admission),
