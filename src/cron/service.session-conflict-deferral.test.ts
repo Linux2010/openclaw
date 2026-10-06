@@ -50,10 +50,15 @@ async function fixture(options: Partial<Pick<CronServiceDeps, "runIsolatedAgentJ
   const runIsolatedAgentJob = vi.fn<CronServiceDeps["runIsolatedAgentJob"]>(
     options.runIsolatedAgentJob ?? (async () => sessionConflictResult()),
   );
-  const sendCronFailureAlert = vi.fn<CronServiceDeps["sendCronFailureAlert"]>(async (params) => {
-    await params.onDeliverySettled({ delivered: true, status: "delivered" });
-  });
-  const runCronFailureRepair = vi.fn<CronServiceDeps["runCronFailureRepair"]>(async () => {});
+  // NonNullable: the dep fields are optional, and vi.fn requires a callable.
+  const sendCronFailureAlert = vi.fn<NonNullable<CronServiceDeps["sendCronFailureAlert"]>>(
+    async (params) => {
+      await params.onDeliverySettled({ delivered: true, status: "delivered" });
+    },
+  );
+  const runCronFailureRepair = vi.fn<NonNullable<CronServiceDeps["runCronFailureRepair"]>>(
+    async () => {},
+  );
   const baseDeps: CronServiceDeps = {
     scheduler: createTestGatewayScheduler(clock.clock),
     storePath: store.storePath,
