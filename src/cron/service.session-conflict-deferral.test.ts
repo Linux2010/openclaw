@@ -74,7 +74,7 @@ async function fixture(options: Partial<Pick<CronServiceDeps, "runIsolatedAgentJ
   };
   const cron = await startService();
   const cleanup = async () => {
-    for (const service of services.reverse()) {
+    for (const service of services.toReversed()) {
       await service.status();
       service.stop();
     }
