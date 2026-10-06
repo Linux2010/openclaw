@@ -116,7 +116,7 @@ describe("CronService session-conflict deferrals", () => {
       // with the backoff schedule advancing per deferral.
       const expectedBackoffs = [30_000, 60_000, 2 * 60_000, 5 * 60_000];
       let previousNextRunAtMs = atMs + 15_000;
-      for (let attempt = 0; attempt < 4; attempt += 1) {
+      for (const [attempt, backoff] of expectedBackoffs.entries()) {
         const conflicts = 2 + attempt;
         await clock.advanceTo(previousNextRunAtMs);
         await vi.waitFor(() => expect(runIsolatedAgentJob).toHaveBeenCalledTimes(2 + attempt));
@@ -124,9 +124,9 @@ describe("CronService session-conflict deferrals", () => {
           const state = cron.getJob(job.id)?.state;
           expect(state?.consecutiveSessionConflicts).toBe(conflicts);
           expect(state?.consecutiveErrors ?? 0).toBe(0);
-          expect(state?.nextRunAtMs).toBe(previousNextRunAtMs + expectedBackoffs[attempt]);
+          expect(state?.nextRunAtMs).toBe(previousNextRunAtMs + backoff);
         });
-        previousNextRunAtMs += expectedBackoffs[attempt];
+        previousNextRunAtMs += backoff;
       }
       expect(cron.getJob(job.id)?.enabled).toBe(true);
       expect(runIsolatedAgentJob).toHaveBeenCalledTimes(5);
