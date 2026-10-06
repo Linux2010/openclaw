@@ -22,6 +22,7 @@ import {
   isSessionWorkAdmissionActive,
 } from "../../sessions/session-lifecycle-admission.js";
 import type { SkillSnapshot } from "../../skills/types.js";
+import type { CronAgentAdmissionDisposition } from "../../types.js";
 import {
   normalizeCronScheduledToolCallerOrigin,
   normalizeCronScheduledToolPolicy,
@@ -77,14 +78,17 @@ export type CronRunContinuationSession = {
 };
 
 export class CronSessionLifecycleClaimError extends Error {
-  readonly admissionDisposition = "session-conflict" as const;
+  readonly admissionDisposition: CronAgentAdmissionDisposition;
 
   constructor(
     sessionKey: string,
     message = `Session "${sessionKey}" changed while starting work. Retry.`,
+    /** Genuine contention defers; permanent binding/workspace rejections do not. */
+    admissionDisposition: CronAgentAdmissionDisposition = "session-conflict",
   ) {
     super(message);
     this.name = "CronSessionLifecycleClaimError";
+    this.admissionDisposition = admissionDisposition;
   }
 }
 

@@ -210,12 +210,18 @@ const DEFAULT_SESSION_CONFLICT_BACKOFF_SCHEDULE_MS = [
 ];
 
 /** Paces a session-conflict deferral without consuming execution-failure retries. */
-export function resolveSessionConflictDeferralDecision(): {
+export function resolveSessionConflictDeferralDecision(params: {
+  consecutiveSessionConflicts: number | undefined;
+}): {
   backoffMs: number;
   reason: string;
 } {
+  const consecutiveSessionConflicts = params.consecutiveSessionConflicts ?? 0;
   return {
-    backoffMs: errorBackoffMs(1, DEFAULT_SESSION_CONFLICT_BACKOFF_SCHEDULE_MS),
+    backoffMs: errorBackoffMs(
+      consecutiveSessionConflicts + 1,
+      DEFAULT_SESSION_CONFLICT_BACKOFF_SCHEDULE_MS,
+    ),
     reason: "session busy; deferred until the competing writer releases",
   };
 }
