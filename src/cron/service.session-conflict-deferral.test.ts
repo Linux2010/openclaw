@@ -50,6 +50,10 @@ async function fixture(options: Partial<Pick<CronServiceDeps, "runIsolatedAgentJ
   const runIsolatedAgentJob = vi.fn<CronServiceDeps["runIsolatedAgentJob"]>(
     options.runIsolatedAgentJob ?? (async () => sessionConflictResult()),
   );
+  const sendCronFailureAlert = vi.fn<CronServiceDeps["sendCronFailureAlert"]>(async (params) => {
+    await params.onDeliverySettled({ delivered: true, status: "delivered" });
+  });
+  const runCronFailureRepair = vi.fn<CronServiceDeps["runCronFailureRepair"]>(async () => {});
   const baseDeps: CronServiceDeps = {
     scheduler: createTestGatewayScheduler(clock.clock),
     storePath: store.storePath,
@@ -59,6 +63,8 @@ async function fixture(options: Partial<Pick<CronServiceDeps, "runIsolatedAgentJ
     requestHeartbeat: vi.fn(),
     nowMs: () => clock.clock.now(),
     runIsolatedAgentJob,
+    sendCronFailureAlert,
+    runCronFailureRepair,
     onEvent: (event: CronEvent) => {
       if (event.action === "finished") {
         finished.resolve(event);
@@ -85,6 +91,8 @@ async function fixture(options: Partial<Pick<CronServiceDeps, "runIsolatedAgentJ
     cron,
     deps: baseDeps,
     runIsolatedAgentJob,
+    sendCronFailureAlert,
+    runCronFailureRepair,
     clock,
     storePath: store.storePath,
     startService,
@@ -213,6 +221,87 @@ describe("CronService session-conflict deferrals", () => {
         expect(state?.lastRunStatus ?? state?.lastStatus).toBe("ok");
       });
       expect(restarted.getJob(job.id)?.enabled).toBe(true);
+    } finally {
+      await cleanup();
+    }
+  });
+
+  it("does not open a failure incident or alert on a fresh job's deferral", async () => {
+    const {
+      cron,
+      runIsolatedAgentJob,
+      clock,
+      sendCronFailureAlert,
+      runCronFailureRepair,
+      cleanup,
+    } = await fixture();
+    try {
+      const job = await cron.add(
+        mainJob({
+          schedule: { kind: "every", everyMs: 60_000, anchorMs: atMs },
+          failureAlert: { after: 1 },
+        }),
+      );
+      await clock.advanceTo(atMs);
+      await vi.waitFor(() => expect(runIsolatedAgentJob).toHaveBeenCalledOnce());
+      await vi.waitFor(() =>
+        expect(cron.getJob(job.id)?.state.consecutiveSessionConflicts).toBe(1),
+      );
+
+      // Contention with zero prior failures is not an incident: the deferral
+      // bypasses failure notification finalization entirely.
+      const state = cron.getJob(job.id)?.state;
+      expect(state?.failureAlertIncident).toBeUndefined();
+      expect(state?.consecutiveErrors ?? 0).toBe(0);
+      expect(sendCronFailureAlert).not.toHaveBeenCalled();
+      expect(runCronFailureRepair).not.toHaveBeenCalled();
+    } finally {
+      await cleanup();
+    }
+  });
+
+  it("does not alert or request repair for contention on a previously failing job", async () => {
+    const { cron, runIsolatedAgentJob, sendCronFailureAlert, runCronFailureRepair, cleanup } =
+      await fixture();
+    try {
+      // Two genuine provider failures reach the alert threshold; the third
+      // attempt hits a busy session instead of a real execution.
+      runIsolatedAgentJob.mockImplementation(async () => {
+        if (runIsolatedAgentJob.mock.calls.length <= 2) {
+          return { status: "error" as const, error: "provider returned 500" };
+        }
+        return sessionConflictResult();
+      });
+      const job = await cron.add(
+        mainJob({
+          schedule: { kind: "every", everyMs: 60_000, anchorMs: atMs },
+          failureAlert: { after: 2 },
+        }),
+      );
+      for (let failures = 1; failures <= 2; failures += 1) {
+        await cron.run(job.id, "force");
+        await vi.waitFor(() => expect(runIsolatedAgentJob).toHaveBeenCalledTimes(failures));
+      }
+      // The genuine failure streak alerts exactly once at the threshold.
+      await vi.waitFor(() => expect(sendCronFailureAlert).toHaveBeenCalledOnce());
+      const stateBeforeDeferral = cron.getJob(job.id)?.state;
+      expect(stateBeforeDeferral?.consecutiveErrors).toBe(2);
+      expect(stateBeforeDeferral?.failureAlertIncident).toBeDefined();
+
+      // Contention spends no retained failure history: no second alert, no
+      // repair request, and the existing incident stays untouched until a
+      // real outcome resolves or extends it.
+      await cron.run(job.id, "force");
+      await vi.waitFor(() => expect(runIsolatedAgentJob).toHaveBeenCalledTimes(3));
+      await vi.waitFor(() =>
+        expect(cron.getJob(job.id)?.state.consecutiveSessionConflicts).toBe(1),
+      );
+      const state = cron.getJob(job.id)?.state;
+      expect(state?.consecutiveErrors).toBe(2);
+      expect(state?.failureAlertIncident).toMatchObject({ scope: "run" });
+      expect(state?.failureAlertIncident?.repair).toBeUndefined();
+      expect(sendCronFailureAlert).toHaveBeenCalledOnce();
+      expect(runCronFailureRepair).not.toHaveBeenCalled();
     } finally {
       await cleanup();
     }

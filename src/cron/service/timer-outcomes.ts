@@ -265,15 +265,21 @@ export function applyJobResult(
     if (shouldDelete) {
       job.state.nextRunAtMs = undefined;
     }
-    finalizeCronFailureNotifications(state, {
-      job,
-      alertConfig,
-      result,
-      completionStatus,
-      autoDisableNotificationOwnsFailure,
-      replay: opts.replay,
-      deferredNotifications: opts.deferredNotifications,
-    });
+    // A pre-execution session conflict is contention, not a failure: it must
+    // not open an unresolved incident or spend a retained failure streak on
+    // repair requests and alerts (#165162). Existing failure history is left
+    // untouched for the next real outcome to resolve or extend.
+    if (!deferredBySessionConflict) {
+      finalizeCronFailureNotifications(state, {
+        job,
+        alertConfig,
+        result,
+        completionStatus,
+        autoDisableNotificationOwnsFailure,
+        replay: opts.replay,
+        deferredNotifications: opts.deferredNotifications,
+      });
+    }
     return shouldDelete;
   };
 
