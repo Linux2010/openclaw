@@ -216,10 +216,12 @@ export function resolveSessionConflictDeferralDecision(params: {
   backoffMs: number;
   reason: string;
 } {
+  // applyJobResult already incremented the counter for this deferral, and
+  // errorBackoffMs indexes one-based, so the count selects the slot directly.
   const consecutiveSessionConflicts = params.consecutiveSessionConflicts ?? 0;
   return {
     backoffMs: errorBackoffMs(
-      consecutiveSessionConflicts + 1,
+      consecutiveSessionConflicts,
       DEFAULT_SESSION_CONFLICT_BACKOFF_SCHEDULE_MS,
     ),
     reason: "session busy; deferred until the competing writer releases",
