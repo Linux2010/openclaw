@@ -40,8 +40,8 @@ import type {
   CronToolsAllowExecTarget,
   CronToolsAllowExecTargetRequirement,
 } from "../scheduled-tool-policy.js";
-import type { RunCronAgentTurnParams } from "./run-prepare-runtime.js";
 import { setSessionRuntimeModel } from "./run.runtime.js";
+import type { CronLaneWaitCallback } from "./run.types.js";
 import { loadCronSessionEntryLatest, type resolveCronSession } from "./session.js";
 
 const CRON_SESSION_PREPARATION_OWNER = Symbol.for("openclaw.cronSessionPreparation");
@@ -53,7 +53,7 @@ export async function withCronSessionPreparation<T>(
     sessionKey: string;
     signal?: AbortSignal;
     onInterrupt: () => void;
-    onLaneWait?: RunCronAgentTurnParams["onLaneWait"];
+    onLaneWait?: CronLaneWaitCallback;
   },
   prepare: () => Promise<T>,
 ): Promise<T> {
