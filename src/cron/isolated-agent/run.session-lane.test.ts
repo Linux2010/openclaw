@@ -222,7 +222,7 @@ describe("session-bound cron lane admission", () => {
     }
   });
 
-  it("keeps queued cron turns in order while their predecessor settles", async ({ signal }) => {
+  it("keeps queued cron turns in order when their predecessor set changes", async ({ signal }) => {
     const { target, lane } = await seedSession();
     const previous = await beginSessionWorkAdmission({
       scope: target.storePath,
@@ -230,6 +230,7 @@ describe("session-bound cron lane admission", () => {
       assertAllowed: () => {},
     });
     const firstWaiting = createDeferred();
+    const firstRequeued = createDeferred();
     const secondWaiting = createDeferred();
     const firstStarted = createDeferred();
     const releaseFirst = createDeferred();
@@ -248,9 +249,14 @@ describe("session-bound cron lane admission", () => {
     const first = startCron(target, {
       name: "fifo-first",
       abortSignal: signal,
-      onLaneWait: (info) => info?.waiting && firstWaiting.resolve(),
+      onLaneWait: (info) => {
+        if (info?.waiting) {
+          (previous.isActive() ? firstWaiting : firstRequeued).resolve();
+        }
+      },
     });
     let second: ReturnType<typeof startCron> | undefined;
+    let later: Awaited<ReturnType<typeof beginSessionWorkAdmission>> | undefined;
     try {
       await withinTest(
         awaitGateBeforeSettlement(
@@ -260,6 +266,11 @@ describe("session-bound cron lane admission", () => {
         ),
         signal,
       );
+      later = await beginSessionWorkAdmission({
+        scope: target.storePath,
+        identities: [target.sessionKey, target.sessionId],
+        assertAllowed: () => {},
+      });
       second = startCron(target, {
         name: "fifo-second",
         abortSignal: signal,
@@ -271,6 +282,15 @@ describe("session-bound cron lane admission", () => {
       );
       expect(order).toEqual([]);
       previous.release();
+      await withinTest(
+        awaitGateBeforeSettlement(
+          firstRequeued.promise,
+          first,
+          "First cron skipped the later admission",
+        ),
+        signal,
+      );
+      later.release();
       await withinTest(
         awaitGateBeforeSettlement(firstStarted.promise, first, "First cron did not start"),
         signal,
@@ -284,6 +304,7 @@ describe("session-bound cron lane admission", () => {
       expect(order).toEqual(["first", "second"]);
     } finally {
       previous.release();
+      later?.release();
       releaseFirst.resolve();
       await Promise.allSettled([first, ...(second ? [second] : [])]);
     }

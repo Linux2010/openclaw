@@ -36,6 +36,7 @@ import {
   waitForSessionWorkAdmissionRelease,
   type SessionWorkAdmissionInterrupt,
 } from "./session-work-admission-interruption.js";
+import { createSessionWorkAdmissionQueries } from "./session-work-admission-queries.js";
 
 export {
   cancelSessionWorkAdmissionHandoff,
@@ -112,6 +113,20 @@ const {
   currentAdmissions: CURRENT_SESSION_WORK_ADMISSIONS,
   admissionClosures: SESSION_WORK_ADMISSION_CLOSURES,
 } = SESSION_LIFECYCLE_ADMISSION_STATE;
+const {
+  collectSessionWorkAdmissions,
+  getSessionWorkAdmissionRelease,
+  getSessionWorkAdmissionOwnerRelease,
+  getCompetingSessionWorkAdmissionRelease,
+} = createSessionWorkAdmissionQueries<SessionWorkAdmission>(ACTIVE_SESSION_WORK_ADMISSIONS, () =>
+  CURRENT_SESSION_WORK_ADMISSIONS.getStore(),
+);
+export {
+  getSessionWorkAdmissionRelease,
+  getSessionWorkAdmissionOwnerRelease,
+  getCompetingSessionWorkAdmissionRelease,
+};
+
 // Older runtime chunks can create the shared state without this newer index.
 const ACTIVE_SESSION_LIFECYCLE_MUTATION_RUNS =
   (SESSION_LIFECYCLE_ADMISSION_STATE.activeMutationRuns ??= new Set());
@@ -413,59 +428,6 @@ export function isCompetingSessionWorkAdmissionActive(
       (admission) => admission.phase === "acquired" && !currentAdmissions?.has(admission),
     ).some(Boolean),
   );
-}
-
-type SessionWorkAdmissionReleaseParams = SessionLifecycleMutationTarget;
-
-function collectSessionWorkAdmissions(
-  identities: Iterable<string>,
-  matches: (admission: SessionWorkAdmission) => boolean,
-): Set<SessionWorkAdmission> {
-  const matching = new Set<SessionWorkAdmission>();
-  for (const identity of identities) {
-    for (const admission of ACTIVE_SESSION_WORK_ADMISSIONS.get(identity) ?? []) {
-      if (matches(admission)) {
-        matching.add(admission);
-      }
-    }
-  }
-  return matching;
-}
-
-function sessionWorkAdmissionRelease(
-  params: SessionWorkAdmissionReleaseParams,
-  matches: (admission: SessionWorkAdmission) => boolean,
-): Promise<void> | undefined {
-  const admissions = collectSessionWorkAdmissions(
-    normalizeSessionIdentities(params.scope, params.identities),
-    matches,
-  );
-  // One turn may hold outer and inner admissions; wait for every captured owner.
-  return admissions.size > 0
-    ? Promise.all(Array.from(admissions, (admission) => admission.released)).then(() => undefined)
-    : undefined;
-}
-
-/** Completion of the currently active turns that own a session. */
-export function getSessionWorkAdmissionRelease(
-  params: SessionWorkAdmissionReleaseParams,
-): Promise<void> | undefined {
-  return sessionWorkAdmissionRelease(params, (admission) => admission.phase === "acquired");
-}
-
-/** Completion of a named owner that is starting or actively working on a session. */
-export function getSessionWorkAdmissionOwnerRelease(
-  params: SessionWorkAdmissionReleaseParams & { owner: symbol },
-): Promise<void> | undefined {
-  return sessionWorkAdmissionRelease(params, (admission) => admission.owner === params.owner);
-}
-
-/** Wait for exact prior owners, including queued work, without waiting on inherited admission. */
-export function getCompetingSessionWorkAdmissionRelease(
-  params: SessionWorkAdmissionReleaseParams,
-): Promise<void> | undefined {
-  const current = CURRENT_SESSION_WORK_ADMISSIONS.getStore();
-  return sessionWorkAdmissionRelease(params, (admission) => !current?.has(admission));
 }
 
 /** Active session identities grouped by their authoritative store/lifecycle scope. */
