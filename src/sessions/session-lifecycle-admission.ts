@@ -432,36 +432,40 @@ function collectSessionWorkAdmissions(
   return matching;
 }
 
+function sessionWorkAdmissionRelease(
+  params: SessionWorkAdmissionReleaseParams,
+  matches: (admission: SessionWorkAdmission) => boolean,
+): Promise<void> | undefined {
+  const admissions = collectSessionWorkAdmissions(
+    normalizeSessionIdentities(params.scope, params.identities),
+    matches,
+  );
+  // One turn may hold outer and inner admissions; wait for every captured owner.
+  return admissions.size > 0
+    ? Promise.all(Array.from(admissions, (admission) => admission.released)).then(() => undefined)
+    : undefined;
+}
+
 /** Completion of the currently active turns that own a session. */
 export function getSessionWorkAdmissionRelease(
   params: SessionWorkAdmissionReleaseParams,
 ): Promise<void> | undefined {
-  const matchingAdmissions = collectSessionWorkAdmissions(
-    normalizeSessionIdentities(params.scope, params.identities),
-    (admission) => admission.phase === "acquired",
-  );
-  if (matchingAdmissions.size === 0) {
-    return undefined;
-  }
-
-  // A gateway turn can adopt an outer reply admission and open its own inner
-  // admission. Self-archive must wait for both owners to release the session.
-  return Promise.all(Array.from(matchingAdmissions, (admission) => admission.released)).then(
-    () => undefined,
-  );
+  return sessionWorkAdmissionRelease(params, (admission) => admission.phase === "acquired");
 }
 
 /** Completion of a named owner that is starting or actively working on a session. */
 export function getSessionWorkAdmissionOwnerRelease(
   params: SessionWorkAdmissionReleaseParams & { owner: symbol },
 ): Promise<void> | undefined {
-  const matching = collectSessionWorkAdmissions(
-    normalizeSessionIdentities(params.scope, params.identities),
-    (admission) => admission.owner === params.owner,
-  );
-  return matching.size > 0
-    ? Promise.all(Array.from(matching, (admission) => admission.released)).then(() => undefined)
-    : undefined;
+  return sessionWorkAdmissionRelease(params, (admission) => admission.owner === params.owner);
+}
+
+/** Wait for exact prior owners, including queued work, without waiting on inherited admission. */
+export function getCompetingSessionWorkAdmissionRelease(
+  params: SessionWorkAdmissionReleaseParams,
+): Promise<void> | undefined {
+  const current = CURRENT_SESSION_WORK_ADMISSIONS.getStore();
+  return sessionWorkAdmissionRelease(params, (admission) => !current?.has(admission));
 }
 
 /** Active session identities grouped by their authoritative store/lifecycle scope. */
