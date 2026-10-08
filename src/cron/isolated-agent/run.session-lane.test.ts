@@ -7,7 +7,7 @@ import {
 } from "../../../test/helpers/promise.js";
 import { resolveSessionLane } from "../../agents/embedded-agent-runner/lanes.js";
 import type { RunEmbeddedAgentParams } from "../../agents/embedded-agent-runner/run/params.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
+import { SESSION_TOTAL_TOKENS_VERSION, type SessionEntry } from "../../config/sessions/types.js";
 import { enqueueCommandInLane } from "../../process/command-queue.js";
 import { useSessionStoreTempDirs } from "../../test-utils/session-state-cleanup.js";
 import { makeIsolatedAgentJobFixture, makeIsolatedAgentParamsFixture } from "./job-fixtures.js";
@@ -39,12 +39,13 @@ describe("session-bound cron lane admission", () => {
   });
 
   it.for([
-    { name: "legacy row", stale: false, cancel: false },
-    { name: "stale row", stale: true, cancel: false },
-    { name: "cancelled legacy row", stale: false, cancel: true },
+    { name: "legacy row", stale: false, cancel: false, settle: false },
+    { name: "stale row", stale: true, cancel: false, settle: false },
+    { name: "cancelled legacy row", stale: false, cancel: true, settle: false },
+    { name: "settling compaction", stale: false, cancel: false, settle: true },
   ])(
     "preserves an occupied session's generation for a $name",
-    async ({ stale, cancel }, { signal }) => {
+    async ({ stale, cancel, settle }, { signal }) => {
       const target = {
         agentId: "main",
         sessionKey: "agent:main:cron-admission",
@@ -60,6 +61,19 @@ describe("session-bound cron lane admission", () => {
         ...(stale ? { lifecycleRevision: "occupied-generation" } : {}),
       };
       await accessor.replaceSessionEntry(target, initialEntry);
+      const accounting = {
+        compactionCount: 1,
+        totalTokens: 256,
+        totalTokensFresh: true,
+        totalTokensVersion: SESSION_TOTAL_TOKENS_VERSION,
+      };
+      if (settle) {
+        resolveCronSessionMock.mockImplementation(async (params) => {
+          const prepared = await actualSession.prepareCronSession(params);
+          await accessor.patchSessionEntryCore(target, () => accounting);
+          return prepared;
+        });
+      }
       const lane = resolveSessionLane(target.sessionKey);
       const occupied = createDeferred();
       const release = createDeferred();
@@ -124,6 +138,9 @@ describe("session-bound cron lane admission", () => {
           expect(committed?.lifecycleRevision).toEqual(expect.any(String));
           expect(committed?.lifecycleRevision).not.toBe(initialEntry.lifecycleRevision);
           expect(committed?.sessionId).toBe(target.sessionId);
+          if (settle) {
+            expect(committed).toMatchObject(accounting);
+          }
         }
       } finally {
         controller.abort();

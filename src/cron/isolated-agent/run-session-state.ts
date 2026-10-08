@@ -161,6 +161,11 @@ function projectCronOwnershipFields(entry: SessionEntry): Partial<SessionEntry> 
   delete projected.label;
   delete projected.pinnedAt;
   delete projected.updatedAt;
+  // Compaction accounting can settle after its execution lane releases ownership.
+  delete projected.compactionCount;
+  delete projected.totalTokens;
+  delete projected.totalTokensFresh;
+  delete projected.totalTokensVersion;
   return projected;
 }
 
