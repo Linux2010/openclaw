@@ -53,6 +53,10 @@ type SessionWorkAdmission = HandoffSessionWorkAdmission & {
   lifecycleGeneration: string;
   phase: "pending" | "acquired";
   owner?: symbol;
+  /** Wall-clock admission start; drain diagnostics report blocking age from it. */
+  admittedAtMs?: number;
+  /** Short owner kind for redacted drain diagnostics (e.g. "reply-turn"). */
+  label?: string;
   released: Promise<void>;
 };
 
@@ -430,6 +434,39 @@ export function isCompetingSessionWorkAdmissionActive(
   );
 }
 
+/**
+ * Redacted summary of the competing admissions currently blocking a drain:
+ * owner kind, phase, interrupt state, and age. Never includes raw session
+ * identifiers, so it is safe to embed in thrown errors and logs (#167078).
+ */
+export function describeCompetingSessionWorkAdmissions(
+  scope: string,
+  identities: Iterable<string | undefined>,
+): string {
+  const currentAdmissions = CURRENT_SESSION_WORK_ADMISSIONS.getStore();
+  const blocking = collectSessionWorkAdmissions(
+    normalizeSessionIdentities(scope, identities),
+    (admission) => admission.phase === "acquired" && !currentAdmissions?.has(admission),
+  );
+  if (blocking.size === 0) {
+    return "no competing admission held";
+  }
+  const summaries = [...blocking]
+    .slice(0, 4)
+    .map((admission) =>
+      [
+        admission.label ?? admission.owner?.description ?? "unnamed",
+        `phase=${admission.phase}`,
+        `interrupted=${admission.interrupted !== undefined}`,
+        ...(admission.admittedAtMs === undefined
+          ? []
+          : [`ageMs=${Math.max(0, Date.now() - admission.admittedAtMs)}`]),
+      ].join(","),
+    );
+  const suffix = blocking.size > summaries.length ? "; …" : "";
+  return `${blocking.size} competing admission(s): ${summaries.join("; ")}${suffix}`;
+}
+
 /** Active session identities grouped by their authoritative store/lifecycle scope. */
 export function collectActiveSessionWorkAdmissions(
   owners?: ReadonlySet<object>,
@@ -492,6 +529,8 @@ export async function beginSessionWorkAdmission(params: {
   storeWriterIdentities?: Iterable<string | undefined>;
   /** Stable process-wide identity for owners that must be observable while still pending. */
   owner?: symbol;
+  /** Short owner kind surfaced by drain diagnostics; never contains raw identifiers. */
+  label?: string;
   /** Queue behind earlier admissions of the same owner, including pending work. */
   serializeOwner?: boolean;
   resolveGatewayContext?: GatewayContextResolver;
@@ -534,6 +573,8 @@ export async function beginSessionWorkAdmission(params: {
   const admission: SessionWorkAdmission = {
     lifecycleGeneration: getAgentRunLifecycleGeneration(),
     phase: "pending",
+    admittedAtMs: Date.now(),
+    ...(params.label ? { label: params.label } : {}),
     ...(params.owner ? { owner: params.owner } : {}),
     handoffIds: new Set(),
     identities: new Set(identities),

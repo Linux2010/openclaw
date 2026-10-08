@@ -290,6 +290,7 @@ export async function admitReplyTurn(
               scope: storePath,
               resolveGatewayContext,
               identities: [params.sessionKey],
+              label: "reply-turn",
               storeWriterIdentities:
                 parseAgentSessionKey(params.sessionKey) &&
                 normalizeStoreSessionKey(params.sessionKey) === params.sessionKey
@@ -629,10 +630,17 @@ export async function admitReplyTurn(
           runAfterReplyOperationClear(operation, () => {
             // Keep immutable store correlation after releasing only this admission's lease.
             operationAdmission.lease = undefined;
-            // Keep reset/delete behind durable owner release and its writer lock.
+            // The run and its delivery are done, so the ingress fence has served
+            // its purpose: release it before the durable tail. Recovery-owner and
+            // database-claim releases are store-worker writes that a same-key
+            // write storm can starve for longer than the rollover drain timeout,
+            // which pinned every lifecycle drain to its full 15s budget and
+            // failed the waiting turn (#167078). Transcript integrity stays
+            // fenced by the writer claim, and the detached tail keeps its
+            // exact-token retries and pending-target scheduling.
+            admission.release();
             void Promise.all([releaseRecoveryOwner(), releaseWorkerDatabaseClaim?.()]).then(
               ([pendingTarget]) => {
-                admission.release();
                 scheduleMainSessionRecoveryPendingTarget(pendingTarget);
               },
               (error: unknown) => {

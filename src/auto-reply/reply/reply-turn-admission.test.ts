@@ -15,6 +15,7 @@ import {
 } from "../../logging/diagnostic-run-activity.js";
 import { markDiagnosticToolStartedForTest } from "../../logging/diagnostic-run-activity.test-support.js";
 import {
+  describeCompetingSessionWorkAdmissions,
   interruptSessionWorkAdmissions,
   runExclusiveSessionLifecycleMutation,
 } from "../../sessions/session-lifecycle-admission.js";
@@ -301,6 +302,39 @@ it.each([true, false])(
     admitted.complete();
   },
 );
+it("releases the lifecycle fence at clear while the durable tail is still settling", async () => {
+  // Regression for #167078: the fence used to stay held until the contested
+  // recovery-owner release finished, pinning every rollover drain to its full
+  // timeout and failing the waiting turn.
+  const storePath = store(interruptedEntry());
+  const owner = owned(await admit({ storePath, expectedSessionId: sessionId }));
+  const release = holdRecoveryRelease();
+  owner.complete();
+  await release.started;
+  await expect(
+    interruptSessionWorkAdmissions({
+      scope: storePath,
+      identities: [sessionKey, sessionId],
+      timeoutMs: 1_000,
+    }),
+  ).resolves.toBe(true);
+  release.release();
+  await expectRecoveryReleased(storePath);
+});
+it("describes competing admissions for drain attribution without raw identifiers", async () => {
+  const storePath = store();
+  const owner = owned(await admit({ storePath, expectedSessionId: sessionId }));
+  const summary = describeCompetingSessionWorkAdmissions(storePath, [sessionKey, sessionId]);
+  expect(summary).toContain("reply-turn");
+  expect(summary).toContain("phase=acquired");
+  expect(summary).toContain("interrupted=false");
+  owner.complete();
+  await vi.waitFor(() =>
+    expect(describeCompetingSessionWorkAdmissions(storePath, [sessionKey, sessionId])).toBe(
+      "no competing admission held",
+    ),
+  );
+});
 it("schedules released recovery only after retained admission exits", async () => {
   const storePath = store(interruptedEntry());
   const blocker = operation();
