@@ -224,6 +224,7 @@ describe("production lint suppressions", () => {
         "src/cli/test-runtime-capture.ts|typescript/no-unnecessary-type-parameters|1",
         "src/commands/backup-restore.ts|preserve-caught-error|1",
         "src/config/sessions/session-accessor.sqlite-worker-request.ts|no-warning-comments|1",
+        "src/config/sessions/session-transcript-lock-settlement.ts|typescript/prefer-promise-reject-errors|2",
         "src/config/sessions/session-transcript-reconcile.close-failure.test-support.mjs|typescript/unbound-method|1",
         "src/config/sessions/session-transcript-reconcile.sql-observer.test-support.ts|typescript/unbound-method|1",
         // Canonical entries must honor toJSON and omit non-JSON values exactly as persistence does.
@@ -258,9 +259,9 @@ describe("production lint suppressions", () => {
         "src/plugins/plugin-return-value.ts|typescript/unbound-method|1",
         "src/plugins/plugin-return-value.ts|unicorn/no-thenable|1",
         "src/plugins/public-surface-loader.ts|typescript/no-unnecessary-type-parameters|3",
-        // Admission records original factory identities; executable views bind their receivers.
-        "src/plugins/registry-registrars-memory.ts|typescript/unbound-method|1",
         "src/plugins/registry-registrars-providers.ts|typescript/unbound-method|1",
+        // Admission records original factory identities; executable views bind their receivers.
+        "src/plugins/registry-registrars.ts|typescript/unbound-method|1",
         "src/plugins/runtime/runtime-plugin-boundary.ts|typescript/no-unnecessary-type-parameters|1",
         "src/plugins/trusted-tool-policy.ts|typescript/no-unnecessary-type-parameters|1",
         "src/secrets/egress-proxy/proxy-server.ts|no-warning-comments|1",

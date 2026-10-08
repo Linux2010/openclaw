@@ -7,7 +7,6 @@ import { applyModelRuntimeDirective } from "../../auto-reply/reply/directive-han
 import type { SessionEntry } from "../../config/sessions.js";
 import { resolveSessionAuthProfileOverrideSource } from "../../config/sessions/auth-profile-override-provenance.js";
 import { resolveSessionWorkStartError } from "../../config/sessions/lifecycle.js";
-import { hasSessionTranscriptEventsSync } from "../../config/sessions/session-accessor.js";
 import type { SessionResetBoundaryWrite } from "../../config/sessions/session-accessor.lifecycle-types.js";
 import {
   buildSessionCreationStamp,
@@ -15,10 +14,10 @@ import {
 } from "../../config/sessions/session-entry-provenance.js";
 import type { SessionCreatedActor } from "../../config/sessions/session-entry-provenance.js";
 import { mergeSessionSnapshotChanges } from "../../config/sessions/session-snapshot-merge.js";
+import { readSessionTranscriptWatermarkAsync } from "../../config/sessions/session-transcript-watermark.js";
 import { isCronSessionKey } from "../../sessions/session-key-utils.js";
 import {
   beginSessionWorkAdmission,
-  isCompetingSessionWorkAdmissionActiveExcluding,
   isSessionWorkAdmissionActive,
 } from "../../sessions/session-lifecycle-admission.js";
 import type { SkillSnapshot } from "../../skills/types.js";
@@ -35,7 +34,6 @@ import type {
   CronToolsAllowExecTarget,
   CronToolsAllowExecTargetRequirement,
 } from "../scheduled-tool-policy.js";
-import type { CronAgentAdmissionDisposition } from "../types.js";
 import { setSessionRuntimeModel } from "./run.runtime.js";
 import { loadCronSessionEntryLatest, type resolveCronSession } from "./session.js";
 
@@ -78,17 +76,14 @@ export type CronRunContinuationSession = {
 };
 
 export class CronSessionLifecycleClaimError extends Error {
-  readonly admissionDisposition: CronAgentAdmissionDisposition;
+  readonly admissionDisposition = "session-conflict" as const;
 
   constructor(
     sessionKey: string,
     message = `Session "${sessionKey}" changed while starting work. Retry.`,
-    /** Genuine contention defers; permanent binding/workspace rejections do not. */
-    admissionDisposition: CronAgentAdmissionDisposition = "session-conflict",
   ) {
     super(message);
     this.name = "CronSessionLifecycleClaimError";
-    this.admissionDisposition = admissionDisposition;
   }
 }
 
@@ -118,8 +113,9 @@ export async function beginCronSessionWorkAdmission(params: {
     ],
     signal: params.signal,
     onInterrupt: params.onInterrupt,
-    assertAllowed: () => {
-      const currentEntry = loadCronSessionEntryLatest(cronSession.storePath, agentSessionKey);
+    assertAllowed: async (signal) => {
+      const currentEntry = await loadCronSessionEntryLatest(cronSession.storePath, agentSessionKey);
+      signal.throwIfAborted();
       const changed = initialSessionEntry
         ? !currentEntry ||
           !isDeepStrictEqual(
@@ -138,21 +134,23 @@ export async function beginCronSessionWorkAdmission(params: {
   });
 }
 
-function cronTranscriptExists(params: {
+async function cronTranscriptExists(params: {
   entry: SessionEntry;
   sessionKey: string;
   storePath: string;
-}): boolean {
+}): Promise<boolean> {
   const sessionId = params.entry.sessionId?.trim();
   if (!sessionId) {
     return false;
   }
   try {
-    return hasSessionTranscriptEventsSync({
+    const watermark = await readSessionTranscriptWatermarkAsync({
       sessionId,
       sessionKey: params.sessionKey,
       storePath: params.storePath,
     });
+    // Sequence zero is a real header; cold archives retain their last sequence.
+    return watermark.maxSeq !== null;
   } catch {
     return false;
   }
@@ -196,11 +194,11 @@ export function createPersistCronSessionEntry(params: {
     const persistedEntry =
       isCronSessionKey(params.agentSessionKey) &&
       liveEntry.sessionId &&
-      !cronTranscriptExists({
+      !(await cronTranscriptExists({
         entry: liveEntry,
         sessionKey: params.agentSessionKey,
         storePath: params.cronSession.storePath,
-      })
+      }))
         ? toNonResumableCronSessionEntry(liveEntry)
         : liveEntry;
     let committedEntry = persistedEntry;
@@ -229,25 +227,19 @@ export function createPersistCronSessionEntry(params: {
           committedEntry = { ...persistedEntry, ...creationStamp };
           mergedLiveEntry = { ...liveEntry, ...creationStamp };
         }
+        // A reused in-place revision is shared with the session's other writers, so
+        // revision equality alone cannot prove this run still holds the incarnation it
+        // last committed; a same-revision session-id replacement must reject.
         const ownsCurrentRevision =
-          currentEntry?.lifecycleRevision === params.cronSession.lifecycleRevision;
+          currentEntry?.lifecycleRevision === params.cronSession.lifecycleRevision &&
+          (params.cronSession.initialSessionEntry === undefined ||
+            currentEntry?.sessionId === params.cronSession.initialSessionEntry.sessionId);
         const currentRevisionActive = Boolean(
           currentEntry?.lifecycleRevision &&
           isSessionWorkAdmissionActive(params.cronSession.storePath, [
             resolveCronLifecycleRevisionIdentity(currentEntry.lifecycleRevision),
           ]),
         );
-        // A queued run must not replace lifecycle ownership while any other
-        // admitted writer (interactive turn, host compaction, delivery) owns
-        // the session identities. The run's own admission is excluded through
-        // its lifecycle-revision identity, so this never defers the run itself.
-        const sessionOwnedByCompetingAdmission =
-          currentEntry !== undefined &&
-          isCompetingSessionWorkAdmissionActiveExcluding(
-            params.cronSession.storePath,
-            [params.agentSessionKey, currentEntry.sessionId],
-            resolveCronLifecycleRevisionIdentity(params.cronSession.lifecycleRevision),
-          );
         const initialEntryMatchesOwnershipFields =
           currentEntry !== undefined &&
           params.cronSession.initialSessionEntry !== undefined &&
@@ -271,7 +263,6 @@ export function createPersistCronSessionEntry(params: {
           currentEntry.sessionId === initialEntry.sessionId;
         const canClaimInitialRevision = params.cronSession.initialSessionEntry
           ? !currentRevisionActive &&
-            !sessionOwnedByCompetingAdmission &&
             (initialEntryMatchesOwnershipFields || currentContinuesInitialGeneration)
           : currentEntry === undefined;
         // Concurrent persistent runs can resolve the same initial row. Once one
