@@ -29,7 +29,11 @@ import {
 import type { PluginManifestRecord } from "./manifest-registry.js";
 import { hasManifestToolAvailability } from "./manifest-tool-availability.js";
 import { getPluginInstance } from "./plugin-instance-scope.js";
-import type { PluginMetadataManifestView } from "./plugin-metadata-snapshot.types.js";
+import { completePluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
+import type {
+  PluginMetadataManifestView,
+  PluginMetadataSnapshot,
+} from "./plugin-metadata-snapshot.types.js";
 import { capturePluginLifecycleAuthority } from "./registry-lifecycle.js";
 import type { PluginRegistry, PluginToolRegistration } from "./registry-types.js";
 import {
@@ -229,14 +233,42 @@ function resolvePluginToolLoadState(params: {
   const runtimeOptions = params.allowGatewaySubagentBinding
     ? { allowGatewaySubagentBinding: true as const }
     : undefined;
-  const snapshot =
+  // The runtime hands over a full PluginMetadataSnapshot even though the shared
+  // prepared-runtime type narrows its static view to the manifest contract.
+  const preparedSnapshot =
     usePreparedRuntime && params.preparedRuntime
-      ? params.preparedRuntime.metadataSnapshot
-      : loadManifestContractSnapshot({
+      ? (params.preparedRuntime.metadataSnapshot as PluginMetadataSnapshot)
+      : undefined;
+  let snapshot: PluginMetadataManifestView;
+  if (preparedSnapshot && preparedSnapshot.pluginIds === undefined) {
+    // An unscoped prepared generation already owns every manifest contract.
+    snapshot = preparedSnapshot;
+  } else if (preparedSnapshot) {
+    // Tool discovery needs every enabled plugin's manifest contracts, while the
+    // prepared generation may be scoped to selected runtime owners (the
+    // tools.effective inventory lease). Promoting an unscoped view here keeps
+    // the narrowed lease authoritative for model and runtime facts only; missing
+    // owners still load through the activate-free path below, and a failed
+    // promotion never blocks tool resolution.
+    try {
+      snapshot =
+        (completePluginMetadataSnapshot({
+          snapshot: preparedSnapshot,
           config: context.config,
-          workspaceDir: context.workspaceDir,
           env,
-        });
+          workspaceDir: context.workspaceDir,
+        }) as PluginMetadataManifestView | undefined) ?? preparedSnapshot;
+    } catch (error) {
+      context.logger.warn?.(`plugin tool snapshot promotion failed (${formatErrorMessage(error)})`);
+      snapshot = preparedSnapshot;
+    }
+  } else {
+    snapshot = loadManifestContractSnapshot({
+      config: context.config,
+      workspaceDir: context.workspaceDir,
+      env,
+    });
+  }
   const allowlist = createPluginToolAllowlist(params.toolAllowlist);
   const onlyPluginIds = resolvePluginToolPluginIds({
     config: context.config,
@@ -247,12 +279,23 @@ function resolvePluginToolLoadState(params: {
     hasAuthForProvider: params.hasAuthForProvider,
     snapshot,
   });
-  const loadOptions = buildPluginRuntimeLoadOptions(context, {
-    activate: false,
-    toolDiscovery: true,
-    onlyPluginIds,
-    runtimeOptions,
-  });
+  // A promoted snapshot owns the full manifest registry, while the prepared load
+  // context still carries the narrowed generation's registry. Tool-only owners
+  // outside that scope cannot resolve manifests from the narrowed view, so the
+  // missing-owner cold load must discover them through the promoted registry.
+  const promotedManifestRegistry =
+    preparedSnapshot && snapshot !== preparedSnapshot
+      ? (snapshot as PluginMetadataSnapshot).manifestRegistry
+      : undefined;
+  const loadOptions = buildPluginRuntimeLoadOptions(
+    promotedManifestRegistry ? { ...context, manifestRegistry: promotedManifestRegistry } : context,
+    {
+      activate: false,
+      toolDiscovery: true,
+      onlyPluginIds,
+      runtimeOptions,
+    },
+  );
   return {
     context,
     env,
@@ -500,6 +543,8 @@ function resolvePluginToolsFromRegistry(
   const factories = createPluginToolFactoryResolver((message) => context.logger.error(message));
 
   // Loader manifest order owns duplicate precedence, independent of retained instances.
+  // Promoted load options own the full enabled manifest order; the prepared
+  // generation's narrowed registry would omit tool-only owners entirely.
   const orderedManifests = loadState.loadOptions.manifestRegistry?.plugins ?? snapshot.plugins;
   for (const { id: pluginId } of orderedManifests) {
     const owner = toolOwners.get(pluginId);
