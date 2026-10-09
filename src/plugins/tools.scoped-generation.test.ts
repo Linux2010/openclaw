@@ -19,7 +19,7 @@ import {
 const loadOpenClawPluginsMock = vi.fn();
 
 vi.mock("./loader.js", async () => {
-  const [loaderCache] = await Promise.all([import("./loader-cache.js")]);
+  const loaderCache = await import("./loader-cache.js");
   const loadPluginRegistryHandle = (params: unknown) => loadOpenClawPluginsMock(params);
   return {
     loadOpenClawPlugins: loadPluginRegistryHandle,
@@ -51,7 +51,9 @@ function createToolManifest(
   };
 }
 
-type TestSnapshot = ReturnType<typeof installFullManifestSnapshot>;
+type TestSnapshot = {
+  manifestRegistry: { plugins: Array<Record<string, unknown>>; diagnostics: unknown[] };
+};
 
 function installFullManifestSnapshot(params: {
   config: OpenClawConfig;
@@ -110,7 +112,7 @@ function installFullManifestSnapshot(params: {
     env: process.env,
     workspaceDir: "/tmp",
   });
-  return snapshot as unknown as TestSnapshot;
+  return snapshot;
 }
 
 function createContext(): { config: OpenClawConfig; workspaceDir: string } {

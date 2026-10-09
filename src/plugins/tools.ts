@@ -233,13 +233,12 @@ function resolvePluginToolLoadState(params: {
   const runtimeOptions = params.allowGatewaySubagentBinding
     ? { allowGatewaySubagentBinding: true as const }
     : undefined;
-  // The runtime hands over a full PluginMetadataSnapshot even though the shared
-  // prepared-runtime type narrows its static view to the manifest contract.
   const preparedSnapshot =
     usePreparedRuntime && params.preparedRuntime
-      ? (params.preparedRuntime.metadataSnapshot as PluginMetadataSnapshot)
+      ? (params.preparedRuntime.metadataSnapshot as PluginMetadataSnapshot) // SAFETY: The prepared runtime owns a full PluginMetadataSnapshot at runtime; the shared prepared-runtime type only narrows its static view to the manifest contract.
       : undefined;
   let snapshot: PluginMetadataManifestView;
+  let promotedSnapshot: PluginMetadataSnapshot | undefined;
   if (preparedSnapshot && preparedSnapshot.pluginIds === undefined) {
     // An unscoped prepared generation already owns every manifest contract.
     snapshot = preparedSnapshot;
@@ -251,13 +250,13 @@ function resolvePluginToolLoadState(params: {
     // owners still load through the activate-free path below, and a failed
     // promotion never blocks tool resolution.
     try {
-      snapshot =
-        (completePluginMetadataSnapshot({
-          snapshot: preparedSnapshot,
-          config: context.config,
-          env,
-          workspaceDir: context.workspaceDir,
-        }) as PluginMetadataManifestView | undefined) ?? preparedSnapshot;
+      promotedSnapshot = completePluginMetadataSnapshot({
+        snapshot: preparedSnapshot,
+        config: context.config,
+        env,
+        workspaceDir: context.workspaceDir,
+      });
+      snapshot = promotedSnapshot ?? preparedSnapshot;
     } catch (error) {
       context.logger.warn?.(`plugin tool snapshot promotion failed (${formatErrorMessage(error)})`);
       snapshot = preparedSnapshot;
@@ -283,9 +282,10 @@ function resolvePluginToolLoadState(params: {
   // context still carries the narrowed generation's registry. Tool-only owners
   // outside that scope cannot resolve manifests from the narrowed view, so the
   // missing-owner cold load must discover them through the promoted registry.
+  // Identity comparison keeps a scoped snapshot (unchanged promotion) out.
   const promotedManifestRegistry =
-    preparedSnapshot && snapshot !== preparedSnapshot
-      ? (snapshot as PluginMetadataSnapshot).manifestRegistry
+    promotedSnapshot && snapshot !== preparedSnapshot
+      ? promotedSnapshot.manifestRegistry
       : undefined;
   const loadOptions = buildPluginRuntimeLoadOptions(
     promotedManifestRegistry ? { ...context, manifestRegistry: promotedManifestRegistry } : context,
