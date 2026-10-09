@@ -630,17 +630,12 @@ export async function admitReplyTurn(
           runAfterReplyOperationClear(operation, () => {
             // Keep immutable store correlation after releasing only this admission's lease.
             operationAdmission.lease = undefined;
-            // The run and its delivery are done, so the ingress fence has served
-            // its purpose: release it before the durable tail. Recovery-owner and
-            // database-claim releases are store-worker writes that a same-key
-            // write storm can starve for longer than the rollover drain timeout,
-            // which pinned every lifecycle drain to its full 15s budget and
-            // failed the waiting turn (#167078). Transcript integrity stays
-            // fenced by the writer claim, and the detached tail keeps its
-            // exact-token retries and pending-target scheduling.
-            admission.release();
+            // Keep reset/delete behind durable owner release and its writer lock.
+            // When this wait loses a same-key write contention, the rollover
+            // drain timeout now reports the redacted blocking owner (#167078).
             void Promise.all([releaseRecoveryOwner(), releaseWorkerDatabaseClaim?.()]).then(
               ([pendingTarget]) => {
+                admission.release();
                 scheduleMainSessionRecoveryPendingTarget(pendingTarget);
               },
               (error: unknown) => {

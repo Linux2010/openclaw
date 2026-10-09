@@ -302,37 +302,28 @@ it.each([true, false])(
     admitted.complete();
   },
 );
-it("releases the lifecycle fence at clear while the durable tail is still settling", async () => {
-  // Regression for #167078: the fence used to stay held until the contested
-  // recovery-owner release finished, pinning every rollover drain to its full
-  // timeout and failing the waiting turn.
-  const storePath = store(interruptedEntry());
-  const owner = owned(await admit({ storePath, expectedSessionId: sessionId }));
-  const release = holdRecoveryRelease();
-  owner.complete();
-  await release.started;
-  await expect(
-    interruptSessionWorkAdmissions({
-      scope: storePath,
-      identities: [sessionKey, sessionId],
-      timeoutMs: 1_000,
-    }),
-  ).resolves.toBe(true);
-  release.release();
-  await expectRecoveryReleased(storePath);
-});
-it("describes competing admissions for drain attribution without raw identifiers", async () => {
+it("keeps drain attribution redacted while a competing admission holds the fence", async () => {
+  // #167078: the rollover drain timeout now embeds a blocking-owner summary.
+  // The summary must carry the owner kind and state without ever leaking raw
+  // session identifiers into errors and logs.
   const storePath = store();
   const owner = owned(await admit({ storePath, expectedSessionId: sessionId }));
-  const summary = describeCompetingSessionWorkAdmissions(storePath, [sessionKey, sessionId]);
-  expect(summary).toContain("reply-turn");
-  expect(summary).toContain("phase=acquired");
-  expect(summary).toContain("interrupted=false");
+  const heldSummary = describeCompetingSessionWorkAdmissions({
+    scope: storePath,
+    identities: [sessionKey, sessionId],
+  });
+  expect(heldSummary).toContain("reply-turn");
+  expect(heldSummary).toContain("phase=acquired");
+  expect(heldSummary).not.toContain(sessionKey);
+  expect(heldSummary).not.toContain(sessionId);
   owner.complete();
   await vi.waitFor(() =>
-    expect(describeCompetingSessionWorkAdmissions(storePath, [sessionKey, sessionId])).toBe(
-      "no competing admission held",
-    ),
+    expect(
+      describeCompetingSessionWorkAdmissions({
+        scope: storePath,
+        identities: [sessionKey, sessionId],
+      }),
+    ).toBe("no competing admission held"),
   );
 });
 it("schedules released recovery only after retained admission exits", async () => {

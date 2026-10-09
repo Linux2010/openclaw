@@ -406,8 +406,10 @@ async function initSessionStateAttempt(params: InitSessionStateParams): Promise<
           // attributable instead of a bare fixed-timeout failure (#167078).
           throw new Error(
             `timed out draining work before reply session rollover: ${candidate.sessionKey} (${describeCompetingSessionWorkAdmissions(
-              attemptContext.storePath,
-              identities,
+              {
+                scope: attemptContext.storePath,
+                identities,
+              },
             )})`,
           );
         }

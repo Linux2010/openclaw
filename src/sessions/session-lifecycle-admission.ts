@@ -122,6 +122,7 @@ const {
   getSessionWorkAdmissionRelease,
   getSessionWorkAdmissionOwnerRelease,
   getCompetingSessionWorkAdmissionRelease,
+  describeCompetingSessionWorkAdmissions,
 } = createSessionWorkAdmissionQueries<SessionWorkAdmission>(ACTIVE_SESSION_WORK_ADMISSIONS, () =>
   CURRENT_SESSION_WORK_ADMISSIONS.getStore(),
 );
@@ -129,6 +130,7 @@ export {
   getSessionWorkAdmissionRelease,
   getSessionWorkAdmissionOwnerRelease,
   getCompetingSessionWorkAdmissionRelease,
+  describeCompetingSessionWorkAdmissions,
 };
 
 // Older runtime chunks can create the shared state without this newer index.
@@ -432,39 +434,6 @@ export function isCompetingSessionWorkAdmissionActive(
       (admission) => admission.phase === "acquired" && !currentAdmissions?.has(admission),
     ).some(Boolean),
   );
-}
-
-/**
- * Redacted summary of the competing admissions currently blocking a drain:
- * owner kind, phase, interrupt state, and age. Never includes raw session
- * identifiers, so it is safe to embed in thrown errors and logs (#167078).
- */
-export function describeCompetingSessionWorkAdmissions(
-  scope: string,
-  identities: Iterable<string | undefined>,
-): string {
-  const currentAdmissions = CURRENT_SESSION_WORK_ADMISSIONS.getStore();
-  const blocking = collectSessionWorkAdmissions(
-    normalizeSessionIdentities(scope, identities),
-    (admission) => admission.phase === "acquired" && !currentAdmissions?.has(admission),
-  );
-  if (blocking.size === 0) {
-    return "no competing admission held";
-  }
-  const summaries = [...blocking]
-    .slice(0, 4)
-    .map((admission) =>
-      [
-        admission.label ?? admission.owner?.description ?? "unnamed",
-        `phase=${admission.phase}`,
-        `interrupted=${admission.interrupted !== undefined}`,
-        ...(admission.admittedAtMs === undefined
-          ? []
-          : [`ageMs=${Math.max(0, Date.now() - admission.admittedAtMs)}`]),
-      ].join(","),
-    );
-  const suffix = blocking.size > summaries.length ? "; …" : "";
-  return `${blocking.size} competing admission(s): ${summaries.join("; ")}${suffix}`;
 }
 
 /** Active session identities grouped by their authoritative store/lifecycle scope. */
