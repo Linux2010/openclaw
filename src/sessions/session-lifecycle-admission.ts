@@ -58,6 +58,7 @@ type SessionWorkAdmission = HandoffSessionWorkAdmission & {
   /** Short owner kind for redacted drain diagnostics (e.g. "reply-turn"). */
   label?: string;
   released: Promise<void>;
+  isSettling?: () => boolean;
 };
 
 type SessionLifecycleMutationOwner = {
@@ -123,6 +124,7 @@ const {
   getSessionWorkAdmissionOwnerRelease,
   getCompetingSessionWorkAdmissionRelease,
   describeCompetingSessionWorkAdmissions,
+  getTerminalSessionWorkAdmissionRelease,
 } = createSessionWorkAdmissionQueries<SessionWorkAdmission>(ACTIVE_SESSION_WORK_ADMISSIONS, () =>
   CURRENT_SESSION_WORK_ADMISSIONS.getStore(),
 );
@@ -131,6 +133,7 @@ export {
   getSessionWorkAdmissionOwnerRelease,
   getCompetingSessionWorkAdmissionRelease,
   describeCompetingSessionWorkAdmissions,
+  getTerminalSessionWorkAdmissionRelease,
 };
 
 // Older runtime chunks can create the shared state without this newer index.
@@ -500,6 +503,8 @@ export async function beginSessionWorkAdmission(params: {
   owner?: symbol;
   /** Short owner kind surfaced by drain diagnostics; never contains raw identifiers. */
   label?: string;
+  /** The execution owner has committed its terminal outcome; cleanup still retains this lease. */
+  isSettling?: () => boolean;
   /** Queue behind earlier admissions of the same owner, including pending work. */
   serializeOwner?: boolean;
   resolveGatewayContext?: GatewayContextResolver;
@@ -544,6 +549,7 @@ export async function beginSessionWorkAdmission(params: {
     phase: "pending",
     admittedAtMs: Date.now(),
     ...(params.label ? { label: params.label } : {}),
+    isSettling: params.isSettling,
     ...(params.owner ? { owner: params.owner } : {}),
     handoffIds: new Set(),
     identities: new Set(identities),

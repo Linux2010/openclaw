@@ -16,18 +16,14 @@ import {
   classifyAgentRunTerminalOutcome,
   isDefinitiveRunLifecycle,
 } from "../agents/agent-run-terminal-outcome.js";
-import { getTranscriptMessageRole } from "../agents/embedded-agent-runner/message-visibility.js";
 import { isActiveEmbeddedRunId } from "../agents/embedded-agent-runner/runs.js";
 import { isTimeoutError, resolveFailoverReasonFromError } from "../agents/failover-error.js";
+import { renderCodexAppServerFailureCopy } from "../agents/failover/user-copy.js";
 import { readToolValidationErrorSummary } from "../agents/tool-error-summary.js";
 import { normalizeVerboseLevel } from "../auto-reply/thinking.js";
 import { normalizeAgentPlanSteps } from "../channels/streaming.js";
 import { getRuntimeConfig } from "../config/io.js";
-import {
-  readAgentAssistantSource,
-  type AgentEventPayload,
-  type AgentEventRuntimePayload,
-} from "../infra/agent-events.js";
+import type { AgentEventPayload, AgentEventRuntimePayload } from "../infra/agent-events.js";
 import { getAgentRunContext, getAgentRunContextOwnerStatus } from "../infra/agent-run-registry.js";
 import { formatErrorMessage } from "../infra/errors.js";
 import { boundedJsonUtf8Bytes } from "../infra/json-utf8-bytes.js";
@@ -38,10 +34,7 @@ import {
   isSubagentSessionKey,
   parseCronRunScopeSuffix,
 } from "../sessions/session-key-utils.js";
-import {
-  readSessionTranscriptRunId,
-  type InternalSessionTranscriptUpdate,
-} from "../sessions/transcript-events.js";
+import type { InternalSessionTranscriptUpdate } from "../sessions/transcript-events.js";
 import { ASSISTANT_DISPLAY_CONTENT_FIELD } from "../shared/assistant-display-content.js";
 import { resolveAssistantEventPhase } from "../shared/chat-message-content.js";
 import { setSafeTimeout } from "../utils/timer-delay.js";
@@ -90,16 +83,15 @@ import type {
   SessionMessageSubscriberRegistry,
 } from "./server-chat-state.js";
 import type { ToolEventRecipientRegistry } from "./server-chat-tool-recipients.js";
+import { createChatTranscriptPublication } from "./server-chat-transcript-publication.js";
 import { roundedChatSendTimingMs } from "./server-methods/chat-server-timing.js";
 import { hasSessionChangeReceivers } from "./session-change-receivers.js";
 import { withPreparedSessionEventRow } from "./session-event-prepared-row.js";
 import { prepareSessionEventProjection } from "./session-event-projection.js";
 import { persistGatewaySessionLifecycleEvent } from "./session-lifecycle-state.js";
 import { tryResolveSessionCompatibilityOwnerAgentId } from "./session-request-agent.js";
-import type { SessionRowReadView } from "./session-row-prepared-read.js";
 import type { SessionRowProjection } from "./session-row-projection.js";
 import { resolveSessionSubscriptionKeys } from "./session-subscription-keys.js";
-import { readTranscriptMessageIdempotencyKey } from "./session-transcript-entry-message.js";
 import { loadGatewaySessionEntryReadOnly } from "./session-utils.js";
 import { formatForLog } from "./ws-log.js";
 
@@ -230,7 +222,7 @@ export type AgentEventHandlerOptions = {
 };
 
 type AgentEventHandler = ((event: AgentEventPayload) => void | Promise<void>) & {
-  retireTranscript: (event: InternalSessionTranscriptUpdate) => void;
+  retireTranscript: (event: InternalSessionTranscriptUpdate, publication?: Promise<void>) => void;
   dispose: () => Promise<void>;
 };
 
@@ -455,7 +447,22 @@ export function createAgentEventHandler({
       return;
     }
     clearPendingTerminalLifecycleError(evt.runId, evt.lifecycleGeneration);
-    let terminalPersistence: Promise<void> | undefined;
+    const terminalPersistence =
+      sessionKey && !suppressRestartRecoveryProjection && projectSessionLifecycle
+        ? persistGatewaySessionLifecycleEventForEvent({
+            sessionKey,
+            agentId: sessionAgentId,
+            event: {
+              ...evt,
+              ...(evt.contextClaimId ? { contextClaimId: evt.contextClaimId } : {}),
+              ...(clientRunId !== evt.runId ? { clientRunId } : {}),
+              ...(evt.lifecycleGeneration ? { lifecycleGeneration: evt.lifecycleGeneration } : {}),
+              ...(evt.mainSessionRestartRecovery === true
+                ? { mainSessionRestartRecovery: true as const }
+                : {}),
+            },
+          })
+        : undefined;
     // Completion retires the registration even when no visible terminal is published.
     // The peeked head is still current in this synchronous frame; delivery-owned runs wait.
     const finished =
@@ -520,6 +527,9 @@ export function createAgentEventHandler({
               assistantTranscriptIdempotencyKey: readStringValue(
                 evt.data?.assistantTranscriptIdempotencyKey,
               ),
+              terminalPersistence,
+              isCurrent: () =>
+                shouldProcessOwnedEvent(evt.runId, evt.contextClaimId, evt.lifecycleGeneration),
             },
           );
         }
@@ -540,84 +550,64 @@ export function createAgentEventHandler({
 
     if (sessionKey) {
       clearTrackedActiveRun?.({ runId: evt.runId, clientRunId, sessionKey });
-      if (!suppressRestartRecoveryProjection && projectSessionLifecycle) {
+      if (terminalPersistence) {
         const projection = getSessionRowProjection?.();
-        const persistence = persistGatewaySessionLifecycleEventForEvent({
-          sessionKey,
-          agentId: sessionAgentId,
-          event: {
-            ...evt,
-            ...(evt.contextClaimId ? { contextClaimId: evt.contextClaimId } : {}),
-            ...(clientRunId !== evt.runId ? { clientRunId } : {}),
-            ...(evt.lifecycleGeneration ? { lifecycleGeneration: evt.lifecycleGeneration } : {}),
-            ...(evt.mainSessionRestartRecovery === true
-              ? { mainSessionRestartRecovery: true as const }
-              : {}),
-          },
-        });
-        terminalPersistence = persistence;
         trackTrackedRunTerminalPersistence?.({
           runId: evt.runId,
           clientRunId,
           sessionKey,
           sessionId: evt.sessionId,
-          persistence,
+          persistence: terminalPersistence,
         });
-        const broadcastSessionChange = (
-          snapshotEvent?: AgentEventPayload,
-          read?: SessionRowReadView,
-        ) => {
-          if (opts?.publishLifecycle === false || parseCronRunScopeSuffix(sessionKey).runId) {
-            return;
-          }
-          const sessionEventConnIds = sessionEventSubscribers.getAll();
-          if (!hasSessionChangeReceivers(sessionEventConnIds)) {
-            return;
-          }
-          broadcastToConnIds(
-            "sessions.changed",
-            {
-              sessionKey,
-              ...(sessionAgentId ? { agentId: sessionAgentId } : {}),
-              phase: lifecyclePhase,
-              runId: evt.runId,
-              ...(clientRunId !== evt.runId ? { clientRunId } : {}),
-              ts: evt.ts,
-              ...buildSessionEventSnapshot(
+        const broadcastSessionChange = (snapshotEvent?: AgentEventPayload) =>
+          withPreparedSessionEventRow(projection, sessionKey, sessionAgentId, (read) => {
+            if (opts?.publishLifecycle === false || parseCronRunScopeSuffix(sessionKey).runId) {
+              return;
+            }
+            const sessionEventConnIds = sessionEventSubscribers.getAll();
+            if (!hasSessionChangeReceivers(sessionEventConnIds)) {
+              return;
+            }
+            broadcastToConnIds(
+              "sessions.changed",
+              {
                 sessionKey,
-                snapshotEvent,
-                sessionAgentId,
-                true,
-                true,
-                evt,
-                read,
-              ),
-            },
-            sessionEventConnIds,
-            {
-              dropIfSlow: true,
-              ...(read && projection
-                ? { prepareSessionProjection: prepareSessionEventProjection(projection, read) }
-                : {}),
-            },
-          );
-        };
+                ...(sessionAgentId ? { agentId: sessionAgentId } : {}),
+                phase: lifecyclePhase,
+                runId: evt.runId,
+                ...(clientRunId !== evt.runId ? { clientRunId } : {}),
+                ts: evt.ts,
+                ...buildSessionEventSnapshot(
+                  sessionKey,
+                  snapshotEvent,
+                  sessionAgentId,
+                  true,
+                  true,
+                  evt,
+                  read,
+                ),
+              },
+              sessionEventConnIds,
+              {
+                dropIfSlow: true,
+                ...(read && projection
+                  ? { prepareSessionProjection: prepareSessionEventProjection(projection, read) }
+                  : {}),
+              },
+            );
+          });
         // Terminal writes serialize with restart markers. Reload only after the
         // write so subscribers see the canonical post-race session state.
-        void persistence
+        void terminalPersistence
           .then(
             async () => {
-              await withPreparedSessionEventRow(projection, sessionKey, sessionAgentId, (read) =>
-                broadcastSessionChange(undefined, read),
-              );
+              await broadcastSessionChange();
             },
             async (err: unknown) => {
               logError(
                 `gateway: terminal session persistence failed session=${formatForLog(sessionKey)} run=${formatForLog(evt.runId)} error=${formatForLog(err)}`,
               );
-              await withPreparedSessionEventRow(projection, sessionKey, sessionAgentId, (read) =>
-                broadcastSessionChange(evt, read),
-              );
+              await broadcastSessionChange(evt);
             },
           )
           .catch((error: unknown) => {
@@ -677,6 +667,20 @@ export function createAgentEventHandler({
   ) => {
     cancelPendingChatDeltaFlush(clientRunId);
     const run = chatRunState.getOrCreate(clientRunId);
+    if (
+      transcriptPublication.holdDelta(clientRunId, () =>
+        flushBufferedChatDeltaIfNeeded(
+          sessionKey,
+          agentId,
+          clientRunId,
+          sourceRunId,
+          agentRunSeq.get(sourceRunId) ?? seq,
+          opts,
+        ),
+      )
+    ) {
+      return;
+    }
     const broadcastDelta = chatRunState.takeBufferDelta(clientRunId, text);
     if (!broadcastDelta) {
       return;
@@ -754,6 +758,22 @@ export function createAgentEventHandler({
       broadcastChatDelta(sessionKey, agentId, clientRunId, sourceRunId, seq, "", opts);
       return;
     }
+    const broadcastCurrent = (broadcastOptions: typeof opts) => {
+      const projected = chatRunState.resolveBuffer(clientRunId);
+      if (shouldHideHeartbeatChatOutput(clientRunId, sourceRunId, opts?.isHeartbeat)) {
+        return;
+      }
+      const mergedText = projected.suppress ? "" : projected.text;
+      broadcastChatDelta(
+        sessionKey,
+        agentId,
+        clientRunId,
+        sourceRunId,
+        seq,
+        mergedText,
+        broadcastOptions,
+      );
+    };
     if (run.deltaSentAt !== undefined && !input.replace) {
       scheduleLiveTextFlush(run, "chat", LIVE_TEXT_PACING_MS - (now - run.deltaSentAt), () => {
         if (run.bufferIsCurrent?.() === false) {
@@ -761,28 +781,11 @@ export function createAgentEventHandler({
           agentRunSeq.delete(sourceRunId);
           return;
         }
-        const projected = chatRunState.resolveBuffer(clientRunId);
-        if (shouldHideHeartbeatChatOutput(clientRunId, sourceRunId, opts?.isHeartbeat)) {
-          return;
-        }
-        broadcastChatDelta(
-          sessionKey,
-          agentId,
-          clientRunId,
-          sourceRunId,
-          seq,
-          projected.suppress ? "" : projected.text,
-          { controlUiVisible: opts?.controlUiVisible },
-        );
+        broadcastCurrent({ controlUiVisible: opts?.controlUiVisible });
       });
       return;
     }
-    const projected = chatRunState.resolveBuffer(clientRunId);
-    if (shouldHideHeartbeatChatOutput(clientRunId, sourceRunId, opts?.isHeartbeat)) {
-      return;
-    }
-    const mergedText = projected.suppress ? "" : projected.text;
-    broadcastChatDelta(sessionKey, agentId, clientRunId, sourceRunId, seq, mergedText, opts);
+    broadcastCurrent(opts);
   };
 
   const flushBufferedChatDeltaIfNeeded = (
@@ -814,12 +817,28 @@ export function createAgentEventHandler({
     broadcastChatDelta(sessionKey, agentId, clientRunId, sourceRunId, seq, mergedText, opts);
   };
 
+  const transcriptPublication = createChatTranscriptPublication({
+    chatRunState,
+    agentRunSeq,
+    flush: flushBufferedChatDeltaIfNeeded,
+  });
+
   const sendLivePayload = (
     event: "agent" | "chat",
     sessionKey: string | undefined,
     payload: ChatEvent | AgentEventPayload,
     opts?: LivePayloadOptions,
   ) => {
+    if (
+      event === "chat" &&
+      "state" in payload &&
+      (payload.state === "final" || payload.state === "error" || payload.state === "aborted") &&
+      transcriptPublication.holdTerminal(payload.runId, () =>
+        sendLivePayload(event, sessionKey, payload, opts),
+      )
+    ) {
+      return;
+    }
     const visible = opts?.controlUiVisible ?? true;
     const deliverySessionKeys = sessionKey
       ? resolveSessionDeliveryKeys(sessionKey, opts?.agentId)
@@ -888,6 +907,8 @@ export function createAgentEventHandler({
       errorObservation?: unknown;
       assistantTranscriptIdempotencyKey?: string;
       isHeartbeat?: boolean;
+      terminalPersistence?: Promise<void>;
+      isCurrent?: () => boolean;
     },
   ) => {
     const terminalBuffer = chatRunState.resolveBuffer(clientRunId, { final: true });
@@ -973,6 +994,7 @@ export function createAgentEventHandler({
       return;
     }
     const errorDetail = projectChatErrorDetail(opts?.errorObservation);
+    const errorMessage = error ? formatForLog(error) : undefined;
     const payload = {
       ...terminalPayload,
       state: "error" as const,
@@ -981,12 +1003,29 @@ export function createAgentEventHandler({
             message: createTerminalMessage(chatRunState.runs.get(clientRunId)?.canvasBlocks ?? []),
           }
         : {}),
-      errorMessage: error ? formatForLog(error) : undefined,
+      errorMessage: errorMessage
+        ? (renderCodexAppServerFailureCopy(errorMessage) ?? errorMessage)
+        : undefined,
       ...(errorKind && { errorKind }),
       ...(errorDetail ? { errorDetail } : {}),
       ...(stopReason && { stopReason }),
     };
-    sendLivePayload("chat", sessionKey, payload, opts);
+    const publish = () => {
+      if (opts?.isCurrent?.() !== false) {
+        sendLivePayload("chat", sessionKey, payload, opts);
+      }
+    };
+    // A terminal error must not outrun its durable failure notice. Other finals
+    // keep their synchronous delivery; a failed write still exposes the run error.
+    if (opts?.terminalPersistence) {
+      void opts.terminalPersistence.then(publish, publish).catch((publicationError: unknown) => {
+        logError(
+          `gateway: terminal chat publication failed: ${formatErrorMessage(publicationError)}`,
+        );
+      });
+    } else {
+      publish();
+    }
     chatRunState.clearRun(clientRunId);
   };
 
@@ -1253,18 +1292,17 @@ export function createAgentEventHandler({
 
     // Include sessionKey so Control UI can filter tool streams per session.
     const spawnedBy = sessionKey ? resolveSpawnedBy(sessionKey) : null;
-    const agentPayload = sessionKey
-      ? {
-          ...eventForClients,
-          sessionKey,
-          ...(sessionAgentId ? { agentId: sessionAgentId } : {}),
-          ...(spawnedBy && { spawnedBy }),
-          ...(isHeartbeat !== undefined && { isHeartbeat }),
-        }
-      : {
-          ...eventForClients,
-          ...(isHeartbeat !== undefined && { isHeartbeat }),
-        };
+    const agentPayload = {
+      ...eventForClients,
+      ...(sessionKey
+        ? {
+            sessionKey,
+            ...(sessionAgentId ? { agentId: sessionAgentId } : {}),
+            ...(spawnedBy && { spawnedBy }),
+          }
+        : {}),
+      ...(isHeartbeat !== undefined && { isHeartbeat }),
+    };
     const hasSessionMessageSubscribers =
       projectSessionMessages && sessionKey
         ? resolveSessionDeliveryKeys(sessionKey, sessionAgentId).some(
@@ -1653,50 +1691,13 @@ export function createAgentEventHandler({
       pendingTerminalLifecycleErrors.clear();
     },
   });
+  const dispose = handler.dispose;
   return Object.assign(handler, {
-    retireTranscript: (event: InternalSessionTranscriptUpdate) => {
-      const sourceRunId = readSessionTranscriptRunId(event.message);
-      if (!sourceRunId || getTranscriptMessageRole(event.message) !== "assistant") {
-        return;
-      }
-      const link = chatRunState.registry.peek(sourceRunId);
-      const clientRunId = link?.clientRunId ?? sourceRunId;
-      const context = getAgentRunContext(sourceRunId);
-      const sessionKey = link?.sessionKey ?? context?.sessionKey;
-      const source = readAgentAssistantSource(event.message);
-      const mirrorKey = readTranscriptMessageIdempotencyKey(event.message);
-      const itemIds = [...(event.assistantItemIds ?? []), ...(mirrorKey ? [mirrorKey] : [])];
-      if (
-        (!source && itemIds.length === 0) ||
-        !sessionKey ||
-        sessionKey !== event.sessionKey ||
-        (context?.sessionId && context.sessionId !== event.sessionId)
-      ) {
-        return;
-      }
-      const run = chatRunState.getOrCreate(clientRunId);
-      if (
-        run.bufferIsCurrent?.() === false ||
-        isChatAbortMarkerCurrent(run.abortMarker, link) ||
-        !(source
-          ? chatRunState.retireSource(clientRunId, source)
-          : chatRunState.retireBuffer(clientRunId, itemIds))
-      ) {
-        return;
-      }
-      run.liveTextEpoch = {};
-      flushBufferedChatDeltaIfNeeded(
-        sessionKey,
-        link?.agentId ?? context?.agentId,
-        clientRunId,
-        sourceRunId,
-        agentRunSeq.get(sourceRunId) ?? 0,
-        {
-          controlUiVisible: context?.isControlUiVisible,
-          isHeartbeat: context?.isHeartbeat,
-        },
-      );
+    dispose: async () => {
+      await dispose();
+      await transcriptPublication.drain();
     },
+    retireTranscript: transcriptPublication.retireTranscript,
   });
 }
 /* oxlint-disable max-lines -- TODO: split this grandfathered oversized file. */

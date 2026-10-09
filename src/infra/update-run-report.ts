@@ -201,7 +201,11 @@ function recoveryHints(run: ReportInput, nextAction?: string): string[] {
       : undefined;
   const hints = hint ? [hint] : [];
   if (!nextAction) {
-    hints.push("Run openclaw triage to diagnose and repair the failed update.");
+    hints.push(
+      run.reason === "repair-failed"
+        ? "Run openclaw triage to diagnose this repair failure."
+        : "Run openclaw triage to diagnose and repair the failed update.",
+    );
   }
   return hints;
 }
@@ -214,6 +218,7 @@ export function renderUpdateRunReport(
     nextAction?: string;
     currentHealth?: UpdateRunReportHealth;
     mode?: UpdateRunResult["mode"] | "package";
+    markdownLimit?: number;
   } = {},
 ): UpdateRunReport {
   const reconciled = isAcknowledgedAbandonedUpdateRun(run);
@@ -259,7 +264,7 @@ export function renderUpdateRunReport(
           ? `ℹ️ OpenClaw update abandoned: ${reason}.`
           : runtimeCheckFailed
             ? "⚠️ OpenClaw could not complete the update. A required system check failed."
-            : `⚠️ OpenClaw update failed: ${reason}.`;
+            : `⚠️ OpenClaw ${run.reason === "repair-failed" ? "repair" : "update"} failed: ${reason}.`;
       break;
     case "skipped":
       headline =
@@ -267,7 +272,9 @@ export function renderUpdateRunReport(
           ? `ℹ️ OpenClaw${after ? ` ${after}` : ""} installed; Gateway still starting; readiness unverified; recovery backups retained.`
           : run.reason === "gateway-readiness-unverified"
             ? `ℹ️ OpenClaw${after ? ` ${after}` : ""} installed; Gateway readiness unverified; recovery backups retained.`
-            : `ℹ️ OpenClaw update skipped: ${reason}.`;
+            : run.reason === "doctor-maintenance-pending"
+              ? "ℹ️ OpenClaw repair pending: Doctor maintenance remains unfinished."
+              : `ℹ️ OpenClaw update skipped: ${reason}.`;
       break;
     case "rolled-back":
       headline = `↩️ OpenClaw update rolled back to ${after ?? running ?? before ?? "the previous version"}: ${reason}.`;
@@ -277,7 +284,11 @@ export function renderUpdateRunReport(
       break;
   }
   headline = bounded(headline, 500);
-  const lines: string[] = [];
+  const markdownLimit = opts.markdownLimit ?? 1500;
+  const warnings = updateRunWarningMessages(run.steps).map((message) => `Warning: ${message}`);
+  // Successful activation must not bury recovery constraints behind snapshot inventory.
+  // Failed runs keep their failure diagnostics ahead of warnings in the short report.
+  const lines: string[] = run.status === "succeeded" ? [...warnings] : [];
   if (currentHealth && !run.origin.nextAction && !opts.nextAction) {
     lines.push(formatUpdateRunCurrentHealth(currentHealth));
   }
@@ -364,8 +375,8 @@ export function renderUpdateRunReport(
       ),
     );
   }
-  for (const message of updateRunWarningMessages(run.steps, 3)) {
-    lines.push(`Warning: ${bounded(message, 500)}`);
+  if (run.status !== "succeeded") {
+    lines.push(...warnings);
   }
   const facts = run.verification;
   const observation = run.steps.findLast((step) => step.step === "gateway recovery verification");
@@ -456,7 +467,7 @@ export function renderUpdateRunReport(
             ),
           ];
   const next = hints.at(-1);
-  if (runtimeCheckFailed) {
+  if (runtimeCheckFailed || run.reason === "doctor-maintenance-pending") {
     // Keep the owner's selected action ahead of the diagnostic dump, including
     // historical-advice qualifications. Neither this layout nor truncation selects recovery.
     const details = [
@@ -469,13 +480,13 @@ export function renderUpdateRunReport(
     return {
       headline,
       lines: [...(next ? [next, ""] : []), ...details],
-      markdown: `${lead}\n${bounded(details.join("\n"), 1500 - lead.length - 1)}`,
+      markdown: `${lead}\n${bounded(details.join("\n"), markdownLimit - lead.length - 1)}`,
     };
   }
   lines.push(...hints);
   const body = [headline, ...lines.filter((line) => line !== next)].join("\n");
   const suffix = next ? `\n${bounded(next, 1100)}` : "";
-  return { headline, lines, markdown: `${bounded(body, 1500 - suffix.length)}${suffix}` };
+  return { headline, lines, markdown: `${bounded(body, markdownLimit - suffix.length)}${suffix}` };
 }
 
 /** Old CLI finalization paths still return runner results; all wording stays in the report. */
