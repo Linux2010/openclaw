@@ -18,10 +18,12 @@ import {
 
 const loadOpenClawPluginsMock = vi.fn();
 
-vi.mock("./loader.js", async () => {
+vi.mock("./loader.js", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("./loader.js")>();
   const loaderCache = await import("./loader-cache.js");
   const loadPluginRegistryHandle = (params: unknown) => loadOpenClawPluginsMock(params);
   return {
+    ...actual,
     loadOpenClawPlugins: loadPluginRegistryHandle,
     loadPluginRegistryHandle,
     resolvePluginRegistryLoadCacheKey: loaderCache.resolvePluginRegistryLoadCacheKey,
