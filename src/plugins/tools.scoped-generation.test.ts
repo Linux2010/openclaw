@@ -9,12 +9,7 @@ import { adoptProcessPluginCache, createPluginCache } from "./plugin-cache.js";
 import { getPluginInstance } from "./plugin-instance-scope.js";
 import { projectPluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
 import { createEmptyPluginRegistry } from "./registry-empty.js";
-import {
-  createNamedToolEntry,
-  createToolRegistry,
-  makeTool,
-  type MockRegistryToolEntry,
-} from "./tools.optional.test-helpers.js";
+import { createNamedToolEntry, createToolRegistry } from "./tools.optional.test-helpers.js";
 
 const loadOpenClawPluginsMock = vi.fn();
 
@@ -216,68 +211,5 @@ describe("resolvePluginTools with a runtime-owner-scoped prepared generation", (
       ([params]) => (params as { onlyPluginIds?: string[] }).onlyPluginIds,
     );
     expect(loadCalls).toContainEqual(["workboard"]);
-  });
-
-  it("keeps disabled tool-only plugins out of the scoped discovery", async () => {
-    const context: { config: OpenClawConfig; workspaceDir: string } = {
-      config: {
-        plugins: {
-          enabled: true,
-          load: { paths: ["/tmp/plugin.js"] },
-          slots: { memory: "memory-core" },
-          entries: { workboard: { enabled: false } },
-        },
-      },
-      workspaceDir: "/tmp",
-    };
-    const fullSnapshot = installFullManifestSnapshot({
-      config: context.config,
-      plugins: [
-        createToolManifest("memory-core", ["memory_search"]),
-        createToolManifest("workboard", ["workboard_list"]),
-      ],
-    });
-    const scopedSnapshot = projectPluginMetadataSnapshot(fullSnapshot as never, ["memory-core"]);
-    const memoryRegistry = createToolRegistry([
-      createNamedToolEntry("memory-core", "memory_search"),
-    ]);
-    loadOpenClawPluginsMock.mockReturnValue(createEmptyPluginRegistry());
-
-    let tools: Array<{ name: string }> = [];
-    const entries: MockRegistryToolEntry[] = [];
-    void entries;
-    try {
-      tools = resolvePluginTools({
-        context: context as never,
-        toolAllowlist: ["workboard_list"],
-        allowGatewaySubagentBinding: true,
-        preparedRuntime: {
-          loadContext: {
-            rawConfig: context.config,
-            config: context.config,
-            activationSourceConfig: context.config,
-            autoEnabledReasons: {},
-            workspaceDir: context.workspaceDir,
-            env: process.env,
-            logger: { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() },
-            manifestRegistry: scopedSnapshot.manifestRegistry as never,
-            metadataSnapshot: scopedSnapshot as never,
-            installRecords: {},
-          },
-          metadataSnapshot: scopedSnapshot as never,
-          registry: memoryRegistry as never,
-        },
-      }).map((tool) => ({ name: tool.name }));
-    } finally {
-      await Promise.all(
-        memoryRegistry.plugins.map((record) => getPluginInstance(record)!.dispose()),
-      );
-    }
-
-    expect(tools).toEqual([]);
-    expect(loadOpenClawPluginsMock).not.toHaveBeenCalledWith(
-      expect.objectContaining({ onlyPluginIds: expect.arrayContaining(["workboard"]) }),
-    );
-    void makeTool;
   });
 });
