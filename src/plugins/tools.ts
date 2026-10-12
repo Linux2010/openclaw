@@ -340,15 +340,6 @@ function recordToolDiagnostic(
   }
 }
 
-export {
-  acquirePluginToolInspectionRegistry,
-  acquireStandalonePluginToolRegistry,
-} from "./plugin-tool-registries.js";
-export type {
-  PluginToolInspectionScope,
-  PluginToolRegistryAcquisition,
-} from "./plugin-tool-registries.js";
-
 export function resolvePluginTools(params: PluginToolResolutionParams): AnyAgentTool[] {
   return resolvePluginToolsSynchronously(resolvePluginToolsSteps(params));
 }
