@@ -5,10 +5,7 @@ import { normalizeToolPolicyName } from "../agents/tool-policy.js";
 import type { AnyAgentTool } from "../agents/tools/common.js";
 import { normalizeConversationReadInvocationOrigin } from "../channels/plugins/conversation-read-origin.js";
 import { formatErrorMessage } from "../infra/errors.js";
-import {
-  getLoadedRuntimePluginRegistry,
-  createRuntimePluginManifestLookup,
-} from "./active-runtime-registry.js";
+import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
 import {
   isBundledConversationReadToolRegistration,
   isHostRestrictedConversationReadTool,
@@ -28,12 +25,12 @@ import {
 } from "./manifest-contract-eligibility.js";
 import type { PluginManifestRecord } from "./manifest-registry.js";
 import { hasManifestToolAvailability } from "./manifest-tool-availability.js";
-import { getPluginInstance } from "./plugin-instance-scope.js";
 import { completePluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
 import type {
   PluginMetadataManifestView,
   PluginMetadataSnapshot,
 } from "./plugin-metadata-snapshot.types.js";
+import { collectRetainedToolOwners } from "./plugin-tool-owners.js";
 import { capturePluginLifecycleAuthority } from "./registry-lifecycle.js";
 import type { PluginRegistry, PluginToolRegistration } from "./registry-types.js";
 import {
@@ -484,20 +481,16 @@ function resolvePluginToolsFromRegistry(
     string,
     { registry: PluginRegistry; tools: PluginToolRegistration[] }
   >();
-  const findRuntimeOwner = runtimeRegistry
-    ? createRuntimePluginManifestLookup(runtimeRegistry, snapshot.plugins)
-    : undefined;
-  for (const pluginId of onlyPluginIds) {
-    const record = findRuntimeOwner?.(pluginId);
-    const instance = record && getPluginInstance(record);
-    if (
-      runtimeRegistry &&
-      instance &&
-      (instance.toolRegistrationComplete ||
-        runtimeRegistry.tools.some((entry) => entry.pluginId === pluginId))
-    ) {
-      toolOwners.set(pluginId, { registry: runtimeRegistry, tools: [] });
-    }
+  // Metadata completion can surface owners the supplied generation never
+  // admitted; retained host registrations serve them without a cold reload.
+  for (const [pluginId, owner] of collectRetainedToolOwners({
+    onlyPluginIds,
+    snapshotPlugins: snapshot.plugins,
+    runtimeRegistry,
+    preparedRegistry,
+    workspaceDir: context.workspaceDir,
+  })) {
+    toolOwners.set(pluginId, { ...owner, tools: [] });
   }
   // A prepared generation already decided disabled and failed owners; reloading them would only
   // repeat that outcome synchronously on the caller's thread.
