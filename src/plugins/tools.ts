@@ -13,18 +13,12 @@ import {
   registrationIncludesHostRestrictedConversationReadTool,
 } from "./compat/conversation-read-tools.js";
 import { applyTestPluginDefaults, normalizePluginsConfig } from "./config-state.js";
-import type { PluginMetadataSnapshotScopeRunner } from "./current-plugin-metadata-snapshot.js";
 import { createInstalledPluginEnabledPredicate } from "./installed-plugin-index.js";
-import {
-  acquirePluginRegistryForInspection,
-  loadPluginRegistryHandle,
-  type PluginLoadOptions,
-} from "./loader.js";
+import { loadPluginRegistryHandle, type PluginLoadOptions } from "./loader.js";
 import {
   isManifestPluginAvailableForControlPlane,
   loadManifestContractSnapshot,
 } from "./manifest-contract-eligibility.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
 import { hasManifestToolAvailability } from "./manifest-tool-availability.js";
 import { completePluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
 import type {
@@ -32,13 +26,8 @@ import type {
   PluginMetadataSnapshot,
 } from "./plugin-metadata-snapshot.types.js";
 import { collectRetainedToolOwners } from "./plugin-tool-owners.js";
-import { capturePluginLifecycleAuthority } from "./registry-lifecycle.js";
 import type { PluginRegistry, PluginToolRegistration } from "./registry-types.js";
-import {
-  buildPluginRuntimeLoadOptions,
-  setPluginRuntimeLoadContext,
-  type PluginRuntimeLoadContext,
-} from "./runtime/load-context.js";
+import { buildPluginRuntimeLoadOptions } from "./runtime/load-context.js";
 import { resolvePluginRuntimeLoadContext } from "./runtime/load-context.resolve.js";
 import {
   createPluginToolFactoryContext,
@@ -49,11 +38,7 @@ import {
   createPluginToolFactoryResolver,
 } from "./tool-factory-runtime.js";
 import { createPluginToolAllowlist, type PluginToolAllowlist } from "./tool-grant-allowlist.js";
-import {
-  createPluginToolInspection,
-  inspectionToolOwners,
-  samePluginToolSource,
-} from "./tool-inspection-state.js";
+import { inspectionToolOwners, samePluginToolSource } from "./tool-inspection-state.js";
 import { setPluginToolMeta } from "./tool-metadata.js";
 import type { OpenClawPluginToolContext } from "./types.js";
 
@@ -193,7 +178,7 @@ type PreparedPluginToolRuntime = {
   registry?: PluginRegistry;
 };
 
-function resolvePluginToolLoadState(params: {
+export function resolvePluginToolLoadState(params: {
   context: OpenClawPluginToolContext;
   toolAllowlist?: string[];
   toolDenylist?: string[];
@@ -319,7 +304,7 @@ export function ensureStandalonePluginToolRegistryLoaded(params: {
   return loadPluginRegistryHandle(loadState.loadOptions);
 }
 
-type PluginToolResolutionParams = {
+export type PluginToolResolutionParams = {
   context: OpenClawPluginToolContext;
   /** Host-owned turn fence for factories and retained tool callbacks. */
   assertInvocationCurrent?: () => void;
@@ -355,106 +340,22 @@ function recordToolDiagnostic(
   }
 }
 
-export type PluginToolInspectionScope = Omit<
-  Parameters<typeof resolvePluginToolLoadState>[0],
-  "preparedRuntime"
->;
-
-/** One inspection owns registration; each selected agent still invokes its own tool factories. */
-export async function acquirePluginToolInspectionRegistry(params: {
-  loadContext: PluginRuntimeLoadContext;
-  scopes: readonly PluginToolInspectionScope[];
-  runWithPluginMetadataSnapshot?: PluginMetadataSnapshotScopeRunner;
-}): Promise<{ registry?: PluginRegistry; release: () => Promise<void> }> {
-  const inventory = new Map(
-    (params.loadContext.manifestRegistry?.plugins ?? []).map((plugin) => [plugin.id, plugin]),
-  );
-  const selected = new Map<string, PluginManifestRecord>();
-  for (const scope of params.scopes) {
-    const select = () => resolvePluginToolLoadState({ ...scope, env: params.loadContext.env });
-    const state = params.runWithPluginMetadataSnapshot
-      ? params.runWithPluginMetadataSnapshot(
-          {
-            config: scope.context.config ?? params.loadContext.rawConfig,
-            workspaceDir: scope.context.workspaceDir,
-          },
-          select,
-        )
-      : select();
-    for (const id of state?.onlyPluginIds ?? []) {
-      const manifest = inventory.get(id);
-      if (!manifest || !samePluginToolSource(manifest, state?.snapshot.byPluginId.get(id))) {
-        throw new Error(`Plugin tool inspection has conflicting source ownership for ${id}`);
-      }
-      selected.set(id, manifest);
-    }
-  }
-  const acquisition = await acquirePluginRegistryForInspection(
-    buildPluginRuntimeLoadOptions(params.loadContext, {
-      onlyPluginIds: [...selected.keys()].toSorted(),
-      toolDiscovery: true,
-      runtimeSideEffects: false,
-      ...(params.scopes.some((scope) => scope.allowGatewaySubagentBinding)
-        ? { runtimeOptions: { allowGatewaySubagentBinding: true } }
-        : {}),
-    }),
-  );
-  try {
-    setPluginRuntimeLoadContext(acquisition.registry, params.loadContext);
-    return createPluginToolInspection(acquisition, selected);
-  } catch (error) {
-    try {
-      await acquisition.release();
-    } catch (cleanupError) {
-      throw new AggregateError(
-        [error, cleanupError],
-        "Plugin tool inspection setup and cleanup failed",
-        { cause: cleanupError },
-      );
-    }
-    throw error;
-  }
-}
-
-export type PluginToolRegistryAcquisition = {
-  registry?: PluginRegistry;
-  resolveTools: () => AnyAgentTool[];
-  release: () => Promise<void>;
-};
-
-/** The serving owner retains this view before invoking factories or applying tool policy. */
-export async function acquireStandalonePluginToolRegistry(
-  params: Omit<PluginToolResolutionParams, "runtimeRegistry" | "preparedRuntime">,
-): Promise<PluginToolRegistryAcquisition> {
-  const loadState = resolvePluginToolLoadState(params);
-  if (!loadState || loadState.onlyPluginIds.length === 0) {
-    return { resolveTools: () => [], release: async () => {} };
-  }
-  const acquisition = await acquirePluginRegistryForInspection(loadState.loadOptions);
-  const hasAuthority = capturePluginLifecycleAuthority(acquisition.registry, undefined, {
-    scopedRuntime: true,
-  });
-  return {
-    ...acquisition,
-    resolveTools: () => {
-      if (!hasAuthority?.()) {
-        throw new Error("Plugin tool registry has been released");
-      }
-      return resolvePluginToolsSynchronously(
-        resolvePluginToolsFromRegistry(
-          { ...params, runtimeRegistry: acquisition.registry },
-          loadState,
-        ),
-      );
-    },
-  };
-}
+export {
+  acquirePluginToolInspectionRegistry,
+  acquireStandalonePluginToolRegistry,
+} from "./plugin-tool-registries.js";
+export type {
+  PluginToolInspectionScope,
+  PluginToolRegistryAcquisition,
+} from "./plugin-tool-registries.js";
 
 export function resolvePluginTools(params: PluginToolResolutionParams): AnyAgentTool[] {
   return resolvePluginToolsSynchronously(resolvePluginToolsSteps(params));
 }
 
-function resolvePluginToolsSynchronously(steps: Generator<Promise<void>, AnyAgentTool[], void>) {
+export function resolvePluginToolsSynchronously(
+  steps: Generator<Promise<void>, AnyAgentTool[], void>,
+) {
   const step = steps.next();
   if (!step.done) {
     void step.value.catch(() => {});
@@ -472,7 +373,7 @@ export function* resolvePluginToolsSteps(
     : [];
 }
 
-function* resolvePluginToolsFromRegistry(
+export function* resolvePluginToolsFromRegistry(
   params: PluginToolResolutionParams,
   loadState: PluginToolLoadState,
 ): Generator<Promise<void>, AnyAgentTool[], void> {
