@@ -135,8 +135,8 @@ const REGISTRATION_CONFIG_KEY = "test-registration-config-key";
 
 function bindRegistrationInputs(registry: object, registrationConfigKey = REGISTRATION_CONFIG_KEY) {
   const state: PluginRuntimeLoadContextState = {
+    workspaceDir: undefined,
     activationInputFingerprint: "test",
-    activationResultFingerprint: "test",
     controlPlaneFingerprint: "test",
     registrationConfigKey,
     declaredProviderOwners: new Map(),
@@ -418,7 +418,10 @@ describe("resolvePluginTools with a runtime-owner-scoped prepared generation", (
       await Promise.all(
         [memoryRegistry, workboardRegistry]
           .flatMap((registry) => registry.plugins)
-          .map((record) => getPluginInstance(record)?.dispose()),
+          .flatMap((record) => {
+            const dispose = getPluginInstance(record)?.dispose();
+            return dispose ? [dispose] : [];
+          }),
       );
     }
 
