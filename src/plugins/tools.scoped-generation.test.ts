@@ -9,6 +9,10 @@ import { adoptProcessPluginCache, createPluginCache } from "./plugin-cache.js";
 import { getPluginInstance } from "./plugin-instance-scope.js";
 import { projectPluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
 import { createEmptyPluginRegistry } from "./registry-empty.js";
+import {
+  bindPluginRuntimeLoadContextState,
+  type PluginRuntimeLoadContextState,
+} from "./runtime/load-context-state.js";
 import { createNamedToolEntry, createToolRegistry } from "./tools.optional.test-helpers.js";
 
 const loadOpenClawPluginsMock = vi.fn();
@@ -127,6 +131,19 @@ function createContext(): { config: OpenClawConfig; workspaceDir: string } {
   };
 }
 
+const REGISTRATION_CONFIG_KEY = "test-registration-config-key";
+
+function bindRegistrationInputs(registry: object, registrationConfigKey = REGISTRATION_CONFIG_KEY) {
+  const state: PluginRuntimeLoadContextState = {
+    activationInputFingerprint: "test",
+    activationResultFingerprint: "test",
+    controlPlaneFingerprint: "test",
+    registrationConfigKey,
+    declaredProviderOwners: new Map(),
+  };
+  bindPluginRuntimeLoadContextState(registry, state);
+}
+
 describe("resolvePluginTools with a runtime-owner-scoped prepared generation", () => {
   beforeAll(async () => {
     ({ resolvePluginTools } = await import("./tools.js"));
@@ -230,10 +247,13 @@ describe("resolvePluginTools with a runtime-owner-scoped prepared generation", (
     ]);
     // The host already admitted and registered the tool-only plugin: its live
     // registrations are retained in the process-wide active registry, while the
-    // supplied prepared generation is narrowed to model owners.
+    // supplied prepared generation is narrowed to model owners. Registration
+    // inputs match, so reuse is allowed.
     const workboardRegistry = createToolRegistry([
       createNamedToolEntry("workboard", ["workboard_list", "workboard_add"]),
     ]);
+    bindRegistrationInputs(memoryRegistry);
+    bindRegistrationInputs(workboardRegistry);
     setActivePluginRegistry(workboardRegistry as never, "retained-identity", "default", "/tmp");
     loadOpenClawPluginsMock.mockImplementation(() => {
       throw new Error("cold load must not run for owners retained by the host registry");
@@ -271,6 +291,138 @@ describe("resolvePluginTools with a runtime-owner-scoped prepared generation", (
     }
 
     expect(resolved.map((tool) => tool.name)).toEqual(["workboard_list", "workboard_add"]);
+    expect(loadOpenClawPluginsMock).not.toHaveBeenCalled();
+  });
+
+  it("does not reuse retained registrations built from different registration inputs", async () => {
+    const context = createContext();
+    const fullSnapshot = installFullManifestSnapshot({
+      config: context.config,
+      plugins: [
+        createToolManifest("memory-core", ["memory_search"]),
+        createToolManifest("workboard", ["workboard_list", "workboard_add"]),
+      ],
+    });
+    const scopedSnapshot = projectPluginMetadataSnapshot(fullSnapshot as never, ["memory-core"]);
+
+    const memoryRegistry = createToolRegistry([
+      createNamedToolEntry("memory-core", "memory_search"),
+    ]);
+    const workboardRegistry = createToolRegistry([
+      createNamedToolEntry("workboard", ["workboard_list", "workboard_add"]),
+    ]);
+    // The retained registry was registered under a DIFFERENT plugin config; the
+    // caller must not receive those closures and keeps cold loading instead.
+    bindRegistrationInputs(memoryRegistry, "caller-config-key");
+    bindRegistrationInputs(workboardRegistry, "host-config-key");
+    setActivePluginRegistry(workboardRegistry as never, "retained-identity", "default", "/tmp");
+    loadOpenClawPluginsMock.mockImplementation((params: { onlyPluginIds?: string[] }) =>
+      params.onlyPluginIds?.includes("workboard") ? workboardRegistry : createEmptyPluginRegistry(),
+    );
+
+    let resolved: Array<{ name: string }> = [];
+    try {
+      resolved = resolvePluginTools({
+        context: context as never,
+        toolAllowlist: ["workboard_list", "workboard_add"],
+        allowGatewaySubagentBinding: true,
+        preparedRuntime: {
+          loadContext: {
+            rawConfig: context.config,
+            config: context.config,
+            activationSourceConfig: context.config,
+            autoEnabledReasons: {},
+            workspaceDir: context.workspaceDir,
+            env: process.env,
+            logger: { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() },
+            manifestRegistry: scopedSnapshot.manifestRegistry as never,
+            metadataSnapshot: scopedSnapshot as never,
+            installRecords: {},
+          },
+          metadataSnapshot: scopedSnapshot as never,
+          registry: memoryRegistry as never,
+        },
+      }).map((tool) => ({ name: tool.name }));
+    } finally {
+      await Promise.all(
+        [memoryRegistry, workboardRegistry]
+          .flatMap((registry) => registry.plugins)
+          .map((record) => getPluginInstance(record)!.dispose()),
+      );
+    }
+
+    expect(resolved.map((tool) => tool.name)).toEqual(["workboard_list", "workboard_add"]);
+    const loadCalls = loadOpenClawPluginsMock.mock.calls.map(
+      ([params]) => (params as { onlyPluginIds?: string[] }).onlyPluginIds,
+    );
+    expect(loadCalls).toContainEqual(["workboard"]);
+  });
+
+  it("does not resurrect prepared-disabled owners from retained registrations", async () => {
+    const context = createContext();
+    const fullSnapshot = installFullManifestSnapshot({
+      config: context.config,
+      plugins: [
+        createToolManifest("memory-core", ["memory_search"]),
+        createToolManifest("workboard", ["workboard_list", "workboard_add"]),
+      ],
+    });
+
+    const memoryRegistry = createToolRegistry([
+      createNamedToolEntry("memory-core", "memory_search"),
+    ]);
+    // The prepared generation settled workboard as disabled; the retained host
+    // registry (same registration inputs) has live workboard registrations, but
+    // settled outcomes must not be overridden by retained reuse.
+    memoryRegistry.plugins.push({
+      id: "workboard",
+      status: "disabled",
+      origin: "bundled",
+      rootDir: "/tmp",
+      source: "/tmp/workboard.js",
+    } as never);
+    const workboardRegistry = createToolRegistry([
+      createNamedToolEntry("workboard", ["workboard_list", "workboard_add"]),
+    ]);
+    bindRegistrationInputs(memoryRegistry);
+    bindRegistrationInputs(workboardRegistry);
+    setActivePluginRegistry(workboardRegistry as never, "retained-identity", "default", "/tmp");
+    loadOpenClawPluginsMock.mockImplementation(() => {
+      throw new Error("settled owners must not be cold-loaded either");
+    });
+
+    let resolved: Array<{ name: string }> = [];
+    try {
+      resolved = resolvePluginTools({
+        context: context as never,
+        toolAllowlist: ["workboard_list", "workboard_add"],
+        allowGatewaySubagentBinding: true,
+        preparedRuntime: {
+          loadContext: {
+            rawConfig: context.config,
+            config: context.config,
+            activationSourceConfig: context.config,
+            autoEnabledReasons: {},
+            workspaceDir: context.workspaceDir,
+            env: process.env,
+            logger: { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() },
+            manifestRegistry: fullSnapshot.manifestRegistry as never,
+            metadataSnapshot: fullSnapshot as never,
+            installRecords: {},
+          },
+          metadataSnapshot: fullSnapshot as never,
+          registry: memoryRegistry as never,
+        },
+      }).map((tool) => ({ name: tool.name }));
+    } finally {
+      await Promise.all(
+        [memoryRegistry, workboardRegistry]
+          .flatMap((registry) => registry.plugins)
+          .map((record) => getPluginInstance(record)?.dispose()),
+      );
+    }
+
+    expect(resolved.map((tool) => tool.name)).toEqual([]);
     expect(loadOpenClawPluginsMock).not.toHaveBeenCalled();
   });
 });

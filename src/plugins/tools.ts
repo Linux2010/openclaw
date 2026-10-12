@@ -481,19 +481,9 @@ function resolvePluginToolsFromRegistry(
     string,
     { registry: PluginRegistry; tools: PluginToolRegistration[] }
   >();
-  // Metadata completion can surface owners the supplied generation never
-  // admitted; retained host registrations serve them without a cold reload.
-  for (const [pluginId, owner] of collectRetainedToolOwners({
-    onlyPluginIds,
-    snapshotPlugins: snapshot.plugins,
-    runtimeRegistry,
-    preparedRegistry,
-    workspaceDir: context.workspaceDir,
-  })) {
-    toolOwners.set(pluginId, { ...owner, tools: [] });
-  }
   // A prepared generation already decided disabled and failed owners; reloading them would only
-  // repeat that outcome synchronously on the caller's thread.
+  // repeat that outcome synchronously on the caller's thread. The settled set also guards the
+  // retained-registry reuse below so those decisions are never overridden.
   const settledPreparedOutcomes = new Set(
     preparedRegistry?.plugins
       .filter((record) => {
@@ -508,6 +498,18 @@ function resolvePluginToolsFromRegistry(
       })
       .map((record) => record.id),
   );
+  // Metadata completion can surface owners the supplied generation never
+  // admitted; retained host registrations serve them without a cold reload.
+  for (const [pluginId, owner] of collectRetainedToolOwners({
+    onlyPluginIds,
+    snapshotPlugins: snapshot.plugins,
+    runtimeRegistry,
+    preparedRegistry,
+    settledPreparedPluginIds: settledPreparedOutcomes,
+    workspaceDir: context.workspaceDir,
+  })) {
+    toolOwners.set(pluginId, { ...owner, tools: [] });
+  }
   // Failed registrations are settled facts of this inspection, not new cold-load requests.
   const missingPluginIds = onlyPluginIds.filter(
     (pluginId) =>
