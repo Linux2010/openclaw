@@ -5,7 +5,6 @@ import {
   setActiveEmbeddedRun,
 } from "openclaw/plugin-sdk/agent-harness-runtime";
 import type { ExecApprovalsFile } from "openclaw/plugin-sdk/exec-approvals-runtime";
-import type { PluginConversationBinding } from "openclaw/plugin-sdk/plugin-entry";
 import { createTestPluginApi } from "openclaw/plugin-sdk/plugin-test-api";
 import { patchSessionEntry, upsertSessionEntry } from "openclaw/plugin-sdk/session-store-runtime";
 import { appendSessionTranscriptMessageByIdentity } from "openclaw/plugin-sdk/session-transcript-runtime";
@@ -32,21 +31,23 @@ const sharedClientMocks = vi.hoisted(() => ({
   retireSharedCodexAppServerClientIfCurrent: vi.fn(
     (_client: unknown): { activeLeases: number; closed: boolean } | undefined => undefined,
   ),
-  clearSharedCodexAppServerClientIfCurrent: vi.fn((_client: unknown) => false),
 }));
 
 const publicBindingMocks = vi.hoisted(() => ({
-  resolveByConversation: vi.fn((_conversation: unknown): { bindingId: string } | null => ({
+  readBinding: vi.fn((): { bindingId: string } | null => ({
     bindingId: "binding-1",
   })),
 }));
 
 const execApprovalsRuntimeMocks = vi.hoisted(() => ({
-  loadExecApprovals: vi.fn<() => ExecApprovalsFile>(() => ({ version: 1, agents: {} })),
+  loadExecApprovalsReadOnlyAsync: vi.fn<() => Promise<ExecApprovalsFile>>(async () => ({
+    version: 1,
+    agents: {},
+  })),
 }));
 
 const agentRuntimeMocks = vi.hoisted(() => ({
-  ensureAuthProfileStore: vi.fn(),
+  ensureAuthProfileStoreAsync: vi.fn(),
   loadAuthProfileStoreForSecretsRuntime: vi.fn(),
   resolveApiKeyForProfile: vi.fn(),
   resolveDefaultAgentDir: vi.fn(() => "/agent"),
@@ -107,23 +108,22 @@ vi.mock("./app-server/config-layer-policy.js", async (importOriginal) => ({
   readCodexEffectiveConfig: configLayerPolicyMocks.readCodexEffectiveConfig,
 }));
 
-vi.mock("openclaw/plugin-sdk/conversation-binding-runtime", async (importOriginal) => {
+vi.mock("openclaw/plugin-sdk/conversation-binding-inspection-runtime", async (importOriginal) => {
   const actual =
-    await importOriginal<typeof import("openclaw/plugin-sdk/conversation-binding-runtime")>();
+    await importOriginal<
+      typeof import("openclaw/plugin-sdk/conversation-binding-inspection-runtime")
+    >();
   return {
     ...actual,
-    getSessionBindingService: () => ({
-      resolveByConversation: publicBindingMocks.resolveByConversation,
-    }),
+    inspectConversationBinding: (
+      conversation: Parameters<typeof actual.inspectConversationBinding>[0],
+    ) => createConversationInspection(conversation, publicBindingMocks.readBinding()?.bindingId),
   };
 });
 
-vi.mock("./app-server/shared-client.js", () => ({
+vi.mock("./app-server/shared-client.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./app-server/shared-client.js")>()),
   ...sharedClientMocks,
-  isCodexAppServerStartSelectionChangedError: (error: unknown) =>
-    error instanceof Error &&
-    "code" in error &&
-    error.code === "CODEX_APP_SERVER_START_SELECTION_CHANGED",
   getLeasedSharedCodexAppServerClient: async (...args: unknown[]) => {
     const client = (await sharedClientMocks.getSharedCodexAppServerClient(...args)) as {
       getInstanceId?: () => string;
@@ -137,7 +137,7 @@ vi.mock("./app-server/shared-client.js", () => ({
   releaseCodexAppServerClientLease: vi.fn((lease: { client?: unknown }) => {
     lease.client = undefined;
   }),
-  withLeasedCodexAppServerClientStartSelectionRetry: async (params: {
+  withCodexAppServerClientRequestScope: async (params: {
     lease: { client?: unknown };
     options?: { timeoutMs?: number };
     run: (
@@ -155,7 +155,7 @@ vi.mock("openclaw/plugin-sdk/exec-approvals-runtime", async (importOriginal) => 
     await importOriginal<typeof import("openclaw/plugin-sdk/exec-approvals-runtime")>();
   return {
     ...actual,
-    loadExecApprovals: execApprovalsRuntimeMocks.loadExecApprovals,
+    loadExecApprovalsReadOnlyAsync: execApprovalsRuntimeMocks.loadExecApprovalsReadOnlyAsync,
   };
 });
 vi.mock("openclaw/plugin-sdk/agent-runtime", async (importOriginal) => {
@@ -168,7 +168,7 @@ vi.mock("openclaw/plugin-sdk/agent-runtime", async (importOriginal) => {
 });
 vi.mock("openclaw/plugin-sdk/provider-auth", async (importOriginal) => ({
   ...(await importOriginal<typeof import("openclaw/plugin-sdk/provider-auth")>()),
-  ensureAuthProfileStore: agentRuntimeMocks.ensureAuthProfileStore,
+  ensureAuthProfileStoreAsync: agentRuntimeMocks.ensureAuthProfileStoreAsync,
   resolveAuthProfileOrder: providerAuthMocks.resolveAuthProfileOrder,
 }));
 vi.mock("openclaw/plugin-sdk/agent-scope-runtime", async (importOriginal) => ({
@@ -200,9 +200,12 @@ import type { JsonValue } from "./app-server/protocol.js";
 import {
   createCodexAppServerBindingStore,
   createCodexTestBindingStateStore,
+  createConversationInspection,
   resetCodexTestBindingStore,
   testCodexAppServerBindingStore,
-  type CodexAppServerThreadBinding,
+  testConversationIdentity,
+  writeTestConversationBinding,
+  readTestConversationBinding,
 } from "./app-server/session-binding.test-helpers.js";
 import { createClientHarness } from "./app-server/test-support.js";
 import { withCodexConversationThreadActivity } from "./app-server/thread-ownership.js";
@@ -211,10 +214,7 @@ import {
   createCodexConversationBindingData,
   legacyCodexConversationBindingId,
 } from "./conversation-binding-data.js";
-import {
-  handleCodexConversationBindingResolved as handleCodexConversationBindingResolvedImpl,
-  handleCodexConversationInboundClaim as handleCodexConversationInboundClaimImpl,
-} from "./conversation-binding-hooks.js";
+import { handleCodexConversationInboundClaim as handleCodexConversationInboundClaimImpl } from "./conversation-binding-hooks.js";
 import { prepareCodexConversationBinding } from "./conversation-binding-preparation.js";
 import {
   conversationMessage,
@@ -223,27 +223,6 @@ import {
   mockCallArg,
 } from "./conversation-binding.test-helpers.js";
 import { readCodexConversationActiveTurn } from "./conversation-control.js";
-
-function testConversationIdentity(sessionFile: string) {
-  return {
-    kind: "conversation" as const,
-    bindingId: legacyCodexConversationBindingId(sessionFile),
-  };
-}
-
-async function writeTestConversationBinding(
-  sessionFile: string,
-  binding: CodexAppServerThreadBinding,
-): Promise<void> {
-  await testCodexAppServerBindingStore.mutate(testConversationIdentity(sessionFile), {
-    kind: "set",
-    binding: { clientId: "test-client", ...binding },
-  });
-}
-
-async function readTestConversationBinding(sessionFile: string) {
-  return testCodexAppServerBindingStore.read(testConversationIdentity(sessionFile));
-}
 
 async function createSameThreadClientMigrationFixture(
   sessionFile: string,
@@ -374,23 +353,13 @@ function prepareTestConversationBinding(params: {
   });
 }
 
-function denyConversationBinding(data: NonNullable<PluginConversationBinding["data"]>) {
-  return handleCodexConversationBindingResolvedImpl(
-    {
-      status: "denied",
-      decision: "deny",
-      request: {
-        data,
-        conversation: { channel: "discord", accountId: "default", conversationId: "channel:1" },
-      },
-    },
-    { bindingStore: testCodexAppServerBindingStore },
-  );
-}
-
 let tempDir: string;
-const { conversationClaimContext, legacyConversationData, boundConversationClaim } =
-  createConversationClaimFixtures(() => tempDir);
+const {
+  conversationClaimContext,
+  legacyConversationData,
+  boundConversationClaim,
+  denyConversationBinding,
+} = createConversationClaimFixtures(() => tempDir, testCodexAppServerBindingStore);
 
 const NETWORK_PROXY_PLUGIN_CONFIG = {
   appServer: {
@@ -422,8 +391,8 @@ describe("codex conversation binding", () => {
   });
 
   afterEach(() => {
-    publicBindingMocks.resolveByConversation.mockReset();
-    publicBindingMocks.resolveByConversation.mockReturnValue({ bindingId: "binding-1" });
+    publicBindingMocks.readBinding.mockReset();
+    publicBindingMocks.readBinding.mockReturnValue({ bindingId: "binding-1" });
     sharedClientMocks.getSharedCodexAppServerClient.mockReset();
     sharedClientMocks.retainSharedCodexAppServerClientByInstanceId.mockReset();
     sharedClientMocks.retainSharedCodexAppServerClientByInstanceId.mockReturnValue(undefined);
@@ -433,11 +402,12 @@ describe("codex conversation binding", () => {
       closed: false,
     });
     sharedClientMocks.retireSharedCodexAppServerClientIfCurrent.mockReset();
-    sharedClientMocks.clearSharedCodexAppServerClientIfCurrent.mockReset();
-    sharedClientMocks.clearSharedCodexAppServerClientIfCurrent.mockReturnValue(false);
-    execApprovalsRuntimeMocks.loadExecApprovals.mockReset();
-    execApprovalsRuntimeMocks.loadExecApprovals.mockReturnValue({ version: 1, agents: {} });
-    agentRuntimeMocks.ensureAuthProfileStore.mockReset();
+    execApprovalsRuntimeMocks.loadExecApprovalsReadOnlyAsync.mockReset();
+    execApprovalsRuntimeMocks.loadExecApprovalsReadOnlyAsync.mockResolvedValue({
+      version: 1,
+      agents: {},
+    });
+    agentRuntimeMocks.ensureAuthProfileStoreAsync.mockReset();
     agentRuntimeMocks.loadAuthProfileStoreForSecretsRuntime.mockReset();
     agentRuntimeMocks.resolveApiKeyForProfile.mockReset();
     providerAuthMocks.resolveAuthProfileOrder.mockReset();
@@ -458,7 +428,7 @@ describe("codex conversation binding", () => {
   });
 
   beforeEach(() => {
-    agentRuntimeMocks.ensureAuthProfileStore.mockReturnValue({
+    agentRuntimeMocks.ensureAuthProfileStoreAsync.mockResolvedValue({
       version: 1,
       profiles: {},
     });
@@ -574,7 +544,16 @@ describe("codex conversation binding", () => {
         pluginConfig: {},
         runtime: {
           modelAuth: { resolveProviderIdForAuth: agentRuntimeMocks.resolveProviderIdForAuth },
-          state: { openSyncKeyedStore: () => stateStore, openKeyedStore: () => stateStore },
+          state: {
+            openSyncKeyedStore: () => stateStore,
+            openKeyedStoreV2: (
+              _options: unknown,
+              authority?: Parameters<typeof stateStore.withCurrent>[0],
+            ) => ({
+              ...stateStore.asyncReads,
+              ...stateStore.withCurrent(authority ?? { assertCurrent() {} }),
+            }),
+          },
         } as never,
         on,
       }),
@@ -668,13 +647,15 @@ describe("codex conversation binding", () => {
         kind: "clear",
         threadId: "thread-retiring",
       });
-      publicBindingMocks.resolveByConversation.mockReturnValue(null);
+      publicBindingMocks.readBinding.mockReturnValue(null);
     });
     await retirementStarted.promise;
     const bindingStore = {
       ...testCodexAppServerBindingStore,
-      read: (requestedIdentity: Parameters<typeof testCodexAppServerBindingStore.read>[0]) => {
-        const binding = testCodexAppServerBindingStore.read(requestedIdentity);
+      readAsync: async (
+        requestedIdentity: Parameters<typeof testCodexAppServerBindingStore.readAsync>[0],
+      ) => {
+        const binding = await testCodexAppServerBindingStore.readAsync(requestedIdentity);
         ownerCaptured.resolve();
         return binding;
       },
@@ -997,10 +978,8 @@ describe("codex conversation binding", () => {
       typeof import("./app-server/shared-client.js")
     >("./app-server/shared-client.js");
     const retry = vi
-      .spyOn(sharedClientRuntime, "withLeasedCodexAppServerClientStartSelectionRetry")
-      .mockImplementation(
-        actualSharedClientRuntime.withLeasedCodexAppServerClientStartSelectionRetry,
-      );
+      .spyOn(sharedClientRuntime, "withCodexAppServerClientRequestScope")
+      .mockImplementation(actualSharedClientRuntime.withCodexAppServerClientRequestScope);
     const releaseLease = vi.mocked(sharedClientRuntime.releaseCodexAppServerClientLease);
     releaseLease.mockClear();
     const sessionFile = path.join(tempDir, "pending-config-read.jsonl");
@@ -1156,10 +1135,8 @@ describe("codex conversation binding", () => {
         typeof import("./app-server/shared-client.js")
       >("./app-server/shared-client.js");
       const retry = vi
-        .spyOn(sharedClientRuntime, "withLeasedCodexAppServerClientStartSelectionRetry")
-        .mockImplementation(
-          actualSharedClientRuntime.withLeasedCodexAppServerClientStartSelectionRetry,
-        );
+        .spyOn(sharedClientRuntime, "withCodexAppServerClientRequestScope")
+        .mockImplementation(actualSharedClientRuntime.withCodexAppServerClientRequestScope);
       const sessionFile = path.join(tempDir, "expired-attachment.jsonl");
       const threadId = "thread-expired-attachment";
       const existingThreadId = expiresDuring === "commit" ? "thread-previous-attachment" : threadId;
@@ -1449,7 +1426,7 @@ describe("codex conversation binding", () => {
   it("applies host exec approval floors to configless native bind threads", async () => {
     const sessionFile = path.join(tempDir, "session.jsonl");
     const request = vi.fn();
-    execApprovalsRuntimeMocks.loadExecApprovals.mockReturnValue({
+    execApprovalsRuntimeMocks.loadExecApprovalsReadOnlyAsync.mockResolvedValue({
       version: 1,
       defaults: {
         security: "deny",
@@ -1466,7 +1443,7 @@ describe("codex conversation binding", () => {
         model: "gpt-5.4-mini",
       }),
     ).rejects.toThrow("tools.exec.mode=deny");
-    expect(execApprovalsRuntimeMocks.loadExecApprovals).toHaveBeenCalled();
+    expect(execApprovalsRuntimeMocks.loadExecApprovalsReadOnlyAsync).toHaveBeenCalled();
     expect(request).not.toHaveBeenCalled();
   });
 
@@ -1767,7 +1744,7 @@ describe("codex conversation binding", () => {
         'allowed_approvals_reviewers = ["auto_review"]',
       ].join("\n"),
     );
-    agentRuntimeMocks.ensureAuthProfileStore.mockReturnValue({
+    agentRuntimeMocks.ensureAuthProfileStoreAsync.mockResolvedValue({
       version: 1,
       profiles: {
         work: {

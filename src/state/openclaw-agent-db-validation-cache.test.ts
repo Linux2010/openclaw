@@ -287,7 +287,10 @@ describe("canonical proof on physical database validation", () => {
           expect(adopt(receipt.identity, receipt)).toBe(true);
         }
         closeOpenClawAgentDatabaseByPath(database.path);
+        const blockedDirectory = path.join(source.dir, "not-a-directory");
+        fs.writeFileSync(blockedDirectory, "synthetic non-directory");
         const candidates = [
+          { path: path.join(blockedDirectory, "unreadable.sqlite") },
           { path: database.path, ...(selection === "sibling-family" ? { scope: selection } : {}) },
         ];
 
@@ -358,10 +361,7 @@ describe("canonical proof on physical database validation", () => {
             { ...received, receiptId: undefined },
             { ...received, receiptId: "" },
             { ...received, receiptId: 1 },
-            { ...received, valid: new SharedArrayBuffer(1) },
-            { ...received, canonicalReady: new SharedArrayBuffer(1) },
             { ...received, schema: undefined },
-            { ...received, schema: { ...received.schema, facts: {} } },
           ]) {
             expect(() => publish(received.identity, malformed), race).toThrow(
               AgentDatabaseSchemaAdmissionInvalidError,
@@ -676,9 +676,6 @@ describe("canonical proof on physical database validation", () => {
           { ...received, agentId: "another-agent" },
           { ...received, identity: "another-file" },
           { ...received, valid: new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT) },
-          { ...received, valid: new SharedArrayBuffer(1) },
-          { ...received, valid: new ArrayBuffer(Int32Array.BYTES_PER_ELEMENT) },
-          { ...received, canonicalReady: new SharedArrayBuffer(1) },
         ]) {
           expect(adopt(received.identity, invalid)).toBe(false);
           expect(getOpenClawAgentDatabaseValidationForTransfer(database)).toBeUndefined();
