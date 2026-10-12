@@ -40,7 +40,11 @@ export function collectRetainedToolOwners(params: {
 }): Map<string, { registry: PluginRegistry }> {
   const retainedRegistry =
     params.runtimeRegistry && params.runtimeRegistry === params.preparedRegistry
-      ? resolveCompatibleRetainedRegistry(params)
+      ? resolveCompatibleRetainedRegistry({
+          runtimeRegistry: params.runtimeRegistry,
+          preparedRegistry: params.preparedRegistry,
+          workspaceDir: params.workspaceDir,
+        })
       : undefined;
   const sources = [
     ...(params.runtimeRegistry
