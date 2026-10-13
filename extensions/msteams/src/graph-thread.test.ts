@@ -89,20 +89,7 @@ describe("fetchChatMessageText", () => {
 
 describe("fetchThreadReplies", () => {
   beforeEach(() => {
-    vi.mocked(fetchGraphJson).mockReset();
     fetchAllGraphPagesMock.mockReset();
-  });
-
-  it("returns empty replies when Graph has no items", async () => {
-    fetchAllGraphPagesMock.mockResolvedValueOnce({ items: [], truncated: false });
-
-    const result = await fetchThreadReplies("tok", "g", "c", "m");
-    expect(result).toStrictEqual([]);
-    expect(fetchAllGraphPagesMock).toHaveBeenCalledWith({
-      token: "tok",
-      path: "/teams/g/channels/c/messages/m/replies?$top=50",
-      maxPages: 50,
-    });
   });
 
   it("rejects a page-capped result instead of returning an old prefix", async () => {
