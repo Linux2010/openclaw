@@ -1,5 +1,5 @@
-import { decodeHtmlEntities } from "openclaw/plugin-sdk/html-entity-runtime";
 import { fetchAllGraphPages, fetchGraphJson } from "./graph.js";
+import { htmlToPlainText } from "./inbound.js";
 import type { MSTeamsRequestDeadline } from "./request-timeout.js";
 
 export type GraphThreadMessage = {
@@ -28,14 +28,7 @@ function compareThreadMessagesChronologically(
  * Teams wraps mentions in <at>Name</at> tags.
  */
 export function stripHtmlFromTeamsMessage(html: string): string {
-  // Preserve mention display names by replacing <at>Name</at> with @Name.
-  let text = html.replace(/<at[^>]*>(.*?)<\/at>/gi, "@$1");
-  // Strip remaining HTML tags.
-  text = text.replace(/<[^>]*>/g, " ");
-  // Single-pass decoding preserves literally typed entity text such as "&lt;".
-  text = decodeHtmlEntities(text).replaceAll("\u00a0", " ");
-  // Normalize whitespace.
-  return text.replace(/\s+/g, " ").trim();
+  return htmlToPlainText(html.replace(/<at[^>]*>(.*?)<\/at>/gi, "@$1"));
 }
 
 /**
@@ -106,11 +99,8 @@ export async function fetchThreadReplies(
   groupId: string,
   channelId: string,
   messageId: string,
-  limit = 50,
   deadline?: MSTeamsRequestDeadline,
 ): Promise<GraphThreadMessage[]> {
-  const requestedLimit = Math.min(Math.max(limit, 1), 50);
-  // Always request full pages so a small result window does not skip newer replies.
   const path = `/teams/${encodeURIComponent(groupId)}/channels/${encodeURIComponent(channelId)}/messages/${encodeURIComponent(messageId)}/replies?$top=50`;
   const { items, truncated } = await fetchAllGraphPages<GraphThreadMessage>({
     token,
@@ -122,7 +112,7 @@ export async function fetchThreadReplies(
     throw new Error("MS Teams thread replies pagination did not reach the newest replies");
   }
 
-  if (items.length <= requestedLimit) {
+  if (items.length <= 50) {
     return items;
   }
   // Once trimming is required, an incomplete timestamp set cannot identify the newest
@@ -133,7 +123,7 @@ export async function fetchThreadReplies(
   if (!hasCompleteTimestamps) {
     throw new Error("MS Teams thread replies have incomplete timestamps");
   }
-  return items.toSorted(compareThreadMessagesChronologically).slice(-requestedLimit);
+  return items.toSorted(compareThreadMessagesChronologically).slice(-50);
 }
 
 type ThreadContextMessage = {

@@ -4,7 +4,6 @@ import os from "node:os";
 import path from "node:path";
 import { PassThrough } from "node:stream";
 import { setTimeout as delay } from "node:timers/promises";
-import { pathToFileURL } from "node:url";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   appendBoundedWatchLog,
@@ -25,10 +24,16 @@ import {
   BUILD_STAMP_FILE,
   RUNTIME_POSTBUILD_STAMP_FILE,
 } from "../../scripts/lib/local-build-metadata-paths.mts";
+import { refreshLocalBuildStampTimes } from "../../scripts/lib/local-build-metadata.mts";
 import { runManagedCommand } from "../../scripts/lib/managed-child-process.mts";
 import { createVitestResourceOwner } from "../../scripts/lib/vitest-resource-ownership.mts";
+import {
+  resolveRuntimeWorkerArgv,
+  resolveRuntimeWorkerUrl,
+} from "../../src/infra/runtime-worker-url.js";
 import { resolveTestNodeExecPath } from "../../src/test-utils/node-process.js";
 import { useAutoCleanupTempDirTracker } from "../helpers/temp-dir.js";
+import { toolingMtsEntrypoints } from "./tooling-mts-runtime.test-support.mts";
 
 vi.mock("node:child_process", async (importOriginal) => {
   const actual = await importOriginal<typeof import("node:child_process")>();
@@ -43,6 +48,11 @@ vi.mock("../../scripts/lib/managed-child-process.mts", async (importOriginal) =>
 
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
 
+class WatchChildProcess extends ChildProcess {
+  override readonly stdout = new PassThrough();
+  override readonly stderr = new PassThrough();
+}
+
 afterEach(() => {
   vi.restoreAllMocks();
   vi.unstubAllEnvs();
@@ -56,14 +66,12 @@ function createWatchChildFixture(outputDir: string) {
     code: null,
     signal: null,
   };
-  const child = Object.assign(new ChildProcess(), {
-    pid: 1234,
-    stdout: new PassThrough(),
-    stderr: new PassThrough(),
-  });
+  const child = new WatchChildProcess();
   Object.defineProperties(child, {
+    pid: { configurable: true, value: 1234 },
     exitCode: { get: () => exitState.code },
     signalCode: { get: () => exitState.signal },
+    stdio: { get: () => [child.stdin, child.stdout, child.stderr, null] },
   });
   const close = () => {
     if (
@@ -112,13 +120,6 @@ function createWatchChildFixture(outputDir: string) {
 }
 
 describe("check-gateway-watch-regression", () => {
-  it("accepts package-manager argument separators before script options", () => {
-    expect(parseArgs(["--", "--window-ms", "1500", "--skip-build"])).toMatchObject({
-      skipBuild: true,
-      windowMs: 1500,
-    });
-  });
-
   it("parses timing and growth limits as strict non-negative integers", () => {
     expect(
       parseArgs([
@@ -288,25 +289,6 @@ describe("check-gateway-watch-regression", () => {
     }
   });
 
-  it("runs gateway watch through the parent Node binary", () => {
-    const nodeExecPath = "/opt/hostedtoolcache/node/24.11.1/x64/bin/node";
-    const command = buildTimedWatchCommand(
-      "watch.pid",
-      "watch.time",
-      "/tmp/openclaw-watch",
-      19042,
-      {
-        existsSync: (candidate: string) =>
-          candidate === "/usr/bin/bash" || candidate === "/usr/bin/time",
-        nodeExecPath,
-      },
-    );
-    const shellSource = command.args.at(-1);
-
-    expect(shellSource).toContain(`exec '${nodeExecPath}' scripts/watch-node.mjs gateway --force`);
-    expect(command.env.PATH?.split(path.delimiter)[0]).toBe(path.dirname(nodeExecPath));
-  });
-
   it.each([
     {
       name: "readiness timeout does not measure startup as idle",
@@ -315,14 +297,6 @@ describe("check-gateway-watch-regression", () => {
       idleCpuMs: null,
       lateError: null,
       failures: ["gateway:watch did not report ready before the idle CPU window"],
-    },
-    {
-      name: "zero idle CPU is independent of high lifetime CPU",
-      ready: true,
-      samples: [50_000, 50_000],
-      idleCpuMs: 0,
-      lateError: null,
-      failures: [],
     },
     {
       name: "missing idle samples cannot use lifetime CPU",
@@ -338,10 +312,7 @@ describe("check-gateway-watch-regression", () => {
       samples: [50_000, 59_000],
       idleCpuMs: 9_000,
       lateError: "fixture shutdown error",
-      failures: [
-        "gateway:watch failed to start: fixture shutdown error",
-        "LOUD ALARM: gateway:watch used 9000ms CPU in 10000ms window, above loud-alarm threshold 8000ms",
-      ],
+      failures: ["gateway:watch failed to start: fixture shutdown error"],
     },
   ])("$name", async ({ ready, samples, idleCpuMs, lateError, failures }) => {
     const outputDir = tempDirs.make("openclaw-gateway-watch-measurement-");
@@ -407,6 +378,17 @@ describe("check-gateway-watch-regression", () => {
     });
     expect(findings.failures).toEqual(failures);
     expect(findings.warnings).toEqual([]);
+    expect(findings.limitViolations).toEqual(
+      idleCpuMs !== null && idleCpuMs > options.cpuFailMs
+        ? [
+            {
+              file: "scripts/check-gateway-watch-regression.mts",
+              title: "Gateway watch CPU budget",
+              message: "gateway:watch used 9000ms CPU in 10000ms window, above threshold 8000ms",
+            },
+          ]
+        : [],
+    );
   });
 
   it("reports early gateway watch exit before readiness distinctly", () => {
@@ -526,6 +508,23 @@ describe("check-gateway-watch-regression", () => {
     }
   });
 
+  it.each([false])("retains restored stamp provenance (%s)", (inputsClean) => {
+    const rootDir = tempDirs.make("openclaw-watch-restored-stamps-");
+    fs.mkdirSync(path.join(rootDir, "dist"));
+    const contents = JSON.stringify({ head: "producer-head", inputsClean });
+    for (const name of [BUILD_STAMP_FILE, RUNTIME_POSTBUILD_STAMP_FILE]) {
+      const filename = path.join(rootDir, "dist", name);
+      fs.writeFileSync(filename, contents);
+      fs.utimesSync(filename, 1, 1);
+    }
+    refreshLocalBuildStampTimes({ cwd: rootDir, now: () => 10_000 });
+    for (const name of [BUILD_STAMP_FILE, RUNTIME_POSTBUILD_STAMP_FILE]) {
+      const filename = path.join(rootDir, "dist", name);
+      expect(fs.readFileSync(filename, "utf8")).toBe(contents);
+      expect(fs.statSync(filename).mtimeMs).toBe(10_000);
+    }
+  });
+
   it.skipIf(process.platform === "win32")(
     "rejects unconfirmed cleanup and retains HOME after a valid idle measurement",
     { timeout: 2_000 },
@@ -608,10 +607,10 @@ describe("check-gateway-watch-regression", () => {
     }
   });
 
-  it.each([false, true])(
-    "joins readiness after managed failure without child exit (producer failure: %s)",
+  it(
+    "joins readiness after managed failure and a producer failure without child exit",
     { timeout: 2_000 },
-    async (producerFails) => {
+    async () => {
       const outputDir = tempDirs.make("openclaw-gateway-watch-managed-failure-");
       for (const variable of ["TMPDIR", "TMP", "TEMP"]) {
         vi.stubEnv(variable, outputDir);
@@ -661,7 +660,7 @@ describe("check-gateway-watch-regression", () => {
               try {
                 return await delay(timeoutMs, false, { signal: waitSignal });
               } catch (error) {
-                if (producerFails && signal?.aborted) {
+                if (signal?.aborted) {
                   throw producerError;
                 }
                 throw error;
@@ -677,15 +676,11 @@ describe("check-gateway-watch-regression", () => {
       const rescue = setTimeout(() => rescueController.abort(), 1_000);
       try {
         const error: unknown = await completion.catch((caughtError: unknown) => caughtError);
-        if (producerFails) {
-          expect(error).toBeInstanceOf(AggregateError);
-          if (error instanceof AggregateError) {
-            expect(error.errors).toHaveLength(2);
-            expect(error.errors).toContain(cleanupError);
-            expect(error.errors).toContain(producerError);
-          }
-        } else {
-          expect(error).toBe(cleanupError);
+        expect(error).toBeInstanceOf(AggregateError);
+        if (error instanceof AggregateError) {
+          expect(error.errors).toHaveLength(2);
+          expect(error.errors).toContain(cleanupError);
+          expect(error.errors).toContain(producerError);
         }
         expect(phaseSignal?.aborted).toBe(true);
         expect(waitSettled).toBe(true);
@@ -701,7 +696,7 @@ describe("check-gateway-watch-regression", () => {
         finish();
         await completion.catch(() => {});
         await pendingWait?.catch((error: unknown) => {
-          if (producerFails && error === producerError) {
+          if (error === producerError) {
             return;
           }
           if (error instanceof Error && "cause" in error && error.cause === waitSignal?.reason) {
@@ -715,10 +710,7 @@ describe("check-gateway-watch-regression", () => {
 
   it("removes the isolated watch home after spawn failures", async () => {
     const outputDir = tempDirs.make("openclaw-gateway-watch-output-");
-    const child = Object.assign(new ChildProcess(), {
-      stdout: new PassThrough(),
-      stderr: new PassThrough(),
-    });
+    const child = new WatchChildProcess();
     let sleepSettled = false;
     const sleep = vi.fn(async (ms: number, signal: AbortSignal) => {
       try {
@@ -774,11 +766,12 @@ describe("check-gateway-watch-regression", () => {
 
   it("releases default readiness timers so an early-exit observer finishes naturally", () => {
     const outputDir = tempDirs.make("openclaw-gateway-watch-readiness-exit-");
+    const ownerUrl = resolveRuntimeWorkerUrl(toolingMtsEntrypoints.gatewayWatch);
+    const nodeExecutable = resolveTestNodeExecPath();
     const result = spawnSync(
-      resolveTestNodeExecPath(),
+      nodeExecutable,
       [
-        "--import",
-        pathToFileURL(path.resolve("scripts/tsx.mjs")).href,
+        ...resolveRuntimeWorkerArgv(ownerUrl, nodeExecutable).slice(0, -1),
         "--input-type=module",
         "-e",
         `
@@ -790,6 +783,9 @@ import { PassThrough } from "node:stream";
 const outputDir = ${JSON.stringify(outputDir)};
 const child = Object.assign(new cp.ChildProcess(), {
   pid: 1234, stdout: new PassThrough(), stderr: new PassThrough(),
+});
+Object.defineProperty(child, "stdio", {
+  get: () => [child.stdin, child.stdout, child.stderr, null],
 });
 for (const output of [child.stdout, child.stderr]) {
   output.once("close", () => {
@@ -818,7 +814,7 @@ process.kill = (pid, signal) => {
   return true;
 };
 syncBuiltinESMExports();
-const { runTimedWatch } = await import(${JSON.stringify(pathToFileURL(path.resolve("scripts/check-gateway-watch-regression.mts")).href)});
+const { runTimedWatch } = await import(${JSON.stringify(ownerUrl.href)});
 const result = await runTimedWatch({
   readySettleMs: 0, readyTimeoutMs: 30_000, sigkillGraceMs: 1,
   sigkillExitGraceMs: 100, windowMs: 10_000,

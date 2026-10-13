@@ -15,6 +15,7 @@ import {
   setEmbeddedQuestionBroker,
 } from "../infra/embedded-question-broker.js";
 import { resetGlobalHookRunner } from "../plugins/hook-runner-global.js";
+import { createTestGatewayScheduler } from "../test-utils/gateway-scheduler-clock.js";
 import { dispatchInboundMessageWithRoutedChannelDispatcher } from "./dispatch.js";
 import { runReplyQuestionInput } from "./reply/agent-runner-question-input.js";
 import type { DispatchReplyFromConfig } from "./reply/dispatch-from-config.types.js";
@@ -48,7 +49,7 @@ async function withQuestion(
   }) => Promise<void>,
   uncertain = false,
 ) {
-  const broker = new EmbeddedQuestionBroker();
+  const broker = new EmbeddedQuestionBroker(createTestGatewayScheduler());
   const previousEmbeddedMode = isEmbeddedMode();
   setEmbeddedMode(true);
   setEmbeddedQuestionBroker(broker);
@@ -65,8 +66,8 @@ async function withQuestion(
     sessionId: run.run.sessionId,
     resetTriggered: false,
   });
-  operation.bindToolAuthoritySnapshot(prepareReplyToolAuthority(run));
-  const fingerprint = operation.bindToolAuthorityRoute({
+  await operation.bindToolAuthoritySnapshotAsync(prepareReplyToolAuthority(run));
+  const fingerprint = await operation.bindToolAuthorityRouteAsync({
     provider: run.run.provider,
     model: run.run.model,
   });
@@ -165,23 +166,15 @@ describe("routed channel question input delivery order", () => {
           } else if (messageId === "newest") {
             newestStarted.resolve();
           } else {
-            let payload: ReplyPayload | undefined;
-            try {
-              const result = await runReplyQuestionInput({
-                commandBody: outcome === "answered" ? "Continue" : "maybe",
-                followupRun: run,
-                sessionKey,
-                sessionCtx: params.ctx,
-                opts: params.replyOptions,
-              });
-              expect(result.handled).toBe(true);
-              payload = result.handled ? result.payload : undefined;
-            } catch (error) {
-              // The correction consumer is a separate change; validation remains real.
-              expect(error).toBeInstanceOf(GatewayClientRequestError);
-              expect(error).toMatchObject({ details: { reason: "QUESTION_INVALID_ANSWER" } });
-              payload = { text: "Choose Continue or Stop.", isError: true };
-            }
+            const result = await runReplyQuestionInput({
+              commandBody: outcome === "answered" ? "Continue" : "maybe",
+              followupRun: run,
+              sessionKey,
+              sessionCtx: params.ctx,
+              opts: params.replyOptions,
+            });
+            expect(result.handled).toBe(true);
+            const payload = result.handled ? result.payload : undefined;
             if (payload) {
               params.dispatcher.sendFinalReply(payload);
             }
@@ -235,7 +228,11 @@ describe("routed channel question input delivery order", () => {
           );
           expect(operation.result).toBeNull();
           expect(questionSettled).toHaveBeenCalledOnce();
-          expect(deliveries).toEqual(outcome === "correction" ? ["Choose Continue or Stop."] : []);
+          expect(deliveries).toEqual(
+            outcome === "correction"
+              ? [expect.stringContaining("The answer was not accepted: question 'answer'")]
+              : [],
+          );
           expect(broker.get({ id: questionId }).question.status).toBe(
             outcome === "answered" ? "answered" : "pending",
           );
