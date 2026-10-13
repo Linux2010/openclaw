@@ -135,6 +135,9 @@ the handoff, the candidate retains exact file and parent-directory identities;
 later replacement still stops the update. Lease read failures report their
 underlying cause instead of a parent-binding mismatch.
 
+Service backups and interrupted agent cleanup also retain exact file identities.
+Older rounded receipts remain readable and upgrade after verification on their next write.
+
 Post-install Doctor also accepts older updaters, including `2026.8.2`, that do not
 provide an update run ID. Its commands retain invocation-specific custody without
 requiring an environment-variable workaround.
@@ -618,6 +621,13 @@ node /path/to/recovery-openclaw/dist/package-update-activation-recovery.mjs \
 Use the original anchor and operation ID with a supported external Node or Bun
 runtime. Keep other updaters and package managers stopped. Ordinary `status` and
 update admission remain strict for unfinished identity-mismatched journals.
+
+If publication never started and the previous package is still installed, repair
+verifies its full tree fingerprint and unchanged launchers under the same device
+mapping, then settles the operation as `publication-not-started`. The candidate
+is retained as evidence; the installed package is unchanged. A previous package
+with unfinished publication intent or launcher receipts still requires its
+original recovery owner and is not silently archived.
 
 For an already installed candidate, repair requires the staging path to be absent,
 consistent device-number changes with matching object inodes,
