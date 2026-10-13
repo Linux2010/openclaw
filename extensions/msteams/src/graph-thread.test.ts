@@ -7,11 +7,13 @@ import {
   fetchThreadReplies,
   stripHtmlFromTeamsMessage,
 } from "./graph-thread.js";
+import type * as Graph from "./graph.js";
 import { fetchGraphJson } from "./graph.js";
 
 const fetchAllGraphPagesMock = vi.hoisted(() => vi.fn());
 
-vi.mock("./graph.js", () => ({
+vi.mock("./graph.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof Graph>()),
   fetchGraphJson: vi.fn(),
   fetchAllGraphPages: fetchAllGraphPagesMock,
 }));
