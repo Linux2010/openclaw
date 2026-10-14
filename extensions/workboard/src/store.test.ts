@@ -1823,6 +1823,55 @@ describe("WorkboardStore", () => {
     expect(recovered.metadata?.failureCount).toBeUndefined();
   });
 
+  it("completes cards whose stored run id exceeds the notification bound", async () => {
+    // #172203: the completed notification copies cardRunId(existing), and a
+    // stored run id longer than the notification normalization bound used to
+    // fail the whole completion (response normalization rejected the stored
+    // notification after terminal state would have committed).
+    const store = createWorkboardSqliteTestStore({ createStores: createKernelStores });
+    const longRunId = "r".repeat(164);
+    const card = await store.create({
+      title: "Long execution identity",
+      status: "running",
+      execution: codexExecution("exec-long-run-id", 1_000, { runId: longRunId }),
+    });
+
+    const completed = await store.complete(card.id, {
+      summary: "Completed with an over-long stored run id.",
+      proof: { status: "passed", command: "pnpm test extensions/workboard" },
+    });
+
+    expect(completed.status).toBe("done");
+    // Full execution identity is preserved on the card as provenance.
+    expect(completed.execution?.runId).toBe(longRunId);
+    // The notification carries a bounded reference instead of the raw identity.
+    const notification = completed.metadata?.notifications?.find(
+      (entry) => entry.kind === "completed",
+    );
+    expect(notification?.runId).toBeDefined();
+    expect((notification?.runId ?? "").length).toBeLessThanOrEqual(120);
+    expect(notification?.runId?.startsWith("r")).toBe(true);
+    expect(notification?.runId?.endsWith("…")).toBe(true);
+  });
+
+  it("bounds blocked-notification run ids copied from stored execution identity", async () => {
+    const store = createWorkboardSqliteTestStore({ createStores: createKernelStores });
+    const longRunId = "r".repeat(164);
+    const card = await store.create({
+      title: "Blocked with long execution identity",
+      status: "running",
+      execution: codexExecution("exec-blocked-long-run-id", 1_000, { runId: longRunId }),
+    });
+
+    const blocked = await store.block(card.id, { reason: "Needs owner decision." });
+
+    expect(blocked.status).toBe("blocked");
+    expect(blocked.execution?.runId).toBe(longRunId);
+    const notification = blocked.metadata?.notifications?.find((entry) => entry.kind === "failed");
+    expect(notification?.runId).toBeDefined();
+    expect((notification?.runId ?? "").length).toBeLessThanOrEqual(120);
+  });
+
   it("keeps long lifecycle handoffs in comments while capping notifications", async () => {
     const store = createWorkboardSqliteTestStore({ createStores: createKernelStores });
     const completeCard = await store.create({ title: "Long complete" });
