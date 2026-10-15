@@ -262,11 +262,11 @@ export class WorkboardWorkflowStore extends WorkboardPromoteStore {
       kind: "completed",
       message: capText(summary, 240) ?? "Workboard card completed.",
       ...(cardSessionKey(existing) ? { sessionKey: cardSessionKey(existing) } : {}),
-      // Notifications carry a bounded reference; the full execution identity
-      // stays on the card (runId/execution.runId). A stored run id can exceed
-      // the notification normalization bound, which used to fail the whole
-      // completion at response normalization (#172203).
-      ...(cardRunId(existing) ? { runId: capText(cardRunId(existing), 120) } : {}),
+      // The run id is an identity reference, not display text: notification
+      // normalization now admits the same run ids execution admission does, so
+      // subscription and card-alert matching see the full stored identity
+      // instead of failing the completion for long ids (#172203).
+      ...(cardRunId(existing) ? { runId: cardRunId(existing) } : {}),
     });
     return await this.updateCard(
       await this.requireCard(id),
@@ -309,7 +309,7 @@ export class WorkboardWorkflowStore extends WorkboardPromoteStore {
       kind: "failed",
       message: capText(reason, 240) ?? "Workboard card blocked.",
       ...(cardSessionKey(existing) ? { sessionKey: cardSessionKey(existing) } : {}),
-      ...(cardRunId(existing) ? { runId: capText(cardRunId(existing), 120) } : {}),
+      ...(cardRunId(existing) ? { runId: cardRunId(existing) } : {}),
     });
     return {
       ...finished,

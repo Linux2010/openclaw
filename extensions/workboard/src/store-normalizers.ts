@@ -738,7 +738,10 @@ function normalizeNotification(record: Record<string, unknown>): WorkboardNotifi
     return null;
   }
   const sessionKey = normalizeBoundedString(record.sessionKey, undefined, 240, "session key");
-  const runId = normalizeBoundedString(record.runId, undefined, 120, "run id");
+  // runId is an identity reference matched by exact equality against stored
+  // execution ids (subscriptions, card alerts), not display text — admit the
+  // same ids execution admission does instead of bounding it (#172203).
+  const runId = normalizeOptionalString(record.runId);
   return {
     id,
     kind,

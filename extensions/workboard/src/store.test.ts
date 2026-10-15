@@ -1823,13 +1823,15 @@ describe("WorkboardStore", () => {
     expect(recovered.metadata?.failureCount).toBeUndefined();
   });
 
-  it("completes cards whose stored run id exceeds the notification bound", async () => {
-    // #172203: the completed notification copies cardRunId(existing), and a
-    // stored run id longer than the notification normalization bound used to
-    // fail the whole completion (response normalization rejected the stored
-    // notification after terminal state would have committed).
+  it("completes cards whose stored run id exceeds the old notification bound", async () => {
+    // #172203: the completed notification copies cardRunId(existing), and the
+    // notification normalization bound (120) used to reject stored execution
+    // identities longer than that, failing the whole completion after the
+    // terminal state would have committed.
     const store = createWorkboardSqliteTestStore({ createStores: createKernelStores });
-    const longRunId = "r".repeat(164);
+    // 121 characters: just past the old bound and exactly the shape the
+    // revision review called out for subscription replay.
+    const longRunId = "r".repeat(121);
     const card = await store.create({
       title: "Long execution identity",
       status: "running",
@@ -1844,17 +1846,24 @@ describe("WorkboardStore", () => {
     expect(completed.status).toBe("done");
     // Full execution identity is preserved on the card as provenance.
     expect(completed.execution?.runId).toBe(longRunId);
-    // The notification carries a bounded reference instead of the raw identity.
+    // The notification replays the exact stored identity, not a truncation.
     const notification = completed.metadata?.notifications?.find(
       (entry) => entry.kind === "completed",
     );
-    expect(notification?.runId).toBeDefined();
-    expect((notification?.runId ?? "").length).toBeLessThanOrEqual(120);
-    expect(notification?.runId?.startsWith("r")).toBe(true);
-    expect(notification?.runId?.endsWith("…")).toBe(true);
+    expect(notification?.runId).toBe(longRunId);
+
+    // Exact replay: a subscription for the full run id receives the completed
+    // event, while a distinct same-prefix run id stays isolated.
+    const subscriber = await store.subscribeNotifications({ runId: longRunId });
+    const events = await store.notificationEvents({ subscriptionId: subscriber.id });
+    expect(events.events.some((entry) => entry.runId === longRunId)).toBe(true);
+    const otherRunId = `${"r".repeat(120)}x`;
+    const other = await store.subscribeNotifications({ runId: otherRunId });
+    const otherEvents = await store.notificationEvents({ subscriptionId: other.id });
+    expect(otherEvents.events.some((entry) => entry.runId === longRunId)).toBe(false);
   });
 
-  it("bounds blocked-notification run ids copied from stored execution identity", async () => {
+  it("preserves the full stored execution identity in blocked notifications", async () => {
     const store = createWorkboardSqliteTestStore({ createStores: createKernelStores });
     const longRunId = "r".repeat(164);
     const card = await store.create({
@@ -1868,8 +1877,45 @@ describe("WorkboardStore", () => {
     expect(blocked.status).toBe("blocked");
     expect(blocked.execution?.runId).toBe(longRunId);
     const notification = blocked.metadata?.notifications?.find((entry) => entry.kind === "failed");
-    expect(notification?.runId).toBeDefined();
-    expect((notification?.runId ?? "").length).toBeLessThanOrEqual(120);
+    expect(notification?.runId).toBe(longRunId);
+  });
+
+  it("loads pre-existing notifications and completes long-run-id cards after upgrade", async () => {
+    // Data-model compatibility: a store holding notifications written under
+    // the old 120-character bound, plus a card with a long stored execution
+    // run id, keeps loading and completing after this change.
+    const store = createWorkboardSqliteTestStore({ createStores: createKernelStores });
+    const longRunId = "r".repeat(164);
+    const card = await store.create({
+      title: "Upgraded card",
+      status: "running",
+      execution: codexExecution("exec-upgrade", 1_000, { runId: longRunId }),
+    });
+    const legacy = await store.updateCard(
+      (await store.get(card.id)) as WorkboardCard,
+      {
+        metadata: {
+          notifications: [
+            {
+              id: "legacy-notification",
+              kind: "failed",
+              createdAt: 500,
+              message: "Recorded under the old bound.",
+              runId: "r".repeat(120),
+            },
+          ],
+        },
+      },
+      { preserveProofId: undefined },
+    );
+    expect(legacy.metadata?.notifications?.[0]?.runId).toBe("r".repeat(120));
+
+    const completed = await store.complete(card.id, {
+      summary: "Upgraded completion.",
+    });
+    const runIds = (completed.metadata?.notifications ?? []).map((entry) => entry.runId);
+    expect(runIds).toContain("r".repeat(120));
+    expect(runIds).toContain(longRunId);
   });
 
   it("keeps long lifecycle handoffs in comments while capping notifications", async () => {

@@ -266,7 +266,7 @@ export class WorkboardEnrichmentStore extends WorkboardCoreStore {
         ...(sessionKey || cardSessionKey(card)
           ? { sessionKey: sessionKey ?? cardSessionKey(card) }
           : {}),
-        ...(runId || cardRunId(card) ? { runId: capText(runId ?? cardRunId(card), 120) } : {}),
+        ...(runId || cardRunId(card) ? { runId: runId ?? cardRunId(card) } : {}),
       });
       return await this.updateCard(await this.requireCard(card.id), {
         ...finished,
