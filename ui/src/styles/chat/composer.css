@@ -12,7 +12,7 @@
 }
 
 .chat-controls__inline-select[open] > wa-popup::part(popup) {
-  animation: chat-composer-picker-in var(--wa-transition-fast) ease;
+  animation: chat-composer-picker-in var(--control-ui-transition-fast) ease;
 }
 
 .chat-controls__inline-select[open] > wa-popup[data-current-placement^="top"]::part(popup) {
@@ -3286,11 +3286,6 @@ html[dir="rtl"] .chat-attachment-loading > span {
 
   .agent-chat__input--mobile-toolbar .context-ring {
     color: inherit;
-  }
-
-  .agent-chat__input--mobile-toolbar .agent-chat__composer-context .context-ring {
-    width: auto;
-    gap: 5px;
   }
 
   .agent-chat__input--mobile-toolbar
