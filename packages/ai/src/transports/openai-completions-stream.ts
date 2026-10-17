@@ -628,8 +628,10 @@ export async function processCompletionsStream(
   // response must execute the native call exactly once, never the native call
   // plus a recovered DSML duplicate.
   if (sawNativeToolCallDelta && recoveredToolCallBlocks.length > 0) {
-    const recovered = new Set(recoveredToolCallBlocks);
-    output.content = output.content.filter((block) => !recovered.has(block));
+    const recovered = new Set<ToolCall>(recoveredToolCallBlocks);
+    output.content = output.content.filter(
+      (block) => !(block.type === "toolCall" && recovered.has(block)),
+    );
   }
   // Only an explicit stop or observed SSE terminal may authorize silent tool calls.
   finalizeOpenAICompletionsToolCalls(output, {

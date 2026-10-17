@@ -156,7 +156,7 @@ export function createDsmlRecoverer() {
       pendingScanChars = 0;
       return consume(false);
     },
-    flush(allowRecovery = true) {
+    flush(allowRecovery = true): TextToolCallRecoveryPart[] {
       if (!allowRecovery) {
         // Native tool calls own the stream: hand back the buffered markup as
         // plain text instead of recovering it into an executable call.
