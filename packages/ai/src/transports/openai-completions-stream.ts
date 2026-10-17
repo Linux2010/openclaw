@@ -300,6 +300,7 @@ export async function processCompletionsStream(
       );
     }
   };
+  const recoveredToolCallBlocks: ToolCallBlock[] = [];
   const appendRecoveredToolCall = (toolCall: RecoveredTextToolCall) => {
     if (currentBlock?.type === "toolCall") {
       currentBlock = null;
@@ -314,6 +315,7 @@ export async function processCompletionsStream(
       arguments: toolCall.arguments,
       partialJson: toolCall.partialJson,
     };
+    recoveredToolCallBlocks.push(block);
     currentBlock = block;
     appendToolCallBlock(block);
     pushStreamEvent({
@@ -341,6 +343,9 @@ export async function processCompletionsStream(
         deepSeekToolCallRecoverer?.push(delta.text) ?? [{ kind: "text", text: delta.text }],
       );
     }
+  };
+  const flushDeepSeekDsmlRecoverer = (allowRecovery = true) => {
+    appendRecoveredParts(deepSeekToolCallRecoverer?.flush(allowRecovery) ?? []);
   };
   const emitReasoningUsageActivity = (hasReasoningUsageActivity: boolean) => {
     if (directMode || !hasReasoningUsageActivity || chunkPushedEvent || !emitReasoning) {
@@ -519,6 +524,7 @@ export async function processCompletionsStream(
       if (toolCallDeltas.length > 0) {
         // Native calls own mixed streams; emit pending raw text in its original position.
         flushGemmaToolCallRecoverer(false);
+        flushDeepSeekDsmlRecoverer(false);
         sawNativeToolCallDelta = true;
         flushReasoningTagTextPartitioner(false);
         for (const toolCall of toolCallDeltas) {
@@ -612,12 +618,19 @@ export async function processCompletionsStream(
   }
   flushGemmaToolCallRecoverer();
   flushReasoningTagTextPartitioner();
-  appendRecoveredParts(deepSeekToolCallRecoverer?.flush() ?? []);
+  flushDeepSeekDsmlRecoverer(!sawNativeToolCallDelta);
   for (const part of deepSeekTextFilter?.flush() ?? []) {
     appendVisibleTextDelta(part);
   }
   currentBlock = null;
   flushPendingPostToolCallDeltas();
+  // Native tool calls own the response regardless of arrival order: a mixed
+  // response must execute the native call exactly once, never the native call
+  // plus a recovered DSML duplicate.
+  if (sawNativeToolCallDelta && recoveredToolCallBlocks.length > 0) {
+    const recovered = new Set(recoveredToolCallBlocks);
+    output.content = output.content.filter((block) => !recovered.has(block));
+  }
   // Only an explicit stop or observed SSE terminal may authorize silent tool calls.
   finalizeOpenAICompletionsToolCalls(output, {
     allowSilentToolCallPromotion:

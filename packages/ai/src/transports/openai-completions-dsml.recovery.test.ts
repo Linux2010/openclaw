@@ -363,4 +363,68 @@ describe("openai completions DSML", () => {
       output.content.some((part) => part.type === "text" && part.text.includes("<|DSML|")),
     ).toBe(true);
   });
+
+  it("executes only the native call when a mixed response carries DSML text and native tool_calls", async () => {
+    const model = openRouterModel;
+    const output = createAssistantOutput(model);
+    await processCompletionsStream(
+      streamChunks([
+        makeCompletionsChunk(
+          {
+            content:
+              '<|DSML|tool_calls><|DSML|invoke name="read">{"path":"/tmp/dup.md"}</|DSML|invoke></|DSML|tool_calls>',
+            tool_calls: [
+              {
+                index: 0,
+                id: "call_native",
+                type: "function",
+                function: { name: "read", arguments: '{"path":"/tmp/native.md"}' },
+              },
+            ],
+          },
+          "tool_calls",
+        ),
+      ]),
+      output,
+      model,
+      { push() {} },
+    );
+    expect(output.stopReason).toBe("toolUse");
+    const toolCalls = output.content.filter((part) => part.type === "toolCall");
+    expect(toolCalls).toHaveLength(1);
+    expect(toolCalls[0]).toMatchObject({ name: "read", arguments: { path: "/tmp/native.md" } });
+  });
+
+  it("keeps native authority when DSML text arrives after the native delta", async () => {
+    const model = openRouterModel;
+    const output = createAssistantOutput(model);
+    await processCompletionsStream(
+      streamChunks([
+        makeCompletionsChunk({
+          tool_calls: [
+            {
+              index: 0,
+              id: "call_native",
+              type: "function",
+              function: { name: "read", arguments: '{"path":"/tmp/native.md"}' },
+            },
+          ],
+        }),
+        makeCompletionsChunk(
+          {
+            content:
+              '<|DSML|tool_calls><|DSML|invoke name="read">{"path":"/tmp/late.md"}</|DSML|invoke></|DSML|tool_calls>',
+          },
+          "tool_calls",
+        ),
+      ]),
+      output,
+      model,
+      { push() {} },
+    );
+    expect(output.stopReason).toBe("toolUse");
+    const toolCalls = output.content.filter((part) => part.type === "toolCall");
+    expect(toolCalls).toHaveLength(1);
+    expect(toolCalls[0]).toMatchObject({ name: "read", arguments: { path: "/tmp/native.md" } });
+  });
 });
