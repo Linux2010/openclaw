@@ -8,6 +8,8 @@ import {
   createDeepSeekCompletionsModel,
   makeCompletionsChunk,
   makeCompletionsModel,
+  openRouterAnthropicModel,
+  openRouterModel,
   streamChunks,
 } from "./openai-completions.test-support.js";
 
@@ -277,5 +279,88 @@ describe("openai completions DSML", () => {
     expect(output.stopReason).toBe("stop");
     expect(output.content).toEqual([]);
     expect(events.filter((event) => event.type?.startsWith("toolcall_"))).toEqual([]);
+  });
+
+  it("recovers DeepSeek DSML tool calls routed through OpenRouter", async () => {
+    // Issue #174909: the recoverer was gated on thinkingFormat === "deepseek",
+    // which OpenRouter routes never receive ("openrouter"), so DSML markup
+    // leaked as reply text and the intended tool call never ran.
+    const model = openRouterModel;
+    const output = createAssistantOutput(model);
+    const content =
+      '<|DSML|tool_calls><|DSML|invoke name="read">{"path":"/tmp/routed.md"}</|DSML|invoke></|DSML|tool_calls>';
+    await processCompletionsStream(
+      streamChunks([
+        ...Array.from(content, (char) => makeCompletionsChunk({ content: char })),
+        makeCompletionsChunk({}, "stop"),
+      ]),
+      output,
+      model,
+      { push() {} },
+    );
+    expect(output.stopReason).toBe("toolUse");
+    expect(output.content).toEqual([
+      {
+        type: "toolCall",
+        id: expect.stringMatching(/^call_[0-9a-f]{24}$/),
+        name: "read",
+        arguments: { path: "/tmp/routed.md" },
+      },
+    ]);
+  });
+
+  it("recovers OpenRouter-routed DSML split across stream chunks", async () => {
+    const model = openRouterModel;
+    const output = createAssistantOutput(model);
+    await processCompletionsStream(
+      streamChunks([
+        makeCompletionsChunk({ content: "<|DSML|tool_calls><|DSML|invoke name=" }),
+        makeCompletionsChunk({ content: '"read">{"path":"/tmp/split.md"}</|DSML|invoke>' }),
+        makeCompletionsChunk({ content: "</|DSML|tool_calls>" }, "stop"),
+      ]),
+      output,
+      model,
+      { push() {} },
+    );
+    expect(output.stopReason).toBe("toolUse");
+    const toolCall = output.content.find((part) => part.type === "toolCall");
+    expect(toolCall).toMatchObject({ name: "read", arguments: { path: "/tmp/split.md" } });
+  });
+
+  it("does not authorize a max_tokens-truncated OpenRouter-routed DSML block", async () => {
+    const model = openRouterModel;
+    const output = createAssistantOutput(model);
+    await processCompletionsStream(
+      streamChunks([
+        makeCompletionsChunk(
+          {
+            content: '<|DSML|tool_calls><|DSML|invoke name="read">{"path":"/tmp/trunc',
+          },
+          "length",
+        ),
+      ]),
+      output,
+      model,
+      { push() {} },
+    );
+    expect(output.stopReason).toBe("length");
+    expect(output.content.some((part) => part.type === "toolCall")).toBe(false);
+  });
+
+  it("does not enable DSML recovery for non-DeepSeek OpenRouter models", async () => {
+    const model = openRouterAnthropicModel;
+    const output = createAssistantOutput(model);
+    const content =
+      '<|DSML|tool_calls><|DSML|invoke name="read">{"path":"/tmp/not-deepseek.md"}</|DSML|invoke></|DSML|tool_calls>';
+    await processCompletionsStream(
+      streamChunks([makeCompletionsChunk({ content }, "stop")]),
+      output,
+      model,
+      { push() {} },
+    );
+    expect(output.content.some((part) => part.type === "toolCall")).toBe(false);
+    expect(
+      output.content.some((part) => part.type === "text" && part.text.includes("<|DSML|")),
+    ).toBe(true);
   });
 });

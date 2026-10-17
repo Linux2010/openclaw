@@ -147,8 +147,13 @@ export async function processCompletionsStream(
   const visibleReasoningDetailTypes = new Set(compat.visibleReasoningDetailTypes);
   const shouldFilterDeepSeekDsmlText = compat.thinkingFormat === "deepseek";
   const deepSeekTextFilter = shouldFilterDeepSeekDsmlText ? createDeepSeekTextFilter() : null;
+  // DeepSeek emits DSML tool-call markup regardless of which gateway serves the
+  // model; OpenRouter routes keep thinkingFormat "openrouter", so the recoverer
+  // also keys on the model family (mirroring the gemma recoverer above).
   const deepSeekToolCallRecoverer =
-    !directMode && shouldFilterDeepSeekDsmlText ? createDsmlRecoverer() : null;
+    !directMode && (shouldFilterDeepSeekDsmlText || /deepseek/i.test(model.id))
+      ? createDsmlRecoverer()
+      : null;
   const gemmaToolCallRecoverer =
     !directMode && /gemma-?4/i.test(model.id) ? createGemmaToolCallRecoverer() : null;
   const reasoningTagTextPartitioner = createReasoningTagTextPartitioner();
