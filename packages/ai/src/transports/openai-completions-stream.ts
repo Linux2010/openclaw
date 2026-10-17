@@ -145,15 +145,9 @@ export async function processCompletionsStream(
   const openAIModel = model as OpenAIModeModel;
   const compat = getCompat(openAIModel);
   const visibleReasoningDetailTypes = new Set(compat.visibleReasoningDetailTypes);
-  const shouldFilterDeepSeekDsmlText = compat.thinkingFormat === "deepseek";
-  const deepSeekTextFilter = shouldFilterDeepSeekDsmlText ? createDeepSeekTextFilter() : null;
-  // DeepSeek emits DSML tool-call markup regardless of which gateway serves the
-  // model; OpenRouter routes keep thinkingFormat "openrouter", so the recoverer
-  // also keys on the model family (mirroring the gemma recoverer above).
+  const deepSeekTextFilter = compat.emitsDsmlToolCalls ? createDeepSeekTextFilter() : null;
   const deepSeekToolCallRecoverer =
-    !directMode && (shouldFilterDeepSeekDsmlText || /deepseek/i.test(model.id))
-      ? createDsmlRecoverer()
-      : null;
+    !directMode && compat.emitsDsmlToolCalls ? createDsmlRecoverer() : null;
   const gemmaToolCallRecoverer =
     !directMode && /gemma-?4/i.test(model.id) ? createGemmaToolCallRecoverer() : null;
   const reasoningTagTextPartitioner = createReasoningTagTextPartitioner();
@@ -300,7 +294,7 @@ export async function processCompletionsStream(
       );
     }
   };
-  const recoveredToolCallBlocks: ToolCallBlock[] = [];
+  const recoveredToolCallBlocks = new Set<ToolCall>();
   const appendRecoveredToolCall = (toolCall: RecoveredTextToolCall) => {
     if (currentBlock?.type === "toolCall") {
       currentBlock = null;
@@ -315,7 +309,7 @@ export async function processCompletionsStream(
       arguments: toolCall.arguments,
       partialJson: toolCall.partialJson,
     };
-    recoveredToolCallBlocks.push(block);
+    recoveredToolCallBlocks.add(block);
     currentBlock = block;
     appendToolCallBlock(block);
     pushStreamEvent({
@@ -343,9 +337,6 @@ export async function processCompletionsStream(
         deepSeekToolCallRecoverer?.push(delta.text) ?? [{ kind: "text", text: delta.text }],
       );
     }
-  };
-  const flushDeepSeekDsmlRecoverer = (allowRecovery = true) => {
-    appendRecoveredParts(deepSeekToolCallRecoverer?.flush(allowRecovery) ?? []);
   };
   const emitReasoningUsageActivity = (hasReasoningUsageActivity: boolean) => {
     if (directMode || !hasReasoningUsageActivity || chunkPushedEvent || !emitReasoning) {
@@ -524,7 +515,6 @@ export async function processCompletionsStream(
       if (toolCallDeltas.length > 0) {
         // Native calls own mixed streams; emit pending raw text in its original position.
         flushGemmaToolCallRecoverer(false);
-        flushDeepSeekDsmlRecoverer(false);
         sawNativeToolCallDelta = true;
         flushReasoningTagTextPartitioner(false);
         for (const toolCall of toolCallDeltas) {
@@ -618,18 +608,17 @@ export async function processCompletionsStream(
   }
   flushGemmaToolCallRecoverer();
   flushReasoningTagTextPartitioner();
-  flushDeepSeekDsmlRecoverer(!sawNativeToolCallDelta);
+  appendRecoveredParts(deepSeekToolCallRecoverer?.flush() ?? []);
   for (const part of deepSeekTextFilter?.flush() ?? []) {
     appendVisibleTextDelta(part);
   }
   currentBlock = null;
   flushPendingPostToolCallDeltas();
-  // Native tool calls own the response regardless of arrival order: a mixed
-  // response must execute the native call exactly once, never the native call
-  // plus a recovered DSML duplicate.
-  if (sawNativeToolCallDelta && recoveredToolCallBlocks.length > 0) {
-    const recovered = new Set(recoveredToolCallBlocks);
-    output.content = output.content.filter((block) => !recovered.has(block));
+  // Native calls supersede recovered previews before any toolcall_end authorizes execution.
+  if (sawNativeToolCallDelta && recoveredToolCallBlocks.size > 0) {
+    output.content = output.content.filter(
+      (block) => block.type !== "toolCall" || !recoveredToolCallBlocks.has(block),
+    );
   }
   // Only an explicit stop or observed SSE terminal may authorize silent tool calls.
   finalizeOpenAICompletionsToolCalls(output, {

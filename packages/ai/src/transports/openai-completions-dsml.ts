@@ -156,16 +156,7 @@ export function createDsmlRecoverer() {
       pendingScanChars = 0;
       return consume(false);
     },
-    flush(allowRecovery = true) {
-      if (!allowRecovery) {
-        // Native tool calls own the stream: hand back the buffered markup as
-        // plain text instead of recovering it into an executable call.
-        const text = buffer;
-        buffer = "";
-        bufferBytes = 0;
-        bufferEndsWithHighSurrogate = false;
-        return text ? [{ kind: "text", text }] : [];
-      }
+    flush() {
       return consume(true);
     },
   };
