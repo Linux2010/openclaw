@@ -1,7 +1,9 @@
+import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { resolveAgentConfig } from "../agents/agent-scope-config.js";
 import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
 import type { ModelRef } from "../agents/model-ref-shared.js";
 import {
+  buildModelAliasIndex,
   inferUniqueProviderFromConfiguredModels,
   isCliProvider,
   normalizeStoredOverrideModel,
@@ -27,6 +29,21 @@ function resolveSessionDisplayDefaults(cfg: OpenClawConfig, agentId?: string): M
       : undefined) ??
     resolveAgentModelPrimaryValue(cfg.agents?.defaults?.model) ??
     DEFAULT_MODEL;
+  // A bare primary (typically a configured alias such as "opus") must resolve
+  // through the alias index the same way the runtime does; otherwise sessions
+  // without a persisted model display a provider/model pair that does not
+  // exist in the configuration (#177311).
+  if (!primary.includes("/")) {
+    const aliasIndex = buildModelAliasIndex({
+      cfg,
+      agentId,
+      defaultProvider: DEFAULT_PROVIDER,
+    });
+    const aliasMatch = aliasIndex.byAlias.get(normalizeLowercaseStringOrEmpty(primary));
+    if (aliasMatch) {
+      return { provider: aliasMatch.ref.provider, model: aliasMatch.ref.model };
+    }
+  }
   return (
     parseModelRef(primary, DEFAULT_PROVIDER, {
       allowManifestNormalization: false,
