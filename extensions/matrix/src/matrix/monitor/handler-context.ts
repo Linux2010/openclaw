@@ -240,8 +240,12 @@ export async function resolveMatrixInboundContext(config: {
     route: {
       ..._route,
       routeSessionKey: _route.sessionKey,
-      parentSessionKey:
-        threadTarget && _route.matchedBy !== "binding.channel" ? _route.mainSessionKey : undefined,
+      // Threads start isolated: the docs promise only the thread root as extra
+      // context, and forking the room transcript here leaked prior room turns
+      // (including tool calls and results) into every new thread's first prompt.
+      // Discord/Slack gate this behind an opt-in (thread.inheritParent, default
+      // false) that Matrix does not have, so fork requests stop here entirely.
+      parentSessionKey: undefined,
     },
     reply: {
       to: `room:${roomId}`,
