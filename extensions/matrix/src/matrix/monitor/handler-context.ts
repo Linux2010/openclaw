@@ -246,6 +246,12 @@ export async function resolveMatrixInboundContext(config: {
       // Discord/Slack gate this behind an opt-in (thread.inheritParent, default
       // false) that Matrix does not have, so fork requests stop here entirely.
       parentSessionKey: undefined,
+      // Restart-recovery replacement (restart tombstones) still needs the room
+      // session as its source — the reason the parent key was added (#130196).
+      // The model parent key carries that source without requesting a
+      // transcript fork, mirroring Discord's disabled-inheritance shape.
+      modelParentSessionKey:
+        threadTarget && _route.matchedBy !== "binding.channel" ? _route.mainSessionKey : undefined,
     },
     reply: {
       to: `room:${roomId}`,

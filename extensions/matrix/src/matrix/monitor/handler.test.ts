@@ -564,6 +564,40 @@ describe("matrix monitor handler pairing account scope", () => {
     );
   });
 
+  it("records room thread context with isolated session and recovery parent", async () => {
+    const getEvent = vi.fn(async (_roomId: string, eventId: string) =>
+      eventId === "$root"
+        ? threadRoot("$root", "Root topic")
+        : textEvent({ eventId, sender: "@bot:example.org", body: "" }),
+    );
+    const { handler, finalizeInboundContext, recordInboundSession } = createHarness({
+      client: { getEvent },
+      getMemberDisplayName: async (_roomId, userId) =>
+        userId === "@alice:example.org" ? "Alice" : "sender",
+    });
+    await receiveText(
+      handler,
+      {
+        eventId: "$reply1",
+        body: "@room follow up",
+        mentions: { room: true },
+        relatesTo: threadRelation("$root"),
+      },
+      "!room:example.org",
+    );
+    const context = recordArg(finalizeInboundContext, 0, 0, "finalized context");
+    expect(context.ThreadStarterBody).toBe("Matrix thread root $root from Alice:\nRoot topic");
+    expect(context.MessageThreadId).toBe("$root");
+    // Thread sessions start isolated: no room transcript fork request (#176224).
+    expect(context.ParentSessionKey).toBeUndefined();
+    // Restart-recovery replacement still finds the room session via the
+    // model parent key (no transcript fork request attached).
+    expect(context.ModelParentSessionKey).toBe("agent:ops:main");
+    expect(recordInboundSession).toHaveBeenCalledWith(
+      expect.objectContaining({ sessionKey: "agent:ops:main:thread:$root" }),
+    );
+  });
+
   it("waits for a shared-session notice before dispatch and sends it only once", async () => {
     const entered = createDeferred<void>();
     const notice = createDeferred<string>();

@@ -189,7 +189,12 @@ export async function resolveDispatchResetAdmission(params: {
   resetTriggered: boolean;
 }> {
   const { ctx, entry } = params;
-  const parentSessionKey = normalizeOptionalString(ctx.ParentSessionKey);
+  // Restart-recovery replacement is not transcript inheritance. Ingresses that
+  // withhold the parent fork request (thread isolation) still carry the room
+  // session as the model parent key; it supplies the recovery source here.
+  const parentSessionKey =
+    normalizeOptionalString(ctx.ParentSessionKey) ??
+    normalizeOptionalString(ctx.ModelParentSessionKey);
   const commandTarget = resolveCommandTurnTargetSessionKey(ctx);
   const nativeCommandTarget = isNativeCommandTurn(ctx.CommandTurn) ? commandTarget : undefined;
   const actorType = classifySessionStateActor({
