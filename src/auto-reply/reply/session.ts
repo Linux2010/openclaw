@@ -415,11 +415,10 @@ async function initSessionStateAttemptLocked(
   // Transcript inheritance and restart-recovery replacement are separate facts.
   // An ingress that withholds the parent fork request (thread isolation) still
   // carries the room session as the model parent key; recovery may fork from it.
-  const recoveryParentSessionKey =
-    parentSessionKey ?? normalizeOptionalString(ctx.ModelParentSessionKey);
+  const recoveryParentKey = parentSessionKey ?? normalizeOptionalString(ctx.ModelParentSessionKey);
   const parentForkSourceEntry =
-    recoveryParentSessionKey && recoveryParentSessionKey !== sessionKey
-      ? initializationSnapshot.readEntry(recoveryParentSessionKey)
+    recoveryParentKey && recoveryParentKey !== sessionKey
+      ? initializationSnapshot.readEntry(recoveryParentKey)
       : undefined;
   const actorType = isSystemEvent
     ? "system"
@@ -812,8 +811,7 @@ async function initSessionStateAttemptLocked(
             return await prepareReplySessionParentFork({
               ...sessionTarget,
               alreadyForked,
-              parentSessionKey:
-                restartTombstoneParentFork ? recoveryParentSessionKey : parentSessionKey,
+              parentSessionKey: restartTombstoneParentFork ? recoveryParentKey : parentSessionKey,
               requireParentForkReplacement: restartTombstoneParentFork,
               readEntry,
               sessionEntry: entryToCommit,
