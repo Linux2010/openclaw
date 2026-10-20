@@ -131,7 +131,8 @@ import {
 } from "./session-initialization-admission.js";
 import {
   canReplaceRestartTombstoneFromParent,
-  prepareReplySessionParentFork,
+  forkPrep,
+  parentForkPreparationHook,
 } from "./session-parent-fork-prepare.js";
 import {
   clearCommittedSessionResetRuntimeState,
@@ -376,9 +377,13 @@ async function initSessionStateAttemptLocked(
   params.signal?.throwIfAborted();
   const sessionStoreLoadStartMs = ingressTimingEnabled ? Date.now() : 0;
   const mainSessionKey = buildAgentMainSessionKey({ agentId, mainKey });
+  const parentSessionKey = normalizeOptionalString(ctx.ParentSessionKey);
+  // Only the explicit recovery parent key (never the descriptive model parent
+  // key) authorizes restart-recovery replacement.
+  const recoveryKey = parentSessionKey ?? normalizeOptionalString(ctx.RecoveryParentSessionKey);
   const relatedSessionKeys = [
     mainSessionKey,
-    ctx.ParentSessionKey,
+    recoveryKey,
     ctx.ModelParentSessionKey,
     ctx.CommandTargetSessionKey,
     resolveSessionParentSessionKey(sessionKey),
@@ -411,14 +416,9 @@ async function initSessionStateAttemptLocked(
     inputDeliveryKey: attemptContext.inputDeliveryKey,
   });
   const entry = initializationSnapshot.currentEntry;
-  const parentSessionKey = normalizeOptionalString(ctx.ParentSessionKey);
-  // Transcript inheritance and restart-recovery replacement are separate facts.
-  // An ingress that withholds the parent fork request (thread isolation) still
-  // carries the room session as the model parent key; recovery may fork from it.
-  const recoveryParentKey = parentSessionKey ?? normalizeOptionalString(ctx.ModelParentSessionKey);
   const parentForkSourceEntry =
-    recoveryParentKey && recoveryParentKey !== sessionKey
-      ? initializationSnapshot.readEntry(recoveryParentKey)
+    recoveryKey && recoveryKey !== sessionKey
+      ? initializationSnapshot.readEntry(recoveryKey)
       : undefined;
   const actorType = isSystemEvent
     ? "system"
@@ -753,6 +753,8 @@ async function initSessionStateAttemptLocked(
     : undefined;
   let previousSessionMemory: SessionMemoryTranscript | undefined;
   let previousSessionResetMessages: unknown[] | undefined;
+  // Replacement runs the required parent-fork preparation even without an
+  // ordinary-start fork request (see forkPrep call sites).
   const prepareParentFork = parentSessionKey && parentSessionKey !== sessionKey && !alreadyForked;
   const routeContext =
     !isSystemEvent &&
@@ -765,7 +767,7 @@ async function initSessionStateAttemptLocked(
       entry &&
       recordedActivity &&
       !previousSessionEntry &&
-      !prepareParentFork &&
+      !(prepareParentFork || forkPrep(restartTombstoneParentFork, alreadyForked)) &&
       !retiredLegacyMainDelivery &&
       !params.bindSessionCreation &&
       routeContext === undefined &&
@@ -803,22 +805,18 @@ async function initSessionStateAttemptLocked(
       expectedRevision: initializationSnapshot.revision,
       relatedSessionKeys,
       maintenanceConfig,
-      prepareSessionEntry: prepareParentFork
-        ? async ({ readEntry, sessionEntry: entryToCommit }) => {
-            if (params.signal?.aborted === true) {
-              throw new Error("reply session initialization aborted");
-            }
-            return await prepareReplySessionParentFork({
-              ...sessionTarget,
+      prepareSessionEntry:
+        prepareParentFork || forkPrep(restartTombstoneParentFork, alreadyForked)
+          ? parentForkPreparationHook({
               alreadyForked,
-              parentSessionKey: restartTombstoneParentFork ? recoveryParentKey : parentSessionKey,
+              parentSessionKey,
+              recoveryParentKey: recoveryKey,
               requireParentForkReplacement: restartTombstoneParentFork,
-              readEntry,
-              sessionEntry: entryToCommit,
+              sessionTarget,
+              signal: params.signal,
               warn: (message) => log.warn(message),
-            });
-          }
-        : undefined,
+            })
+          : undefined,
       ...(resetBoundary ? { resetBoundary } : {}),
       beforeEntryMutation: async ({ currentEntry, sessionEntry: entryToCommit }) => {
         if (params.signal?.aborted === true) {

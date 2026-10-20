@@ -106,3 +106,52 @@ export async function prepareReplySessionParentFork(params: {
   };
   return forkedEntry;
 }
+
+/**
+ * Whether a replacement-eligible restart tombstone must run the parent-fork
+ * preparation now. Kept beside the preparation itself: the recovery parent key
+ * authorizes the replacement, and the preparation still guards the fresh
+ * generation before it commits.
+ */
+export function forkPrep(restartTombstoneParentFork: boolean, alreadyForked: boolean): boolean {
+  return restartTombstoneParentFork && !alreadyForked;
+}
+
+/**
+ * Builds the prepareSessionEntry hook that runs the required parent-fork
+ * preparation before a fresh generation commits. The recovery parent key
+ * authorizes a tombstone replacement; an ordinary start forks only when its
+ * own parent fork request is present.
+ */
+export function parentForkPreparationHook(params: {
+  alreadyForked: boolean;
+  parentSessionKey?: string;
+  recoveryParentKey?: string;
+  requireParentForkReplacement: boolean;
+  sessionTarget: { agentId: string; sessionKey: string; storePath: string };
+  signal?: AbortSignal;
+  warn: (message: string) => void;
+}) {
+  return async ({
+    readEntry,
+    sessionEntry: entryToCommit,
+  }: {
+    readEntry: (sessionKey: string) => SessionEntry | undefined;
+    sessionEntry: SessionEntry;
+  }) => {
+    if (params.signal?.aborted === true) {
+      throw new Error("reply session initialization aborted");
+    }
+    return await prepareReplySessionParentFork({
+      ...params.sessionTarget,
+      alreadyForked: params.alreadyForked,
+      parentSessionKey: params.requireParentForkReplacement
+        ? params.recoveryParentKey
+        : params.parentSessionKey,
+      requireParentForkReplacement: params.requireParentForkReplacement,
+      readEntry,
+      sessionEntry: entryToCommit,
+      warn: params.warn,
+    });
+  };
+}

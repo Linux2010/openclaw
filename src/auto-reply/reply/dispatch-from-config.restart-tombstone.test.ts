@@ -10,6 +10,7 @@ import { setActivePluginRegistry } from "../../plugins/runtime.js";
 import * as channels from "../../test-utils/channel-plugins.js";
 import type { MsgContext } from "../templating.js";
 import {
+  emptyConfig,
   sessionStoreMocks,
   acpMocks,
   mocks,
@@ -221,5 +222,56 @@ describe("restart tombstone channel feedback", () => {
     }
     await rejectInbound({ context, sendPolicy });
     expect(deliver).not.toHaveBeenCalled();
+  });
+
+  it("fences a model-only parent from restart-recovery replacement", async () => {
+    // ModelParentSessionKey (Discord inheritParent=false shape) is descriptive
+    // only: a model-only turn stays fenced pending reset instead of replacing
+    // the tombstoned session.
+    sessionStoreMocks.currentEntry = {
+      sessionId: "preseed-thread-session",
+      updatedAt: Date.now(),
+      mainRestartRecovery: {
+        cycleId: "cycle-1",
+        revision: 4,
+        chargedAttempts: 3,
+        tombstone: { reason: "automatic recovery exhausted" },
+      },
+    };
+    const dispatcher = createReplyDispatcher({ deliver });
+    await expect(
+      dispatchReplyFromConfig({
+        ctx: buildTestCtx({
+          Provider: "buzz",
+          Surface: "buzz",
+          ChatType: "group",
+          SessionKey: `${sessionKey}:thread:123`,
+          MessageSid: String(++messageId),
+          ModelParentSessionKey: sessionKey,
+          Body: "thread reply",
+          RawBody: "thread reply",
+          CommandBody: "thread reply",
+          InboundAccessAuthorized: true,
+          InboundEventKind: "user_request",
+          InputProvenance: { kind: "external_user", sourceChannel: "buzz" },
+        }),
+        cfg: emptyConfig,
+        dispatcher,
+        replyResolver,
+      }),
+    ).rejects.toThrow(/ended during restart recovery/i);
+    dispatcher.markComplete();
+    await dispatcher.waitForIdle();
+    expect(replyResolver).not.toHaveBeenCalled();
+    expect(deliver).toHaveBeenCalledWith(
+      expect.objectContaining({
+        text: expect.stringMatching(/ended during restart recovery/i),
+      }),
+      expect.anything(),
+    );
+    expect(sessionStoreMocks.currentEntry).toMatchObject({
+      sessionId: "preseed-thread-session",
+      mainRestartRecovery: { tombstone: { reason: "automatic recovery exhausted" } },
+    });
   });
 });
