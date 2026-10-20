@@ -34,19 +34,23 @@ vi.mock("./session-fork.js", async (importOriginal) => ({
   forkSessionFromParent: sessionForkMocks.forkSessionFromParent,
 }));
 
-vi.mock("../../plugin-sdk/browser-maintenance.js", () => ({
+vi.mock("../../plugin-sdk/browser-maintenance.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../plugin-sdk/browser-maintenance.js")>()),
   closeTrackedBrowserTabsForSessions: browserMaintenanceMocks.closeTrackedBrowserTabsForSessions,
 }));
 
-vi.mock("../../plugins/hook-runner-global.js", () => ({
+vi.mock("../../plugins/hook-runner-global.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../plugins/hook-runner-global.js")>()),
   getGlobalHookRunner: () => null,
 }));
 
-vi.mock("../../infra/channel-summary.js", () => ({
+vi.mock("../../infra/channel-summary.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../infra/channel-summary.js")>()),
   buildChannelSummary: channelSummaryMocks.buildChannelSummary,
 }));
 
-vi.mock("../../agents/prepared-model-catalog.js", () => ({
+vi.mock("../../agents/prepared-model-catalog.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../agents/prepared-model-catalog.js")>()),
   loadProviderScopedThinkingCatalog: vi.fn(async () => []),
   readPreparedModelCatalog: vi.fn(async () => [
     { provider: "minimax", id: "m2.7", name: "M2.7" },
