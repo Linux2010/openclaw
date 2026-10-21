@@ -191,6 +191,16 @@ export async function resolveMatrixInboundContext(config: {
       threadId: threadTarget,
     },
   );
+  // Threads start isolated: the docs promise only the thread root as extra
+  // context, and forking the room transcript here leaked prior room turns
+  // (including tool calls and results) into every new thread's first prompt.
+  // Discord/Slack gate this behind an opt-in (thread.inheritParent, default
+  // false) that Matrix does not have, so fork requests stop here entirely and
+  // the room session rides along only as the descriptive model parent (Discord's
+  // disabled-inheritance shape) and the explicit recovery parent (restart
+  // tombstones, the reason the parent key was added in #130196).
+  const threadRoomParentSource =
+    threadTarget && _route.matchedBy !== "binding.channel" ? _route.mainSessionKey : undefined;
   const ctxPayload = core.channel.inbound.buildContext({
     channelIngress,
     channel: "matrix",
@@ -237,27 +247,17 @@ export async function resolveMatrixInboundContext(config: {
       nativeChannelId: roomId,
       threadId: threadTarget,
     },
+    // Threads inherit nothing: the room session rides along only as the
+    // descriptive model parent (Discord's disabled-inheritance shape) and the
+    // explicit recovery parent (restart tombstones, the reason the parent key
+    // was added in #130196) — neither requests a transcript fork on ordinary
+    // thread starts.
     route: {
       ..._route,
       routeSessionKey: _route.sessionKey,
-      // Threads start isolated: the docs promise only the thread root as extra
-      // context, and forking the room transcript here leaked prior room turns
-      // (including tool calls and results) into every new thread's first prompt.
-      // Discord/Slack gate this behind an opt-in (thread.inheritParent, default
-      // false) that Matrix does not have, so fork requests stop here entirely.
       parentSessionKey: undefined,
-      // Model/provider overrides stay descriptive via the model parent key
-      // (Discord's disabled-inheritance shape), never granting lifecycle
-      // behavior.
-      modelParentSessionKey:
-        threadTarget && _route.matchedBy !== "binding.channel" ? _route.mainSessionKey : undefined,
-      // Restart-recovery replacement (restart tombstones) still needs the room
-      // session as its source — the reason the parent key was added (#130196).
-      // The explicit recovery parent key authorizes that replacement (with the
-      // required parent-fork preparation) without requesting a transcript fork
-      // on ordinary thread starts.
-      recoveryParentSessionKey:
-        threadTarget && _route.matchedBy !== "binding.channel" ? _route.mainSessionKey : undefined,
+      modelParentSessionKey: threadRoomParentSource,
+      recoveryParentSessionKey: threadRoomParentSource,
     },
     reply: {
       to: `room:${roomId}`,

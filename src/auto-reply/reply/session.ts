@@ -131,7 +131,6 @@ import {
 } from "./session-initialization-admission.js";
 import {
   canReplaceRestartTombstoneFromParent,
-  forkPrep,
   parentForkPreparationHook,
 } from "./session-parent-fork-prepare.js";
 import {
@@ -754,8 +753,10 @@ async function initSessionStateAttemptLocked(
   let previousSessionMemory: SessionMemoryTranscript | undefined;
   let previousSessionResetMessages: unknown[] | undefined;
   // Replacement runs the required parent-fork preparation even without an
-  // ordinary-start fork request (see forkPrep call sites).
+  // ordinary-start fork request; both paths share the guarded commit hook.
   const prepareParentFork = parentSessionKey && parentSessionKey !== sessionKey && !alreadyForked;
+  const needsParentForkPreparation =
+    prepareParentFork || (restartTombstoneParentFork && !alreadyForked);
   const routeContext =
     !isSystemEvent &&
     sessionCtxForState.InboundAccessAuthorized === true &&
@@ -767,7 +768,7 @@ async function initSessionStateAttemptLocked(
       entry &&
       recordedActivity &&
       !previousSessionEntry &&
-      !(prepareParentFork || forkPrep(restartTombstoneParentFork, alreadyForked)) &&
+      !needsParentForkPreparation &&
       !retiredLegacyMainDelivery &&
       !params.bindSessionCreation &&
       routeContext === undefined &&
@@ -805,18 +806,16 @@ async function initSessionStateAttemptLocked(
       expectedRevision: initializationSnapshot.revision,
       relatedSessionKeys,
       maintenanceConfig,
-      prepareSessionEntry:
-        prepareParentFork || forkPrep(restartTombstoneParentFork, alreadyForked)
-          ? parentForkPreparationHook({
-              alreadyForked,
-              parentSessionKey,
-              recoveryParentKey: recoveryKey,
-              requireParentForkReplacement: restartTombstoneParentFork,
-              sessionTarget,
-              signal: params.signal,
-              warn: (message) => log.warn(message),
-            })
-          : undefined,
+      prepareSessionEntry: needsParentForkPreparation
+        ? parentForkPreparationHook({
+            alreadyForked,
+            forkSource: restartTombstoneParentFork ? recoveryKey : parentSessionKey,
+            requireParentForkReplacement: restartTombstoneParentFork,
+            sessionTarget,
+            signal: params.signal,
+            warn: (message) => log.warn(message),
+          })
+        : undefined,
       ...(resetBoundary ? { resetBoundary } : {}),
       beforeEntryMutation: async ({ currentEntry, sessionEntry: entryToCommit }) => {
         if (params.signal?.aborted === true) {

@@ -108,25 +108,14 @@ export async function prepareReplySessionParentFork(params: {
 }
 
 /**
- * Whether a replacement-eligible restart tombstone must run the parent-fork
- * preparation now. Kept beside the preparation itself: the recovery parent key
- * authorizes the replacement, and the preparation still guards the fresh
- * generation before it commits.
- */
-export function forkPrep(restartTombstoneParentFork: boolean, alreadyForked: boolean): boolean {
-  return restartTombstoneParentFork && !alreadyForked;
-}
-
-/**
  * Builds the prepareSessionEntry hook that runs the required parent-fork
- * preparation before a fresh generation commits. The recovery parent key
- * authorizes a tombstone replacement; an ordinary start forks only when its
- * own parent fork request is present.
+ * preparation before a fresh generation commits. The fork source is the
+ * ordinary parent key on a fork request, or the recovery parent key when a
+ * replacement-eligible restart tombstone authorizes the replacement.
  */
 export function parentForkPreparationHook(params: {
   alreadyForked: boolean;
-  parentSessionKey?: string;
-  recoveryParentKey?: string;
+  forkSource?: string;
   requireParentForkReplacement: boolean;
   sessionTarget: { agentId: string; sessionKey: string; storePath: string };
   signal?: AbortSignal;
@@ -145,9 +134,7 @@ export function parentForkPreparationHook(params: {
     return await prepareReplySessionParentFork({
       ...params.sessionTarget,
       alreadyForked: params.alreadyForked,
-      parentSessionKey: params.requireParentForkReplacement
-        ? params.recoveryParentKey
-        : params.parentSessionKey,
+      parentSessionKey: params.forkSource,
       requireParentForkReplacement: params.requireParentForkReplacement,
       readEntry,
       sessionEntry: entryToCommit,
