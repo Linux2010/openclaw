@@ -48,7 +48,9 @@ describe("plain-text promotion execution gate", () => {
     const events = await collectPromotionEvents(stream);
     const result = record(await stream.result(), "result message");
 
-    const toolCalls = messageContent(result).filter((block) => block.type === "toolCall");
+    const toolCalls = messageContent(result).filter(
+      (block) => record(block, "content block").type === "toolCall",
+    );
     expect(toolCalls).toHaveLength(1);
     expect(record(toolCalls[0], "promoted tool call")).toMatchObject({
       name: "skills_read",
@@ -80,7 +82,7 @@ describe("plain-text promotion execution gate", () => {
     const beforeRevocation = await wrapWithNames(params, revokedSet);
     expect(
       messageContent(record(await beforeRevocation.result(), "result message")).some(
-        (block) => block.type === "toolCall",
+        (block) => record(block, "content block").type === "toolCall",
       ),
     ).toBe(true);
 
@@ -90,5 +92,42 @@ describe("plain-text promotion execution gate", () => {
 
     expect(events.some((event) => String(event.type).startsWith("toolcall_"))).toBe(false);
     expect(messageContent(result)).toEqual([{ type: "text", text: envelopedCall("skills_read") }]);
+  });
+
+  it("reads the live name set at the promotion boundary", async () => {
+    // applyPromptToolPolicy and refreshTools clear and refill the catalog
+    // name sets during an attempt; promotion must observe a removal instead
+    // of promoting from a copied snapshot (#183085 revision).
+    const liveNames = new Set(["write"]);
+    const params = envelopeParams("write");
+    const wrapped = wrapStreamFnPromoteStandaloneTextToolCalls(
+      (() => createFakeStream(params)) as never,
+      () => liveNames,
+    );
+
+    const beforeRemoval = (await wrapped(
+      {} as never,
+      {} as never,
+      {} as never,
+    )) as FakeWrappedStream;
+    expect(
+      messageContent(record(await beforeRemoval.result(), "result message")).some(
+        (block) => record(block, "content block").type === "toolCall",
+      ),
+    ).toBe(true);
+
+    // Policy removes the name mid-attempt.
+    liveNames.delete("write");
+
+    const afterRemoval = (await wrapped(
+      {} as never,
+      {} as never,
+      {} as never,
+    )) as FakeWrappedStream;
+    const events = await collectPromotionEvents(afterRemoval);
+    const result = record(await afterRemoval.result(), "result message");
+
+    expect(events.some((event) => String(event.type).startsWith("toolcall_"))).toBe(false);
+    expect(messageContent(result)).toEqual([{ type: "text", text: envelopedCall("write") }]);
   });
 });

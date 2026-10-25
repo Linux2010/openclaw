@@ -23,11 +23,13 @@ const STANDALONE_TEXT_TOOL_CALL_PROMOTION_STOP_REASONS = new Set<unknown>(["stop
 
 function wrapStreamPromoteStandaloneTextToolCalls(
   stream: AssistantStream,
-  allowedToolNames: Set<string>,
+  resolveAllowedToolNames: () => Set<string>,
 ): AssistantStream {
   const matcher: PlainTextToolCallNameMatcher = {
-    hasExactName: (name) => Boolean(resolveToolCallName(name, allowedToolNames, undefined, true)),
-    hasNamePrefix: (prefix) => couldNormalizeToolNamePrefixToAllowedTool(prefix, allowedToolNames),
+    hasExactName: (name) =>
+      Boolean(resolveToolCallName(name, resolveAllowedToolNames(), undefined, true)),
+    hasNamePrefix: (prefix) =>
+      couldNormalizeToolNamePrefixToAllowedTool(prefix, resolveAllowedToolNames()),
   };
   const promotedIdBySource = new Map<string, string>();
   const normalizeTerminalMessage = (params: {
@@ -69,13 +71,14 @@ function wrapStreamPromoteStandaloneTextToolCalls(
     };
     const promoted = projectPlainTextToolCallMessage({
       allowedStopReasons: STANDALONE_TEXT_TOOL_CALL_PROMOTION_STOP_REASONS,
-      allowedToolNames,
+      allowedToolNames: resolveAllowedToolNames(),
       createToolCallBlock: createStableToolCallBlock,
       isRetainableNonTextBlock: isThinkingLikeBlock,
       message: params.message,
       requireAssistantRole: true,
       resolveProtectedRanges: findCodeRegions,
-      resolveToolName: (name) => resolveToolCallName(name, allowedToolNames, undefined, true),
+      resolveToolName: (name) =>
+        resolveToolCallName(name, resolveAllowedToolNames(), undefined, true),
     });
     if (promoted) {
       stripCompactionReplayCheckpointInPlace(promoted.message);
@@ -138,13 +141,21 @@ function wrapStreamPromoteStandaloneTextToolCalls(
 
 export function wrapStreamFnPromoteStandaloneTextToolCalls(
   baseFn: StreamFn,
-  allowedToolNames?: Set<string>,
+  allowedToolNames?: Set<string> | (() => Set<string>),
 ): StreamFn {
-  if (!allowedToolNames || allowedToolNames.size === 0) {
+  // A resolver keeps promotion synchronized with the catalog's live name
+  // sets: applyPromptToolPolicy and refreshTools clear and refill those sets
+  // during an attempt, so a copied snapshot would keep promoting names the
+  // policy just removed (#183085 revision).
+  const resolveAllowedToolNames =
+    typeof allowedToolNames === "function"
+      ? allowedToolNames
+      : () => allowedToolNames ?? new Set<string>();
+  if (resolveAllowedToolNames().size === 0) {
     return baseFn;
   }
   return (model, context, streamOptions) =>
     mapAssistantMessageStream(baseFn(model, context, streamOptions), (stream) =>
-      wrapStreamPromoteStandaloneTextToolCalls(stream, allowedToolNames),
+      wrapStreamPromoteStandaloneTextToolCalls(stream, resolveAllowedToolNames),
     );
 }

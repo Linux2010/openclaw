@@ -332,11 +332,16 @@ export function installEmbeddedAttemptStreamGuards(
   // in `tools` mode a provider can echo a deferred call (e.g. `skills_read`)
   // as plain text, and promoting it routes the call through normal execution
   // (or a recoverable tool error) instead of leaking raw XML to the user
-  // (#183085).
-  const promotionAllowedToolNames = new Set(liveAllowedToolNames);
-  for (const capabilityName of capabilityToolNames) {
-    promotionAllowedToolNames.add(capabilityName);
-  }
+  // (#183085). The resolver reads the catalog's live name sets at the
+  // promotion boundary so applyPromptToolPolicy and refreshTools removals
+  // stay authoritative during the attempt.
+  const promotionAllowedToolNames = (): Set<string> => {
+    const names = new Set(liveAllowedToolNames);
+    for (const capabilityName of capabilityToolNames) {
+      names.add(capabilityName);
+    }
+    return names;
+  };
   installStreamWrapper(wrapStreamFnPromoteStandaloneTextToolCalls, promotionAllowedToolNames);
   installStreamWrapper(wrapStreamFnTrimToolCallNames, liveAllowedToolNames, {
     // Unknown-tool recovery stays active even when configurable loop detection is disabled.
