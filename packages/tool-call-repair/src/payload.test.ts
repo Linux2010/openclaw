@@ -200,19 +200,3 @@ describe("parseStandalonePlainTextToolCallBlocks with a Qwen-style envelope", ()
     expect(blocks?.[0]?.raw).toBe(text);
   });
 });
-
-describe("parseStandalonePlainTextToolCallBlocks with a Qwen-style envelope", () => {
-  it("parses an enveloped bare-name deferred call end to end (#183085)", () => {
-    const text =
-      "<tool_call>\n<function=skills_read>\n<parameter=name>\nbriefing\n</parameter>\n</function>\n</tool_call>";
-
-    const blocks = parseStandalonePlainTextToolCallBlocks(text, {
-      allowedToolNames: ["skills_read"],
-    });
-
-    expect(blocks).not.toBeNull();
-    expect(blocks?.map((block) => block.name)).toEqual(["skills_read"]);
-    expect(blocks?.[0]?.arguments).toEqual({ name: "briefing" });
-    expect(blocks?.[0]?.raw).toBe(text);
-  });
-});
