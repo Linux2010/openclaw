@@ -145,6 +145,9 @@ export async function createStreamCustodyFixture(
         toolSearchRunPlan: {
           liveAllowedToolNames: new Set(options.toolNames),
           replayAllowedToolNames: new Set(options.toolNames),
+          // Production-shaped plan: promotion unions the deferred catalog
+          // names, so custody fixtures must supply them too (#183085).
+          capabilityToolNames: new Set(options.toolNames),
         },
       },
     },
