@@ -607,7 +607,7 @@ describe("live catalog revocation gates promoted deferred calls", () => {
 
       const gated = catalog.effectiveTools.find((entry) => entry.name === "skills_read");
       expect(gated).toBeDefined();
-      const refusal = await gated!.execute({ name: "briefing" });
+      const refusal = await gated!.execute("gate-check", { name: "briefing" });
       expect(readToolExecutionRefusal(refusal)).toMatchObject({ kind: "gated" });
       // The refusal wrapper never invokes the tool implementation: zero I/O.
       expect(executions).toEqual([]);
