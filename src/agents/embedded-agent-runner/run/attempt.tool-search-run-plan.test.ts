@@ -1,3 +1,4 @@
+import { Type } from "typebox";
 import { describe, expect, it } from "vitest";
 import type { OpenClawConfig } from "../../../config/types.openclaw.js";
 import { setPluginToolMeta } from "../../../plugins/tool-metadata.js";
