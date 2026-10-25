@@ -54,6 +54,22 @@ describe("scanXmlishToolCall with a Qwen-style tool_call envelope", () => {
     expect(scanXmlishToolCall(`${withoutClose}\n</tool_ca`).kind).toBe("prefix");
   });
 
+  it("rejects a disproved envelope closer instead of swallowing following prose", () => {
+    // `</wrong>` can never become `</tool_call>`: no appended bytes repair
+    // the position, so the whole wrapped block is ordinary text and any
+    // trailing prose survives instead of joining a scrubbed candidate.
+    const disproved = "<tool_call>\n<function=read></function>\n</wrong>\nHere is the answer";
+    expect(scanXmlishToolCall(disproved).kind).toBe("invalid");
+    expect(scanXmlishToolCall("<tool_call>\n<function=read></function>\n</w").kind).toBe("invalid");
+  });
+
+  it("stays in prefix while the remaining bytes can still form the closer", () => {
+    expect(scanXmlishToolCall("<tool_call>\n<function=read></function>\n</tool_call").kind).toBe(
+      "prefix",
+    );
+    expect(scanXmlishToolCall("<tool_call>\n<function=read></function>\n").kind).toBe("prefix");
+  });
+
   it("treats a partial envelope opener as prefix", () => {
     expect(scanXmlishToolCall("<tool_").kind).toBe("prefix");
     expect(scanXmlishToolCall("<tool_call>").kind).toBe("prefix");
@@ -72,8 +88,9 @@ describe("scanXmlishToolCall with a Qwen-style tool_call envelope", () => {
     if (scan.kind !== "complete") {
       return;
     }
-    expect(wrapped.slice(wrapped.indexOf("<function"), wrapped.indexOf("</function>"))).toBe(
-      bare.slice(0, bare.indexOf("</function>")),
+    expect(bare.slice(scan.name.start, scan.name.end)).toBe("skills_read");
+    expect(bare.slice(scan.payload.start, scan.payload.end)).toBe(
+      "\n<parameter=name>\nbriefing\n</parameter>\n",
     );
     expect(scan.end).toBe(bare.length);
   });

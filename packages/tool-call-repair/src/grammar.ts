@@ -305,24 +305,41 @@ export function scanXmlishToolCall(
     }
     if (startsWithAsciiMarkerIgnoreCase(text, markerStart, FUNCTION_CLOSE)) {
       if (wrappedInToolCallMarker) {
-        // The envelope must close for the block to count as complete; a
-        // missing or partial `</tool_call>` keeps the scan in prefix so
-        // streaming and stripping never act on a half-consumed envelope.
+        // The envelope must close for the block to count as complete. Stay in
+        // prefix only while the remaining bytes can still form the expected
+        // closer; once the closer is disproved (wrong closer or trailing
+        // prose) the whole wrapped block is ordinary text, so surrounding
+        // visible content survives instead of being swallowed into a
+        // candidate (preserve surrounding visible content).
         const functionCloseEnd = markerStart + FUNCTION_CLOSE.length;
         const afterFunctionClose = consumeStructuralLineBreakAfterHorizontalWhitespace(
           text,
           functionCloseEnd,
           structuralLineBreaks,
         );
-        const closeStart =
-          afterFunctionClose !== null &&
-          startsWithAsciiMarkerIgnoreCase(text, afterFunctionClose, TOOL_CALL_CLOSE)
-            ? afterFunctionClose
-            : -1;
-        if (closeStart === -1) {
-          return prefix(markerStart);
+        const canStillClose =
+          afterFunctionClose === null
+            ? skipHorizontalWhitespace(text, functionCloseEnd) === text.length ||
+              isAsciiMarkerPrefixIgnoreCase(text, functionCloseEnd, TOOL_CALL_CLOSE)
+            : startsWithAsciiMarkerIgnoreCase(text, afterFunctionClose, TOOL_CALL_CLOSE) ||
+              isAsciiMarkerPrefixIgnoreCase(text, afterFunctionClose, TOOL_CALL_CLOSE) ||
+              afterFunctionClose === text.length;
+        if (!canStillClose) {
+          return { kind: "invalid", at: start };
         }
-        return complete(markerStart, closeStart + TOOL_CALL_CLOSE.length);
+        if (
+          startsWithAsciiMarkerIgnoreCase(
+            text,
+            afterFunctionClose ?? functionCloseEnd,
+            TOOL_CALL_CLOSE,
+          )
+        ) {
+          return complete(
+            markerStart,
+            (afterFunctionClose ?? functionCloseEnd) + TOOL_CALL_CLOSE.length,
+          );
+        }
+        return prefix(markerStart);
       }
       return syntax !== "function" && parameters.length === 0
         ? { kind: "invalid", at: markerStart, candidate: candidate(markerStart) }
