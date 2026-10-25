@@ -120,6 +120,10 @@ const FUNCTION_OPEN = "<function=";
 const FUNCTION_CLOSE = "</function>";
 const PARAMETER_OPEN = "<parameter=";
 const PARAMETER_CLOSE = "</parameter>";
+// Qwen-family envelopes wrap the whole call, e.g.
+// `<tool_call>\n<function=name>\n...\n</function>\n</tool_call>`.
+const TOOL_CALL_OPEN = "<tool_call>";
+const TOOL_CALL_CLOSE = "</tool_call>";
 
 export function startsWithAsciiMarkerIgnoreCase(
   text: string,
@@ -173,8 +177,29 @@ export function scanXmlishToolCall(
   let cursor = start;
   let syntax: XmlishToolCallCandidate["syntax"];
   let name: XmlishToolCallSpan;
+  let wrappedInToolCallMarker = false;
 
   if (text[cursor] === "<") {
+    if (startsWithAsciiMarkerIgnoreCase(text, cursor, TOOL_CALL_OPEN)) {
+      if (text.length - cursor < TOOL_CALL_OPEN.length) {
+        return { kind: "prefix" };
+      }
+      cursor += TOOL_CALL_OPEN.length;
+      const afterOpenLineBreak = consumeStructuralLineBreakAfterHorizontalWhitespace(
+        text,
+        cursor,
+        structuralLineBreaks,
+      );
+      if (afterOpenLineBreak === null) {
+        return cursor === text.length ? { kind: "prefix" } : { kind: "invalid", at: cursor };
+      }
+      cursor = afterOpenLineBreak;
+      wrappedInToolCallMarker = true;
+    } else if (isAsciiMarkerPrefixIgnoreCase(text, cursor, TOOL_CALL_OPEN)) {
+      // A partial envelope opener (`<tool_`, ...) can still grow into a
+      // complete wrapped call; keep streaming until it resolves.
+      return { kind: "prefix" };
+    }
     if (
       !startsWithAsciiMarkerIgnoreCase(text, cursor, FUNCTION_OPEN) &&
       !isAsciiMarkerPrefixIgnoreCase(text, cursor, FUNCTION_OPEN)
@@ -279,6 +304,26 @@ export function scanXmlishToolCall(
         : { kind: "prefix", candidate: candidate(text.length) };
     }
     if (startsWithAsciiMarkerIgnoreCase(text, markerStart, FUNCTION_CLOSE)) {
+      if (wrappedInToolCallMarker) {
+        // The envelope must close for the block to count as complete; a
+        // missing or partial `</tool_call>` keeps the scan in prefix so
+        // streaming and stripping never act on a half-consumed envelope.
+        const functionCloseEnd = markerStart + FUNCTION_CLOSE.length;
+        const afterFunctionClose = consumeStructuralLineBreakAfterHorizontalWhitespace(
+          text,
+          functionCloseEnd,
+          structuralLineBreaks,
+        );
+        const closeStart =
+          afterFunctionClose !== null &&
+          startsWithAsciiMarkerIgnoreCase(text, afterFunctionClose, TOOL_CALL_CLOSE)
+            ? afterFunctionClose
+            : -1;
+        if (closeStart === -1) {
+          return prefix(markerStart);
+        }
+        return complete(markerStart, closeStart + TOOL_CALL_CLOSE.length);
+      }
       return syntax !== "function" && parameters.length === 0
         ? { kind: "invalid", at: markerStart, candidate: candidate(markerStart) }
         : complete(markerStart, markerStart + FUNCTION_CLOSE.length);

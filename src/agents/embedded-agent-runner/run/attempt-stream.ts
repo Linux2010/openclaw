@@ -132,7 +132,7 @@ export function installEmbeddedAttemptStreamGuards(
     },
   } = input.prepared.sessionRuntime;
   setInternalRepetitionGuard(session.agent, isSmallModel);
-  const { liveAllowedToolNames, replayAllowedToolNames } =
+  const { liveAllowedToolNames, replayAllowedToolNames, capabilityToolNames } =
     input.prepared.toolCatalog.toolSearchRunPlan;
   const installStreamWrapper = <Args extends unknown[]>(
     wrapper: (stream: StreamFn, ...args: Args) => StreamFn,
@@ -328,7 +328,16 @@ export function installEmbeddedAttemptStreamGuards(
     transcriptPolicy,
     attempt.provider,
   );
-  installStreamWrapper(wrapStreamFnPromoteStandaloneTextToolCalls, liveAllowedToolNames);
+  // Plain-text tool-call promotion must accept deferred catalog names too:
+  // in `tools` mode a provider can echo a deferred call (e.g. `skills_read`)
+  // as plain text, and promoting it routes the call through normal execution
+  // (or a recoverable tool error) instead of leaking raw XML to the user
+  // (#183085).
+  const promotionAllowedToolNames = new Set(liveAllowedToolNames);
+  for (const capabilityName of capabilityToolNames) {
+    promotionAllowedToolNames.add(capabilityName);
+  }
+  installStreamWrapper(wrapStreamFnPromoteStandaloneTextToolCalls, promotionAllowedToolNames);
   installStreamWrapper(wrapStreamFnTrimToolCallNames, liveAllowedToolNames, {
     // Unknown-tool recovery stays active even when configurable loop detection is disabled.
     unknownToolThreshold: UNKNOWN_TOOL_THRESHOLD,
