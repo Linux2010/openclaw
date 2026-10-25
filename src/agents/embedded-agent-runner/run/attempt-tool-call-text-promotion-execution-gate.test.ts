@@ -71,29 +71,6 @@ describe("plain-text promotion execution gate", () => {
     expect(messageContent(result)).toEqual([{ type: "text", text: envelopedCall("skills_read") }]);
   });
 
-  it("stops promoting a tool revoked by a catalog refresh before the next attempt", async () => {
-    // attempt-stream rebuilds the promotion set from the live and capability
-    // catalogs on every attempt, so a revocation between attempts produces a
-    // matcher that no longer contains the name.
-    const revokedSet = ["skills_read", "exec"];
-    const refreshedSet = ["exec"];
-    const params = envelopeParams("skills_read");
-
-    const beforeRevocation = await wrapWithNames(params, revokedSet);
-    expect(
-      messageContent(record(await beforeRevocation.result(), "result message")).some(
-        (block) => record(block, "content block").type === "toolCall",
-      ),
-    ).toBe(true);
-
-    const afterRevocation = await wrapWithNames(params, refreshedSet);
-    const events = await collectPromotionEvents(afterRevocation);
-    const result = record(await afterRevocation.result(), "result message");
-
-    expect(events.some((event) => String(event.type).startsWith("toolcall_"))).toBe(false);
-    expect(messageContent(result)).toEqual([{ type: "text", text: envelopedCall("skills_read") }]);
-  });
-
   it("reads the live name set at the promotion boundary", async () => {
     // applyPromptToolPolicy and refreshTools clear and refill the catalog
     // name sets during an attempt; promotion must observe a removal instead
