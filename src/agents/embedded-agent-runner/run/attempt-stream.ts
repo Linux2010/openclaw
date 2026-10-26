@@ -132,7 +132,7 @@ export function installEmbeddedAttemptStreamGuards(
     },
   } = input.prepared.sessionRuntime;
   setInternalRepetitionGuard(session.agent, isSmallModel);
-  const { liveAllowedToolNames, replayAllowedToolNames, capabilityToolNames } =
+  const { liveAllowedToolNames, replayAllowedToolNames } =
     input.prepared.toolCatalog.toolSearchRunPlan;
   const installStreamWrapper = <Args extends unknown[]>(
     wrapper: (stream: StreamFn, ...args: Args) => StreamFn,
@@ -328,21 +328,12 @@ export function installEmbeddedAttemptStreamGuards(
     transcriptPolicy,
     attempt.provider,
   );
-  // Plain-text tool-call promotion must accept deferred catalog names too:
-  // in `tools` mode a provider can echo a deferred call (e.g. `skills_read`)
-  // as plain text, and promoting it routes the call through normal execution
-  // (or a recoverable tool error) instead of leaking raw XML to the user
-  // (#183085). The resolver reads the catalog's live name sets at the
-  // promotion boundary so applyPromptToolPolicy and refreshTools removals
-  // stay authoritative during the attempt.
-  const promotionAllowedToolNames = (): Set<string> => {
-    const names = new Set(liveAllowedToolNames);
-    for (const capabilityName of capabilityToolNames) {
-      names.add(capabilityName);
-    }
-    return names;
-  };
-  installStreamWrapper(wrapStreamFnPromoteStandaloneTextToolCalls, promotionAllowedToolNames);
+  // Plain-text promotion stays on the visible/live set: wrapped calls naming
+  // deferred tools are recovered by the terminal bounded native correction
+  // (attempt-result extends its detector with the capability names), keeping
+  // the two recovery paths disjoint per the established design (#183085,
+  // follow-up to #172908).
+  installStreamWrapper(wrapStreamFnPromoteStandaloneTextToolCalls, liveAllowedToolNames);
   installStreamWrapper(wrapStreamFnTrimToolCallNames, liveAllowedToolNames, {
     // Unknown-tool recovery stays active even when configurable loop detection is disabled.
     unknownToolThreshold: UNKNOWN_TOOL_THRESHOLD,

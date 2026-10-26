@@ -38,6 +38,7 @@ type ResultInput = {
   didSendViaMessagingTool?: boolean;
   assistantTexts?: readonly string[];
   allowedToolNames?: string[];
+  capabilityToolNames?: string[];
 };
 
 function createResultFixture(params: ResultInput = {}) {
@@ -88,7 +89,10 @@ function createResultFixture(params: ResultInput = {}) {
     lifecycle: { readYieldState: () => ({ yieldDetected: false }) },
     prepared: {
       toolCatalog: {
-        toolSearchRunPlan: { liveAllowedToolNames: new Set(params?.allowedToolNames) },
+        toolSearchRunPlan: {
+          liveAllowedToolNames: new Set(params?.allowedToolNames),
+          capabilityToolNames: new Set(params?.capabilityToolNames ?? []),
+        },
       },
       bootstrap: { bootstrapPromptWarning: {} },
       systemPrompt: { systemPromptReport: undefined },
@@ -183,6 +187,35 @@ describe("attempt result projection", () => {
         completeResult({
           currentAttemptCompletedAssistant: assistant,
           allowedToolNames,
+          toolMetas: [{ toolName: "read", replaySafe: true, isError: false }],
+        }).textToolCallAttempt,
+      ).toBe(expected);
+    },
+  );
+
+  // Wrapped calls naming authorized deferred tools must reach the bounded
+  // native correction: the terminal detector unions the capability names
+  // into its matcher so the tools-mode offered set does not hide them
+  // (#183085).
+  const ENVELOPE_OPEN = "<tool" + "_call>";
+  const ENVELOPE_CLOSE = "</tool" + "_call>";
+  const wrappedDeferredCall =
+    ENVELOPE_OPEN +
+    "\n<function=skills_read>\n<parameter=name>\nbriefing\n</parameter>\n</function>\n" +
+    ENVELOPE_CLOSE;
+
+  it.each<[string[], boolean | undefined]>([
+    [["read"], undefined],
+    [["read", "skills_read"], true],
+  ])(
+    "recognizes a wrapped deferred call for %j as a native-correction attempt",
+    (capabilityToolNames, expected) => {
+      const assistant = textAssistant(wrappedDeferredCall);
+      expect(
+        completeResult({
+          currentAttemptCompletedAssistant: assistant,
+          allowedToolNames: ["read"],
+          capabilityToolNames,
           toolMetas: [{ toolName: "read", replaySafe: true, isError: false }],
         }).textToolCallAttempt,
       ).toBe(expected);

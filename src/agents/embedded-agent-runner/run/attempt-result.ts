@@ -317,10 +317,18 @@ export function completeEmbeddedAttemptResult(
     !assistant.content.some(isRunnerToolCallBlock)
   ) {
     const allowedToolNames = input.prepared.toolCatalog.toolSearchRunPlan.liveAllowedToolNames;
+    // Wrapped calls naming authorized deferred tools must reach the bounded
+    // native correction too: in `tools` mode the offered set hides them, so
+    // the terminal detector needs the capability names to recognize the
+    // near-miss and let the model recover through dispatch_action (#183085).
+    const detectorToolNames = new Set(allowedToolNames);
+    for (const capabilityName of input.prepared.toolCatalog.toolSearchRunPlan.capabilityToolNames) {
+      detectorToolNames.add(capabilityName);
+    }
     textToolCallAttempt =
-      allowedToolNames.size > 0 &&
+      detectorToolNames.size > 0 &&
       isPlainTextToolCallAttempt(extractAssistantTranscriptSourceText(assistant) ?? "", (name) =>
-        Boolean(resolveToolCallName(name, allowedToolNames, undefined, true)),
+        Boolean(resolveToolCallName(name, detectorToolNames, undefined, true)),
       );
   }
   const result: EmbeddedRunAttemptWithReceiptEvidence = {
