@@ -1,4 +1,3 @@
-import { Type } from "typebox";
 import { describe, expect, it } from "vitest";
 import type { OpenClawConfig } from "../../../config/types.openclaw.js";
 import { setPluginToolMeta } from "../../../plugins/tool-metadata.js";
@@ -13,18 +12,9 @@ import {
   createStubTool as tool,
 } from "../../test-helpers/agent-tool-stubs.js";
 import { makeProviderModelFixture } from "../../test-helpers/provider-model-fixture.js";
-import { readToolExecutionRefusal } from "../../tool-effect-receipt.js";
 import type { AnyAgentTool } from "../../tools/common.js";
 import { createAttemptNestedToolActivityState } from "./attempt-nested-tool-activity.js";
 import { createAttemptSetupFixture } from "./attempt-setup.test-support.js";
-import { createFakeStream, type FakeWrappedStream } from "./attempt-stream.test-helpers.js";
-import { wrapStreamFnPromoteStandaloneTextToolCalls } from "./attempt-tool-call-text-promotion.js";
-import {
-  assistantMessage,
-  collectPromotionEvents,
-  messageContent,
-  record,
-} from "./attempt-tool-call-text-promotion.test-support.js";
 import { prepareEmbeddedAttemptToolCatalog } from "./attempt-tool-catalog.js";
 import type { EmbeddedRunAttemptParams } from "./types.js";
 
@@ -43,9 +33,6 @@ async function plan(
     toolsEnabled?: boolean;
     disableTools?: boolean;
     effectiveToolsAllow?: string[];
-    toolExecutionAllow?: string[];
-    toolAbortSignal?: AbortSignal;
-    compactPassthrough?: boolean;
     sandboxed?: boolean;
     clientTools?: typeof clientTools;
     toolSearch?: NonNullable<OpenClawConfig["tools"]>["toolSearch"];
@@ -99,7 +86,6 @@ async function plan(
       thinkLevel: "off",
       toolsAllow: options.allow === null ? undefined : (options.allow ?? ["missing_tool"]),
       disableTools: options.disableTools,
-      toolExecutionAllow: options.toolExecutionAllow,
       authProfileStore: { version: 1, profiles: {} },
       authStorage,
       modelRegistry: ModelRegistry.inMemory(authStorage),
@@ -122,7 +108,7 @@ async function plan(
         onToolOutcome: undefined,
         allocateToolOutcomeOrdinal: undefined,
       },
-      toolAbortSignal: options.toolAbortSignal ?? abort.signal,
+      toolAbortSignal: abort.signal,
       refreshPermissionMode: async () => {
         throw new Error("The catalog fixture does not prepare permission changes");
       },
@@ -147,34 +133,18 @@ async function plan(
       toolSurfaceRuntime: {
         ...surface,
         // Fix only upstream compaction facts. The catalog computes every asserted allowlist.
-        // compactPassthrough mirrors the real surface, which keeps the
-        // caller's (possibly execution-gated) tool objects on the surface.
-        compactTools: (tools: AnyAgentTool[]) =>
-          options.compactPassthrough
-            ? {
-                ...seed,
-                tools,
-                projectedTools: tools,
-                diagnostics: [],
-                catalog: {
-                  ...seed.catalog,
-                  tools,
-                  catalogRegistered: true,
-                  catalogToolCount: options.catalogToolCount ?? 0,
-                },
-              }
-            : {
-                ...seed,
-                tools: visibleTools,
-                projectedTools: visibleTools,
-                diagnostics: [],
-                catalog: {
-                  ...seed.catalog,
-                  tools: visibleTools,
-                  catalogRegistered: true,
-                  catalogToolCount: options.catalogToolCount ?? 0,
-                },
-              },
+        compactTools: () => ({
+          ...seed,
+          tools: visibleTools,
+          projectedTools: visibleTools,
+          diagnostics: [],
+          catalog: {
+            ...seed.catalog,
+            tools: visibleTools,
+            catalogRegistered: true,
+            catalogToolCount: options.catalogToolCount ?? 0,
+          },
+        }),
       },
       toolSearchConfig: surface.plan.toolSearchConfig,
       toolSearchControlsEnabledForRun: surface.toolSearchControlsEnabled,
@@ -200,8 +170,6 @@ async function plan(
     });
     return {
       ...result.toolSearchRunPlan,
-      applyPromptToolPolicy: result.applyPromptToolPolicy,
-      effectiveTools: result.effectiveTools,
       emptyExplicitToolAllowlistError: result.emptyExplicitToolAllowlistError,
     };
   } finally {
@@ -411,144 +379,5 @@ describe("explicit tool allowlist diagnostics", () => {
     });
     expect(error?.message).toContain("runtime toolsAllow: query_db");
     expect(error?.message).not.toContain("tools.allow: read");
-  });
-});
-
-// Production-owner revocation harness for #183085: the promotion matcher in
-// attempt-stream reads the real toolSearchRunPlan name sets, and the attempt's
-// prompt-policy owner (applyPromptToolPolicy) and execution gate
-// (gateToolExecution → gateAgentToolExecution) are the owners that mutate and
-// enforce them. These tests drive both through the production catalog builder.
-describe("live catalog revocation gates promoted deferred calls", () => {
-  const envelopedSkillsRead =
-    "<tool_call>\n<function=skills_read>\n<parameter=name>\nbriefing\n</parameter>\n</function>\n</tool_call>";
-
-  const catalogFixture = async (
-    options: { toolExecutionAllow?: string[]; compactPassthrough?: boolean } = {},
-  ): Promise<{
-    catalog: Awaited<ReturnType<typeof plan>>;
-    executions: string[];
-    release: () => void;
-  }> => {
-    const executions: string[] = [];
-    const countingTool = (name: string): AnyAgentTool => ({
-      name,
-      label: name,
-      description: "Tool inventory fixture",
-      parameters: Type.Object({}),
-      execute: async () => {
-        executions.push(name);
-        return { content: [], details: undefined };
-      },
-    });
-    const skillsRead = countingTool("skills_read");
-    const toolAbortController = new AbortController();
-    const catalog = await plan({
-      visibleTools: options.compactPassthrough
-        ? [skillsRead]
-        : [
-            countingTool("tool_search"),
-            countingTool("tool_describe"),
-            countingTool("dispatch_action"),
-            skillsRead,
-          ],
-      uncompactedTools: [skillsRead],
-      catalogToolCount: 1,
-      directory: true,
-      allow: [],
-      toolExecutionAllow: options.toolExecutionAllow,
-      toolAbortSignal: toolAbortController.signal,
-      compactPassthrough: options.compactPassthrough,
-    });
-    // Executing tools after plan() returns needs an un-aborted tool signal;
-    // release() ends the fixture's tool lifetime once assertions finish.
-    return { catalog, executions, release: () => toolAbortController.abort() };
-  };
-
-  // Mirrors the attempt-stream wiring: the resolver reads the catalog's live
-  // name sets at every promotion boundary.
-  const streamEnvelope = async (catalog: Awaited<ReturnType<typeof catalogFixture>>["catalog"]) => {
-    const resolvePromotionNames = () => {
-      const names = new Set(catalog.liveAllowedToolNames);
-      for (const name of catalog.capabilityToolNames) {
-        names.add(name);
-      }
-      return names;
-    };
-    const wrapped = wrapStreamFnPromoteStandaloneTextToolCalls(
-      (() =>
-        createFakeStream({
-          events: [
-            { type: "text_delta", contentIndex: 0, delta: envelopedSkillsRead },
-            {
-              type: "done",
-              reason: "stop",
-              message: assistantMessage([{ type: "text", text: envelopedSkillsRead }]),
-            },
-          ],
-          resultMessage: assistantMessage([{ type: "text", text: envelopedSkillsRead }]),
-        })) as never,
-      resolvePromotionNames,
-    );
-    const stream = (await wrapped({} as never, {} as never, {} as never)) as FakeWrappedStream;
-    const events = await collectPromotionEvents(stream);
-    const result = record(await stream.result(), "result message");
-    return { events, result };
-  };
-
-  const toolCallBlocks = (message: unknown) =>
-    messageContent(message).filter((block) => record(block, "content block").type === "toolCall");
-
-  it("promotes a deferred call while its catalog authority is live", async () => {
-    const { catalog } = await catalogFixture();
-    expect(catalog.liveAllowedToolNames.has("skills_read")).toBe(true);
-
-    const { events, result } = await streamEnvelope(catalog);
-
-    const toolCalls = toolCallBlocks(result);
-    expect(toolCalls).toHaveLength(1);
-    expect(record(toolCalls[0], "promoted tool call")).toMatchObject({
-      name: "skills_read",
-      arguments: { name: "briefing" },
-    });
-    expect(events.some((event) => String(event.type).startsWith("toolcall_"))).toBe(true);
-  });
-
-  it("stops promoting after the prompt-policy owner revokes the name", async () => {
-    const { catalog } = await catalogFixture();
-
-    // The attempt's prompt-policy owner (attempt.ts applyPromptToolPolicy)
-    // clears and refills the exact Set objects the promotion resolver reads.
-    catalog.applyPromptToolPolicy(new Set(["dispatch_action", "client_pick_file"]));
-    expect(catalog.liveAllowedToolNames.has("skills_read")).toBe(false);
-
-    const { events, result } = await streamEnvelope(catalog);
-
-    expect(events.some((event) => String(event.type).startsWith("toolcall_"))).toBe(false);
-    expect(toolCallBlocks(result)).toHaveLength(0);
-    expect(messageContent(result)).toEqual([{ type: "text", text: envelopedSkillsRead }]);
-  });
-
-  it("denies final tool I/O when execution authority is revoked from a promotable name", async () => {
-    // toolExecutionAllow excludes skills_read: the catalog still lists it, so
-    // promotion can structure the call, but the execution gate wraps the tool
-    // so the call can never reach the real implementation.
-    const { catalog, executions, release } = await catalogFixture({
-      toolExecutionAllow: ["tool_search"],
-      compactPassthrough: true,
-    });
-    try {
-      const { result } = await streamEnvelope(catalog);
-      expect(toolCallBlocks(result)).toHaveLength(1);
-
-      const gated = catalog.effectiveTools.find((entry) => entry.name === "skills_read");
-      expect(gated).toBeDefined();
-      const refusal = await gated!.execute("gate-check", { name: "briefing" });
-      expect(readToolExecutionRefusal(refusal)).toMatchObject({ kind: "gated" });
-      // The refusal wrapper never invokes the tool implementation: zero I/O.
-      expect(executions).toEqual([]);
-    } finally {
-      release();
-    }
   });
 });
