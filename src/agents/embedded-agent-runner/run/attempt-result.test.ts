@@ -197,8 +197,8 @@ describe("attempt result projection", () => {
   // native correction: the terminal detector unions the capability names
   // into its matcher so the tools-mode offered set does not hide them
   // (#183085).
-  const ENVELOPE_OPEN = "<tool" + "_call>";
-  const ENVELOPE_CLOSE = "</tool" + "_call>";
+  const ENVELOPE_OPEN = "<tool_call>";
+  const ENVELOPE_CLOSE = "</tool_call>";
   const wrappedDeferredCall =
     ENVELOPE_OPEN +
     "\n<function=skills_read>\n<parameter=name>\nbriefing\n</parameter>\n</function>\n" +
