@@ -328,11 +328,6 @@ export function installEmbeddedAttemptStreamGuards(
     transcriptPolicy,
     attempt.provider,
   );
-  // Plain-text promotion stays on the visible/live set: wrapped calls naming
-  // deferred tools are recovered by the terminal bounded native correction
-  // (attempt-result extends its detector with the capability names), keeping
-  // the two recovery paths disjoint per the established design (#183085,
-  // follow-up to #172908).
   installStreamWrapper(wrapStreamFnPromoteStandaloneTextToolCalls, liveAllowedToolNames);
   installStreamWrapper(wrapStreamFnTrimToolCallNames, liveAllowedToolNames, {
     // Unknown-tool recovery stays active even when configurable loop detection is disabled.

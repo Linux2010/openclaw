@@ -281,19 +281,14 @@ export function completeEmbeddedAttemptResult(
     assistant?.stopReason === "stop" &&
     !assistant.content.some(isRunnerToolCallBlock)
   ) {
-    const allowedToolNames = input.prepared.toolCatalog.toolSearchRunPlan.liveAllowedToolNames;
-    // Wrapped calls naming authorized deferred tools must reach the bounded
-    // native correction too: in `tools` mode the offered set hides them, so
-    // the terminal detector needs the capability names to recognize the
-    // near-miss and let the model recover through dispatch_action (#183085).
-    const detectorToolNames = new Set(allowedToolNames);
-    for (const capabilityName of input.prepared.toolCatalog.toolSearchRunPlan.capabilityToolNames) {
-      detectorToolNames.add(capabilityName);
-    }
+    const { liveAllowedToolNames, capabilityToolNames } =
+      input.prepared.toolCatalog.toolSearchRunPlan;
+    // Deferred names need native correction too; detection never executes text.
+    const allowedToolNames = new Set([...liveAllowedToolNames, ...capabilityToolNames]);
     textToolCallAttempt =
-      detectorToolNames.size > 0 &&
+      allowedToolNames.size > 0 &&
       isPlainTextToolCallAttempt(extractAssistantTranscriptSourceText(assistant) ?? "", (name) =>
-        Boolean(resolveToolCallName(name, detectorToolNames, undefined, true)),
+        Boolean(resolveToolCallName(name, allowedToolNames, undefined, true)),
       );
   }
   const accessProgram = asOptionalRecord(

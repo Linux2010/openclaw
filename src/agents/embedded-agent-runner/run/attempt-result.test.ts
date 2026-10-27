@@ -95,7 +95,7 @@ function createResultFixture(params: ResultInput = {}) {
       toolCatalog: {
         toolSearchRunPlan: {
           liveAllowedToolNames: new Set(params?.allowedToolNames),
-          capabilityToolNames: new Set(params?.capabilityToolNames ?? []),
+          capabilityToolNames: new Set(params?.capabilityToolNames),
         },
       },
       bootstrap: { bootstrapPromptWarning: {} },
@@ -206,34 +206,18 @@ describe("attempt result projection", () => {
     },
   );
 
-  // Wrapped calls naming authorized deferred tools must reach the bounded
-  // native correction: the terminal detector unions the capability names
-  // into its matcher so the tools-mode offered set does not hide them
-  // (#183085).
-  const ENVELOPE_OPEN = "<tool_call>";
-  const ENVELOPE_CLOSE = "</tool_call>";
-  const wrappedDeferredCall =
-    ENVELOPE_OPEN +
-    "\n<function=skills_read>\n<parameter=name>\nbriefing\n</parameter>\n</function>\n" +
-    ENVELOPE_CLOSE;
-
-  it.each<[string[], boolean | undefined]>([
-    [["read"], undefined],
-    [["read", "skills_read"], true],
-  ])(
-    "recognizes a wrapped deferred call for %j as a native-correction attempt",
-    (capabilityToolNames, expected) => {
-      const assistant = textAssistant(wrappedDeferredCall);
-      expect(
-        completeResult({
-          currentAttemptCompletedAssistant: assistant,
-          allowedToolNames: ["read"],
-          capabilityToolNames,
-          toolMetas: [{ toolName: "read", replaySafe: true, isError: false }],
-        }).textToolCallAttempt,
-      ).toBe(expected);
-    },
-  );
+  it.each([false, true])("corrects deferred text calls only when available: %s", (available) => {
+    const assistant = textAssistant(
+      "<tool_call>\n<function=skills_read>\n<parameter=name>\nbriefing\n</parameter>\n</function>\n</tool_call>",
+    );
+    expect(
+      completeResult({
+        currentAttemptCompletedAssistant: assistant,
+        allowedToolNames: ["dispatch_action"],
+        capabilityToolNames: available ? ["skills_read"] : [],
+      }).textToolCallAttempt,
+    ).toBe(available ? true : undefined);
+  });
 
   it("keeps the settled result snapshot when an output hook replaces live state", () => {
     const assistant = makeAssistantMessageFixture({ content: [{ type: "text", text: "settled" }] });

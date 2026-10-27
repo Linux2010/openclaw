@@ -51,6 +51,13 @@ precedes the rejected response in the current turn. Failures that may have cause
 side effects, unfinished tools, and asynchronous work still block it; the
 continuation does not replay the original task or increase the retry budget.
 
+If a model prints a complete tool call as text, including a call to an available
+deferred tool, the built-in runner can request one native correction when replay
+is safe. The text itself is never executed. The model must reissue the call
+through its native tool interface (`dispatch_action` for deferred tools in Tool
+Search's `tools` mode). A repeated text call produces a visible failure instead
+of silently reporting success.
+
 Recovery history stays available across attempts within the same run. The run
 releases message payloads from replaced recovery envelopes and when it ends,
 including envelopes retained by copied attempt parameters. Each accepted
