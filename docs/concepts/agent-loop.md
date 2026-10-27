@@ -53,9 +53,9 @@ continuation does not replay the original task or increase the retry budget.
 
 If a model prints a complete tool call as text, including a call to an available
 deferred tool, the built-in runner can request one native correction when replay
-is safe. The text itself is never executed. The model must reissue the call
-through its native tool interface (`dispatch_action` for deferred tools in Tool
-Search's `tools` mode). A repeated text call produces a visible failure instead
+is safe. Recognition does not authorize executing a deferred call as text. The
+model must reissue it through its native tool interface (`dispatch_action` in
+Tool Search's `tools` mode). A repeated text call produces a visible failure instead
 of silently reporting success.
 
 Recovery history stays available across attempts within the same run. The run
