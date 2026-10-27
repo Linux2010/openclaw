@@ -1,10 +1,11 @@
 import { afterEach, describe, expect, it, onTestFinished, vi } from "vitest";
-import { GatewayRequestError } from "../../api/gateway.ts";
+import { GatewayRequestError } from "../../api/gateway-connect-errors.ts";
 import type { ApplicationContext } from "../../app/context.ts";
 import type { ApplicationGateway } from "../../app/gateway.ts";
 import { t } from "../../i18n/index.ts";
 import type { BoardWidget } from "../../lib/board/types.ts";
 import { createBoardWidget } from "../../lib/board/widget.test-support.ts";
+import { createSessionOwnerMenuHarness } from "../../test-helpers/session-owner-menu.ts";
 import { waitForSolid } from "../../test-helpers/solid-settle.ts";
 import { callbacks, cleanupCells, mountCell } from "./board-widget-cell.test-support.ts";
 import "./board-widget-cell.solid.tsx";
@@ -25,6 +26,28 @@ vi.mock("../../lib/board/widgets/report.tsx", async (importOriginal) => {
         throw new Error("Report temporarily unavailable");
       }
       return actual.ReportWidget(props);
+    },
+  };
+});
+
+const resourceAcquisitions = vi.hoisted(() => ({ frame: vi.fn(), mcp: vi.fn() }));
+vi.mock("./board-widget-frame.tsx", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("./board-widget-frame.tsx")>();
+  return {
+    ...actual,
+    createBoardWidgetFrame: (...args: Parameters<typeof actual.createBoardWidgetFrame>) => {
+      resourceAcquisitions.frame();
+      return actual.createBoardWidgetFrame(...args);
+    },
+  };
+});
+vi.mock("./board-mcp-app-lifecycle.ts", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("./board-mcp-app-lifecycle.ts")>();
+  return {
+    ...actual,
+    createBoardMcpAppLifecycle: (...args: Parameters<typeof actual.createBoardMcpAppLifecycle>) => {
+      resourceAcquisitions.mcp();
+      return actual.createBoardMcpAppLifecycle(...args);
     },
   };
 });
@@ -110,6 +133,171 @@ function progressResponse(
 }
 
 describe("plugin board widget cells", () => {
+  it("refreshes a ticket added to a native widget in place on a board revision", async () => {
+    vi.useFakeTimers();
+    onTestFinished(() => {
+      vi.useRealTimers();
+    });
+    resourceAcquisitions.frame.mockClear();
+    resourceAcquisitions.mcp.mockClear();
+    const native = createBoardWidget({
+      contentKind: "plugin",
+      pluginKind: "fixture:native",
+    });
+    const refreshFrame = vi.fn(async () => undefined);
+    const cell = mountCell(native, {
+      boardRevision: 1,
+      callbacks: callbacks({ frameLoadFailed: refreshFrame }),
+    });
+    await cell.updateComplete;
+    expect(resourceAcquisitions.frame).not.toHaveBeenCalled();
+    expect(resourceAcquisitions.mcp).not.toHaveBeenCalled();
+
+    native.viewTicket = "native-ticket";
+    native.viewTicketTtlMs = 16_000;
+    cell.boardRevision = 2;
+    await cell.updateComplete;
+    expect(resourceAcquisitions.frame).toHaveBeenCalledOnce();
+    expect(resourceAcquisitions.mcp).toHaveBeenCalledOnce();
+
+    native.title = "Updated native widget";
+    cell.boardRevision = 3;
+    await cell.updateComplete;
+    expect(resourceAcquisitions.frame).toHaveBeenCalledOnce();
+    expect(resourceAcquisitions.mcp).toHaveBeenCalledOnce();
+    await vi.advanceTimersByTimeAsync(999);
+    expect(refreshFrame).not.toHaveBeenCalled();
+    await vi.advanceTimersByTimeAsync(1);
+    expect(refreshFrame).toHaveBeenCalledExactlyOnceWith(native.name);
+  });
+
+  it("acquires the external owner pair only once after a native cell needs a frame", async () => {
+    resourceAcquisitions.frame.mockClear();
+    resourceAcquisitions.mcp.mockClear();
+    const native = createBoardWidget({
+      contentKind: "plugin",
+      pluginKind: "fixture:native",
+    });
+    const cell = mountCell(native, {
+      active: false,
+      widgetFrameUrl: () => "/synthetic-frame",
+    });
+    await cell.updateComplete;
+    expect(resourceAcquisitions.frame).not.toHaveBeenCalled();
+    expect(resourceAcquisitions.mcp).not.toHaveBeenCalled();
+
+    cell.widget = { ...native, contentKind: "html", revision: 2 };
+    await cell.updateComplete;
+    await waitForSolid(() => expect(cell.querySelector("iframe")).not.toBeNull());
+    expect(resourceAcquisitions.frame).toHaveBeenCalledOnce();
+    expect(resourceAcquisitions.mcp).toHaveBeenCalledOnce();
+    const frame = cell.querySelector("iframe");
+
+    cell.active = true;
+    await cell.updateComplete;
+    cell.active = false;
+    await cell.updateComplete;
+    expect(cell.querySelector("iframe")).toBe(frame);
+    cell.widget = { ...native, revision: 3 };
+    await cell.updateComplete;
+    expect(cell.querySelector("iframe")).toBeNull();
+    cell.widget = { ...native, contentKind: "html", revision: 4 };
+    await cell.updateComplete;
+    await waitForSolid(() => expect(cell.querySelector("iframe")).not.toBeNull());
+    expect(resourceAcquisitions.frame).toHaveBeenCalledOnce();
+    expect(resourceAcquisitions.mcp).toHaveBeenCalledOnce();
+  });
+
+  it("shares rendering subscriptions across native and inactive frame cells with independent lifetimes", async () => {
+    function application() {
+      const { context, publish } = createSessionOwnerMenuHarness();
+      publish({
+        hello: {
+          ...context.gateway.snapshot.hello!,
+          controlUiWidgetKinds: [
+            { pluginId: "session", kind: "session:progress", label: "Session progress" },
+          ],
+        },
+      });
+      const gatewayListeners = new Set<Parameters<ApplicationGateway["subscribe"]>[0]>();
+      const subscribe = context.gateway.subscribe.bind(context.gateway);
+      const gatewaySubscriptions = vi
+        .spyOn(context.gateway, "subscribe")
+        .mockImplementation((listener) => {
+          gatewayListeners.add(listener);
+          const stop = subscribe(listener);
+          return () => {
+            gatewayListeners.delete(listener);
+            stop();
+          };
+        });
+      onTestFinished(() => gatewaySubscriptions.mockRestore());
+      const pluginListeners = new Set<() => void>();
+      const plugins = {
+        ...context.plugins,
+        isLoading: () => false,
+        subscribe: vi.fn((listener: () => void) => {
+          pluginListeners.add(listener);
+          return () => pluginListeners.delete(listener);
+        }),
+      };
+      return {
+        context: { ...context, plugins },
+        gatewayListeners,
+        pluginListeners,
+        acquisitions: () => [
+          gatewaySubscriptions.mock.calls.length,
+          plugins.subscribe.mock.calls.length,
+        ],
+      };
+    }
+    const first = application();
+    const second = application();
+    const cells = Array.from({ length: 12 }, (_, index) => {
+      const native = index % 2 === 0;
+      const widget: BoardWidget = {
+        name: `widget-${index}`,
+        tabId: "main",
+        contentKind: native ? "plugin" : "html",
+        ...(native ? { pluginKind: "session:progress" } : {}),
+        sizeW: 6,
+        sizeH: 4,
+        position: index,
+        grantState: "none",
+        revision: 1,
+      };
+      return mountCell(widget, {
+        context: index < 8 ? first.context : second.context,
+        active: false,
+        widgetFrameUrl: () => "/synthetic-frame",
+      });
+    });
+    await Promise.all(cells.map((cell) => cell.updateComplete));
+    await waitForSolid(() => {
+      expect(first.acquisitions()).toEqual([1, 1]);
+      expect(second.acquisitions()).toEqual([1, 1]);
+    });
+    expect(cells[1]!.querySelector("iframe")).not.toBeNull();
+    cells[0]!.remove();
+    await waitForSolid(() => expect(first.gatewayListeners.size).toBe(1));
+    for (const cell of cells.slice(1, 8)) {
+      cell.remove();
+    }
+    await waitForSolid(() => {
+      expect(first.gatewayListeners.size).toBe(0);
+      expect(first.pluginListeners.size).toBe(0);
+      expect(second.gatewayListeners.size).toBe(1);
+      expect(second.pluginListeners.size).toBe(1);
+    });
+    for (const cell of cells.slice(8)) {
+      cell.remove();
+    }
+    await waitForSolid(() => {
+      expect(second.gatewayListeners.size).toBe(0);
+      expect(second.pluginListeners.size).toBe(0);
+    });
+  });
+
   it("updates a healthy frame when only its URL resolver changes", async () => {
     const widget: BoardWidget = createBoardWidget({
       name: "external-report",
@@ -146,7 +334,7 @@ describe("plugin board widget cells", () => {
       const context = {
         basePath: "/console",
         navigate,
-        gateway: { snapshot: { phase: "connected" } },
+        gateway: { snapshot: { phase: "connected" }, subscribe: () => () => undefined },
         plugins: {
           errors: labsDisabled
             ? [
@@ -205,6 +393,7 @@ describe("plugin board widget cells", () => {
     const registrations = vi.fn(() => []);
     const context = {
       gateway: {
+        subscribe: () => () => undefined,
         snapshot: {
           phase: "connected",
           client: { request },
