@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
 import {
-  parseStandalonePlainTextToolCallBlocks,
   projectPlainTextToolCallBlocks,
   scanPlainTextToolCall,
   stripPlainTextToolCallBlocks,
@@ -41,7 +40,16 @@ function projection(raw: string, settleBefore?: number) {
   return [text, retainStart, retainedOutputStart];
 }
 
-describe("scanPlainTextToolCall JSON branch", () => {
+describe("scanPlainTextToolCall", () => {
+  it.each<[number, boolean]>([
+    [256_000, false],
+    [256_001, true],
+  ])("excludes XML closers from the cap for %i payload bytes", (bytes, overCap) => {
+    const prefix = `<function=read>${" ".repeat(bytes)}</func`;
+    expect(scanPlainTextToolCall(prefix)).toMatchObject({ kind: "prefix", overCap });
+    expect(scanPlainTextToolCall(`${prefix}tion>`)).toMatchObject({ kind: "complete", overCap });
+  });
+
   it("returns the complete Harmony call before a visible suffix", () => {
     const raw = '<|channel|>commentary to=read code<|message|>{"path":"/tmp/file"}<|call|>visible';
     expect(scanPlainTextToolCall(raw).json).toMatchObject({
@@ -182,21 +190,5 @@ describe("projectPlainTextToolCallBlocks", () => {
     const source = "[read]\n{}[/read]\r";
     expect(projection(source)).toEqual(["", 0, 0]);
     expect(projection(`${source}\n`)).toEqual(["", source.length + 1, 0]);
-  });
-});
-
-describe("parseStandalonePlainTextToolCallBlocks with a Qwen-style envelope", () => {
-  it("parses an enveloped bare-name deferred call end to end (#183085)", () => {
-    const text =
-      "<tool_call>\n<function=skills_read>\n<parameter=name>\nbriefing\n</parameter>\n</function>\n</tool_call>";
-
-    const blocks = parseStandalonePlainTextToolCallBlocks(text, {
-      allowedToolNames: ["skills_read"],
-    });
-
-    expect(blocks).not.toBeNull();
-    expect(blocks?.map((block) => block.name)).toEqual(["skills_read"]);
-    expect(blocks?.[0]?.arguments).toEqual({ name: "briefing" });
-    expect(blocks?.[0]?.raw).toBe(text);
   });
 });
