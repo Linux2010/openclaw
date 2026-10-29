@@ -96,7 +96,7 @@ describe("CLI stream-json output limit", () => {
       const failure = expect(run).rejects.toMatchObject({
         name: "FailoverError",
         reason: "format",
-        message: `CLI JSONL line exceeded ${maxPendingLineChars} characters; the turn stopped parsing at this line and the supervised CLI was cancelled. Work already performed by the agent (writes, commits) is kept; check those effects before continuing with a smaller request — the session remains usable.`,
+        message: `CLI JSONL line exceeded ${maxPendingLineChars} characters; the turn stopped parsing at this line. Work already performed by the agent (writes, commits) is kept; check those effects before continuing with a smaller request — the session remains usable.`,
       });
       await waiting.promise;
       try {
@@ -157,20 +157,13 @@ describe("streamJsonOutputLimitErrorText wording (#186967)", () => {
     expect(text).toContain("the session remains usable");
   });
 
-  it("states the turn stopped and gives a recovery step for every variant", () => {
-    for (const text of [
-      streamJsonOutputLimitErrorText("line", 500),
-      streamJsonOutputLimitErrorText("lines", 20000),
-      streamJsonOutputLimitErrorText("raw", 8388608),
-    ]) {
-      expect(text).toContain("the turn stopped");
-      expect(text.toLowerCase()).toContain("work already performed");
-      expect(text).toContain("check those effects");
-      expect(text).toContain("smaller request");
-      expect(text).toContain("the session remains usable");
-    }
-    expect(streamJsonOutputLimitErrorText("line", 500)).toContain(
-      "the supervised CLI was cancelled",
-    );
+  // The per-line and per-turn raw variants are pinned verbatim by the runner
+  // assertions above; only the line-count message lacks runner coverage.
+  it("states the turn stopped and gives a recovery step for the line-count variant", () => {
+    const text = streamJsonOutputLimitErrorText("lines", 20000);
+    expect(text).toContain("the turn stopped");
+    expect(text).toContain("check those effects");
+    expect(text).toContain("smaller request");
+    expect(text).toContain("the session remains usable");
   });
 });

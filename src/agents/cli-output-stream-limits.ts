@@ -176,7 +176,7 @@ export function streamJsonOutputLimitErrorText(
   // be on disk. The turn does stop here either way, so the message says so
   // and points at checking those effects before continuing (#186967).
   if (kind === "line") {
-    return `CLI JSONL line exceeded ${limit} characters; the turn stopped parsing at this line and the supervised CLI was cancelled. Work already performed by the agent (writes, commits) is kept; check those effects before continuing with a smaller request — the session remains usable.`;
+    return `CLI JSONL line exceeded ${limit} characters; the turn stopped parsing at this line. Work already performed by the agent (writes, commits) is kept; check those effects before continuing with a smaller request — the session remains usable.`;
   }
   if (kind === "lines") {
     return `CLI JSONL output exceeded ${limit} lines for this turn; the turn stopped and a finished result may have been discarded even though the work completed. The flood guard does not roll back work already performed; check those effects (writes, commits) before continuing with a smaller request — the session remains usable.`;
