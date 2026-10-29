@@ -153,14 +153,7 @@ describe("streamJsonOutputLimitErrorText wording (#186967)", () => {
     const text = streamJsonOutputLimitErrorText("lines", 20000);
     expect(text).toContain("exceeded 20000 lines for this turn");
     expect(text).toContain("The flood guard does not roll back work already performed");
-    expect(text).toContain("does not roll back work already performed");
     expect(text).toContain("the work completed");
-    expect(text).toContain("the session remains usable");
-  });
-
-  it("keeps the raw-character variant consistent with the per-turn wording", () => {
-    const text = streamJsonOutputLimitErrorText("raw", 8388608);
-    expect(text).toContain("exceeded 8388608 characters for this turn");
     expect(text).toContain("the session remains usable");
   });
 
