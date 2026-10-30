@@ -25,7 +25,7 @@ import { applyJobResultAndDrainNotifications } from "./notification.test-helpers
 import { start as startCronService, stop as stopCronService } from "./ops-lifecycle.js";
 import { finishCronRun } from "./run-history.js";
 import { restoreFinalizedStartupRun } from "./startup-run-repair.js";
-import type { DeferredCronNotifications } from "./state.js";
+import type { CronServiceDeps, DeferredCronNotifications } from "./state.js";
 import { authorCronRunCompletion } from "./timer-job-runner.js";
 import { finalizeCompletedCronRunOutcomes } from "./timer-outcome-finalization.js";
 import { applyTriggerNoFireResult } from "./timer-outcomes.js";
@@ -36,7 +36,11 @@ describe("cron failure alert outcome write-back", () => {
   const dueAt = Date.parse("2026-08-01T15:00:00.000Z");
   const endedAt = dueAt + 10;
 
-  async function runFailure(params: { id: string; sendCronFailureAlert: SendCronFailureAlert }) {
+  async function runFailure(params: {
+    id: string;
+    sendCronFailureAlert: SendCronFailureAlert;
+    enqueueSessionEvent?: NonNullable<CronServiceDeps["enqueueSessionEvent"]>;
+  }) {
     const store = fixtures.makeStorePath();
     const job = createAlertJob({ id: params.id, dueAt });
     await saveCronStore(store.storePath, { version: 1, jobs: [job] });
@@ -45,6 +49,9 @@ describe("cron failure alert outcome write-back", () => {
       nowMs: () => endedAt,
       sendCronFailureAlert: params.sendCronFailureAlert,
     });
+    if (params.enqueueSessionEvent) {
+      state.deps.enqueueSessionEvent = params.enqueueSessionEvent;
+    }
     await finalizeAlertOutcome({
       state,
       job,
@@ -195,19 +202,23 @@ describe("cron failure alert outcome write-back", () => {
         error: "Channel is required (no configured channels detected).",
       });
     });
-    const { state } = await runFailure({
+    const enqueueSessionEvent = vi.fn<NonNullable<CronServiceDeps["enqueueSessionEvent"]>>(
+      async () => ({ ok: true }),
+    );
+    await runFailure({
       id: "alert-outcome-fallback-delivery-note",
       sendCronFailureAlert: send,
+      enqueueSessionEvent,
     });
     expect(send).toHaveBeenCalledOnce();
     await send.mock.results[0]?.value;
-    expect(state.deps.enqueueSessionEvent).toHaveBeenCalledExactlyOnceWith(
+    expect(enqueueSessionEvent).toHaveBeenCalledExactlyOnceWith(
       expect.stringContaining(
         "No failure alert was sent (last failure-alert delivery attempt: not-delivered).",
       ),
       expect.anything(),
     );
-    const [fallbackText] = state.deps.enqueueSessionEvent.mock.calls[0] ?? [];
+    const [fallbackText] = enqueueSessionEvent.mock.calls[0] ?? [];
     expect(fallbackText).toContain("Channel is required (no configured channels detected).");
   });
 
