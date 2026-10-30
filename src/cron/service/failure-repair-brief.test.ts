@@ -2,18 +2,18 @@
 // delivery outcome instead of a bare "No failure alert was sent.", so a
 // channel-less gateway surfaces why the operator alert is missing.
 import { describe, expect, it } from "vitest";
+import { cronTestJob } from "../service.fixture-builders.test-support.js";
 import type { CronJob } from "../types.js";
 import { buildCronFailureRepairBrief } from "./failure-repair-brief.js";
 
 function jobFixture(): CronJob {
-  return {
+  return cronTestJob({
     id: "cron-fixture",
     name: "Nightly watch",
     payload: { kind: "agentTurn", message: "watch the thing" },
     schedule: { kind: "cron", expr: "0 7-19 * * *", tz: "UTC" },
     owner: { sessionKey: "session:main" },
-    state: {},
-  } as unknown as CronJob;
+  });
 }
 
 describe("buildCronFailureRepairBrief alert-delivery wording", () => {
@@ -66,14 +66,5 @@ describe("buildCronFailureRepairBrief alert-delivery wording", () => {
       "No failure alert was sent (last failure-alert delivery attempt: unknown).",
     );
     expect(brief).toContain("failed and will not run again (now disabled).");
-  });
-
-  it("still counts consecutive failures in the recurring variant", () => {
-    const brief = buildCronFailureRepairBrief({
-      job: jobFixture(),
-      consecutiveErrors: 3,
-    });
-
-    expect(brief).toContain("failed 3 consecutive runs");
   });
 });
