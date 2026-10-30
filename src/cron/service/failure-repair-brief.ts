@@ -36,6 +36,19 @@ function alertDeliveryErrorBlocks(delivery: CronFailureNotificationDelivery | un
   ];
 }
 
+/**
+ * Renders a settled failed delivery outcome for an operator-facing fallback surface
+ * (the in-app fallback notice), so the reason the alert did not arrive survives the
+ * streak in which the earlier repair brief was already emitted (#186990).
+ */
+export function renderSettledFailureAlertDeliveryNote(
+  delivery: CronFailureNotificationDelivery,
+): string {
+  return [describeAlertDelivery(delivery), ...alertDeliveryErrorBlocks(delivery)]
+    .filter(Boolean)
+    .join("\n");
+}
+
 export function buildCronFailureRepairBrief(params: {
   job: CronJob;
   consecutiveErrors: number;

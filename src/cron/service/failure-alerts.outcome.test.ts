@@ -184,6 +184,33 @@ describe("cron failure alert outcome write-back", () => {
     },
   );
 
+  it("appends the settled delivery failure to the in-app fallback notice", async () => {
+    // Canonical channel-less sequence (#186990): the streak's repair brief was
+    // already emitted before this alert was attempted, so the fallback notice is
+    // the surface that can still show why the delivery failed.
+    const send = vi.fn<SendCronFailureAlert>(async (params) => {
+      await params.onDeliverySettled({
+        delivered: false,
+        status: "not-delivered",
+        error: "Channel is required (no configured channels detected).",
+      });
+    });
+    const { state } = await runFailure({
+      id: "alert-outcome-fallback-delivery-note",
+      sendCronFailureAlert: send,
+    });
+    expect(send).toHaveBeenCalledOnce();
+    await send.mock.results[0]?.value;
+    expect(state.deps.enqueueSessionEvent).toHaveBeenCalledExactlyOnceWith(
+      expect.stringContaining(
+        "No failure alert was sent (last failure-alert delivery attempt: not-delivered).",
+      ),
+      expect.anything(),
+    );
+    const [fallbackText] = state.deps.enqueueSessionEvent.mock.calls[0] ?? [];
+    expect(fallbackText).toContain("Channel is required (no configured channels detected).");
+  });
+
   it("redacts transport errors and persists them without host SQL", async () => {
     const err = new Error(
       `webhook rejected: token=abcdefghijklmnopqrstuvwxyz123456 ${"x".repeat(2_000)}`,
