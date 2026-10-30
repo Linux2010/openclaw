@@ -525,6 +525,31 @@ describe("CronService failure repair", () => {
       ]);
     });
 
+    it("carries the prior settled failure-alert delivery outcome into the repair brief", () => {
+      // A channel-less gateway records the prior cycle's delivery failure in job
+      // state (#186990); a new cycle must not erase it before the brief reads it.
+      const { deferredNotifications } = applyError(
+        {
+          state: {
+            consecutiveErrors: 1,
+            lastFailureNotificationDelivered: false,
+            lastFailureNotificationDeliveryStatus: "not-delivered",
+            lastFailureNotificationDeliveryError:
+              "Channel is required (no configured channels detected).",
+          },
+        },
+        { error: "provider unavailable" },
+      );
+      const repair = deferredNotifications.find(
+        (notification): notification is Extract<typeof notification, { kind: "failure-repair" }> =>
+          notification.kind === "failure-repair",
+      );
+      expect(repair?.text).toContain(
+        "No failure alert was sent (last failure-alert delivery attempt: not-delivered: " +
+          "Channel is required (no configured channels detected).).",
+      );
+    });
+
     it.each<[string, Partial<CronJob>, string[]]>([
       ["disabled within retry budget", { enabled: false }, ["failure-alert"]],
       [
