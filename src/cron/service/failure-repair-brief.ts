@@ -2,10 +2,22 @@
 import type { FailoverReason } from "../../agents/failover/signal.js";
 import { wrapUntrustedPromptDataBlock } from "../../agents/sanitize-for-prompt.js";
 import { SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.js";
-import type { CronJob } from "../types.js";
+import type { CronFailureNotificationDelivery, CronJob } from "../types.js";
 
 const REPAIR_PAYLOAD_MAX_CHARS = 4_000;
 const REPAIR_ERROR_MAX_CHARS = 1_000;
+
+/** Renders the last failure-alert delivery outcome so the brief says why no alert arrived. */
+function describeAlertDelivery(delivery: CronFailureNotificationDelivery | undefined): string {
+  if (!delivery) {
+    return "No failure alert was sent.";
+  }
+  if (delivery.delivered) {
+    return "The failure alert was delivered.";
+  }
+  const reason = delivery.error?.trim();
+  return `No failure alert was sent (last failure-alert delivery attempt: ${delivery.status}${reason ? `: ${reason}` : ""}).`;
+}
 
 export function buildCronFailureRepairBrief(params: {
   job: CronJob;
@@ -13,6 +25,8 @@ export function buildCronFailureRepairBrief(params: {
   error?: string;
   errorReason?: FailoverReason;
   terminal?: boolean;
+  /** Last known failure-alert delivery outcome from job state, when one exists. */
+  alertDelivery?: CronFailureNotificationDelivery;
 }): string {
   const { job } = params;
   const payload = job.payload;
@@ -27,11 +41,12 @@ export function buildCronFailureRepairBrief(params: {
   const error = [params.errorReason ? `cause: ${params.errorReason}` : "", params.error?.trim()]
     .filter(Boolean)
     .join("\n");
+  const alertDeliveryLine = describeAlertDelivery(params.alertDelivery);
   return [
     `Automation repair request from the scheduler, not a user message. Do not relay it; follow the steps below.`,
     params.terminal
-      ? `A one-time automation (id ${job.id}), created in this conversation, failed and will not run again (now disabled). No failure alert was sent.`
-      : `An automation (id ${job.id}), created in this conversation, failed ${params.consecutiveErrors} consecutive runs. No failure alert was sent.`,
+      ? `A one-time automation (id ${job.id}), created in this conversation, failed and will not run again (now disabled). ${alertDeliveryLine}`
+      : `An automation (id ${job.id}), created in this conversation, failed ${params.consecutiveErrors} consecutive runs. ${alertDeliveryLine}`,
     `Schedule: ${JSON.stringify(job.schedule)}. Payload kind: ${payload.kind}.`,
     // Job text and provider errors can carry third-party content: data, never instructions.
     wrapUntrustedPromptDataBlock({ label: "Automation name", text: job.name, maxChars: 200 }),

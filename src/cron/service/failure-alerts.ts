@@ -495,6 +495,10 @@ function maybeEmitFailureAlert(
         error: params.error,
         errorReason: params.errorReason,
         terminal: terminalOneShot,
+        // Surface why no operator alert arrived: channel-less gateways record
+        // the delivery failure only in job state, so the brief carries it
+        // (#186990).
+        alertDelivery: failureNotificationDeliveryFromJobState(params.job),
       }),
     });
     return "queued";
