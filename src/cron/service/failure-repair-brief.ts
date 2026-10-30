@@ -15,8 +15,25 @@ function describeAlertDelivery(delivery: CronFailureNotificationDelivery | undef
   if (delivery.delivered) {
     return "The failure alert was delivered.";
   }
-  const reason = delivery.error?.trim();
-  return `No failure alert was sent (last failure-alert delivery attempt: ${delivery.status}${reason ? `: ${reason}` : ""}).`;
+  // delivery.status is an internal enum. The transport error is untrusted
+  // third-party content and is rendered separately as a data block (#186990).
+  return `No failure alert was sent (last failure-alert delivery attempt: ${delivery.status}).`;
+}
+
+/** The settled transport error crosses into scheduler instructions, so it needs the data boundary. */
+function alertDeliveryErrorBlocks(delivery: CronFailureNotificationDelivery | undefined): string[] {
+  const reason = delivery && !delivery.delivered ? delivery.error?.trim() : undefined;
+  if (!reason) {
+    return [];
+  }
+  return [
+    wrapUntrustedPromptDataBlock({
+      label: "Last failure-alert delivery error",
+      text: reason,
+      maxChars: REPAIR_ERROR_MAX_CHARS,
+      truncationMarker: " [truncated]",
+    }),
+  ];
 }
 
 export function buildCronFailureRepairBrief(params: {
@@ -47,6 +64,7 @@ export function buildCronFailureRepairBrief(params: {
     params.terminal
       ? `A one-time automation (id ${job.id}), created in this conversation, failed and will not run again (now disabled). ${alertDeliveryLine}`
       : `An automation (id ${job.id}), created in this conversation, failed ${params.consecutiveErrors} consecutive runs. ${alertDeliveryLine}`,
+    ...alertDeliveryErrorBlocks(params.alertDelivery),
     `Schedule: ${JSON.stringify(job.schedule)}. Payload kind: ${payload.kind}.`,
     // Job text and provider errors can carry third-party content: data, never instructions.
     wrapUntrustedPromptDataBlock({ label: "Automation name", text: job.name, maxChars: 200 }),
