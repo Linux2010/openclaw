@@ -186,15 +186,6 @@ export async function resolveMatrixInboundContext(config: {
       threadId: threadTarget,
     },
   );
-  // Threads start isolated: the docs promise only the thread root as extra
-  // context, and forking the room transcript here leaked prior room turns
-  // (including tool calls and results) into every new thread's first prompt.
-  // Discord/Slack gate this behind an opt-in (thread.inheritParent, default
-  // false) that Matrix does not have, so fork requests stop here entirely and
-  // the room session rides along only as the descriptive model parent
-  // (Discord's disabled-inheritance shape).
-  const threadRoomParentSource =
-    threadTarget && _route.matchedBy !== "binding.channel" ? _route.mainSessionKey : undefined;
   const ctxPayload = core.channel.inbound.buildContext({
     channelIngress,
     channel: "matrix",
@@ -241,14 +232,13 @@ export async function resolveMatrixInboundContext(config: {
       nativeChannelId: roomId,
       threadId: threadTarget,
     },
-    // Threads inherit nothing: the room session rides along only as the
-    // descriptive model parent (Discord's disabled-inheritance shape), which
-    // never requests a transcript fork on ordinary thread starts.
+    // Preserve model ancestry without requesting a room-transcript fork.
     route: {
       ..._route,
       routeSessionKey: _route.sessionKey,
       parentSessionKey: undefined,
-      modelParentSessionKey: threadRoomParentSource,
+      modelParentSessionKey:
+        threadTarget && _route.matchedBy !== "binding.channel" ? _route.mainSessionKey : undefined,
     },
     reply: {
       to: `room:${roomId}`,
