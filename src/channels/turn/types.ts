@@ -94,8 +94,6 @@ export type RouteFacts = {
   persistedSessionKey?: string;
   parentSessionKey?: string;
   modelParentSessionKey?: string;
-  /** Restart-recovery replacement source; never requests an ordinary-start transcript fork. */
-  recoveryParentSessionKey?: string;
   mainSessionKey?: string;
   createIfMissing?: boolean;
 };

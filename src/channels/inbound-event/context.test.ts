@@ -88,11 +88,6 @@ describe("buildChannelInboundEventContext", () => {
         label: "Room One",
         routePeer: { kind: "group", id: "route-room-1" },
       },
-      route: {
-        agentId: "main",
-        routeSessionKey: "agent:main:test:group:room-1",
-        recoveryParentSessionKey: "agent:main:test:recovery",
-      },
       message: { body: "[User One] hello", rawBody: "hello", commandBody: "/status" },
       access: {
         commands: { authorized: true },
@@ -114,7 +109,6 @@ describe("buildChannelInboundEventContext", () => {
       SessionKey: "agent:main:test:group:room-1",
       AgentId: "main",
       AccountId: "acct",
-      RecoveryParentSessionKey: "agent:main:test:recovery",
       Body: "[User One] hello",
       RawBody: "hello",
       BodyForAgent: "hello",

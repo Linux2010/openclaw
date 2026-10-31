@@ -456,7 +456,6 @@ function buildChannelInboundEventContextValue(
     AccountId: params.route.accountId ?? params.accountId,
     ParentSessionKey: params.route.parentSessionKey,
     ModelParentSessionKey: params.route.modelParentSessionKey,
-    RecoveryParentSessionKey: params.route.recoveryParentSessionKey,
     MessageSid: params.messageId,
     MessageSidFull: params.messageIdFull,
     ReplyToId: params.reply.replyToId,

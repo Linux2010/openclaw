@@ -42,7 +42,7 @@ function threadRelation(root = "$root") {
 }
 
 export function registerMatrixThreadIsolationTests() {
-  it("records room thread context with isolated session and recovery parent", async () => {
+  it("records room thread context with an isolated session", async () => {
     const getEvent = vi.fn(async (_roomId: string, eventId: string) =>
       eventId === "$root"
         ? threadRoot("$root", "Root topic")
@@ -68,11 +68,9 @@ export function registerMatrixThreadIsolationTests() {
     expect(context.MessageThreadId).toBe("$root");
     // Thread sessions start isolated: no room transcript fork request (#176224).
     expect(context.ParentSessionKey).toBeUndefined();
-    // Model overrides stay descriptive via the model parent key; the explicit
-    // recovery parent key authorizes restart-recovery replacement without
-    // requesting a transcript fork on ordinary starts.
+    // Model overrides stay descriptive via the model parent key, which never
+    // requests a transcript fork on ordinary starts.
     expect(context.ModelParentSessionKey).toBe("agent:ops:main");
-    expect(context.RecoveryParentSessionKey).toBe("agent:ops:main");
     expect(recordInboundSession).toHaveBeenCalledWith(
       expect.objectContaining({ sessionKey: "agent:ops:main:thread:$root" }),
     );
