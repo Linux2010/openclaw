@@ -967,7 +967,11 @@ it("Stop from the source's own cleanup does not wait out the queued drain", asyn
         );
       }),
     ]);
-    await expect(pending).resolves.toMatchObject({ status: "ok" });
+    const result = await pending;
+    expect(result).toMatchObject({ status: "ok" });
+    // The excluded self source must never reach the drain deadline: no queued
+    // drain error is recorded, matching the issue's post-fix expectation.
+    expect(String(result.error ?? "")).not.toContain("drain deadline");
   } finally {
     releaseTail.resolve();
     await Promise.allSettled([pending, execution]);
