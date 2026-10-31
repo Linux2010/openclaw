@@ -99,6 +99,39 @@ it.each(["[Request interrupted by user]", "[Request interrupted by user for tool
   },
 );
 
+it.each(["No response requested.", "API Error (Request timed out.)"])(
+  "hides the native synthetic assistant row %s without hiding replies or same-text messages",
+  async (text) => {
+    await withClaudeProjectsDir(async ({ filePath, readMessages }) => {
+      const synthetic = {
+        type: "assistant",
+        uuid: "synthetic",
+        timestamp: "2026-03-26T16:29:54.000Z",
+        message: { role: "assistant", model: "<synthetic>", content: blocks(text) },
+      };
+      const visible = [
+        claudeUser("Plan lunch", { uuid: "human-question", timestamp: "2026-03-26T16:29:55.000Z" }),
+        {
+          type: "assistant",
+          uuid: "real-reply",
+          timestamp: "2026-03-26T16:29:56.000Z",
+          message: {
+            role: "assistant",
+            model: "claude-sonnet-4-5",
+            content: blocks("Confirmed the table."),
+          },
+        },
+        claudeUser(text, { uuid: "human-same-text", timestamp: "2026-03-26T16:29:57.000Z" }),
+      ];
+      await writeRows(filePath, [synthetic, ...visible]);
+      const projected = projectChatDisplayMessagesWithState(merge([], await readMessages()));
+      expect(projected.messages.map((message) => message.content)).toEqual(
+        visible.map((entry) => entry.message.content),
+      );
+    });
+  },
+);
+
 it.each(["null", "not json"])("ignores non-record or malformed activity row %s", (line) => {
   expect(classify(line)).toEqual({ humanTurn: false });
 });
