@@ -954,7 +954,7 @@ it("Stop from the source's own cleanup does not wait out the queued drain", asyn
         agentId: "main",
       }),
     );
-    const settled = createDeferred<void>();
+    const settled = createDeferred();
     void pending.then(
       () => settled.resolve(),
       () => settled.resolve(),
@@ -967,12 +967,11 @@ it("Stop from the source's own cleanup does not wait out the queued drain", asyn
       drained = true;
     });
     try {
-      for (
-        let advancedMs = 0;
-        advancedMs < SESSION_CONTROLLER_DRAIN_TIMEOUT_MS && !drained;
-        advancedMs += 50
-      ) {
+      for (let advancedMs = 0; advancedMs < SESSION_CONTROLLER_DRAIN_TIMEOUT_MS; advancedMs += 50) {
         await vi.advanceTimersByTimeAsync(50);
+        if (drained) {
+          break;
+        }
       }
       expect(drained).toBe(true);
     } finally {
@@ -982,7 +981,8 @@ it("Stop from the source's own cleanup does not wait out the queued drain", asyn
     expect(result).toMatchObject({ status: "ok" });
     // The excluded self source must never reach the drain deadline: no queued
     // drain error is recorded, matching the issue's post-fix expectation.
-    expect(String(result.error ?? "")).not.toContain("drain deadline");
+    const drainError = result.status === "error" ? result.error : "";
+    expect(drainError).not.toContain("drain deadline");
   } finally {
     releaseTail.resolve();
     await Promise.allSettled([pending, execution]);
