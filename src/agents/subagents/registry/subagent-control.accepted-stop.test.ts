@@ -33,6 +33,7 @@ import {
   beginSessionEffect,
   captureSessionTarget,
   getSessionMutationCount,
+  SESSION_CONTROLLER_DRAIN_TIMEOUT_MS,
 } from "../../../sessions/session-controller.lifecycle.js";
 import {
   retireSessionControllerInput,
@@ -958,15 +959,25 @@ it("Stop from the source's own cleanup does not wait out the queued drain", asyn
       () => settled.resolve(),
       () => settled.resolve(),
     );
-    await Promise.race([
-      settled.promise,
-      new Promise((_, reject) => {
-        setTimeout(
-          () => reject(new Error("Stop waited out the drain deadline on its own source")),
-          5_000,
-        );
-      }),
-    ]);
+    // Controlled drain clock: a fast Stop settles without the fake 15 s deadline
+    // elapsing; the deadline itself never fires for an excluded self source.
+    vi.useFakeTimers();
+    let drained = false;
+    void settled.promise.then(() => {
+      drained = true;
+    });
+    try {
+      for (
+        let advancedMs = 0;
+        advancedMs < SESSION_CONTROLLER_DRAIN_TIMEOUT_MS && !drained;
+        advancedMs += 50
+      ) {
+        await vi.advanceTimersByTimeAsync(50);
+      }
+      expect(drained).toBe(true);
+    } finally {
+      vi.useRealTimers();
+    }
     const result = await pending;
     expect(result).toMatchObject({ status: "ok" });
     // The excluded self source must never reach the drain deadline: no queued
