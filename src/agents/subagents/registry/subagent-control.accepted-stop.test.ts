@@ -926,3 +926,53 @@ it.each([
     }
   },
 );
+
+it("Stop from the source's own cleanup does not wait out the queued drain", async () => {
+  const target = await seedExecutionTarget("self-source-drain", "original-revision");
+  const { owner, releaseTail, execution, registration } = await holdExecution(target);
+  let pending: ReturnType<typeof killSessionSubagentRuns> | undefined;
+  try {
+    emitAgentEvent({
+      runId: target.runId,
+      stream: "lifecycle",
+      data: {
+        phase: "end",
+        endedAt: Date.now(),
+        terminalReply: { disposition: "visible", text: "completed" },
+      },
+    });
+    await fixture.settle();
+    const entry = expectDefined(subagentRuns.get(target.runId), "terminal child");
+    expect(entry.execution.status).toBe("terminal");
+    // The Stop runs inside the source's own raw cleanup: the held settlement IS
+    // the caller's input. Joining it deadlocks the pair until the drain deadline.
+    pending = withSessionControllerSource(owner.input, () =>
+      killSessionSubagentRuns({
+        cfg: getRuntimeConfig(),
+        sessionKey: entry.requesterSessionKey,
+        agentId: "main",
+      }),
+    );
+    const settled = createDeferred<void>();
+    void pending.then(
+      () => settled.resolve(),
+      () => settled.resolve(),
+    );
+    await Promise.race([
+      settled.promise,
+      new Promise((_, reject) => {
+        setTimeout(
+          () => reject(new Error("Stop waited out the drain deadline on its own source")),
+          5_000,
+        );
+      }),
+    ]);
+    await expect(pending).resolves.toMatchObject({ status: "ok" });
+  } finally {
+    releaseTail.resolve();
+    await Promise.allSettled([pending, execution]);
+    registration.cleanup();
+    await fixture.settle();
+    expectIdle();
+  }
+});
